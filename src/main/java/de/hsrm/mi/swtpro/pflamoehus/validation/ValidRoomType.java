@@ -11,12 +11,12 @@ import javax.validation.Payload;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidProductTypeValidator.class)
+@Constraint(validatedBy = ValidRoomTypeValidator.class)
 @Documented
-public @interface ValidProductType {
-    String message() default "Das ist kein existierender Produkttyp. Folgende Typen stehen zur Auswahl: Pflanze, Tisch, Bett, Stuhl, Dekoration, Schrank/Kommode, Sofa/Couch";
+public @interface ValidRoomType {
+    String message() default "Das ist kein existierender Raumtyp. Folgende Typen stehen zur Auswahl: Bad, Schlafzimmer, Wohnzimmer, Küche/Wohnküche, Kinderzimmer, Arbeitszimmer";
 
     Class<? extends Payload>[] payload() default{ };
     Class<?>[] groups() default{ };
-        
+    
 }
