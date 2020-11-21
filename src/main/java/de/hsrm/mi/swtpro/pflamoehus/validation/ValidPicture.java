@@ -11,12 +11,12 @@ import javax.validation.Payload;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidPriceValidation.class)
+@Constraint(validatedBy = ValidPictureValidator.class)
 @Documented
-public @interface ValidPrice {
-    String message() default "Der Preis darf nicht negativ sein!";
+public @interface ValidPicture {
+    String message() default "Es werden nur Links zu .png und .jpg/.jpeg Dateien akzeptiert.";
 
     Class<? extends Payload>[] payload() default{ };
     Class<?>[] groups() default{ };
-    
+        
 }

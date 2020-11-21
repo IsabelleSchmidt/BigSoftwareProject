@@ -7,10 +7,10 @@ public class ValidRoomTypeValidator implements ConstraintValidator<ValidRoomType
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        String [] product = {"Bad", "Schlafzimmer", "Wohnzimmer", "Küche/Wohnküche", "Kinderzimmer", "Arbeitszimmer"};
+        String [] roomTypes = {"Bad", "Schlafzimmer", "Wohnzimmer", "Küche/Wohnküche", "Kinderzimmer", "Arbeitszimmer"};
 
-        for(String s: product){
-            if(s.equals(value)){
+        for(String room: roomTypes){
+            if(room.equals(value)){
                 return true;
             }
         }

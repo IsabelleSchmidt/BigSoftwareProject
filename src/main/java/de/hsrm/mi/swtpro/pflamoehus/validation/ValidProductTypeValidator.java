@@ -8,10 +8,10 @@ public class ValidProductTypeValidator implements ConstraintValidator<ValidProdu
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        String [] product = {"Stuhl", "Pflanze", "Tisch", "Bett", "Dekoration", "Schrank/Kommode", "Sofa/Couch"};
+        String [] productType = {"Stuhl", "Pflanze", "Tisch", "Bett", "Dekoration", "Schrank/Kommode", "Sofa/Couch"};
 
-        for(String s: product){
-            if(s.equals(value)){
+        for(String type: productType){
+            if(type.equals(value)){
                 return true;
             }
         }
