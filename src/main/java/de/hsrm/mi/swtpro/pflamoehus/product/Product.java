@@ -28,9 +28,6 @@ public class Product {
     @JsonIgnore
     private long version;
 
-    // @NotEmpty  
-    // private int itemNumber;
-
     @NotEmpty
     @Size(max = 90)
     private String name;
