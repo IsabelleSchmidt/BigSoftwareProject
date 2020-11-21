@@ -11,12 +11,12 @@ import javax.validation.Payload;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidProductTypeValidator.class)
+@Constraint(validatedBy = ValidPriceValidation.class)
 @Documented
-public @interface ValidProductType {
-    String message() default "Das ist kein existierender Produkttyp. Folgende Typen stehen zur Auswahl: Pflanze, Tisch, Bett, Stuhl, Dekoration, Schrank/Kommode, Sofa/Couch";
+public @interface ValidPrice {
+    String message() default "Der Preis darf nicht negativ sein!";
 
     Class<? extends Payload>[] payload() default{ };
     Class<?>[] groups() default{ };
-        
+    
 }
