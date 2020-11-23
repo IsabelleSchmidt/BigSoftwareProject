@@ -43,16 +43,15 @@ public class Product {
     @Positive @Digits(integer = 5, fraction = 2)
     private Double price;
 
-    
     private String picture;
 
-   
     private ArrayList< @Size(min = 3)String> tags;
 
     @NotEmpty
     private Boolean availability;
 
-    @NotNull @Size(max=3)
+    @NotNull 
+    @Size(max=3)
     private ArrayList<@Digits(integer = 3, fraction=2) @Positive Double> productSize;
 
     //Getter & Setter
