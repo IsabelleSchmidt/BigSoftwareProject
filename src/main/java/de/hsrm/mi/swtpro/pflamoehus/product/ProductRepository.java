@@ -14,6 +14,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByRoomType (String roomtype);
     List<Product> findByPrice (Integer price);
     List<Product> findByAvailability(Boolean availability);
-    List<Product> findByTags(ArrayList<String> tags);
-    List<Product> findByProductSize(ArrayList<Double> productSize);
+    List<Product> findByTagsIn(ArrayList<String> tags);
+    List<Product> findByProductSizeIn(ArrayList<Double> productSize);
 }

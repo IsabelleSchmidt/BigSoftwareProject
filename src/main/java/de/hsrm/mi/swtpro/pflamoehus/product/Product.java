@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
@@ -17,6 +18,7 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.ValidProductType;
 import de.hsrm.mi.swtpro.pflamoehus.validation.ValidRoomType;
 
 @Entity
+@Table(name="Product")
 public class Product {
     
     @Id
