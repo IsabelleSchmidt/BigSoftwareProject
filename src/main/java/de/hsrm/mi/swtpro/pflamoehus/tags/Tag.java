@@ -22,10 +22,55 @@ public class Tag {
 
     @Version
     private long version;
-    
+
     @ManyToOne
     private Product product;
 
     @Size(min=3)
     private String value;
+
+    /** 
+     * @return String
+     */
+    public String getValue() {
+        return this.value;
+    }
+
+    /** 
+     * @param value
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    
+    /** 
+     * @return long
+     */
+    public long getVersion() {
+        return this.version;
+    }
+
+    
+    /** 
+     * @param version
+     */
+    public void setVersion(long version) {
+        this.version = version;
+    }
+    
+    
+    /** 
+     * @return Product
+     */
+    public Product getProduct() {
+        return this.product;
+    }
+
+    /** 
+     * @param product
+     */
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }

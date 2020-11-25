@@ -6,8 +6,6 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 
 public interface ProductService {
 
-   
-     
     /**
      * @return a list of all products 
      */
@@ -15,8 +13,9 @@ public interface ProductService {
 
    
     /**
-     * @param id unique key/identifier of the Product
-     * @return a product if the id is found, null otherwise
+     * 
+     * @param articleNr
+     * @return 
      */
     Optional<Product> searchProductwithArticleNr(long articleNr);
 
@@ -33,12 +32,5 @@ public interface ProductService {
      * Deletes the product with the given id in the database
      */
     void deleteProduct(long id);
-    
-    /**
-     * Counts the available products of the given name and type
-     * @param name the product's name
-     * @param productType the product's type (e.g chair, table)
-     * @return the status of number of available products 
-     */
 
 }

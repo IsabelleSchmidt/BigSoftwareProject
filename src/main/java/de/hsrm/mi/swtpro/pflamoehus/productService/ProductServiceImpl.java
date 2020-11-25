@@ -16,8 +16,6 @@ import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 public class ProductServiceImpl implements ProductService {
 
     @Autowired ProductRepository productRepo;
-  
-
     Logger productServiceLogger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     /** 
@@ -32,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
     
     
     /**
-     * @param id unique key/identifier of the Product
+     * @param articleNr unique key/identifier of the Product
      * @return a product if the id is found, null otherwise
      */
     @Override
