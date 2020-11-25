@@ -9,12 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 
 public class ProductServiceImpl implements ProductService {
 
     @Autowired ProductRepository productRepo;
+  
+
     Logger productServiceLogger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     /** 
@@ -33,9 +36,9 @@ public class ProductServiceImpl implements ProductService {
      * @return a product if the id is found, null otherwise
      */
     @Override
-    public Optional<Product> searchProductwithId(long id) {
-        Optional<Product> opt = productRepo.findById(id);
-        return opt.isEmpty() ?  null :  opt;
+    public Optional<Product> searchProductwithArticleNr(long articleNr) {
+        Optional<Product> product = productRepo.findById(articleNr);
+        return product.isEmpty() ?  null :  product;
     }
 
     
@@ -63,28 +66,14 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(long id) {
         Optional<Product> opt = productRepo.findById(id);
         if(opt.isEmpty()){
-            productServiceLogger.info("Product was not deleted, id not found");
+            productServiceLogger.info("Product was not deleted, articleNr not found");
         }else{
             productRepo.delete(opt.get());
         }
 
     }
 
-    
-    /**
-     * Counts the available products of the given name and type
-     * @param name the product's name
-     * @param productType the product's type (e.g chair, table)
-     * @return the status of number of available products 
-     */
-    @Override
-    public String countAvailableProducts(String name, String productType) {
-        int nrAvailable = productRepo.countByNameAndProductType(name, productType);
-        if (nrAvailable == 0){
-            return "EMPTY";
-        }
-        return (nrAvailable >0 && nrAvailable < 20) ?  "MEDIUM": "FULL";
-    }
+
 
 
 

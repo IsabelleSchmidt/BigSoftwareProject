@@ -18,7 +18,7 @@ public interface ProductService {
      * @param id unique key/identifier of the Product
      * @return a product if the id is found, null otherwise
      */
-    Optional<Product> searchProductwithId(long id);
+    Optional<Product> searchProductwithArticleNr(long articleNr);
 
 
     /**
@@ -40,5 +40,5 @@ public interface ProductService {
      * @param productType the product's type (e.g chair, table)
      * @return the status of number of available products 
      */
-    String  countAvailableProducts( String name, String productType);
+
 }
