@@ -85,3 +85,5 @@ Insert into Tag(value,version) values('bunt',1);
 Insert into Tag(value,version) values('bluete',1);
 Insert into Tag(value,version) values('bequem',1);
 
+/*fill relationship between product and tags by: articlenr, tagid*/
+Insert into product_tags values(45,7),(45,6),(45,5),(42,10),(24,12),(42,12);
