@@ -1,10 +1,13 @@
 package de.hsrm.mi.swtpro.pflamoehus.tags;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.Size;
 
@@ -23,8 +26,8 @@ public class Tag {
     @Version
     private long version;
 
-    @ManyToOne
-    private Product product;
+    @ManyToMany(mappedBy = "allTags")
+    private Set<Product> allProductsWithTag = new HashSet<Product>();
 
     @Size(min=3)
     private String value;
@@ -58,19 +61,3 @@ public class Tag {
     public void setVersion(long version) {
         this.version = version;
     }
-    
-    
-    /** 
-     * @return Product
-     */
-    public Product getProduct() {
-        return this.product;
-    }
-
-    /** 
-     * @param product
-     */
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-}

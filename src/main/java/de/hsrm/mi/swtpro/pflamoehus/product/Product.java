@@ -1,14 +1,15 @@
 package de.hsrm.mi.swtpro.pflamoehus.product;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.JoinColumn;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.Digits;
@@ -17,6 +18,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
 import de.hsrm.mi.swtpro.pflamoehus.validation.ValidPicture;
 import de.hsrm.mi.swtpro.pflamoehus.validation.ValidProductType;
@@ -69,8 +71,9 @@ public class Product {
     @PositiveOrZero @Digits(integer=3, fraction=2)
     private double depth=0.0;
 
-    @OneToMany(mappedBy = "product")
-    private List<Tag> allTags = new ArrayList<Tag>();
+    @ManyToMany
+    @JoinTable(name="Product_Tags", joinColumns = @JoinColumn(name="articlenr"), inverseJoinColumns = @JoinColumn(name="tagID"))
+    private Set<Tag> allTags = new HashSet<Tag>();
 
     @Column(name="available")
     @PositiveOrZero
@@ -158,58 +161,111 @@ public class Product {
     }
 
 
+    
+    /** 
+     * @return long
+     */
     public long getArtikelnr() {
         return articlenr;
     }
 
 
+    
+    /** 
+     * @return double
+     */
     public double getHeight() {
         return height;
     }
 
     
   
+    
+    /** 
+     * @param height
+     */
     public void setHeight(double height) {
         this.height = height;
     }
 
 
+    
+    /** 
+     * @return double
+     */
     public double getWidth() {
         return width;
     }
 
     
    
+    
+    /** 
+     * @param width
+     */
     public void setWidth(double width) {
         this.width = width;
 
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getDepth() {
         return depth;
     }
 
    
+    
+    /** 
+     * @param depth
+     */
     public void setDepth(double depth) {
         this.depth = depth;
     }
 
-    public List<Tag> getAllTags() {
+    
+    /** 
+     * @return Set<Tag>
+     */
+    public Set<Tag> getAllTags() {
         return allTags;
     }
 
-    public void setAllTags(List<Tag> allTags) {
+    
+    /** 
+     * @param allTags
+     */
+    public void setAllTags(HashSet<Tag> allTags) {
         this.allTags = allTags;
     }
 
+    
+    /** 
+     * @return long
+     */
     public long getNrAvailableItems() {
         return nrAvailableItems;
     }
 
+    
+    /** 
+     * @param nrAvailableItems
+     */
     public void setNrAvailableItems(long nrAvailableItems) {
         this.nrAvailableItems = nrAvailableItems;
     }
 
+    
+    /** 
+     * @param tag
+     */
+    public void addTag(Tag tag){
+        if(!allTags.contains(tag)){
+            allTags.add(tag);
+        }
+    }
    
 
     
