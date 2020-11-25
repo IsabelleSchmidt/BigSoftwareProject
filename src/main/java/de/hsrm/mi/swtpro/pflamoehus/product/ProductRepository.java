@@ -15,5 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByPrice (Integer price);
     List<Product> findByTagsIn(ArrayList<String> tags);
     List<Product> findByProductSizeIn(ArrayList<Double> productSize);
-    int countByNameAndProductType(String name, String type); //Fuer Verfuegbarkeit, soll alle produkte mit namen und typ zaehlen
+    //For availability, all products should be counted by name and type
+    int countByNameAndProductType(String name, String type); 
+
 }

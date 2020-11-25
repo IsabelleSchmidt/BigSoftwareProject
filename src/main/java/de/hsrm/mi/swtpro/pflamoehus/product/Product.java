@@ -54,67 +54,122 @@ public class Product {
     private ArrayList< @Size(min = 3)String> tags;
 
 
-    // @NotEmpty
+    //@NotEmpty
     @Size(max=3)
     private ArrayList<@Digits(integer = 3, fraction=2) @Positive Double> productSize;
 
+    
+    /** 
+     * @return String
+     */
     //Getter & Setter
-
     public String getName() {
         return name;
     }
 
+    
+    /** 
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getProductType() {
         return productType;
     }
 
+    
+    /** 
+     * @param productType
+     */
     public void setProductType(String productType) {
         this.productType = productType;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getRoomType() {
         return roomType;
     }
 
+    
+    /** 
+     * @param roomType
+     */
     public void setRoomType(String roomType) {
         this.roomType = roomType;
     }
 
+    
+    /** 
+     * @return Double
+     */
     public Double getPrice() {
         return price;
     }
 
+    
+    /** 
+     * @param price
+     */
     public void setPrice(Double price) {
         this.price = price;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getPicture() {
         return picture;
     }
 
+    
+    /** 
+     * @param picture
+     */
     public void setPicture(String picture) {
         this.picture = picture;
     }
 
+    
+    /** 
+     * @return ArrayList<String>
+     */
     public ArrayList<String> getTags() {
         return tags;
     }
 
+    
+    /** 
+     * @param tags
+     */
     public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
 
 
 
+    
+    /** 
+     * @return ArrayList<Double>
+     */
     public ArrayList<Double> getProductSize() {
         return productSize;
     }
 
     
+    
+    /** 
+     * @param productSize
+     */
     public void setProductSize(ArrayList<Double> productSize) {
         this.productSize = productSize;
     }

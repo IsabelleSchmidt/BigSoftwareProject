@@ -1,1 +1,0 @@
-INSERT INTO benutzer(name) VALUES ('anna');

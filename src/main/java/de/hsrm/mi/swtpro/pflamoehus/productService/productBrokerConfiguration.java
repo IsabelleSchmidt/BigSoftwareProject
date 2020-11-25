@@ -10,11 +10,21 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class ProductBrokerConfiguration implements WebSocketMessageBrokerConfigurer{
 
+    
+    /** 
+     * @param registry
+     * the StompBroker reacts to everything with the prefix "/ topic"
+     */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/topic");
     }
 
+    
+    /** 
+     * @param registry
+     * Registration requests are received
+     */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/stompbroker").setAllowedOrigins("*");

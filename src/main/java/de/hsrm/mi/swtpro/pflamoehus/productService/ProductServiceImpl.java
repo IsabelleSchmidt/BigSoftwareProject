@@ -17,7 +17,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired ProductRepository productRepo;
     Logger productServiceLogger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
-
+    /** 
+     * @return a list of all products
+     */
     @Override
     public List<Product> allProducts() {
 
@@ -25,12 +27,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     
+    
+    /**
+     * @param id unique key/identifier of the Product
+     * @return a product if the id is found, null otherwise
+     */
     @Override
     public Optional<Product> searchProductwithId(long id) {
         Optional<Product> opt = productRepo.findById(id);
         return opt.isEmpty() ?  null :  opt;
     }
 
+    
+    /**
+     * saves the edited product in the database
+     * @param editedProduct product object that has been edited 
+     * @return the edited, saved product if the saving process was successful, otherwise null
+     */
     @Override
     public Product editProduct(Product editedProduct) {
         try{
@@ -42,6 +55,10 @@ public class ProductServiceImpl implements ProductService {
         return editedProduct;
     }
 
+    
+    /**
+     * Deletes the product with the given id in the database
+     */
     @Override
     public void deleteProduct(long id) {
         Optional<Product> opt = productRepo.findById(id);
@@ -53,6 +70,13 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    
+    /**
+     * Counts the available products of the given name and type
+     * @param name the product's name
+     * @param productType the product's type (e.g chair, table)
+     * @return the status of number of available products 
+     */
     @Override
     public String countAvailableProducts(String name, String productType) {
         int nrAvailable = productRepo.countByNameAndProductType(name, productType);
@@ -61,6 +85,7 @@ public class ProductServiceImpl implements ProductService {
         }
         return (nrAvailable >0 && nrAvailable < 20) ?  "MEDIUM": "FULL";
     }
+
 
 
     
