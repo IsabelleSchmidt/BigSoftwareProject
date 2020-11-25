@@ -61,3 +61,22 @@ public class Tag {
     public void setVersion(long version) {
         this.version = version;
     }
+
+    
+    /** 
+     * @return 
+     * all products with the tags
+     */
+    public Set<Product> getAllProductsWithTag() {
+        return this.allProductsWithTag;
+    }
+
+    
+    /** 
+     * @param allProductsWithTag
+     */
+    public void setAllProductsWithTag(Set<Product> allProductsWithTag) {
+        this.allProductsWithTag = allProductsWithTag;
+    }
+    
+}
