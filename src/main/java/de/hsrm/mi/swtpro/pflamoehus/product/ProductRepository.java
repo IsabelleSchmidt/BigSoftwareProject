@@ -13,7 +13,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByProductType (String type);
     List<Product> findByRoomType (String roomtype);
     List<Product> findByPrice (Integer price);
-    //List<Product> findByAvailability(Boolean availability);
     List<Product> findByTagsIn(ArrayList<String> tags);
     List<Product> findByProductSizeIn(ArrayList<Double> productSize);
+    int countByNameAndProductType(String name, String type); //Fuer Verfuegbarkeit, soll alle produkte mit namen und typ zaehlen
 }

@@ -2,6 +2,7 @@ package de.hsrm.mi.swtpro.pflamoehus.product;
 
 import java.util.ArrayList;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
@@ -30,7 +31,7 @@ public class Product {
 
     @Version
     @JsonIgnore
-    private long version;
+    private long version = 1;
 
     @NotEmpty
     @Size(max = 90)
@@ -38,6 +39,7 @@ public class Product {
 
     @NotEmpty
     @ValidProductType
+    @Column(name="producttype")
     private String productType;
 
     @ValidRoomType
@@ -51,10 +53,8 @@ public class Product {
 
     private ArrayList< @Size(min = 3)String> tags;
 
-    // @NotEmpty
-    // private Boolean availability;
 
-    @NotNull 
+    // @NotEmpty
     @Size(max=3)
     private ArrayList<@Digits(integer = 3, fraction=2) @Positive Double> productSize;
 
@@ -108,13 +108,7 @@ public class Product {
         this.tags = tags;
     }
 
-    // public Boolean getAvailability() {
-    //     return availability;
-    // }
 
-    // public void setAvailability(Boolean availability) {
-    //     this.availability = availability;
-    // }
 
     public ArrayList<Double> getProductSize() {
         return productSize;

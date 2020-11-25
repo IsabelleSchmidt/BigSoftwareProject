@@ -34,5 +34,11 @@ public interface ProductService {
      */
     void deleteProduct(long id);
     
-    
+    /**
+     * Counts the available products of the given name and type
+     * @param name the product's name
+     * @param productType the product's type (e.g chair, table)
+     * @return the status of number of available products 
+     */
+    String  countAvailableProducts( String name, String productType);
 }

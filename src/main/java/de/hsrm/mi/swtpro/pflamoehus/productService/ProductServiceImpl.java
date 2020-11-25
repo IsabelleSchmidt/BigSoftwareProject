@@ -53,6 +53,15 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    @Override
+    public String countAvailableProducts(String name, String productType) {
+        int nrAvailable = productRepo.countByNameAndProductType(name, productType);
+        if (nrAvailable == 0){
+            return "EMPTY";
+        }
+        return (nrAvailable >0 && nrAvailable < 20) ?  "MEDIUM": "FULL";
+    }
+
 
     
 }
