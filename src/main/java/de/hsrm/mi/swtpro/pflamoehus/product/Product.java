@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -18,11 +19,12 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.ValidProductType;
 import de.hsrm.mi.swtpro.pflamoehus.validation.ValidRoomType;
 
 @Entity
-@Table(name="Product")
+@Table(name = "Product")
 public class Product {
-    
+
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private long id;
 
@@ -49,8 +51,8 @@ public class Product {
 
     private ArrayList< @Size(min = 3)String> tags;
 
-    @NotEmpty
-    private Boolean availability;
+    // @NotEmpty
+    // private Boolean availability;
 
     @NotNull 
     @Size(max=3)
@@ -106,13 +108,13 @@ public class Product {
         this.tags = tags;
     }
 
-    public Boolean getAvailability() {
-        return availability;
-    }
+    // public Boolean getAvailability() {
+    //     return availability;
+    // }
 
-    public void setAvailability(Boolean availability) {
-        this.availability = availability;
-    }
+    // public void setAvailability(Boolean availability) {
+    //     this.availability = availability;
+    // }
 
     public ArrayList<Double> getProductSize() {
         return productSize;
