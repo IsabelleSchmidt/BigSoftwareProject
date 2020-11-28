@@ -17,7 +17,8 @@ public class ValidPictureValidator implements ConstraintValidator<ValidPicture, 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         //Der forward slash koennte hier noch Probleme bereiten
-        Pattern picturePattern =Pattern.compile("(\\D|\\|\\d|/)+.((jpe?g)|(png))");
+        //Pattern picturePattern =Pattern.compile("(\\D|\\|\\d|/)+.((jpe?g)|(png))");
+        Pattern picturePattern = Pattern.compile("[^\\s]+(\\.(?i)((jpg)|(png)))");
         Matcher matcher = picturePattern.matcher(value);
         return matcher.matches();
     }

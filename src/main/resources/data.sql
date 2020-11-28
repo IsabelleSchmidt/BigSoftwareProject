@@ -29,13 +29,13 @@ INSERT INTO product(name, productType, price, picture, available, depth, height,
 INSERT INTO product(name, productType, price, picture, available, depth, height, width, version) values ('Bilderrahmen Spring', 'Dekoration',15.99, 'src/main/resources/static/deco/deco7.jpg', 67,0,15,4,1);
 
 /*Couches*/
-INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Herbert', 'Sofa','Wohnzimmer',1200.99, 'src/main/resources/static/sofas/sofa1.jpg', 25,60,45,250,1);
-INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Valentina', 'Sofa','Wohnzimmer',1550.99, 'src/main/resources/static/sofas/sofa2.jpg', 45,90,45,250,1);
-INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Fluff', 'Sofa','Wohnzimmer',1671.99, 'src/main/resources/static/sofas/sofa3.jpg', 90,60,45,450,1);
-INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Otto', 'Sofa','Wohnzimmer',1200.99, 'src/main/resources/static/sofas/sofa4.jpg', 45,60,45,250,1);
-INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Stella', 'Sofa','Wohnzimmer',1860.99, 'src/main/resources/static/sofas/sofa5.jpg', 25,55,45,345,1);
-INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Ulli', 'Sofa','Wohnzimmer',870.99, 'src/main/resources/static/sofas/sofa6.jpg', 55,65,45,220,1);
-INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Bernd', 'Sofa','Wohnzimmer',1100.99, 'src/main/resources/static/sofas/sofa7.jpg', 33,60,45,346,1);
+INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Herbert', 'Sofa/Couch','Wohnzimmer',1200.99, 'src/main/resources/static/sofas/sofa1.jpg', 25,60,45,250,1);
+INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Valentina', 'Sofa/Couch','Wohnzimmer',1550.99, 'src/main/resources/static/sofas/sofa2.jpg', 45,90,45,250,1);
+INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Fluff', 'Sofa/Couch','Wohnzimmer',1671.99, 'src/main/resources/static/sofas/sofa3.jpg', 90,60,45,450,1);
+INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Otto', 'Sofa/Couch','Wohnzimmer',1200.99, 'src/main/resources/static/sofas/sofa4.jpg', 45,60,45,250,1);
+INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Stella', 'Sofa/Couch','Wohnzimmer',1860.99, 'src/main/resources/static/sofas/sofa5.jpg', 25,55,45,345,1);
+INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Ulli', 'Sofa/Couch','Wohnzimmer',870.99, 'src/main/resources/static/sofas/sofa6.jpg', 55,65,45,220,1);
+INSERT INTO product(name, productType, room, price, picture, available, depth, height, width, version) values ('Sofa Bernd', 'Sofa/Couch','Wohnzimmer',1100.99, 'src/main/resources/static/sofas/sofa7.jpg', 33,60,45,346,1);
 
 
 /*Beds*/

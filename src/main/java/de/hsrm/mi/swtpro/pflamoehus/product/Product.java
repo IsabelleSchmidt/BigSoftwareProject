@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
@@ -42,11 +42,12 @@ public class Product {
     @JsonIgnore
     private long version;
 
-    @NotEmpty
+    @NotNull
     @Size(max = 90)
+    @Column(unique = true)
     private String name;
 
-    @NotEmpty
+    @NotNull
     @ValidProductType
     @Column(name="producttype")
     private String productType;
@@ -55,7 +56,7 @@ public class Product {
     @Column(name="room")
     private String roomType;
 
-    @NotEmpty
+    @NotNull
     @Positive @Digits(integer = 5, fraction = 2)
     private double price=0.0;
 
@@ -77,7 +78,7 @@ public class Product {
 
     @Column(name="available")
     @PositiveOrZero
-    private long nrAvailableItems = 0;
+    private int nrAvailableItems = 0;
 
     
     /** 
@@ -243,9 +244,9 @@ public class Product {
 
     
     /** 
-     * @return long
+     * @return int
      */
-    public long getNrAvailableItems() {
+    public int getNrAvailableItems() {
         return nrAvailableItems;
     }
 
@@ -253,7 +254,7 @@ public class Product {
     /** 
      * @param nrAvailableItems
      */
-    public void setNrAvailableItems(long nrAvailableItems) {
+    public void setNrAvailableItems(int nrAvailableItems) {
         this.nrAvailableItems = nrAvailableItems;
     }
 
