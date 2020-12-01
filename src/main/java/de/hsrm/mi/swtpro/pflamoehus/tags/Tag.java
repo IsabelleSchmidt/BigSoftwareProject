@@ -3,11 +3,13 @@ package de.hsrm.mi.swtpro.pflamoehus.tags;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Version;
 import javax.validation.constraints.Size;
 
@@ -30,7 +32,15 @@ public class Tag {
     private Set<Product> allProductsWithTag = new HashSet<Product>();
 
     @Size(min=3)
+    @Column(name="value", unique=true)
     private String value;
+
+    @PreRemove 
+    private void removeTagsFromProducts(){
+        for(Product product: allProductsWithTag){
+            product.getAllTags().remove(this);
+        }
+    }
 
     /** 
      * @return String
@@ -78,5 +88,21 @@ public class Tag {
     public void setAllProductsWithTag(Set<Product> allProductsWithTag) {
         this.allProductsWithTag = allProductsWithTag;
     }
+
+    @Override
+    public String toString() {
+        return "Tag [allProductsWithTag=" + allProductsWithTag + ", id=" + id + ", value=" + value + ", version="
+                + version + "]";
+    }
+
+    public long getId() {
+        return id;
+    }
+
+   
+
+ 
+
+    
     
 }

@@ -10,13 +10,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class ProductRepoTest {
+public class ProductRepoTests {
+    
+    @LocalServerPort
+    private int port;
+
+
     final String TESTNAME = "Herbert";
     final String PRODUCTTYPE = "Sofa/Couch";
     final String ROOMTYPE = "Wohnzimmer";
@@ -37,7 +43,7 @@ public class ProductRepoTest {
     }
 
     @Test
-    @DisplayName("Persist product entity (empty table)")
+    @DisplayName("Persist product entity (empty table)")    
     public void product_persist(){
         final Product unmanaged = new Product();
         unmanaged.setName(TESTNAME);
@@ -75,7 +81,7 @@ public class ProductRepoTest {
         productRepository.deleteAll();
 
         final Product managed1 = productRepository.save(product1);
-        assertThat(managed1).isEqualTo(product1);
+        assertThat(managed1).isEqualTo(product1);   
 
         final Product product2 = new Product();
         product2.setName(TESTNAME);
@@ -168,7 +174,7 @@ public class ProductRepoTest {
 
     @Test
     @DisplayName("ProductRepository findBy...")
-    public void product__findBy(){
+    public void product_findBy(){
 
         productRepository.deleteAll();
 
@@ -222,6 +228,12 @@ public class ProductRepoTest {
 
     }
 
+   
+
+ 
+
+
+   
 
     
 }

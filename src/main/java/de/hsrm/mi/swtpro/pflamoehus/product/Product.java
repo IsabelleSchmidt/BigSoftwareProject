@@ -267,6 +267,33 @@ public class Product {
             allTags.add(tag);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Product [allTags=" + allTags + ", articlenr=" + articlenr + ", depth=" + depth + ", height=" + height
+                + ", name=" + name + ", nrAvailableItems=" + nrAvailableItems + ", picture=" + picture + ", price="
+                + price + ", productType=" + productType + ", roomType=" + roomType + ", version=" + version
+                + ", width=" + width + "]";
+    }
+
+    public long getArticlenr() {
+        return articlenr;
+    }
+
+
+    public long getVersion() {
+        return version;
+    }
+
+   
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setAllTags(Set<Tag> allTags) {
+        this.allTags = allTags;
+    }
    
 
     
