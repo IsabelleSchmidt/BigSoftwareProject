@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     
+    
     Product findByArticlenr (long articlenr);
     Product findByName (String name);
     List<Product> findByProductType (String type);
