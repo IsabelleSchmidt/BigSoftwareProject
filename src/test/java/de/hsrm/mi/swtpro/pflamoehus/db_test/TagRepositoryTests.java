@@ -74,10 +74,9 @@ public class TagRepositoryTests {
         List<Tag> allTags = new ArrayList<Tag>();
 
         final int COUNT = 5;
-        for(int i = 0; i<=COUNT;i++){
+        for(int i = 0; i<COUNT;i++){
             Tag tag1 = new Tag();
             allTags.add(tag1);
-           
             tagRepo.save(tag1);
             assertTrue(tagRepo.count()==i+1,"The repo should hold "+(i+1)+" tags.");
         }
