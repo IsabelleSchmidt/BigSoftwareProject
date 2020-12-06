@@ -33,7 +33,7 @@ public class Creditcard {
     private String creditcardnumber;
 
     @NotEmpty
-    private LocalDate dateOfExperiy;
+    private LocalDate dateOfExpiry;
 
     @ManyToOne
     private User user;
@@ -42,17 +42,11 @@ public class Creditcard {
         return this.id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public long getVersion() {
         return this.version;
     }
 
-    public void setVersion(long version) {
-        this.version = version;
-    }
 
     public String getOwner() {
         return this.owner;
@@ -71,11 +65,11 @@ public class Creditcard {
     }
 
     public LocalDate getDateOfExperiy() {
-        return this.dateOfExperiy;
+        return this.dateOfExpiry;
     }
 
     public void setDateOfExperiy(LocalDate dateOfExperiy) {
-        this.dateOfExperiy = dateOfExperiy;
+        this.dateOfExpiry = dateOfExperiy;
     }
     
 }

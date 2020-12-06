@@ -20,11 +20,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidGender;
+import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidPassword;
 
 
 @Entity
@@ -45,22 +47,26 @@ public class User {
     private String email;
     
     @NotEmpty
-    @Size(min=3)
+    @ValidPassword
     @JsonProperty(access =  Access.WRITE_ONLY)
     private String passwort;
 
-    @NotEmpty  
+    //Hab die stringlänge auf min. 3 gesetzt
+    @NotEmpty @Size(min=3)
     private String firstName;
 
+    //vllt in einem string mit dem vornamen lassen? Es gibt ja auch leute mit 3 oder 4 vornamen
     private String middleName;
 
-    @NotEmpty
+    @NotEmpty @Size(min=2)
     private String lastName;
 
+    //Sollen wir mehrere Adressen speichern koennen statt nur einer? vielleicht will man seiner mutter mal was schicken etc.
     @NotEmpty
     @ValidBirthDay
     private LocalDate birthdate;
 
+    //Wenn das hier notempty ist müssen wir was reinschreiben wenn wir es erstellen wollen, geht das dann mit der data sql?
     @NotEmpty
     @ManyToOne
     private Adress adress;
@@ -121,17 +127,11 @@ public class User {
         return this.version;
     }
 
-    public void setVersion(long version) {
-        this.version = version;
-    }
 
     public long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getMiddleName() {
         return this.middleName;
