@@ -37,10 +37,13 @@ public class Tag {
 
     @PreRemove 
     private void removeTagsFromProducts(){
-        for(Product product: allProductsWithTag){
-            product.getAllTags().remove(this);
-        }
+       
+            for(Product product: allProductsWithTag){
+                product.getAllTags().remove(this);
+            }
+        
     }
+
 
     /** 
      * @return String
@@ -99,7 +102,10 @@ public class Tag {
         return id;
     }
 
-   
+   public void addProduct(Product product){
+
+       allProductsWithTag.add(product);
+   }
 
  
 

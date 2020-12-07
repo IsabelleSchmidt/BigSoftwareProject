@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,13 +26,17 @@ public class Bankcard {
     @JsonIgnore
     private long version;
 
+    //TODO: Validator?, je nach Land gibt es naemlich unterschiedlich viele Zahlen in der Kontonummer
     @NotEmpty
+    @Pattern(regexp="((DE)\\d{2}( \\d{4}){4} \\d{2}")
     private String iban;
 
     @NotEmpty
+    @Size(min=6)
     private String owner;
 
     @NotEmpty
+    @Size(min=3)
     private String bank;
 
     @ManyToOne
@@ -40,17 +46,11 @@ public class Bankcard {
         return this.id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
+    
     public long getVersion() {
         return this.version;
     }
 
-    public void setVersion(long version) {
-        this.version = version;
-    }
 
     public String getIban() {
         return this.iban;

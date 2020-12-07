@@ -17,7 +17,8 @@ public class ValidPictureValidator implements ConstraintValidator<ValidPicture, 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
-        Pattern houseNumberPattern = Pattern.compile("d+[a-zA-Z]*$");
+
+        Pattern houseNumberPattern = Pattern.compile("(\\D|\\|\\d|/)+.((jpe?g)|(png))");
         Matcher matcher = houseNumberPattern.matcher(value);
         return matcher.matches();
     }
