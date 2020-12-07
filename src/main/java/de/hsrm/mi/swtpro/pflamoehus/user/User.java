@@ -141,4 +141,21 @@ public class User {
         this.middleName = middleName;
     }
 
+    public String getPassword() {
+        return this.passwort;
+    }
+
+    public void setPassowrd(String password) {
+        this.passwort = password;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
 }

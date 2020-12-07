@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.db_test;
+package de.hsrm.mi.swtpro.pflamoehus.db_test_product;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

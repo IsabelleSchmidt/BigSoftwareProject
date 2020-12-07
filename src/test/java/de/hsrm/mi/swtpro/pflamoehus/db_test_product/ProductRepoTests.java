@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.db_test;
+package de.hsrm.mi.swtpro.pflamoehus.db_test_product;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

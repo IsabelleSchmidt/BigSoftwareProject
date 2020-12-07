@@ -9,8 +9,6 @@ import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail (String email);
-    User findByFirstName (String firstName);
-    User findByLastName (String lastName);
 
     List<User> findByAdress (Adress adress);
     
