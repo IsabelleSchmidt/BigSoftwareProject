@@ -55,17 +55,14 @@ public class User {
     @NotEmpty @Size(min=3)
     private String firstName;
 
-    //vllt in einem string mit dem vornamen lassen? Es gibt ja auch leute mit 3 oder 4 vornamen
-    private String middleName;
-
     @NotEmpty @Size(min=2)
     private String lastName;
 
-    //Sollen wir mehrere Adressen speichern koennen statt nur einer? vielleicht will man seiner mutter mal was schicken etc.
     @NotEmpty
     @ValidBirthDay
     private LocalDate birthdate;
 
+    //Sollen wir mehrere Adressen speichern koennen statt nur einer? vielleicht will man seiner mutter mal was schicken etc.
     //Wenn das hier notempty ist müssen wir was reinschreiben wenn wir es erstellen wollen, geht das dann mit der data sql?
     @NotEmpty
     @ManyToOne
@@ -130,15 +127,6 @@ public class User {
 
     public long getId() {
         return this.id;
-    }
-
-
-    public String getMiddleName() {
-        return this.middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
     }
 
     public String getPassword() {
