@@ -3,6 +3,7 @@ package de.hsrm.mi.swtpro.pflamoehus.user.adress;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,10 +47,9 @@ public class Adress {
     private String city;
 
  
-    @ManyToMany(mappedBy = "allAdresses")
+    @ManyToMany(mappedBy = "allAdresses", fetch = FetchType.LAZY)
     private List<User> user;
 
-    
     /** 
      * @return long
      */

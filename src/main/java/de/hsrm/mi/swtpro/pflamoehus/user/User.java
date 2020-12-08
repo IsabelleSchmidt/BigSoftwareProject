@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -62,7 +63,7 @@ public class User {
     @ValidBirthDay
     private LocalDate birthdate;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="User_Adresses", joinColumns = @JoinColumn(name="userID"), inverseJoinColumns = @JoinColumn(name="adressID"))
     private List<Adress> allAdresses;
 
