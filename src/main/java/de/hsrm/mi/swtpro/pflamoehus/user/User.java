@@ -46,8 +46,9 @@ public class User {
     @Email
     private String email;
     
-    @NotEmpty
+   
     @ValidPassword
+    @NotEmpty
     @JsonProperty(access =  Access.WRITE_ONLY)
     private String passwort;
 
@@ -57,7 +58,6 @@ public class User {
     @NotEmpty @Size(min=2)
     private String lastName;
 
-    @NotEmpty
     @ValidBirthDay
     private LocalDate birthdate;
 
@@ -139,6 +139,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User [adress=" + adress + ", bankcard=" + bankcard + ", birthdate=" + birthdate + ", creditcard="
+                + creditcard + ", email=" + email + ", firstName=" + firstName + ", gender=" + gender + ", id=" + id
+                + ", lastName=" + lastName + ", passwort=" + passwort + ", version=" + version + "]";
     }
 
 

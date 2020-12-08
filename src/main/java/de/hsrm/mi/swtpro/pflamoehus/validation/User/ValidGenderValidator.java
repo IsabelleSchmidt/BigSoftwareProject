@@ -4,14 +4,24 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class ValidGenderValidator implements ConstraintValidator<ValidGender, String> {
-
+    private enum GENDER{
+            MALE("MALE"), FEMALE("FEMALE"), DIVERSE("DIVERSE");
+            private String gender;
+            GENDER(String gender){
+                this.gender = gender;
+            }
+    
+            public String toString(){
+                return gender;
+            }
+        }
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         
-        String [] genderTypes = {"weiblich", "männlich", "divers"};
+    
 
-        for(String room: genderTypes){
-            if(room.equals(value)){
+        for(GENDER gender: GENDER.values()){
+            if(gender.toString().equals(value)){
                 return true;
             }
         }

@@ -11,7 +11,7 @@ import javax.validation.Payload;
 
 @Target({ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidBirthDayValidator.class)
+@Constraint(validatedBy = ValidGenderValidator.class)
 @Documented
 public @interface ValidGender {
 

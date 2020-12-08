@@ -2,7 +2,7 @@ package de.hsrm.mi.swtpro.pflamoehus.db_test_product;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
+import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -114,17 +114,17 @@ public class ProductValueTests {
         product.setRoomType(ROOMTYPE);
         product.setPicture(PICTURE);
 
-        String productvalues = product.toString();
-
-        assertTrue(productvalues.contains(NAME),"The product needs to contain the correct name.");
-        assertTrue(productvalues.contains(PRODUCTTYPE),"The product needs to contain the correct producttype.");
-        assertTrue(productvalues.contains(ROOMTYPE), "The product needs to contain the correct roomtype.");
-        assertTrue(productvalues.contains(PICTURE),"The product needs to contain a picture.");
-        assertTrue(productvalues.contains(String.valueOf(DEPTH)),"The product needs to contain the correct depth.");
-        assertTrue(productvalues.contains(String.valueOf(HEIGHT)),"the product needs to contain the correct height.");
-        assertTrue(productvalues.contains(String.valueOf(WIDTH)),"the product needs to contain the correct width.");
-        assertTrue(productvalues.contains(String.valueOf(PRICE)),"the product needs to contain the correct price.");
-        assertTrue(productvalues.contains(String.valueOf(AVAILABLE)),"the product needs to contain the correct number of available items.");
+       
+        assertThat(product.toString()).contains(NAME)
+                                .contains(PRODUCTTYPE)
+                                .contains(ROOMTYPE)
+                                .contains(PICTURE)
+                                .contains(String.valueOf(DEPTH))
+                                .contains(String.valueOf(WIDTH))
+                                .contains(String.valueOf(HEIGHT))
+                                .contains(String.valueOf(PRICE))
+                                .contains(String.valueOf(AVAILABLE));
+       
 
         assertTrue(validator.validate(product).isEmpty(),"The number of validation errors should be 0.");
         

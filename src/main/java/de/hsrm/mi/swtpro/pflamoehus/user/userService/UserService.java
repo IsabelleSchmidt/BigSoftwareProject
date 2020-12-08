@@ -1,7 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.userService;
 
 import java.util.List;
-import java.util.Optional;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
