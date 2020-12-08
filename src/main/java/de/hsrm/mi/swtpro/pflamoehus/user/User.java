@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -48,9 +47,11 @@ public class User {
     @Email
     private String email;
     
-    @NotEmpty
+   
     @ValidPassword
+    @NotEmpty
     @JsonProperty(access =  Access.WRITE_ONLY)
+    //TODO: Passwort verschluesselt einspeichern
     private String passwort;
 
     @NotEmpty @Size(min=3)
@@ -59,7 +60,6 @@ public class User {
     @NotEmpty @Size(min=2)
     private String lastName;
 
-    @NotEmpty
     @ValidBirthDay
     private LocalDate birthdate;
 
@@ -72,11 +72,13 @@ public class User {
     private String gender;
 
     @Valid
-    @OneToMany(mappedBy = "user")
+    @ManyToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JoinTable(name="User_Bankcards", joinColumns = @JoinColumn(name="userID"), inverseJoinColumns = @JoinColumn(name="id"))
     private List<Bankcard> bankcard;
 
     @Valid
-    @OneToMany(mappedBy = "user")
+    @ManyToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JoinTable(name="User_Creditcards", joinColumns = @JoinColumn(name="userID"), inverseJoinColumns = @JoinColumn(name="id"))
     private List<Creditcard> creditcard;
 
     
@@ -216,6 +218,13 @@ public class User {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User [bankcard=" + bankcard + ", birthdate=" + birthdate + ", creditcard="
+                + creditcard + ", email=" + email + ", firstName=" + firstName + ", gender=" + gender + ", id=" + userID
+                + ", lastName=" + lastName + ", passwort=" + passwort + ", version=" + version + "]";
     }
 
 

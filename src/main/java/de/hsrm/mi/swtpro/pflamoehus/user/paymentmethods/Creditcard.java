@@ -1,14 +1,17 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
@@ -30,12 +33,14 @@ public class Creditcard {
     private String owner;
 
     @NotEmpty
+    @JsonProperty(access =  Access.WRITE_ONLY)
+    //TODO: Validator fuer Creditcard
     private String creditcardnumber;
 
     @NotEmpty
     private LocalDate dateOfExpiry;
 
-    @ManyToOne
+    @ManyToMany(fetch = FetchType.LAZY)
     private User user;
 
     
@@ -78,14 +83,6 @@ public class Creditcard {
      */
     public String getCreditcardnumber() {
         return this.creditcardnumber;
-    }
-
-    
-    /** 
-     * @param creditcardnumber
-     */
-    public void setCreditcardnumber(String creditcardnumber) {
-        this.creditcardnumber = creditcardnumber;
     }
 
     

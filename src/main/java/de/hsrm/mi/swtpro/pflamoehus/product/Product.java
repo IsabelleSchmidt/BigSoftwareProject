@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.JoinColumn;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -69,7 +70,7 @@ public class Product {
     @PositiveOrZero @Digits(integer=3, fraction=2)
     private double depth=0.0;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="Product_Tags", joinColumns = @JoinColumn(name="articlenr"), inverseJoinColumns = @JoinColumn(name="tagID"))
     private Set<Tag> allTags = new HashSet<Tag>();
 

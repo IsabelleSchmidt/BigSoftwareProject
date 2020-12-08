@@ -1,5 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.security;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -77,12 +79,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         @Autowired private UserRepository userRepository;
         @Override
         public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-            User user = userRepository.findByEmail(email);
-            if (user == null) { 
+            Optional<User> user = userRepository.findByEmail(email);
+            if (user.isEmpty()) { 
                 throw new UsernameNotFoundException(email); }
             return org.springframework.security.core.userdetails.User 
                 .withUsername(email)
-                .password(getPasswordEncoder().encode(user.getPassword())) // falls in DB encoded gespeichert 
+                .password(getPasswordEncoder().encode(user.get().getPassword())) // falls in DB encoded gespeichert 
                 .roles("USER")  //Muss später noch geschaut werden, wie man dann eventuelle Lagerarbeiter etc. entsprechend setzt. Nach aktuellem Stand aber noch nicht gebraucht
                 .build();
     }

@@ -1,7 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.userService;
 
 import java.util.List;
-import java.util.Optional;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
@@ -22,7 +21,7 @@ public interface UserService {
      * @param id
      * @return 
      */
-    Optional<User> searchUserWithId (long id);
+    User searchUserWithId (long id);
 
     /**
      * saves the edited user in the database

@@ -1,16 +1,19 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
@@ -27,7 +30,8 @@ public class Bankcard {
     private long version;
 
     @NotEmpty
-    @Pattern(regexp="((DE)\\d{2}( \\d{4}){4} \\d{2}")
+    @Pattern(regexp="((DE)\\d{2}(\\d{4}){4}\\d{2}")
+    @JsonProperty(access =  Access.WRITE_ONLY)
     private String iban;
 
     @NotEmpty
@@ -38,7 +42,8 @@ public class Bankcard {
     @Size(min=3)
     private String bank;
 
-    @ManyToOne
+
+    @ManyToMany(fetch = FetchType.LAZY)
     private User user;
 
     
@@ -65,14 +70,6 @@ public class Bankcard {
      */
     public String getIban() {
         return this.iban;
-    }
-
-    
-    /** 
-     * @param iban
-     */
-    public void setIban(String iban) {
-        this.iban = iban;
     }
 
     
