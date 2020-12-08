@@ -41,36 +41,68 @@ public class Bankcard {
     @ManyToOne
     private User user;
 
+    
+    /** 
+     * @return long
+     */
     public long getId() {
         return this.id;
     }
 
     
+    
+    /** 
+     * @return long
+     */
     public long getVersion() {
         return this.version;
     }
 
 
+    
+    /** 
+     * @return String
+     */
     public String getIban() {
         return this.iban;
     }
 
+    
+    /** 
+     * @param iban
+     */
     public void setIban(String iban) {
         this.iban = iban;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getOwner() {
         return this.owner;
     }
 
+    
+    /** 
+     * @param owner
+     */
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getBank() {
         return this.bank;
     }
 
+    
+    /** 
+     * @param bank
+     */
     public void setBank(String bank) {
         this.bank = bank;
     }
