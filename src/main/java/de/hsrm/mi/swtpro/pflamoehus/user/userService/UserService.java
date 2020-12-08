@@ -22,7 +22,7 @@ public interface UserService {
      * @param id
      * @return 
      */
-    Optional<User> searchUserWithId (long id);
+    User searchUserWithId (long id);
 
     /**
      * saves the edited user in the database

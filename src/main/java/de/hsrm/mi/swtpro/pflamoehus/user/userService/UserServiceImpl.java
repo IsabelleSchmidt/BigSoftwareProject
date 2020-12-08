@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUse;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserApiException;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> allUsers() {
+        userServiceLogger.info("All Users requested.");
         return userRepository.findAll();
     }
 
@@ -36,7 +38,13 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User searchUserWithEmail(String email) {
-        return userRepository.findByEmail(email);
+        userServiceLogger.info("Searching for user with given mail.");
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isEmpty()){
+            userServiceLogger.error("User not found");
+            throw new UserApiException("User with this mail wasn't found in the database");
+        }
+        return user.get();
     }
 
     
@@ -45,9 +53,11 @@ public class UserServiceImpl implements UserService {
      * @return Optional<User>
      */
     @Override
-    public Optional<User> searchUserWithId(long id) {
+    public User searchUserWithId(long id) {
+        userServiceLogger.info("Searching for User with given ID.");
         Optional<User> user = userRepository.findById(id);
-        return user.isEmpty() ? null : user;
+        if(user.isEmpty()){throw new UserApiException("User with this ID wasn't found in the database");}
+        return user.get();
     }
 
     
@@ -58,10 +68,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User editUser(User editedUser) {
         try{
-            userRepository.save(editedUser);
+            editedUser = userRepository.save(editedUser);
         }catch(OptimisticLockException oLE){
             oLE.printStackTrace();
+            throw new UserApiException("User could not be saved into the database.");
         }
+        userServiceLogger.info("User was successfully edited.");
         return editedUser;
     }
 
@@ -73,8 +85,10 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(long id) {
         Optional<User> user = userRepository.findById(id);
         if(user.isEmpty()){
-            userServiceLogger.info("User was not deleted, userID not founf");
+            userServiceLogger.error("User was not deleted, userID not found");
+            throw new UserApiException("User with given ID was not found in the database.");
         }else{
+            userServiceLogger.info("User with given ID was deleted.");
             userRepository.delete(user.get());
         }
 
@@ -88,9 +102,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean checkLogin(String email, String password) {
-        User user = userRepository.findByEmail(email);
-        if(user != null){
-            if(user.getPassword().equals(password)){
+        userServiceLogger.info("checking passwords");
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent()){
+            if(user.get().getPassword().equals(password)){
                 return true;
             }
         }
@@ -104,11 +119,20 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User registerUser(User user) {
-        if (userRepository.findByEmail(user.getEmail()) != null) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            userServiceLogger.error("invalid mail.");
             throw new EmailAlreadyInUse();
         }
-        userRepository.save(user);
-        return user;
+        try{
+             userRepository.save(user);
+        }catch(OptimisticLockException ole){
+            ole.printStackTrace();
+            userServiceLogger.error("Error while saving user into database");
+            throw new UserApiException("User could not be saved into the database.");
+            
+        }
+        userServiceLogger.info("User was saved into the repository.");
+        return userRepository.save(user);
     }
     
 }
