@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.productService;
+package de.hsrm.mi.swtpro.pflamoehus.user.userService;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -8,7 +8,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class ProductBrokerConfigurations implements WebSocketMessageBrokerConfigurer{
+public class UserBrokerConfigurations implements WebSocketMessageBrokerConfigurer{
 
     
     /** 

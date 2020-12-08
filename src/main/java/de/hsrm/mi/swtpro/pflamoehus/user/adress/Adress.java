@@ -15,7 +15,6 @@ import javax.validation.constraints.Pattern;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
-import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidHouseNumber;
 
 
 @Entity
@@ -31,12 +30,11 @@ public class Adress {
     private long version;
 
     @NotEmpty
-    @Pattern(regexp = "\\p{L}{2,} ")
+    @Pattern(regexp = "\\p{L}{2,}")
     private String streetName;
 
-    //Hausnummer validator auch in pattern? Ist ja nicht komplex
+    @Pattern(regexp ="\\d+?[a-zA-Z]?$")
     @NotEmpty
-    @ValidHouseNumber
     private String houseNumber;
 
     @NotEmpty
@@ -44,7 +42,7 @@ public class Adress {
     private int postCode;
 
     @NotEmpty
-    @Pattern(regexp = "\\p{L}{2,} ")
+    @Pattern(regexp = "\\p{L}{2,}")
     private String city;
 
  

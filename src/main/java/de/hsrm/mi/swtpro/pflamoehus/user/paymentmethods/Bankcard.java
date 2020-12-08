@@ -26,7 +26,6 @@ public class Bankcard {
     @JsonIgnore
     private long version;
 
-    //TODO: Validator?, je nach Land gibt es naemlich unterschiedlich viele Zahlen in der Kontonummer
     @NotEmpty
     @Pattern(regexp="((DE)\\d{2}( \\d{4}){4} \\d{2}")
     private String iban;

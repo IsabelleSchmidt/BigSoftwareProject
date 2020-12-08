@@ -51,7 +51,6 @@ public class User {
     @JsonProperty(access =  Access.WRITE_ONLY)
     private String passwort;
 
-    //Hab die stringlänge auf min. 3 gesetzt
     @NotEmpty @Size(min=3)
     private String firstName;
 
@@ -62,11 +61,8 @@ public class User {
     @ValidBirthDay
     private LocalDate birthdate;
 
-    //Sollen wir mehrere Adressen speichern koennen statt nur einer? vielleicht will man seiner mutter mal was schicken etc.
-    //Wenn das hier notempty ist müssen wir was reinschreiben wenn wir es erstellen wollen, geht das dann mit der data sql?
-    @NotEmpty
     @ManyToOne
-    private Adress adress;
+    private List<Adress> adress;
 
     @NotEmpty
     @ValidGender
@@ -88,11 +84,11 @@ public class User {
         this.gender = gender;
     }
 
-    public Adress getAdress() {
+    public List<Adress> getAdress() {
         return this.adress;
     }
 
-    public void setAdress(Adress adress) {
+    public void setAdress(List<Adress> adress) {
         this.adress = adress;
     }
 
