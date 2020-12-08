@@ -4,6 +4,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class ValidGenderValidator implements ConstraintValidator<ValidGender, String> {
+
     private enum GENDER{
             MALE("MALE"), FEMALE("FEMALE"), DIVERSE("DIVERSE");
             private String gender;
@@ -15,6 +16,15 @@ public class ValidGenderValidator implements ConstraintValidator<ValidGender, St
                 return gender;
             }
         }
+
+
+    
+    /** 
+     * @param value
+     * @param context
+     * @return boolean
+     */
+
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         

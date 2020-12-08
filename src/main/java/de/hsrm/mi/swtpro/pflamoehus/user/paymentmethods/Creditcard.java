@@ -38,36 +38,68 @@ public class Creditcard {
     @ManyToOne
     private User user;
 
+    
+    /** 
+     * @return long
+     */
     public long getId() {
         return this.id;
     }
 
 
+    
+    /** 
+     * @return long
+     */
     public long getVersion() {
         return this.version;
     }
 
 
+    
+    /** 
+     * @return String
+     */
     public String getOwner() {
         return this.owner;
     }
 
+    
+    /** 
+     * @param owner
+     */
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getCreditcardnumber() {
         return this.creditcardnumber;
     }
 
+    
+    /** 
+     * @param creditcardnumber
+     */
     public void setCreditcardnumber(String creditcardnumber) {
         this.creditcardnumber = creditcardnumber;
     }
 
+    
+    /** 
+     * @return LocalDate
+     */
     public LocalDate getDateOfExperiy() {
         return this.dateOfExpiry;
     }
 
+    
+    /** 
+     * @param dateOfExperiy
+     */
     public void setDateOfExperiy(LocalDate dateOfExperiy) {
         this.dateOfExpiry = dateOfExperiy;
     }

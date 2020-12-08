@@ -13,7 +13,7 @@ public class ProductBrokerConfigurations implements WebSocketMessageBrokerConfig
     
     /** 
      * @param registry
-     * the StompBroker reacts to everything with the prefix "/ topic"
+     * the StompBroker reacts to everything with the prefix "/product"
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {

@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.validation.Valid;
@@ -19,7 +21,6 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
@@ -35,7 +36,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
-    private long id;
+    private long userID;
 
     @Version
     @JsonIgnore
@@ -61,8 +62,9 @@ public class User {
     @ValidBirthDay
     private LocalDate birthdate;
 
-    @ManyToOne
-    private List<Adress> adress;
+    @ManyToMany
+    @JoinTable(name="User_Adresses", joinColumns = @JoinColumn(name="userID"), inverseJoinColumns = @JoinColumn(name="adressID"))
+    private List<Adress> allAdresses;
 
     @NotEmpty
     @ValidGender
@@ -76,67 +78,141 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Creditcard> creditcard;
 
+    
+    /** 
+     * @param adress
+     */
+    public void addAdress(Adress adress){
+        if(!allAdresses.contains(adress)){
+            allAdresses.add(adress);
+        }
+    }
+
+    
+    /** 
+     * @return String
+     */
     public String getGender() {
         return this.gender;
     }
 
+    
+    /** 
+     * @param gender
+     */
     public void setGender(String gender) {
         this.gender = gender;
     }
 
+    
+    /** 
+     * @return List<Adress>
+     */
     public List<Adress> getAdress() {
-        return this.adress;
+        return this.allAdresses;
     }
 
-    public void setAdress(List<Adress> adress) {
-        this.adress = adress;
+    
+    /** 
+     * @param allAdresses
+     */
+    public void setAdress(List<Adress> allAdresses) {
+        this.allAdresses = allAdresses;
     }
 
+    
+    /** 
+     * @return LocalDate
+     */
     public LocalDate getBirthdate() {
         return this.birthdate;
     }
 
+    
+    /** 
+     * @param birthdate
+     */
     public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getLastName() {
         return this.lastName;
     }
 
+    
+    /** 
+     * @param lastName
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getFirstName() {
         return this.firstName;
     }
 
+    
+    /** 
+     * @param firstName
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    
+    /** 
+     * @return long
+     */
     public long getVersion() {
         return this.version;
     }
 
 
+    
+    /** 
+     * @return long
+     */
     public long getId() {
-        return this.id;
+        return this.userID;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getPassword() {
         return this.passwort;
     }
 
+    
+    /** 
+     * @param password
+     */
     public void setPassowrd(String password) {
         this.passwort = password;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getEmail() {
         return this.email;
     }
 
+    
+    /** 
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
