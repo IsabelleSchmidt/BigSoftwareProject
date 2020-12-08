@@ -10,6 +10,12 @@ import javax.validation.ConstraintValidatorContext;
 
 public class ValidPasswordValidator implements ConstraintValidator<ValidPassword, String> {
 
+    
+    /** 
+     * @param value
+     * @param context
+     * @return boolean
+     */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         //TODO: Testen

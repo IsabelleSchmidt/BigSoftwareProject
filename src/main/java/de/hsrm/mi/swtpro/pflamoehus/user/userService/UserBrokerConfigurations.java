@@ -13,11 +13,11 @@ public class UserBrokerConfigurations implements WebSocketMessageBrokerConfigure
     
     /** 
      * @param registry
-     * the StompBroker reacts to everything with the prefix "/ topic"
+     * the StompBroker reacts to everything with the prefix "/user"
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/product");
+        registry.enableSimpleBroker("/user");
     }
 
     

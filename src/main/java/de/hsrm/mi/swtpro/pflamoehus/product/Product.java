@@ -35,7 +35,6 @@ public class Product {
     @JsonIgnore
     private long articlenr;
 
-
     @Version
     @JsonIgnore
     private long version;
