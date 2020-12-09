@@ -13,7 +13,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,6 +22,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidBirthDay;
+import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidEmail;
 import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidGender;
 import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidPassword;
 
@@ -41,7 +41,7 @@ public class User {
     
     @NotEmpty
     @Column(name="EMAIL", unique=true)
-    @Email
+    @ValidEmail
     private String email;
     
    
