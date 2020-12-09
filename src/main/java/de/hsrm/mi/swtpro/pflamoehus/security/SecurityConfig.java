@@ -40,12 +40,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.authorizeRequests()
-            .antMatchers("/products").permitAll()
             .antMatchers("/").permitAll()
+            .antMatchers("/console/**").permitAll()
+            .antMatchers("/h2-console/**").permitAll()
+            .antMatchers("/products").permitAll()
             .antMatchers("/favorites").permitAll()
             .antMatchers("/cart").permitAll()
             .antMatchers("/rooms").permitAll()
-            .antMatchers("/h2-console/*").permitAll()
             .antMatchers("/profile").hasRole("USER")
             
         .and()
@@ -59,6 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .and()
             .csrf()
             .disable();
+
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
     }
 
     
