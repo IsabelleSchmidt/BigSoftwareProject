@@ -51,7 +51,6 @@ public class User {
     //@ValidPassword
     @NotEmpty
     @JsonProperty(access =  Access.WRITE_ONLY)
-    //TODO: Passwort verschluesselt einspeichern
     private String passwort;
 
     @NotEmpty @Size(min=3)
