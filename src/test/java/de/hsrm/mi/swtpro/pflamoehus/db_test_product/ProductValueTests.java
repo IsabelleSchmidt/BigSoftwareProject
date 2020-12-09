@@ -9,7 +9,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -40,12 +39,10 @@ public class ProductValueTests {
     private final double DEPTH = 0.0;
     private final String PRODUCTTYPE = "Tisch";
     private final String ROOMTYPE = "Wohnzimmer";
-    private final String PICTURE = "src\\main\\resources\\static\\tables\\table1.jpg";
     private final int AVAILABLE = 0;
     private final double FALSE_PRICE =-1;
     private final double FALSE_WIDTH = 12.123;
     private final double FALSE_HEIGHT = 12345678;
-    private final String FALSE_PICTURE = "a.gif";
     private final String FALSE_PRODUCTTYPE = "Ziharmonika";
     private final String FALSE_ROOMTYPE ="SCHlafzimmer";
     private final int FALSE_AVAILABLE = -17;
@@ -68,13 +65,12 @@ public class ProductValueTests {
     public void false_validation(){
         
         Product product1 = new Product();
-        int nrWrongValues = 7;
+        int nrWrongValues = 6;
 
         //Product 1
         //fill with wrong values
         product1.setHeight(FALSE_HEIGHT);
         product1.setWidth(FALSE_WIDTH);
-        product1.setPicture(FALSE_PICTURE);
         product1.setNrAvailableItems(FALSE_AVAILABLE);
         product1.setPrice(FALSE_PRICE);
         product1.setRoomType(FALSE_ROOMTYPE);
@@ -87,7 +83,7 @@ public class ProductValueTests {
         //check for as many validation errors as wrong values
         Set<ConstraintViolation<Product>> violations;
         violations = validator.validate(product1);
-        assertTrue(violations.size() == nrWrongValues,"The number of false values needs to be "+nrWrongValues);
+        assertTrue(violations.size() == nrWrongValues,"The number of false values needs to be "+nrWrongValues +"but is: "+violations.size());
         
 
         product1.setPrice(2.0);
@@ -112,13 +108,11 @@ public class ProductValueTests {
         product.setNrAvailableItems(AVAILABLE);
         product.setProductType(PRODUCTTYPE);
         product.setRoomType(ROOMTYPE);
-        product.setPicture(PICTURE);
 
        
         assertThat(product.toString()).contains(NAME)
                                 .contains(PRODUCTTYPE)
                                 .contains(ROOMTYPE)
-                                .contains(PICTURE)
                                 .contains(String.valueOf(DEPTH))
                                 .contains(String.valueOf(WIDTH))
                                 .contains(String.valueOf(HEIGHT))

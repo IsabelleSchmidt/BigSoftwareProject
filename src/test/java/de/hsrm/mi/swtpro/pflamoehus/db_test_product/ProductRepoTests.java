@@ -16,6 +16,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 
+
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ProductRepoTests {
     
@@ -25,13 +26,12 @@ public class ProductRepoTests {
 
     final String TESTNAME = "Herbert";
     final String PRODUCTTYPE = "Sofa/Couch";
-    final String ROOMTYPE = "Wohnzimmer";
+    final String ROOMTYPE = "Bad";
     final double PRICE = 10.5;
     final double HEIGHT = 75.0;
     final double WIDHT = 210.5;
     final double DEPTH = 55.0;
     final int AVIABLEPRODUCTS = 3;
-    final String PICTURE = "src/main/resources/static/sofas/sofa1.jpg";
 
     @Autowired
     private ProductRepository productRepository;
@@ -54,7 +54,7 @@ public class ProductRepoTests {
         unmanaged.setProductType(PRODUCTTYPE);
         unmanaged.setRoomType(ROOMTYPE);
         unmanaged.setPrice(PRICE);
-        unmanaged.setPicture(PICTURE);
+      
 
         productRepository.deleteAll();
         final Product managed = productRepository.save(unmanaged);
@@ -76,7 +76,7 @@ public class ProductRepoTests {
         product1.setProductType(PRODUCTTYPE);
         product1.setRoomType(ROOMTYPE);
         product1.setPrice(PRICE);
-        product1.setPicture(PICTURE);
+        
 
         productRepository.deleteAll();
 
@@ -92,7 +92,7 @@ public class ProductRepoTests {
         product2.setProductType(PRODUCTTYPE);
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(PRICE);
-        product2.setPicture(PICTURE);
+      
 
         Assertions.assertThrows(DataIntegrityViolationException.class, ()->{
             Product managed2 = productRepository.save(product2);
@@ -120,7 +120,6 @@ public class ProductRepoTests {
             product1.setProductType(PRODUCTTYPE);
             product1.setRoomType(ROOMTYPE);
             product1.setPrice(PRICE+i);
-            product1.setPicture(PICTURE);
             productRepository.save(product1);
         }
 
@@ -148,7 +147,6 @@ public class ProductRepoTests {
         product1.setProductType(PRODUCTTYPE);
         product1.setRoomType(ROOMTYPE);
         product1.setPrice(PRICE);
-        product1.setPicture(PICTURE);
 
         final Product managed1 = productRepository.save(product1);
         assertThat(managed1).isEqualTo(product1);
@@ -162,12 +160,11 @@ public class ProductRepoTests {
         product2.setProductType(PRODUCTTYPE);
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(PRICE);
-        product2.setPicture(PICTURE);
 
         final Product managed2 = productRepository.save(product2);
         assertThat(managed2).isEqualTo(product2);
 
-        List<Product> fund = productRepository.findByRoomType("Wohnzimmer");
+        List<Product> fund = productRepository.findByRoomType(ROOMTYPE);
         assertThat(fund.size()).isEqualTo(2);
 
     }
@@ -187,7 +184,6 @@ public class ProductRepoTests {
         product1.setProductType(PRODUCTTYPE);
         product1.setRoomType(ROOMTYPE);
         product1.setPrice(PRICE);
-        product1.setPicture(PICTURE);
 
         final Product managed1 = productRepository.save(product1);
         assertThat(managed1).isEqualTo(product1);
@@ -201,7 +197,6 @@ public class ProductRepoTests {
         product2.setProductType("Pflanze");
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(123.4);
-        product2.setPicture(PICTURE);
 
         final Product managed2 = productRepository.save(product2);
         assertThat(managed2).isEqualTo(product2);

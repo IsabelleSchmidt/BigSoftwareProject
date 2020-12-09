@@ -22,7 +22,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class UserValueTests {
-    //TODO: Email und Passwort Validatoren anpassen.
+    //TODO: Email und Pwd Validatoren anpassen.
     
     private final String FIRSTNAME = "Olaf der Dritte";
     private final String GENDER = "DIVERSE";
@@ -86,26 +86,26 @@ public class UserValueTests {
         user2.setEmail(WRONG_EMAIL); 
 
        
-        numberWrongValues = 4;
+        numberWrongValues = 3;
         violations = validator.validate(user2);
-        assertTrue(violations.size() == numberWrongValues,"Anzahl falsch: "+Integer.toString(violations.size()));
+        assertTrue(violations.size() == numberWrongValues,"Anzahl falsch, falsche Werte: "+violations.size());
         
 
         user2.setPassowrd(PASSWOrD);
         
         violations = validator.validate(user2);
         numberWrongValues--;
-        assertTrue(violations.size()==numberWrongValues,"Passwort nicht richtig validiert.");
+        assertTrue(violations.size()==numberWrongValues,"Passwort muss korrekt validiert werden. Passwort hier korrekt.");
 
         user2.setLastName("1");
         numberWrongValues++;
         violations = validator.validate(user2);
-        assertTrue(violations.size() == numberWrongValues,"Lastname nicht richtig validiert.");
+        assertTrue(violations.size() == numberWrongValues,"Lastname muss richtig validiert werden. Hier falsch.");
 
         user2.setEmail(EMAIL);
         numberWrongValues--;
         violations = validator.validate(user2);
-        assertTrue(violations.size()==numberWrongValues,"Email nicht richtig validiert.");
+        assertTrue(violations.size()==numberWrongValues,"Email muss richtig validiert werden. Email hier korrekt.");
 
     }
 }

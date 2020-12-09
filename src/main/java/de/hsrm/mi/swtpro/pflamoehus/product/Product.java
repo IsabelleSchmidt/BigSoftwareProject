@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.Digits;
@@ -19,7 +20,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
 import de.hsrm.mi.swtpro.pflamoehus.validation.ProductDatabase.*;
 
@@ -58,8 +59,8 @@ public class Product {
     @Positive @Digits(integer = 5, fraction = 2)
     private double price=0.0;
 
-    @ValidPicture
-    private String picture;
+    @OneToMany(mappedBy = "product")
+    private Set<Picture> allPictures = new HashSet<Picture>();
 
     @PositiveOrZero @Digits(integer=3, fraction=2)
     private double height=0.0;
@@ -77,6 +78,7 @@ public class Product {
     @Column(name="available")
     @PositiveOrZero
     private int nrAvailableItems = 0;
+
 
     
     /** 
@@ -147,19 +149,21 @@ public class Product {
     /** 
      * @return String
      */
-    public String getPicture() {
-        return picture;
+    public Set<Picture> getAllPictures() {
+        return allPictures;
     }
 
     
     /** 
      * @param picture
      */
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void addPicture(Picture picture) {
+       this.allPictures.add(picture);
     }
 
-
+    public void setALlPictures(HashSet<Picture> allPictures){
+        this.allPictures = allPictures;
+    }
     
     /** 
      * @return long
@@ -269,7 +273,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product [allTags=" + allTags + ", articlenr=" + articlenr + ", depth=" + depth + ", height=" + height
-                + ", name=" + name + ", nrAvailableItems=" + nrAvailableItems + ", picture=" + picture + ", price="
+                + ", name=" + name + ", nrAvailableItems=" + nrAvailableItems + ", pictures =" + allPictures.toString() + ", price="
                 + price + ", productType=" + productType + ", roomType=" + roomType + ", version=" + version
                 + ", width=" + width + "]";
     }
