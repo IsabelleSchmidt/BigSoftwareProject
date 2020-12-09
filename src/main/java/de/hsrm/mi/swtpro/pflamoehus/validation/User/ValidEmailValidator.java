@@ -10,9 +10,9 @@ public class ValidEmailValidator implements ConstraintValidator<ValidEmail, Stri
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        //TODO: korrektes Pattern
-        Pattern passwordPattern = Pattern.compile("[\\w\\d\\p{Punct}]{2,}@\\w{2,}[\\w{2,}\\p{Punct}]+((.de)|(.com))");
-        Matcher matcher = passwordPattern.matcher(value);
+        //TODO: korrektes Pattern 
+        Pattern mailPattern = Pattern.compile("^\\w{2,}[\\w\\p{Punct}\\d]{2,}@\\w{2,}[\\w\\p{Punct}\\d]*\\w{2,}((.de)|(.com))$");
+        Matcher matcher = mailPattern.matcher(value);
         
 
         return matcher.matches();
