@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.validation.ProductDatabase;
+package de.hsrm.mi.swtpro.pflamoehus.product;
 
 public enum ProductType {
     CHAIR("Stuhl"),PLANT("Pflanze"),TABLE("Tisch"),BED("Bett"),DECORATION("Dekoration"),CLOSET("Schrank/Kommode"),COUCH("Sofa/Couch");

@@ -3,6 +3,8 @@ package de.hsrm.mi.swtpro.pflamoehus.validation.ProductDatabase;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import de.hsrm.mi.swtpro.pflamoehus.product.RoomType;
+
 public class ValidRoomTypeValidator implements ConstraintValidator<ValidRoomType, String> {
 
     

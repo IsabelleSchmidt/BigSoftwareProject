@@ -2,7 +2,6 @@ package de.hsrm.mi.swtpro.pflamoehus.user;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.Entity;
@@ -17,11 +16,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
@@ -48,7 +45,7 @@ public class User {
     private String email;
     
    
-    //@ValidPassword
+    @ValidPassword
     @NotEmpty
     @JsonProperty(access =  Access.WRITE_ONLY)
     //TODO: Passwort verschluesselt einspeichern

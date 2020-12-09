@@ -4,6 +4,8 @@ package de.hsrm.mi.swtpro.pflamoehus.validation.ProductDatabase;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
+
 public class ValidProductTypeValidator implements ConstraintValidator<ValidProductType, String> {
 
     

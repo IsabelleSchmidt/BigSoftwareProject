@@ -76,7 +76,12 @@ public class UserServiceImpl implements UserService {
             throw new UserApiException("User could not be saved into the database.");
         }
         userServiceLogger.info("User was successfully edited.");
+
+        
         return editedUser;
+
+
+    
     }
 
     
