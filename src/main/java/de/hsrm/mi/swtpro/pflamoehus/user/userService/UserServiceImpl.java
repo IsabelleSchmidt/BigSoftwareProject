@@ -15,6 +15,8 @@ import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUse;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserApiException;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -70,7 +72,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User editUser(User editedUser) {
         try{
-            editedUser = userRepository.save(editedUser);
+            //TODO: überprüfen ob immer gleich encodet wird
+            User foundUser = searchUserWithEmail(editedUser.getEmail());
+            if(!pe.encode(editedUser.getPassword()).equals(foundUser.getPassword())){
+                encodePassword(editedUser.getPassword(), editedUser);
+            }
+            editBankcard(editedUser, foundUser);
+            editCreditcard(editedUser, foundUser);
+            
         }catch(OptimisticLockException oLE){
             oLE.printStackTrace();
             throw new UserApiException("User could not be saved into the database.");
@@ -79,8 +88,7 @@ public class UserServiceImpl implements UserService {
         return editedUser;
     }
 
-    
-    /** 
+    /**
      * @param id
      */
     @Override
@@ -95,25 +103,6 @@ public class UserServiceImpl implements UserService {
         }
 
     }
-
-    
-    /** 
-     * @param email
-     * @param password
-     * @return boolean
-     */
-    // @Override
-    // public boolean checkLogin(String email, String password) {
-    //     userServiceLogger.info("checking passwords");
-    //     Optional<User> user = userRepository.findByEmail(email);
-    //     if(user.isPresent()){
-    //         if(user.get().getPassword().equals(password)){
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-
     
     /** 
      * @param user
@@ -126,10 +115,9 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyInUse();
         }
         try{
-            String password = userRepository.findByEmail(user.getEmail()).get().getPassword();
-            pe.encode(password);
-            userRepository.findByEmail(user.getEmail()).get().setPassowrd(password);
-            userRepository.save(user);
+            encodePassword(userRepository.findByEmail(user.getEmail()).get().getPassword(), user);
+            encodeIBAN(userRepository.findByEmail(user.getEmail()).get().getBankcard(), user);
+            encodeCardNumber(userRepository.findByEmail(user.getEmail()).get().getCreditcard(), user);
         }catch(OptimisticLockException ole){
             ole.printStackTrace();
             userServiceLogger.error("Error while saving user into database");
@@ -138,6 +126,89 @@ public class UserServiceImpl implements UserService {
         }
         userServiceLogger.info("User was saved into the repository.");
         return userRepository.save(user);
+    }
+
+    
+    /** 
+     * @param cards
+     * @param user
+     */
+    private void encodeIBAN (List<Bankcard> cards, User user){
+        for(Bankcard card: cards){
+            pe.encode(card.getIban());
+        }
+        userRepository.findByEmail(user.getEmail()).get().setBankcard(cards);
+        userRepository.save(user);
+    }
+
+    
+    /** 
+     * @param cards
+     * @param user
+     */
+    private void encodeCardNumber (List<Creditcard> cards, User user){
+        for(Creditcard card: cards){
+            pe.encode(card.getCreditcardnumber());
+        }
+        userRepository.findByEmail(user.getEmail()).get().setCreditcard(cards);
+        userRepository.save(user);
+    }
+
+    
+    /** 
+     * @param password
+     * @param user
+     */
+    private void encodePassword (String password, User user){
+        pe.encode(password);
+        userRepository.findByEmail(user.getEmail()).get().setPassowrd(password);
+        userRepository.save(user);
+    }
+
+    
+    /** 
+     * If a user changes his Bankcards, for Example the IBAN or he adds another one, we have to encode the new IBAN number
+     * @param editedUser
+     * @param foundUser
+     */
+    private void editBankcard(User editedUser, User foundUser){
+
+        if(editedUser.getBankcard().size() == foundUser.getBankcard().size()){
+            for(Bankcard card1 : editedUser.getBankcard()){
+                for (Bankcard card2 : foundUser.getBankcard()){
+                    if(!pe.encode(card1.getIban()).equals(card2.getIban())){
+                        card1.setIban(pe.encode(card1.getIban()));
+                    }
+                }
+            }
+        }else if(editedUser.getBankcard().size() != foundUser.getBankcard().size()){
+            editedUser.getBankcard().get(editedUser.getBankcard().size()-1)
+                .setIban(pe.encode(editedUser.getBankcard().get(editedUser.getBankcard().size()-1).getIban()));
+        }
+    }
+
+    
+    /** 
+     * If a user changes his creditcards, for example the credicartnumber or he adds another one, we have to encode the new creditcardnumber 
+     * @param editedUser
+     * @param foundUser
+     */
+    private void editCreditcard(User editedUser, User foundUser) {
+
+        if(editedUser.getCreditcard().size() == foundUser.getCreditcard().size()){
+            for(Creditcard card1 : editedUser.getCreditcard()){
+                for (Creditcard card2 : foundUser.getCreditcard()){
+                    if(!pe.encode(card1.getCreditcardnumber()).equals(card2.getCreditcardnumber())){
+                        card1.setCreditcardnumber(pe.encode(card1.getCreditcardnumber()));
+                    }
+                }
+            }
+        }else if(editedUser.getCreditcard().size() != foundUser.getCreditcard().size()){
+            editedUser.getCreditcard().get(editedUser.getBankcard().size()-1)
+                .setCreditcardnumber(pe.encode(editedUser.getBankcard().get(editedUser.getBankcard().size()-1).getIban()));
+        }
+
+
     }
     
 }

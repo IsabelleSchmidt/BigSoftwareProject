@@ -68,7 +68,9 @@ public class Bankcard {
         return this.version;
     }
 
-
+    public void setIban(String iban){
+        this.iban = iban;
+    }
     
     /** 
      * @return String

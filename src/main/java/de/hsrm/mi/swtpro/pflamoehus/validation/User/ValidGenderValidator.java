@@ -28,8 +28,6 @@ public class ValidGenderValidator implements ConstraintValidator<ValidGender, St
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         
-    
-
         for(GENDER gender: GENDER.values()){
             if(gender.toString().equals(value)){
                 return true;

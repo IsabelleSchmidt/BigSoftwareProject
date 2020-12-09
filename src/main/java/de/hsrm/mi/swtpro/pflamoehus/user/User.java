@@ -27,9 +27,6 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidGender;
-import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidPassword;
-
-
 @Entity
 public class User {
     
@@ -47,7 +44,6 @@ public class User {
     @Email
     private String email;
     
-   
     //@ValidPassword
     @NotEmpty
     @JsonProperty(access =  Access.WRITE_ONLY)
@@ -80,6 +76,22 @@ public class User {
     @ManyToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Creditcard> creditcard;
 
+    
+    public List<Creditcard> getCreditcard() {
+        return this.creditcard;
+    }
+
+    public void setCreditcard(List<Creditcard> creditcard) {
+        this.creditcard = creditcard;
+    }
+
+    public List<Bankcard> getBankcard() {
+        return this.bankcard;
+    }
+
+    public void setBankcard(List<Bankcard> bankcard) {
+        this.bankcard = bankcard;
+    }
     
     /** 
      * @param adress
