@@ -8,6 +8,7 @@ import javax.persistence.OptimisticLockException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUse;
@@ -19,6 +20,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 public class UserServiceImpl implements UserService {
 
     @Autowired UserRepository userRepository;
+    @Autowired PasswordEncoder pe;
     Logger userServiceLogger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     
@@ -100,17 +102,17 @@ public class UserServiceImpl implements UserService {
      * @param password
      * @return boolean
      */
-    @Override
-    public boolean checkLogin(String email, String password) {
-        userServiceLogger.info("checking passwords");
-        Optional<User> user = userRepository.findByEmail(email);
-        if(user.isPresent()){
-            if(user.get().getPassword().equals(password)){
-                return true;
-            }
-        }
-        return false;
-    }
+    // @Override
+    // public boolean checkLogin(String email, String password) {
+    //     userServiceLogger.info("checking passwords");
+    //     Optional<User> user = userRepository.findByEmail(email);
+    //     if(user.isPresent()){
+    //         if(user.get().getPassword().equals(password)){
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     
     /** 
@@ -124,7 +126,10 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyInUse();
         }
         try{
-             userRepository.save(user);
+            String password = userRepository.findByEmail(user.getEmail()).get().getPassword();
+            pe.encode(password);
+            userRepository.findByEmail(user.getEmail()).get().setPassowrd(password);
+            userRepository.save(user);
         }catch(OptimisticLockException ole){
             ole.printStackTrace();
             userServiceLogger.error("Error while saving user into database");

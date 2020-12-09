@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface BankcardRepository extends JpaRepository<Bankcard, Long> {
 
     Optional<Bankcard> findById(long id);
-    Bankcard findByOwner (String ower);
 }

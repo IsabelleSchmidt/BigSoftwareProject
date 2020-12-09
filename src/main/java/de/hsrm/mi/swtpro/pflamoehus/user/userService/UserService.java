@@ -35,7 +35,7 @@ public interface UserService {
      */
     void deleteUser (long id);
 
-    boolean checkLogin (String email, String password);
+    // boolean checkLogin (String email, String password);
 
     User registerUser(User email);
     

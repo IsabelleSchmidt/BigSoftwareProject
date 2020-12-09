@@ -87,3 +87,5 @@ Insert into Tag(value,version) values('bequem',1);
 
 /*fill relationship between product and tags by: articlenr, tagid*/
 Insert into product_tags values(45,7),(45,6),(45,5),(42,10),(24,12),(42,12);
+
+Insert into User(version, email, passwort, firstname, lastname, gender) values (1, 'anny@gmail.com', 'Hallo1234', 'Anny', 'Fabian', 'FEMALE');

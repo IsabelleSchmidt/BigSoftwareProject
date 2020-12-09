@@ -5,7 +5,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
 
@@ -16,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Creditcard {
@@ -41,7 +44,8 @@ public class Creditcard {
     private LocalDate dateOfExpiry;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private User user;
+    @JoinTable(name="User_Creditcards", joinColumns = @JoinColumn(name="id"), inverseJoinColumns = @JoinColumn(name="userID"))
+    private List<User> user;
 
     
     /** 

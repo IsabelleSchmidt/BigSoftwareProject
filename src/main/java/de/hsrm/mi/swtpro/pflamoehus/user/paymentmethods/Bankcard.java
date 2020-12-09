@@ -1,10 +1,14 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
@@ -44,7 +48,8 @@ public class Bankcard {
 
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private User user;
+    @JoinTable(name="User_Bankcards", joinColumns = @JoinColumn(name="id"), inverseJoinColumns = @JoinColumn(name="userID"))
+    private List<User> user;
 
     
     /** 

@@ -48,16 +48,18 @@ public class User {
     private String email;
     
    
-    @ValidPassword
+    //@ValidPassword
     @NotEmpty
     @JsonProperty(access =  Access.WRITE_ONLY)
     //TODO: Passwort verschluesselt einspeichern
     private String passwort;
 
     @NotEmpty @Size(min=3)
+    @Column(name="firstname")
     private String firstName;
 
     @NotEmpty @Size(min=2)
+    @Column(name="lastname")
     private String lastName;
 
     @ValidBirthDay
@@ -73,12 +75,10 @@ public class User {
 
     @Valid
     @ManyToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JoinTable(name="User_Bankcards", joinColumns = @JoinColumn(name="userID"), inverseJoinColumns = @JoinColumn(name="id"))
     private List<Bankcard> bankcard;
 
     @Valid
     @ManyToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JoinTable(name="User_Creditcards", joinColumns = @JoinColumn(name="userID"), inverseJoinColumns = @JoinColumn(name="id"))
     private List<Creditcard> creditcard;
 
     
