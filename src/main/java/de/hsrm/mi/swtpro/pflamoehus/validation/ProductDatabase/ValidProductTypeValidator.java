@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.validation.ProductDatabase;
+package de.hsrm.mi.swtpro.pflamoehus.validation.productDatabase;
 
 
 import javax.validation.ConstraintValidator;

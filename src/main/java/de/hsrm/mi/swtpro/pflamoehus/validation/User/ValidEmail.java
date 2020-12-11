@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.validation.User;
+package de.hsrm.mi.swtpro.pflamoehus.validation.user;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
-import de.hsrm.mi.swtpro.pflamoehus.validation.ProductDatabase.*;
+import de.hsrm.mi.swtpro.pflamoehus.validation.productDatabase.*;
 
 /**
  * 1 Object = 1 group of products

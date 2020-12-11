@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
-import de.hsrm.mi.swtpro.pflamoehus.validation.ProductDatabase.ValidPicture;
+import de.hsrm.mi.swtpro.pflamoehus.validation.productDatabase.ValidPicture;
 
 @Entity
 @Table(name="Picture")
