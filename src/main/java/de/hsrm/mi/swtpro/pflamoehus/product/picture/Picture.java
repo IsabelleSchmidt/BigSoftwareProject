@@ -1,10 +1,9 @@
 package de.hsrm.mi.swtpro.pflamoehus.product.picture;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -29,6 +28,7 @@ public class Picture {
     private long version;
 
     @ManyToOne
+    @JoinColumn(name = "product")
     private Product product;
 
     @NotEmpty

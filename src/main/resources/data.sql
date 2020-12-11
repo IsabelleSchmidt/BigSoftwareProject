@@ -86,7 +86,7 @@ Insert into Tag(value,version) values('bluete',1);
 Insert into Tag(value,version) values('bequem',1);
 
 /*fill relationship between product and tags by:  tagid*/
-Insert into product_tags values(45,7),(45,6),(45,5),(42,10),(24,12),(42,12);
+/*Insert into product_tags values(45,7),(45,6),(45,5),(42,10),(24,12),(42,12);*/
 
 /*Users*/
 Insert into User(version, email, passwort, firstname, lastname, gender) values (1, 'anny@gmail.com', 'Hallo1234', 'Anny', 'Fabian', 'FEMALE');
@@ -140,3 +140,5 @@ Insert into Picture(path, version) values('/tables/table4.jpg', 1);
 Insert into Picture(path, version) values('/tables/table5.jpg', 1);
 Insert into Picture(path, version) values('/tables/table6.jpg', 1);
 Insert into Picture(path, version) values('/tables/table7.jpg', 1);
+
+UPDATE Picture SET product=id where id>0;
