@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
+import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidCreditCardNumber;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -37,7 +38,7 @@ public class Creditcard {
 
     @NotEmpty
     @JsonProperty(access =  Access.WRITE_ONLY)
-    //TODO: Validator fuer Creditcard
+    @ValidCreditCardNumber
     private String creditcardnumber;
 
     @NotEmpty
@@ -87,6 +88,10 @@ public class Creditcard {
      */
     public String getCreditcardnumber() {
         return this.creditcardnumber;
+    }
+
+    public void setCreditcardnumber(String number){
+        this.creditcardnumber = number;
     }
 
     

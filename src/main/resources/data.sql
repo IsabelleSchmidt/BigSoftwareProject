@@ -2,13 +2,13 @@
 /*Products*/
 
 /*Plants*/
-INSERT INTO product(name, productType, price, available, depth, height, width, version) values ('Epipremnum Trebie', 'Pflanze',10.99,  3,0,0,0,1);
-INSERT INTO product(name, productType, price,  available, depth, height, width, version) values ('Marante Leuconeura', 'Pflanze',15.99, 10,0,0,0,1);
+INSERT INTO product(name, productType, price, available, depth, height, width, version) values ('EpipremnumTrebie', 'Pflanze',10.99,  3,0,0,0,1);
+INSERT INTO product(name, productType, price,  available, depth, height, width, version) values ('MaranteLeuconeura', 'Pflanze',15.99, 10,0,0,0,1);
 INSERT INTO product(name, productType, price,  available, depth, height, width, version) values ('Monstera', 'Pflanze',29.99, 6,0,0,0,1);
-INSERT INTO product(name, productType, price,  available, depth, height, width, version) values ('Philodendron Pink Princess', 'Pflanze',64.99, 2,0,0,0,1);
-INSERT INTO product(name, productType, price,  available, depth, height, width, version) values ('Pilea Peperomioides', 'Pflanze',20.99, 17,0,0,0,1);
-INSERT INTO product(name, productType, price,  available, depth, height, width, version) values ('Senecio Rowleyanus', 'Pflanze',15.99, 11,0,0,0,1);
-INSERT INTO product(name, productType, price, available, depth, height, width, version) values ('Xerosicyos Danguyi', 'Pflanze',5.99, 10,0,0,0,1);
+INSERT INTO product(name, productType, price,  available, depth, height, width, version) values ('PhilodendronPinkPrincess', 'Pflanze',64.99, 2,0,0,0,1);
+INSERT INTO product(name, productType, price,  available, depth, height, width, version) values ('PileaPeperomioides', 'Pflanze',20.99, 17,0,0,0,1);
+INSERT INTO product(name, productType, price,  available, depth, height, width, version) values ('SenecioRowleyanus', 'Pflanze',15.99, 11,0,0,0,1);
+INSERT INTO product(name, productType, price, available, depth, height, width, version) values ('XerosicyosDanguyi', 'Pflanze',5.99, 10,0,0,0,1);
 
 /*Chair*/
 INSERT INTO product(name, productType, room, price, available, depth, height, width, version) values ('Stuhl Joerg', 'Stuhl','Esszimmer',95.99, 25,34,55,40,1);
@@ -85,14 +85,16 @@ Insert into Tag(value,version) values('bunt',1);
 Insert into Tag(value,version) values('bluete',1);
 Insert into Tag(value,version) values('bequem',1);
 
+
 /*fill relationship between product and tags by:  tagid*/
 /*Insert into product_tags values(45,7),(45,6),(45,5),(42,10),(24,12),(42,12);*/
 
 /*Users*/
 Insert into User(version, email, passwort, firstname, lastname, gender) values (1, 'anny@gmail.com', 'Hallo1234', 'Anny', 'Fabian', 'FEMALE');
 
-/* Pictures */ 
 
+
+/* Pictures */ 
 Insert into Picture(path, version) values('/plants/Epipremnum Trebie.jpg', 1);
 Insert into Picture(path, version) values('/plants/Marante Leuconeura.jpg', 1);
 Insert into Picture(path, version) values('/plants/Monstera',1);
