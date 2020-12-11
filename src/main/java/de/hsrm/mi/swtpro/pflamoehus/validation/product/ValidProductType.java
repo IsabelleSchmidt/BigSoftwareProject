@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.validation.ProductDatabase;
+package de.hsrm.mi.swtpro.pflamoehus.validation.product;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -8,17 +8,18 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
+
 /**
- * Triggers a message if an wrong RoomType is entered.
+ * Triggers a message if an wrong ProductType is entered.
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidRoomTypeValidator.class)
+@Constraint(validatedBy = ValidProductTypeValidator.class)
 @Documented
-public @interface ValidRoomType {
-    String message() default "Das ist kein existierender Raumtyp. Folgende Typen stehen zur Auswahl: Bad, Schlafzimmer, Wohnzimmer, Küche/Wohnküche, Kinderzimmer, Arbeitszimmer";
+public @interface ValidProductType {
+    String message() default "Das ist kein existierender Produkttyp. Folgende Typen stehen zur Auswahl: Pflanze, Tisch, Bett, Stuhl, Dekoration, Schrank/Kommode, Sofa/Couch";
 
     Class<? extends Payload>[] payload() default{ };
     Class<?>[] groups() default{ };
-    
+        
 }

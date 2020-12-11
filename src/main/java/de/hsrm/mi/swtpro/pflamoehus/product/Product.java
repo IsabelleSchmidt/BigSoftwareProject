@@ -19,10 +19,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
-import de.hsrm.mi.swtpro.pflamoehus.validation.ProductDatabase.*;
+import de.hsrm.mi.swtpro.pflamoehus.validation.product.*;
 
 /**
  * 1 Object = 1 group of products
@@ -59,7 +61,7 @@ public class Product {
     @Positive @Digits(integer = 5, fraction = 2)
     private double price=0.0;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
     private Set<Picture> allPictures = new HashSet<Picture>();
 
     @PositiveOrZero @Digits(integer=3, fraction=2)
@@ -71,7 +73,7 @@ public class Product {
     @PositiveOrZero @Digits(integer=3, fraction=2)
     private double depth=0.0;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="Product_Tags", joinColumns = @JoinColumn(name="articlenr"), inverseJoinColumns = @JoinColumn(name="tagID"))
     private Set<Tag> allTags = new HashSet<Tag>();
 
@@ -79,6 +81,45 @@ public class Product {
     @PositiveOrZero
     private int nrAvailableItems = 0;
 
+    @NotNull
+    @Size(min=10, max=180)
+    private String description;
+
+    @NotNull
+    @Size(min=10, max=180)
+    private String information;
+
+    
+    /** 
+     * @return String
+     */
+    public String getInformation() {
+        return this.information;
+    }
+
+    
+    /** 
+     * @param information
+     */
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    
+    /** 
+     * @return String
+     */
+    public String getDescription() {
+        return this.description;
+    }
+
+    
+    /** 
+     * @param description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     
     /** 
@@ -161,6 +202,10 @@ public class Product {
        this.allPictures.add(picture);
     }
 
+    
+    /** 
+     * @param allPictures
+     */
     public void setALlPictures(HashSet<Picture> allPictures){
         this.allPictures = allPictures;
     }
@@ -270,29 +315,49 @@ public class Product {
         }
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return "Product [allTags=" + allTags + ", articlenr=" + articlenr + ", depth=" + depth + ", height=" + height
                 + ", name=" + name + ", nrAvailableItems=" + nrAvailableItems + ", pictures =" + allPictures.toString() + ", price="
                 + price + ", productType=" + productType + ", roomType=" + roomType + ", version=" + version
-                + ", width=" + width + "]";
+                + ", width=" + width + ", description=" + description + ", information=" + information + "]";
     }
 
+    
+    /** 
+     * @return long
+     */
     public long getArticlenr() {
         return articlenr;
     }
 
 
+    
+    /** 
+     * @return long
+     */
     public long getVersion() {
         return version;
     }
 
    
 
+    
+    /** 
+     * @param price
+     */
     public void setPrice(double price) {
         this.price = price;
     }
 
+    
+    /** 
+     * @param allTags
+     */
     public void setAllTags(Set<Tag> allTags) {
         this.allTags = allTags;
     }

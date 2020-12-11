@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +28,8 @@ public class Tag {
     @Version
     private long version;
 
-    @ManyToMany(mappedBy = "allTags", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "allTags")
+    @JsonIgnore //one reference of a bi-directional relationship gets ignored, so the infinite occursion is solved
     private Set<Product> allProductsWithTag = new HashSet<Product>();
 
     @Size(min=3)
@@ -44,7 +44,6 @@ public class Tag {
             }
         
     }
-
 
     /** 
      * @return String

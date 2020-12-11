@@ -1,6 +1,5 @@
 package de.hsrm.mi.swtpro.pflamoehus.product.picture;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
-import de.hsrm.mi.swtpro.pflamoehus.validation.ProductDatabase.ValidPicture;
+import de.hsrm.mi.swtpro.pflamoehus.validation.product.ValidPicture;
 
 @Entity
 @Table(name="Picture")
@@ -29,6 +28,7 @@ public class Picture {
     private long version;
 
     @ManyToOne
+    @JsonIgnore //one reference of a bi-directional relationship gets ignored, so the infinite occursion is solved
     private Product product;
 
     @NotEmpty

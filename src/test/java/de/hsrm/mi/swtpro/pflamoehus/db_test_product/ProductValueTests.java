@@ -1,7 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.db_test_product;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Set;
 
@@ -40,6 +39,8 @@ public class ProductValueTests {
     private final String PRODUCTTYPE = "Tisch";
     private final String ROOMTYPE = "Wohnzimmer";
     private final int AVAILABLE = 0;
+    private final String DESCRIPTION = "Beschreibung ist da.";
+    private final String INFORMATION = "Information ist da.";
     private final double FALSE_PRICE =-1;
     private final double FALSE_WIDTH = 12.123;
     private final double FALSE_HEIGHT = 12345678;
@@ -47,6 +48,8 @@ public class ProductValueTests {
     private final String FALSE_ROOMTYPE ="SCHlafzimmer";
     private final int FALSE_AVAILABLE = -17;
     private final double FALSE_PRICE2 = 123.123;
+    private final String FALSE_DESCRIPTION = "nein";
+    private final String FALSE_INFORMATION = "nein";
 
 
     @BeforeAll
@@ -65,7 +68,7 @@ public class ProductValueTests {
     public void false_validation(){
         
         Product product1 = new Product();
-        int nrWrongValues = 6;
+        int nrWrongValues = 8;
 
         //Product 1
         //fill with wrong values
@@ -75,6 +78,8 @@ public class ProductValueTests {
         product1.setPrice(FALSE_PRICE);
         product1.setRoomType(FALSE_ROOMTYPE);
         product1.setProductType(FALSE_PRODUCTTYPE);
+        product1.setDescription(FALSE_DESCRIPTION);
+        product1.setInformation(FALSE_INFORMATION);
 
         //right values
         product1.setName(NAME);
@@ -108,16 +113,21 @@ public class ProductValueTests {
         product.setNrAvailableItems(AVAILABLE);
         product.setProductType(PRODUCTTYPE);
         product.setRoomType(ROOMTYPE);
+        product.setDescription(DESCRIPTION);
+        product.setInformation(INFORMATION);
 
        
         assertThat(product.toString()).contains(NAME)
                                 .contains(PRODUCTTYPE)
                                 .contains(ROOMTYPE)
+                                .contains(DESCRIPTION)
                                 .contains(String.valueOf(DEPTH))
                                 .contains(String.valueOf(WIDTH))
                                 .contains(String.valueOf(HEIGHT))
                                 .contains(String.valueOf(PRICE))
-                                .contains(String.valueOf(AVAILABLE));
+                                .contains(String.valueOf(AVAILABLE))
+                                .contains(INFORMATION);
+                                
        
 
         assertTrue(validator.validate(product).isEmpty(),"The number of validation errors should be 0.");
