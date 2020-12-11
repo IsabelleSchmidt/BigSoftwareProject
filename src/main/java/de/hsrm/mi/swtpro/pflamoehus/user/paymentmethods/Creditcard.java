@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
-import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidCreditCardNumber;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user.ValidCreditCardNumber;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -44,7 +44,8 @@ public class Creditcard {
     @NotEmpty
     private LocalDate dateOfExpiry;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JsonIgnore
     @JoinTable(name="User_Creditcards", joinColumns = @JoinColumn(name="id"), inverseJoinColumns = @JoinColumn(name="userID"))
     private List<User> user;
 

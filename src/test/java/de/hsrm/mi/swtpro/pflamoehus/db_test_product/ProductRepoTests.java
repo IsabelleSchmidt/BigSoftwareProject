@@ -32,6 +32,8 @@ public class ProductRepoTests {
     final double WIDHT = 210.5;
     final double DEPTH = 55.0;
     final int AVIABLEPRODUCTS = 3;
+    final String DESCRIPTION ="beschreibung";
+    final String INFORMATION ="information";
 
     @Autowired
     private ProductRepository productRepository;
@@ -54,6 +56,8 @@ public class ProductRepoTests {
         unmanaged.setProductType(PRODUCTTYPE);
         unmanaged.setRoomType(ROOMTYPE);
         unmanaged.setPrice(PRICE);
+        unmanaged.setDescription(DESCRIPTION);
+        unmanaged.setInformation(INFORMATION);
       
 
         productRepository.deleteAll();
@@ -76,6 +80,8 @@ public class ProductRepoTests {
         product1.setProductType(PRODUCTTYPE);
         product1.setRoomType(ROOMTYPE);
         product1.setPrice(PRICE);
+        product1.setDescription(DESCRIPTION);
+        product1.setInformation(INFORMATION);
         
 
         productRepository.deleteAll();
@@ -92,6 +98,8 @@ public class ProductRepoTests {
         product2.setProductType(PRODUCTTYPE);
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(PRICE);
+        product2.setDescription(DESCRIPTION);
+        product2.setInformation(INFORMATION);
       
 
         Assertions.assertThrows(DataIntegrityViolationException.class, ()->{
@@ -120,6 +128,8 @@ public class ProductRepoTests {
             product1.setProductType(PRODUCTTYPE);
             product1.setRoomType(ROOMTYPE);
             product1.setPrice(PRICE+i);
+            product1.setDescription(DESCRIPTION+i);
+            product1.setInformation(INFORMATION+i);
             productRepository.save(product1);
         }
 
@@ -147,6 +157,8 @@ public class ProductRepoTests {
         product1.setProductType(PRODUCTTYPE);
         product1.setRoomType(ROOMTYPE);
         product1.setPrice(PRICE);
+        product1.setDescription(DESCRIPTION);
+        product1.setInformation(INFORMATION);
 
         final Product managed1 = productRepository.save(product1);
         assertThat(managed1).isEqualTo(product1);
@@ -160,6 +172,8 @@ public class ProductRepoTests {
         product2.setProductType(PRODUCTTYPE);
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(PRICE);
+        product2.setDescription(DESCRIPTION);
+        product2.setInformation(INFORMATION);
 
         final Product managed2 = productRepository.save(product2);
         assertThat(managed2).isEqualTo(product2);
@@ -184,6 +198,8 @@ public class ProductRepoTests {
         product1.setProductType(PRODUCTTYPE);
         product1.setRoomType(ROOMTYPE);
         product1.setPrice(PRICE);
+        product1.setDescription(DESCRIPTION);
+        product1.setInformation(INFORMATION);
 
         final Product managed1 = productRepository.save(product1);
         assertThat(managed1).isEqualTo(product1);
@@ -197,6 +213,8 @@ public class ProductRepoTests {
         product2.setProductType("Pflanze");
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(123.4);
+        product2.setDescription(DESCRIPTION);
+        product2.setInformation(INFORMATION);
 
         final Product managed2 = productRepository.save(product2);
         assertThat(managed2).isEqualTo(product2);

@@ -1,7 +1,6 @@
 
 /*Products*/
 
-/*Plants*/
 INSERT INTO product(name, productType, price, available, depth, height, width, version, description, information) values ('Epipremnum Trebie', 'Pflanze',10.99,  3,0,0,0,1, 'Beschreibung', 'Information');
 INSERT INTO product(name, productType, price,  available, depth, height, width, version, description, information) values ('Marante Leuconeura', 'Pflanze',15.99, 10,0,0,0,1, 'Beschreibung', 'Information');
 INSERT INTO product(name, productType, price,  available, depth, height, width, version, description, information) values ('Monstera', 'Pflanze',29.99, 6,0,0,0,1, 'Beschreibung', 'Information');
@@ -84,53 +83,3 @@ Insert into Tag(value,version) values('rosa',1);
 Insert into Tag(value,version) values('bunt',1);
 Insert into Tag(value,version) values('bluete',1);
 Insert into Tag(value,version) values('bequem',1);
-
-
-/* Pictures */ 
-Insert into Picture(path, version) values('/plants/Epipremnum Trebie.jpg', 1);
-Insert into Picture(path, version) values('/plants/Marante Leuconeura.jpg', 1);
-Insert into Picture(path, version) values('/plants/Monstera',1);
-Insert into Picture(path, version) values('/plants/Philodendron Pink Princess.jpg', 1);
-Insert into Picture(path, version) values('/plants/Seneio Rowleyanus.jpg', 1);
-Insert into Picture(path, version) values('/plants/Xerosicyos Danguyi.jpg', 1);
-Insert into Picture(path, version) values('/chairs/chair2.jpg', 1);
-Insert into Picture(path, version) values('/chairs/chair4.jpg', 1);
-Insert into Picture(path, version) values('/chairs/chair5.jpg', 1);
-Insert into Picture(path, version) values('/chairs/chair6.jpg', 1);
-Insert into Picture(path, version) values('/chairs/chair7.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco1.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco2.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco3.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco4.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco5.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco6.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco7.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa1.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa2.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa3.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa4.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa5.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa6.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa7.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed1.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed2.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed3.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed4.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed5.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed6.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed7.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed8.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet1.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet2.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet3.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet4.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet5.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet6.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet7.jpg', 1);
-Insert into Picture(path, version) values('/tables/table1.jpg', 1);
-Insert into Picture(path, version) values('/tables/table2.jpg', 1);
-Insert into Picture(path, version) values('/tables/table3.jpg', 1);
-Insert into Picture(path, version) values('/tables/table4.jpg', 1);
-Insert into Picture(path, version) values('/tables/table5.jpg', 1);
-Insert into Picture(path, version) values('/tables/table6.jpg', 1);
-Insert into Picture(path, version) values('/tables/table7.jpg', 1);

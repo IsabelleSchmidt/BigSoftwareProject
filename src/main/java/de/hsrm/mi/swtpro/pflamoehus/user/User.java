@@ -21,10 +21,10 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
-import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidBirthDay;
-import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidEmail;
-import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidGender;
-import de.hsrm.mi.swtpro.pflamoehus.validation.User.ValidPassword;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user.ValidBirthDay;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user.ValidEmail;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user.ValidGender;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user.ValidPassword;
 @Entity
 public class User {
     
@@ -58,7 +58,7 @@ public class User {
     @ValidBirthDay
     private LocalDate birthdate;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="User_Adresses", joinColumns = @JoinColumn(name="userID"), inverseJoinColumns = @JoinColumn(name="adressID"))
     private List<Adress> allAdresses;
 
@@ -67,11 +67,11 @@ public class User {
     private String gender;
 
     @Valid
-    @ManyToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "user")
     private List<Bankcard> bankcard;
 
     @Valid
-    @ManyToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "user")
     private List<Creditcard> creditcard;
 
     
