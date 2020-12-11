@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
+import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -37,6 +39,15 @@ public class ProductRepoTests {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private PictureRepository picutreRepository;
+
+    @BeforeEach
+    public void clear_repos(){
+        picutreRepository.deleteAll();
+        productRepository.deleteAll(); 
+    }
 
     @Test
     public void basiccheck(){

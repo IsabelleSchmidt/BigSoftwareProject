@@ -36,16 +36,13 @@ public class TagRepositoryTests {
 
     private final String VALUE ="Keramik";
 
-    
-    
-    
     @BeforeEach
     public void clear_repos(){
-        productRepo.deleteAll();
         tagRepo.deleteAll();
+        //productRepo.deleteAll();
+        
     }
      
-
     @Test
     public void basecheck(){
         assertThat(TagRepository.class).isInterface();
@@ -56,7 +53,6 @@ public class TagRepositoryTests {
     @DisplayName("persist Tag")
     public void persist_tag(){
 
-        
 
         Tag unmanaged = new Tag();
         unmanaged.setValue(VALUE);
@@ -71,6 +67,7 @@ public class TagRepositoryTests {
     @Test
     @DisplayName("Save and delete tags from repository")
     public void save_and_delete_tag(){
+
         List<Tag> allTags = new ArrayList<Tag>();
 
         final int COUNT = 5;
