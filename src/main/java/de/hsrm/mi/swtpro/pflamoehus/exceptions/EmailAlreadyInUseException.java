@@ -1,17 +1,17 @@
 package de.hsrm.mi.swtpro.pflamoehus.exceptions;
 
-public class EmailAlreadyInUse extends RuntimeException {
+public class EmailAlreadyInUseException extends RuntimeException {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
 
-    public EmailAlreadyInUse(){
+    public EmailAlreadyInUseException(){
         System.out.println("Email is already in use.");
     }
 
-    EmailAlreadyInUse(String error){
+    EmailAlreadyInUseException(String error){
         System.out.println(error);
     }
     

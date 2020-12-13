@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUse;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUseException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserApiException;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
     public User registerUser(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             userServiceLogger.error("invalid mail.");
-            throw new EmailAlreadyInUse();
+            throw new EmailAlreadyInUseException();
         }
         try{
             encodePassword(userRepository.findByEmail(user.getEmail()).get().getPassword(), user);
