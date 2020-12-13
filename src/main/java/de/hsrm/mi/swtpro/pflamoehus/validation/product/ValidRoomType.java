@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.validation.productDatabase;
+package de.hsrm.mi.swtpro.pflamoehus.validation.product;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

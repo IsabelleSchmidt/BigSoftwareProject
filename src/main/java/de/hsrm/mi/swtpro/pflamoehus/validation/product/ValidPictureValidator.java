@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.validation.productDatabase;
+package de.hsrm.mi.swtpro.pflamoehus.validation.product;
 
 
 import java.util.regex.Matcher;
@@ -19,8 +19,8 @@ public class ValidPictureValidator implements ConstraintValidator<ValidPicture, 
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
 
-        Pattern houseNumberPattern = Pattern.compile("(\\D|\\|\\d|/)+.((jpe?g)|(png))");
-        Matcher matcher = houseNumberPattern.matcher(value);
+        Pattern picturePattern = Pattern.compile("^\\\\(\\w|\\\\|\\d|\\.)+\\.((jpe?g)|(png))|\\/(\\w|\\/|\\d|\\.)+\\.((jpe?g)|(png))");
+        Matcher matcher = picturePattern.matcher(value);
         return matcher.matches();
     }
     

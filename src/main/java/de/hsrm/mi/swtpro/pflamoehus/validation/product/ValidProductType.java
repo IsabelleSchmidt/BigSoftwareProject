@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.validation.productDatabase;
+package de.hsrm.mi.swtpro.pflamoehus.validation.product;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,14 +10,14 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Triggers a message if an wrong Picture is entered.
+ * Triggers a message if an wrong ProductType is entered.
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidPictureValidator.class)
+@Constraint(validatedBy = ValidProductTypeValidator.class)
 @Documented
-public @interface ValidPicture {
-    String message() default "Es werden nur Links zu .png und .jpg/.jpeg Dateien akzeptiert.";
+public @interface ValidProductType {
+    String message() default "Das ist kein existierender Produkttyp. Folgende Typen stehen zur Auswahl: Pflanze, Tisch, Bett, Stuhl, Dekoration, Schrank/Kommode, Sofa/Couch";
 
     Class<? extends Payload>[] payload() default{ };
     Class<?>[] groups() default{ };
