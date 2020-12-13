@@ -50,10 +50,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product editProduct(Product editedProduct) {
         try{
-            productRepo.save(editedProduct);
+            editedProduct = productRepo.save(editedProduct);
         }catch(OptimisticLockException oLE){
-            oLE.printStackTrace();
-            throw new ProductApiException("Product could not be saved into the repository.");
+            productServiceLogger.error("Products can only be edited by one person at a time.");
+            //TODO: productserviceexception werfen
         }
         return editedProduct;
     }
@@ -73,6 +73,8 @@ public class ProductServiceImpl implements ProductService {
         }
 
     }
+
+ 
 
 
 
