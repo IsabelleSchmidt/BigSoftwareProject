@@ -3,6 +3,7 @@ package de.hsrm.mi.swtpro.pflamoehus.product;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
-import de.hsrm.mi.swtpro.pflamoehus.validation.productDatabase.*;
+import de.hsrm.mi.swtpro.pflamoehus.validation.product.*;
 
 /**
  * 1 Object = 1 group of products
@@ -61,7 +62,7 @@ public class Product {
     @Positive @Digits(integer = 5, fraction = 2)
     private double price=0.0;
 
-    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER, cascade= CascadeType.MERGE)
     private Set<Picture> allPictures = new HashSet<Picture>();
 
     @PositiveOrZero @Digits(integer=3, fraction=2)
@@ -74,6 +75,7 @@ public class Product {
     private double depth=0.0;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinTable(name="Product_Tags", joinColumns = @JoinColumn(name="articlenr"), inverseJoinColumns = @JoinColumn(name="tagID"))
     private Set<Tag> allTags = new HashSet<Tag>();
 
@@ -363,6 +365,8 @@ public class Product {
     }
    
 
-    
+    public void deletePicture(Picture picture){
+       allPictures.remove(picture);
+    }
     
 }

@@ -3,6 +3,7 @@ package de.hsrm.mi.swtpro.pflamoehus.productService;
 import java.util.List;
 import java.util.Optional;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
+import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
 
 public interface ProductService {
 
@@ -32,5 +33,8 @@ public interface ProductService {
      * Deletes the product with the given id in the database
      */
     void deleteProduct(long id);
+
+
+    List<Product> findAllProductsWithProductType(ProductType type);
 
 }
