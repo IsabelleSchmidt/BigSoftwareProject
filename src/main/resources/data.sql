@@ -1,141 +1,218 @@
-
-/*Products*/
-
-INSERT INTO product(name, productType, price, available, depth, height, width, version, description, information) values ('Epipremnum Trebie', 'Pflanze',10.99,  3,0,0,0,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, price,  available, depth, height, width, version, description, information) values ('Marante Leuconeura', 'Pflanze',15.99, 10,0,0,0,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, price,  available, depth, height, width, version, description, information) values ('Monstera', 'Pflanze',29.99, 6,0,0,0,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, price,  available, depth, height, width, version, description, information) values ('Philodendron Pink Princess', 'Pflanze',64.99, 2,0,0,0,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, price,  available, depth, height, width, version, description, information) values ('Pilea Peperomioides', 'Pflanze',20.99, 17,0,0,0,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, price,  available, depth, height, width, version, description, information) values ('Senecio Rowleyanus', 'Pflanze',15.99, 11,0,0,0,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, price, available, depth, height, width, version, description, information) values ('Xerosicyos Danguyi', 'Pflanze',5.99, 10,0,0,0,1, 'Beschreibung', 'Information');
+;             
+  
+Delete from picture;
+delete from product;
+delete from tag;
+     
 
 
-/*Chair*/
-INSERT INTO product(name, productType, room, price, available, depth, height, width, version, description, information) values ('Stuhl Joerg', 'Stuhl','Esszimmer',95.99, 25,34,55,40,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, room, price, available, depth, height, width, version, description, information) values ('Stuhl Steven', 'Stuhl','Esszimmer',64.99, 17,16,33,14.5,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, room, price,  available, depth, height, width, version, description, information) values ('Stuhl Bob', 'Stuhl','Esszimmer',110.99, 16,16,33,14.5,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, room, price,  available, depth, height, width, version, description, information) values ('Stuhl Teddy', 'Stuhl','Esszimmer',139.99, 6,34,55,40,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, room, price,  available, depth, height, width, version, description, information) values ('Stuhl Bulli', 'Stuhl','Esszimmer',50.99, 80,16,33,14.5,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, room, price, available, depth, height, width, version, description, information) values ('Stuhl Shelli', 'Stuhl','Esszimmer',210.99, 10,34,55,40,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, room, price,   available, depth, height, width, version, description, information) values ('Stuhl Chris', 'Stuhl','Esszimmer',35.99, 10,16,33,14.5,1, 'Beschreibung', 'Information');
-
-/*Decorations*/
-INSERT INTO product(name, productType, price,   available, depth, height, width, version, description, information) values ('Bilderrahmen Blacki', 'Dekoration',7.99, 35,4,15,8,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, price,   available, depth, height, width, version, description, information) values ('Bilderrahmen Bloom', 'Dekoration',9.99, 25,3,6,6,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, price,   available, depth, height, width, version, description, information) values ('Vase Abstrakt', 'Dekoration',9.99, 55,4,7,3.5,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, price,   available, depth, height, width, version, description, information) values ('Vase Freedom', 'Dekoration',6.50, 60,4,8,4,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, price,   available, depth, height, width, version, description, information) values ('Bilderrahmen Hands', 'Dekoration',11.99, 25,4,15,4,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, price,   available, depth, height, width, version, description, information) values ('Bilderrahmen HandsII', 'Dekoration',7.99, 45,4,8,4,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, price,   available, depth, height, width, version, description, information) values ('Bilderrahmen Spring', 'Dekoration',15.99, 67,0,15,4,1, 'Beschreibung', 'Information');
-
-/*Couches*/
-INSERT INTO product(name, productType, room, price,   available, depth, height, width, version, description, information) values ('Sofa Herbert', 'Sofa/Couch','Wohnzimmer',1200.99, 25,60,45,250,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, room, price,   available, depth, height, width, version, description, information) values ('Sofa Valentina', 'Sofa/Couch','Wohnzimmer',1550.99, 45,90,45,250,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, room, price,   available, depth, height, width, version, description, information) values ('Sofa Fluff', 'Sofa/Couch','Wohnzimmer',1671.99, 90,60,45,450,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, room, price,   available, depth, height, width, version, description, information) values ('Sofa Otto', 'Sofa/Couch','Wohnzimmer',1200.99, 45,60,45,250,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, room, price,   available, depth, height, width, version, description, information) values ('Sofa Stella', 'Sofa/Couch','Wohnzimmer',1860.99, 25,55,45,345,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, room, price,   available, depth, height, width, version, description, information) values ('Sofa Ulli', 'Sofa/Couch','Wohnzimmer',870.99, 55,65,45,220,1, 'Beschreibung', 'Information');
-INSERT INTO product(name, productType, room, price,   available, depth, height, width, version, description, information) values ('Sofa Bernd', 'Sofa/Couch','Wohnzimmer',1100.99, 33,60,45,346,1, 'Beschreibung', 'Information');
-
-
-/*Beds*/
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(175.50,'Elfriede','Bett',1,140,210,60,10,'Schlafzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(195.90,'Cozy','Bett',1,180,220,50,170,'Schlafzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(255.0,'White','Bett',1,210,210,80,5,'Schlafzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(1290.99,'Luxury','Bett',1,140,210,60,80,'Schlafzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(690.00,'Bernhard','Bett',1,140,210,60,77,'Schlafzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(117.17,'Wild Life','Bett',1,140.5,215.9,60,17,'Schlafzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(700.00,'Rustikal','Bett',1,170,220.10,55.89,10,'Schlafzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(99.99,'Allround','Bett',1,120,180,40,3,'Schlafzimmer', 'Beschreibung', 'Information');
-
-/*Closets*/
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(999.99,'Millenial','Schrank/Kommode',1,70,176.5,196.5,13,'Schlafzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(245.95,'Bjoern','Schrank/Kommode',1,60.3,120.5,96.5,1312,'Schlafzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(2995.90,'Minimal','Schrank/Kommode',1,70,176.5,196.5,33,'Schlafzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(500,'Mint','Schrank/Kommode',1,50,120,110,117,'Schlafzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(1900.99,'Schwerlastregal','Schrank/Kommode',1,45,210.3,200,1300,'Schlafzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(9999.99,'Justus Business','Schrank/Kommode',1,83.5,180,213.6,5,'Schlafzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(110.99,'Bestimmt nicht MALM','Schrank/Kommode',1,50,120,110,11,'Schlafzimmer', 'Beschreibung', 'Information');
-
-/*Tables*/
-
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(110.99,'Rund','Tisch',1,80,80,90,111,'Wohnzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(15010.95,'Vollholz','Tisch',1,80,235.5,93,550,'Wohnzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(110.99,'Kaeren','Tisch',1,95,180,90,3,'Wohnzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(110.99,'Lifestail','Tisch',1,95,180,90,25,'Wohnzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(110.99,'Alfrede','Tisch',1,89.9,112.8,96,89,'Wohnzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(110.99,'Modern chic','Tisch',1,95,180,90,2,'Wohnzimmer', 'Beschreibung', 'Information');
-insert into product(price,name,producttype,version,depth,width,height,available,room, description, information ) values(110.99,'Classic','Tisch',1,80,80,90,99,'Wohnzimmer', 'Beschreibung', 'Information');
-
-/*Tags*/
-Insert into Tag(value,version) values('Braun',1);
-Insert into Tag(value,version) values('Abendessen',1);
-Insert into Tag(value,version) values('Holz',1);
-Insert into Tag(value,version) values('Schlafen',1);
-Insert into Tag(value,version) values('Rustikal',1);
-Insert into Tag(value,version) values('Eiche',1);
-Insert into Tag(value,version) values('Mahagoni',1);
-Insert into Tag(value,version) values('gelb',1);
-Insert into Tag(value,version) values('Prinzessin',1);
-Insert into Tag(value,version) values('Business',1);
-Insert into Tag(value,version) values('guenstig',1);
-Insert into Tag(value,version) values('Luxus',1);
-Insert into Tag(value,version) values('rosa',1);
-Insert into Tag(value,version) values('bunt',1);
-Insert into Tag(value,version) values('bluete',1);
-Insert into Tag(value,version) values('bequem',1);
-
-/*fill relationship between product and tags by:  tagid*/
-/*Insert into product_tags values(45,7),(45,6),(45,5),(42,10),(24,12),(42,12);*/
-
-/* Pictures */ 
-Insert into Picture(path, version) values('/plants/Epipremnum Trebie.jpg', 1);
-Insert into Picture(path, version) values('/plants/Marante Leuconeura.jpg', 1);
-Insert into Picture(path, version) values('/plants/Monstera',1);
-Insert into Picture(path, version) values('/plants/Philodendron Pink Princess.jpg', 1);
-Insert into Picture(path, version) values('/plants/Seneio Rowleyanus.jpg', 1);
-Insert into Picture(path, version) values('/plants/Xerosicyos Danguyi.jpg', 1);
-Insert into Picture(path, version) values('/chairs/chair2.jpg', 1);
-Insert into Picture(path, version) values('/chairs/chair4.jpg', 1);
-Insert into Picture(path, version) values('/chairs/chair5.jpg', 1);
-Insert into Picture(path, version) values('/chairs/chair6.jpg', 1);
-Insert into Picture(path, version) values('/chairs/chair7.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco1.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco2.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco3.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco4.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco5.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco6.jpg', 1);
-Insert into Picture(path, version) values('/deco/deco7.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa1.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa2.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa3.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa4.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa5.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa6.jpg', 1);
-Insert into Picture(path, version) values('/sofas/sofa7.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed1.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed2.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed3.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed4.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed5.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed6.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed7.jpg', 1);
-Insert into Picture(path, version) values('/beds/bed8.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet1.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet2.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet3.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet4.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet5.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet6.jpg', 1);
-Insert into Picture(path, version) values('/closets/closet7.jpg', 1);
-Insert into Picture(path, version) values('/tables/table1.jpg', 1);
-Insert into Picture(path, version) values('/tables/table2.jpg', 1);
-Insert into Picture(path, version) values('/tables/table3.jpg', 1);
-Insert into Picture(path, version) values('/tables/table4.jpg', 1);
-Insert into Picture(path, version) values('/tables/table5.jpg', 1);
-Insert into Picture(path, version) values('/tables/table6.jpg', 1);
-Insert into Picture(path, version) values('/tables/table7.jpg', 1);
-
-UPDATE Picture SET product=id where id>0;
+    
+-- 51 +/- SELECT COUNT(*) FROM PUBLIC.PRODUCT;
+INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AVAILABLE, PRICE, PRODUCTTYPE, ROOM, VERSION, WIDTH) VALUES
+(62, 55.0, 'beschreibung', 75.0, 'information', 'Herbert', 3, 10.5, 'Sofa/Couch', 'Bad', 0, 210.5),
+(63, 0.0, 'Beschreibung', 0.0, 'Information', 'Epipremnum Trebie', 3, 10.99, 'Pflanze', NULL, 1, 0.0),
+(64, 0.0, 'Beschreibung', 0.0, 'Information', 'Marante Leuconeura', 10, 15.99, 'Pflanze', NULL, 1, 0.0),
+(65, 0.0, 'Beschreibung', 0.0, 'Information', 'Monstera', 6, 29.99, 'Pflanze', NULL, 1, 0.0),
+(66, 0.0, 'Beschreibung', 0.0, 'Information', 'Philodendron Pink Princess', 2, 64.99, 'Pflanze', NULL, 1, 0.0),
+(67, 0.0, 'Beschreibung', 0.0, 'Information', 'Pilea Peperomioides', 17, 20.99, 'Pflanze', NULL, 1, 0.0),
+(68, 0.0, 'Beschreibung', 0.0, 'Information', 'Senecio Rowleyanus', 11, 15.99, 'Pflanze', NULL, 1, 0.0),
+(69, 0.0, 'Beschreibung', 0.0, 'Information', 'Xerosicyos Danguyi', 10, 5.99, 'Pflanze', NULL, 1, 0.0),
+(70, 34.0, 'Beschreibung', 55.0, 'Information', 'Stuhl Joerg', 25, 95.99, 'Stuhl', 'Esszimmer', 1, 40.0),
+(71, 16.0, 'Beschreibung', 33.0, 'Information', 'Stuhl Steven', 17, 64.99, 'Stuhl', 'Esszimmer', 1, 14.5),
+(72, 16.0, 'Beschreibung', 33.0, 'Information', 'Stuhl Bob', 16, 110.99, 'Stuhl', 'Esszimmer', 1, 14.5),
+(73, 34.0, 'Beschreibung', 55.0, 'Information', 'Stuhl Teddy', 6, 139.99, 'Stuhl', 'Esszimmer', 1, 40.0),
+(74, 16.0, 'Beschreibung', 33.0, 'Information', 'Stuhl Bulli', 80, 50.99, 'Stuhl', 'Esszimmer', 1, 14.5),
+(75, 34.0, 'Beschreibung', 55.0, 'Information', 'Stuhl Shelli', 10, 210.99, 'Stuhl', 'Esszimmer', 1, 40.0),
+(76, 16.0, 'Beschreibung', 33.0, 'Information', 'Stuhl Chris', 10, 5.99, 'Stuhl', 'Esszimmer', 1, 14.5),
+(77, 4.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Blacki', 35, 7.99, 'Dekoration', NULL, 1, 8.0),
+(78, 3.0, 'Beschreibung', 6.0, 'Information', 'Bilderrahmen Bloom', 25, 9.99, 'Dekoration', NULL, 1, 6.0),
+(79, 4.0, 'Beschreibung', 7.0, 'Information', 'Vase Abstrakt', 55, 9.99, 'Dekoration', NULL, 1, 3.5),
+(80, 4.0, 'Beschreibung', 8.0, 'Information', 'Vase Freedom', 60, 6.5, 'Dekoration', NULL, 1, 4.0),
+(81, 4.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Hands', 25, 11.99, 'Dekoration', NULL, 1, 4.0),
+(82, 4.0, 'Beschreibung', 8.0, 'Information', 'Bilderrahmen HandsII', 45, 7.99, 'Dekoration', NULL, 1, 4.0),
+(83, 0.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Spring', 67, 15.99, 'Dekoration', NULL, 1, 4.0),
+(84, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Herbert', 25, 1200.99, 'Sofa/Couch', 'Wohnzimmer', 1, 250.0),
+(85, 90.0, 'Beschreibung', 45.0, 'Information', 'Sofa Valentina', 45, 1550.99, 'Sofa/Couch', 'Wohnzimmer', 1, 250.0),
+(86, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Fluff', 90, 1671.99, 'Sofa/Couch', 'Wohnzimmer', 1, 450.0),
+(87, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Otto', 45, 1200.99, 'Sofa/Couch', 'Wohnzimmer', 1, 250.0),
+(88, 55.0, 'Beschreibung', 45.0, 'Information', 'Sofa Stella', 25, 1860.99, 'Sofa/Couch', 'Wohnzimmer', 1, 345.0),
+(89, 65.0, 'Beschreibung', 45.0, 'Information', 'Sofa Ulli', 55, 870.99, 'Sofa/Couch', 'Wohnzimmer', 1, 220.0),
+(90, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Bernd', 33, 1100.99, 'Sofa/Couch', 'Wohnzimmer', 1, 346.0),
+(91, 140.0, 'Beschreibung', 60.0, 'Information', 'Elfriede', 10, 175.5, 'Bett', 'Schlafzimmer', 1, 210.0),
+(92, 180.0, 'Beschreibung', 50.0, 'Information', 'Cozy', 170, 195.9, 'Bett', 'Schlafzimmer', 1, 220.0),
+(93, 210.0, 'Beschreibung', 80.0, 'Information', 'White', 5, 255.0, 'Bett', 'Schlafzimmer', 1, 210.0),
+(94, 140.0, 'Beschreibung', 60.0, 'Information', 'Luxury', 80, 1290.99, 'Bett', 'Schlafzimmer', 1, 210.0),
+(95, 140.0, 'Beschreibung', 60.0, 'Information', 'Bernhard', 77, 690.0, 'Bett', 'Schlafzimmer', 1, 210.0),
+(96, 140.5, 'Beschreibung', 60.0, 'Information', 'Wild Life', 17, 117.17, 'Bett', 'Schlafzimmer', 1, 215.9),
+(97, 170.0, 'Beschreibung', 55.89, 'Information', 'Rustikal', 10, 700.0, 'Bett', 'Schlafzimmer', 1, 220.1),
+(98, 120.0, 'Beschreibung', 40.0, 'Information', 'Allround', 3, 99.99, 'Bett', 'Schlafzimmer', 1, 180.0);      
+INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AVAILABLE, PRICE, PRODUCTTYPE, ROOM, VERSION, WIDTH) VALUES
+(99, 70.0, 'Beschreibung', 196.5, 'Information', 'Millenial', 13, 999.99, 'Schrank/Kommode', 'Schlafzimmer', 1, 176.5),
+(100, 60.3, 'Beschreibung', 96.5, 'Information', 'Bjoern', 1312, 245.95, 'Schrank/Kommode', 'Schlafzimmer', 1, 120.5),
+(101, 70.0, 'Beschreibung', 196.5, 'Information', 'Minimal', 33, 2995.9, 'Schrank/Kommode', 'Schlafzimmer', 1, 176.5),
+(102, 50.0, 'Beschreibung', 110.0, 'Information', 'Mint', 117, 500.0, 'Schrank/Kommode', 'Schlafzimmer', 1, 120.0),
+(103, 45.0, 'Beschreibung', 200.0, 'Information', 'Schwerlastregal', 1300, 1900.99, 'Schrank/Kommode', 'Schlafzimmer', 1, 210.3),
+(104, 83.5, 'Beschreibung', 213.6, 'Information', 'Justus Business', 5, 9999.99, 'Schrank/Kommode', 'Schlafzimmer', 1, 180.0),
+(105, 50.0, 'Beschreibung', 110.0, 'Information', 'Bestimmt nicht MALM', 11, 110.99, 'Schrank/Kommode', 'Schlafzimmer', 1, 120.0),
+(106, 80.0, 'Beschreibung', 90.0, 'Information', 'Rund', 111, 110.99, 'Tisch', 'Wohnzimmer', 1, 80.0),
+(107, 80.0, 'Beschreibung', 93.0, 'Information', 'Vollholz', 550, 15010.95, 'Tisch', 'Wohnzimmer', 1, 235.5),
+(108, 95.0, 'Beschreibung', 90.0, 'Information', 'Kaeren', 3, 110.99, 'Tisch', 'Wohnzimmer', 1, 180.0),
+(109, 95.0, 'Beschreibung', 90.0, 'Information', 'Lifestail', 25, 110.99, 'Tisch', 'Wohnzimmer', 1, 180.0),
+(110, 89.9, 'Beschreibung', 96.0, 'Information', 'Alfrede', 89, 110.99, 'Tisch', 'Wohnzimmer', 1, 112.8),
+(111, 95.0, 'Beschreibung', 90.0, 'Information', 'Modern chic', 2, 110.99, 'Tisch', 'Wohnzimmer', 1, 180.0),
+(112, 80.0, 'Beschreibung', 90.0, 'Information', 'Classic', 99, 110.99, 'Tisch', 'Wohnzimmer', 1, 80.0);         
+     
+-- 131 +/- SELECT COUNT(*) FROM PUBLIC.PICTURE;               
+INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
+(134, '/plants/EpipremnumTrebie2.jpg', 1, 62),
+(135, '/plants/EpipremnumTrebie3.jpg', 1, 62),
+(136, '/plants/MaranteLeuconeura.jpg', 1, NULL),
+(137, '/plants/MaranteLeuconeura2.jpg', 1, NULL),
+(138, '/plants/MaranteLeuconeura3.jpg', 1, NULL),
+(139, '/plants/Monstera', 1, NULL),
+(140, '/plants/Monstera2', 1, NULL),
+(141, '/plants/Monstera3', 1, NULL),
+(142, '/plants/Monstera4', 1, NULL),
+(143, '/plants/PhilodendronPinkPrincess.jpg', 1, NULL),
+(144, '/plants/PhilodendronPinkPrincess2.jpg', 1, NULL),
+(145, '/plants/PhilodendronPinkPrincess3.jpg', 1, NULL),
+(146, 'plants/PileaPeperomioides.jpg', 1, NULL),
+(147, 'plants/PileaPeperomioides2.jpg', 1, NULL),
+(148, 'plants/PileaPeperomioides3.jpg', 1, NULL),
+(149, '/plants/SeneiRowleyanus.jpg', 1, NULL),
+(150, '/plants/SeneiRowleyanus2.jpg', 1, NULL),
+(151, '/plants/SeneiRowleyanus3.jpg', 1, NULL),
+(152, '/plants/XerosicyosDanguyi.jpg', 1, NULL),
+(153, '/plants/XerosicyosDanguyi2.jpg', 1, NULL),
+(154, '/plants/XerosicyosDanguyi3.jpg', 1, NULL),
+(155, '/chairs/chair1.jpg', 1, NULL),
+(156, '/chairs/chair1.1.jpg', 1, NULL),
+(157, '/chairs/chair2.jpg', 1, NULL),
+(158, '/chairs/chair2.2.jpg', 1, NULL),
+(159, '/chairs/chair2.3.jpg', 1, NULL),
+(160, '/chairs/chair3.jpg', 1, NULL),
+(161, '/chairs/chair3.2.jpg', 1, NULL),
+(162, '/chairs/chair3.3.jpg', 1, NULL),
+(163, '/chairs/chair4.jpg', 1, NULL),
+(164, '/chairs/chair4.2.jpg', 1, NULL),
+(165, '/chairs/chair4.4.jpg', 1, NULL),
+(166, '/chairs/chair4.3.jpg', 1, NULL),
+(167, '/chairs/chair5.jpg', 1, NULL),
+(168, '/chairs/chair6.jpg', 1, NULL),
+(169, '/chairs/chair6.2.jpg', 1, NULL),
+(170, '/chairs/chair6.3.jpg', 1, NULL),
+(171, '/chairs/chair7.jpg', 1, NULL),
+(172, '/chairs/chair7.2.jpg', 1, NULL),
+(173, '/chairs/chair7.3.jpg', 1, NULL),
+(174, '/chairs/chair7.4.jpg', 1, NULL),
+(175, '/deco/deco1.jpg', 1, NULL),
+(176, '/deco/deco1.2.jpg', 1, NULL),
+(177, '/deco/deco1.3.jpg', 1, NULL),
+(178, '/deco/deco2.jpg', 1, NULL),
+(179, '/deco/deco3.jpg', 1, NULL),
+(180, '/deco/deco3.2.jpg', 1, NULL),
+(181, '/deco/deco4.jpg', 1, NULL),
+(182, '/deco/deco4.2.jpg', 1, NULL),
+(183, '/deco/deco4.3.jpg', 1, NULL),
+(184, '/deco/deco4.4.jpg', 1, NULL),
+(185, '/deco/deco5.jpg', 1, NULL),
+(186, '/deco/deco5.2.jpg', 1, NULL),
+(187, '/deco/deco5.3.jpg', 1, NULL),
+(188, '/deco/deco6.jpg', 1, NULL),
+(189, '/deco/deco6.2.jpg', 1, NULL),
+(190, '/deco/deco6.3.jpg', 1, NULL),
+(191, '/deco/deco6.4.jpg', 1, NULL),
+(192, '/deco/deco7.jpg', 1, NULL),
+(193, '/sofas/sofa1.jpg', 1, NULL),
+(194, '/sofas/sofa1.2.jpg', 1, NULL),
+(195, '/sofas/sofa2.jpg', 1, NULL),
+(196, '/sofas/sofa2.2.jpg', 1, NULL),
+(197, '/sofas/sofa2.3.jpg', 1, NULL),
+(198, '/sofas/sofa2.4.jpg', 1, NULL),
+(199, '/sofas/sofa3.jpg', 1, NULL),
+(200, '/sofas/sofa4.jpg', 1, NULL),
+(201, '/sofas/sofa5.jpg', 1, NULL),
+(202, '/sofas/sofa5.2.jpg', 1, NULL),
+(203, '/sofas/sofa5.3.jpg', 1, NULL),
+(204, '/sofas/sofa5.4.jpg', 1, NULL),
+(205, '/sofas/sofa5.5.jpg', 1, NULL),
+(206, '/sofas/sofa6.jpg', 1, NULL),
+(207, '/sofas/sofa6.2.jpg', 1, NULL),
+(208, '/sofas/sofa6.3.jpg', 1, NULL),
+(209, '/sofas/sofa7.jpg', 1, NULL),
+(210, '/sofas/sofa7.2.jpg', 1, NULL),
+(211, '/sofas/sofa7.3.jpg', 1, NULL),
+(212, '/sofas/sofa7.4.jpg', 1, NULL),
+(213, '/beds/bed1.jpg', 1, NULL),
+(214, '/beds/bed1.1.jpg', 1, NULL),
+(215, '/beds/bed2.jpg', 1, NULL),
+(216, '/beds/bed2.2.jpg', 1, NULL),
+(217, '/beds/bed2.3.jpg', 1, NULL),
+(218, '/beds/bed3.jpg', 1, NULL),
+(219, '/beds/bed3.3.jpg', 1, NULL),
+(220, '/beds/bed4.jpg', 1, NULL),
+(221, '/beds/bed5.jpg', 1, NULL),
+(222, '/beds/bed5.2.jpg', 1, NULL),
+(223, '/beds/bed5.3.jpg', 1, NULL),
+(224, '/beds/bed6.jpg', 1, NULL),
+(225, '/beds/bed6.2.jpg', 1, NULL),
+(226, '/beds/bed7.jpg', 1, NULL),
+(227, '/beds/bed8.jpg', 1, NULL),
+(228, '/beds/bed8.1.jpg', 1, NULL),
+(229, '/closets/closet1.jpg', 1, NULL),
+(230, '/closets/closet1.2.jpg', 1, NULL),
+(231, '/closets/closet1.3.jpg', 1, NULL),
+(232, '/closets/closet2.jpg', 1, NULL),
+(233, '/closets/closet2.3.jpg', 1, NULL),
+(234, '/closets/closet2.2.jpg', 1, NULL),
+(235, '/closets/closet3.jpg', 1, NULL),
+(236, '/closets/closet3.2.jpg', 1, NULL);               
+INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
+(237, '/closets/closet3.3.jpg', 1, NULL),
+(238, '/closets/closet4.2.jpg', 1, NULL),
+(239, '/closets/closet4.3.jpg', 1, NULL),
+(240, '/closets/closet4.jpg', 1, NULL),
+(241, '/closets/closet5.jpg', 1, NULL),
+(242, '/closets/closet5.2.jpg', 1, NULL),
+(243, '/closets/closet5.3.jpg', 1, NULL),
+(244, '/closets/closet6.jpg', 1, NULL),
+(245, '/closets/closet6.png', 1, NULL),
+(246, '/closets/closet6.2.jpg', 1, NULL),
+(247, '/closets/closet6.3.jpg', 1, NULL),
+(248, '/closets/closet7.jpg', 1, NULL),
+(249, '/tables/table1.jpg', 1, NULL),
+(250, '/tables/table1.2.jpg', 1, NULL),
+(251, '/tables/table2.jpg', 1, NULL),
+(252, '/tables/table2.2.jpg', 1, NULL),
+(253, '/tables/table3.jpg', 1, NULL),
+(254, '/tables/table3.3.jpg', 1, NULL),
+(255, '/tables/table3.2.jpg', 1, NULL),
+(256, '/tables/table4.jpg', 1, NULL),
+(257, '/tables/table4.2.jpg', 1, NULL),
+(258, '/tables/table4.3.jpg', 1, NULL),
+(259, '/tables/table4.4.jpg', 1, NULL),
+(260, '/tables/table5.jpg', 1, NULL),
+(261, '/tables/table6.jpg', 1, NULL),
+(262, '/tables/table7.jpg', 1, NULL),
+(263, '/tables/table7.2.jpg', 1, NULL),
+(264, '/tables/table7.3.jpg', 1, NULL);     
+-- 17 +/- SELECT COUNT(*) FROM PUBLIC.TAG;    
+INSERT INTO TAG(ID, VALUE, VERSION) VALUES
+(25, 'Keramik', 0),
+(27, 'Braun', 1),
+(28, 'Abendessen', 1),
+(29, 'Holz', 1),
+(30, 'Schlafen', 1),
+(31, 'Rustikal', 1),
+(32, 'Eiche', 1),
+(33, 'Mahagoni', 1),
+(34, 'gelb', 1),
+(35, 'Prinzessin', 1),
+(36, 'Business', 1),
+(37, 'guenstig', 1),
+(38, 'Luxus', 1),
+(39, 'rosa', 1),
+(40, 'bunt', 1),
+(41, 'bluete', 1),
+(42, 'bequem', 1); 
 
