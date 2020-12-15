@@ -111,5 +111,13 @@ public class Bankcard {
     public void setBank(String bank) {
         this.bank = bank;
     }
+
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
+    }
     
 }

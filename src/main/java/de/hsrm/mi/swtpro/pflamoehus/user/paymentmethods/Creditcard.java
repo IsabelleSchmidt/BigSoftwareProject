@@ -99,7 +99,7 @@ public class Creditcard {
     /** 
      * @return LocalDate
      */
-    public LocalDate getDateOfExperiy() {
+    public LocalDate getDateOfExpiry() {
         return this.dateOfExpiry;
     }
 
@@ -107,8 +107,16 @@ public class Creditcard {
     /** 
      * @param dateOfExperiy
      */
-    public void setDateOfExperiy(LocalDate dateOfExperiy) {
+    public void setDateOfExpiry(LocalDate dateOfExperiy) {
         this.dateOfExpiry = dateOfExperiy;
+    }
+
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
     }
     
 }
