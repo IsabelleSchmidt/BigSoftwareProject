@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductApiException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     public Optional<Product> searchProductwithArticleNr(long articleNr) {
         Optional<Product> product = productRepo.findById(articleNr);
         if (product.isEmpty()) {
-            throw new ProductApiException("Product is not in the database.");
+            throw new ProductServiceException("Product is not in the database.");
         }
         return product;
     }
@@ -70,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> opt = productRepo.findById(id);
         if (!opt.isPresent()) {
             productServiceLogger.info("Product was not deleted, articleNr not found");
-            throw new ProductApiException("Product could not be deleted. Product wasn't found in the database.");
+            throw new ProductServiceException("Product could not be deleted. Product wasn't found in the database.");
         } else {
             productRepo.delete(opt.get());
         }
