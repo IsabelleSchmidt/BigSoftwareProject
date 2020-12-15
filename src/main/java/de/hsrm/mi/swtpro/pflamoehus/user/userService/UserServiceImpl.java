@@ -166,7 +166,7 @@ public class UserServiceImpl implements UserService {
      */
     private void encodePassword (String password, User user){
         pe.encode(password);
-        userRepository.findByEmail(user.getEmail()).get().setPassowrd(password);
+        userRepository.findByEmail(user.getEmail()).get().setPassword(password);
         userRepository.save(user);
     }
 

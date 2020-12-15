@@ -45,7 +45,7 @@ public class User {
     @ValidPassword
     @NotEmpty
     @JsonProperty(access =  Access.WRITE_ONLY)
-    private String passwort;
+    private String password;
 
     @NotEmpty @Size(min=3)
     @Column(name="firstname")
@@ -202,15 +202,15 @@ public class User {
      * @return String
      */
     public String getPassword() {
-        return this.passwort;
+        return this.password;
     }
 
     
     /** 
      * @param password
      */
-    public void setPassowrd(String password) {
-        this.passwort = password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     
@@ -233,7 +233,7 @@ public class User {
     public String toString() {
         return "User [bankcard=" + bankcard + ", birthdate=" + birthdate + ", creditcard="
                 + creditcard + ", email=" + email + ", firstName=" + firstName + ", gender=" + gender + ", id=" + userID
-                + ", lastName=" + lastName + ", passwort=" + passwort + ", version=" + version + "]";
+                + ", lastName=" + lastName + ", passwort=" + password + ", version=" + version + "]";
     }
 
 

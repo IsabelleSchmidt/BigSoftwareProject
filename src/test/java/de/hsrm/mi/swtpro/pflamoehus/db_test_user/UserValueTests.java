@@ -51,7 +51,7 @@ public class UserValueTests {
         user1.setFirstName(FIRSTNAME);
         user1.setLastName(LASTNAME);
         user1.setGender(GENDER);
-        user1.setPassowrd(PASSWOrD);
+        user1.setPassword(PASSWOrD);
        
 
     
@@ -76,7 +76,7 @@ public class UserValueTests {
         //adding correct values
         user2.setFirstName(FIRSTNAME);
         user2.setLastName(LASTNAME);
-        user2.setPassowrd(PASSWOrD);
+        user2.setPassword(PASSWOrD);
         user2.setGender(GENDER);
         user2.setEmail(EMAIL); 
         //adding false values
@@ -85,9 +85,9 @@ public class UserValueTests {
         
         assertFalse(validator.validate(user2).isEmpty(),"Geburtsdatum muss als falsch validiert sein.");
         user2.setBirthdate(BIRTHDAY);
-        user2.setPassowrd(WRONG_PASSWORD);
+        user2.setPassword(WRONG_PASSWORD);
         assertFalse(validator.validate(user2).isEmpty(), "Passwort muss als falsch validiert sein.");
-        user2.setPassowrd(PASSWOrD);
+        user2.setPassword(PASSWOrD);
         user2.setEmail(WRONG_EMAIL);
         assertFalse(validator.validate(user2).isEmpty(), "Mail muss als falsch validiert werden.");
         user2.setEmail(EMAIL);

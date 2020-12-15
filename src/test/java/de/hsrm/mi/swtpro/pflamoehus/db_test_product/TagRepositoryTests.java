@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.dao.DataIntegrityViolationException;
-import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
+//import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
 import de.hsrm.mi.swtpro.pflamoehus.tags.TagRepository;
 
@@ -31,8 +31,8 @@ public class TagRepositoryTests {
     @Autowired
     private TagRepository tagRepo;
 
-    @Autowired 
-    private ProductRepository productRepo;
+    // @Autowired 
+    // private ProductRepository productRepo;
 
     private final String VALUE ="Keramik";
 
