@@ -2,6 +2,8 @@ package de.hsrm.mi.swtpro.pflamoehus.user;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.Entity;
@@ -18,6 +20,10 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
@@ -58,7 +64,7 @@ public class User {
     @ValidBirthDay
     private LocalDate birthdate;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name="User_Adresses", joinColumns = @JoinColumn(name="userID"), inverseJoinColumns = @JoinColumn(name="adressID"))
     private List<Adress> allAdresses;
 
@@ -67,12 +73,17 @@ public class User {
     private String gender;
 
     @Valid
-    @ManyToMany(mappedBy = "user")
+    @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Bankcard> bankcard;
 
     @Valid
-    @ManyToMany(mappedBy = "user")
+    @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Creditcard> creditcard;
+
+
+    //Getter und setter
 
     
     public List<Creditcard> getCreditcard() {
@@ -83,6 +94,22 @@ public class User {
         this.creditcard = creditcard;
     }
 
+    public void addCreditcard(Creditcard newCreditcard){
+        if(!creditcard.contains(newCreditcard)){
+            creditcard.add(newCreditcard);
+        }
+        
+
+    }
+
+    public void removeCreditCard(Creditcard deleteCard){
+        if(deleteCard != null){
+            creditcard.remove(deleteCard);
+        }
+            
+
+    }
+
     public List<Bankcard> getBankcard() {
         return this.bankcard;
     }
@@ -90,15 +117,23 @@ public class User {
     public void setBankcard(List<Bankcard> bankcard) {
         this.bankcard = bankcard;
     }
-    
-    /** 
-     * @param adress
-     */
-    public void addAdress(Adress adress){
-        if(!allAdresses.contains(adress)){
-            allAdresses.add(adress);
+
+    public void addBankcard(Bankcard newBankcard){
+        if(!bankcard.contains(newBankcard)){
+            bankcard.add(newBankcard);
         }
+        
     }
+
+    public void removeBankcard(Bankcard deleteBankcard){
+        if(deleteBankcard != null){
+            bankcard.remove(deleteBankcard);
+        }
+        
+
+    }
+    
+   
 
     
     /** 
@@ -132,7 +167,22 @@ public class User {
         this.allAdresses = allAdresses;
     }
 
+  /** 
+     * @param adress
+     */
+    public void addAdress(Adress adress){
+        if(!allAdresses.contains(adress)){
+            allAdresses.add(adress);
+        }
+    }
     
+
+    public void removeAdress(Adress adress){
+        if(adress != null){
+            allAdresses.remove(adress);
+        }
+        
+    }
     /** 
      * @return LocalDate
      */
