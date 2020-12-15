@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
-import de.hsrm.mi.swtpro.pflamoehus.validation.product.*;
+import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.*;
 
 /**
  * 1 Object = 1 group of products

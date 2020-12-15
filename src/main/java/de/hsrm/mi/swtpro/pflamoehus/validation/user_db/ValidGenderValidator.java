@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.validation.user;
+package de.hsrm.mi.swtpro.pflamoehus.validation.user_db;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

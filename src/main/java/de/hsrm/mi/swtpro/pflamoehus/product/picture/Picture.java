@@ -13,11 +13,11 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
-import de.hsrm.mi.swtpro.pflamoehus.validation.product.ValidPicture;
+import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.ValidPicture;
+
 
 @Entity
 @Table(name="Picture")

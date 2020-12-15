@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.validation.user;
+package de.hsrm.mi.swtpro.pflamoehus.validation.product_db;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,14 +9,17 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-@Target({ ElementType.FIELD })
+/**
+ * Triggers a message if an wrong Picture is entered.
+ */
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidPasswordValidator.class)
+@Constraint(validatedBy = ValidPictureValidator.class)
 @Documented
-public @interface ValidPassword{
-    String message() default "The password needs to contain at least one upper case, one lower case letter, a sign and a number. Furthermore, the password needs to be at least 8 and at maximum 32 characters long.";
+public @interface ValidPicture {
+    String message() default "Es werden nur Links zu .png und .jpg/.jpeg Dateien akzeptiert.";
 
     Class<? extends Payload>[] payload() default{ };
     Class<?>[] groups() default{ };
-
+        
 }
