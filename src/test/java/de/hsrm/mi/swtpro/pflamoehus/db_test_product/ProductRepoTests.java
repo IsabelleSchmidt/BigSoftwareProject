@@ -71,7 +71,7 @@ public class ProductRepoTests {
         unmanaged.setInformation(INFORMATION);
       
 
-        productRepository.deleteAll();
+       
         final Product managed = productRepository.save(unmanaged);
         assertThat(managed).isEqualTo(unmanaged);
 
@@ -94,8 +94,6 @@ public class ProductRepoTests {
         product1.setDescription(DESCRIPTION);
         product1.setInformation(INFORMATION);
         
-
-        productRepository.deleteAll();
 
         final Product managed1 = productRepository.save(product1);
         assertThat(managed1).isEqualTo(product1);   
@@ -127,7 +125,6 @@ public class ProductRepoTests {
     public void product_name_findByName(){
         final int COUNT = 5;
 
-        productRepository.deleteAll();
 
         for (int i = 0; i < COUNT; i++){
             final Product product1 = new Product();
@@ -157,7 +154,6 @@ public class ProductRepoTests {
     @DisplayName("ProductRepository findByRoomType")
     public void product_roomType_findByRoomtype(){
 
-        productRepository.deleteAll();
 
         final Product product1 = new Product();
         product1.setName(TESTNAME);
@@ -198,7 +194,6 @@ public class ProductRepoTests {
     @DisplayName("ProductRepository findBy...")
     public void product_findBy(){
 
-        productRepository.deleteAll();
 
         final Product product1 = new Product();
         product1.setName(TESTNAME);
