@@ -16,9 +16,9 @@ public class ValidCreditCardNumberValidator implements ConstraintValidator<Valid
      */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        Pattern masterCard = Pattern.compile(
-                "^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$)");
-        Pattern visaCard = Pattern.compile("^4[0-9]{12}(?:[0-9]{3})?$)");
+
+        Pattern masterCard = Pattern.compile("^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$");
+        Pattern visaCard = Pattern.compile("^4[0-9]{12}(?:[0-9]{3})?$");
         Pattern americanExpress = Pattern.compile("^3[47][0-9]{13}$");
         Pattern dinersClubInternational = Pattern.compile("^3(?:0[0-5]|[68][0-9])[0-9]{11}$");
 

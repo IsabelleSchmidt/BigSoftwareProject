@@ -9,15 +9,15 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.JoinColumn;
 import javax.persistence.Version;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidCreditCardNumber;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -41,7 +41,8 @@ public class Creditcard {
     @ValidCreditCardNumber
     private String creditcardnumber;
 
-    @NotEmpty
+    @NotNull
+    @Future
     private LocalDate dateOfExpiry;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -112,6 +113,12 @@ public class Creditcard {
 
     public void setUser(List<User> user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Creditcard [creditcardnumber=" + creditcardnumber + ", dateOfExpiry=" + dateOfExpiry + ", id=" + id
+                + ", owner=" + owner + ", version=" + version + "]";
     }
     
 
