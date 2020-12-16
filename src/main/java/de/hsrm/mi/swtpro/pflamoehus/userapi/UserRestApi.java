@@ -1,7 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.userapi;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,16 +38,11 @@ public class UserRestApi {
         return user;
     }
 
-    /**
-     * @param email
-     * @return User
-     * 
-     *         login a user
-     */
-    @GetMapping(value = "/user/{email}", produces = MediaType.APPLICATION_JSON_VALUE) // TODO: Anny -> anschauen, was
-                                                                                      // MediaType etc. genau nochmal
-                                                                                      // tut
-    public User loginUser(@PathVariable("email") String email) {
+
+
+    @GetMapping(value = "/user/{email}")  
+    public User getUser(@PathVariable String email) {
+
         if (userService.searchUserWithEmail(email) != null) {
             return userService.searchUserWithEmail(email);
         } else {

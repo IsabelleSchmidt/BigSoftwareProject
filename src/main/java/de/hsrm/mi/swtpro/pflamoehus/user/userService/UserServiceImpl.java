@@ -120,19 +120,37 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User registerUser(User user) {
+
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new EmailAlreadyInUseException();
         }
-        try {
-            encodePassword(userRepository.findByEmail(user.getEmail()).get().getPassword(), user);
-            encodeIBAN(userRepository.findByEmail(user.getEmail()).get().getBankcard(), user);
-            encodeCardNumber(userRepository.findByEmail(user.getEmail()).get().getCreditcard(), user);
-        } catch (OptimisticLockException ole) {
+
+        
+        user = userRepository.save(user);
+
+        try{
+            //TODO: encoder faellt durch unsere pwd validierung, nur einmal beim erstellen validieren
+            //encodePassword(user.getPassword(), user);
+
+            if(user.getBankcard()!=null ){
+                encodeIBAN(userRepository.findByEmail(user.getEmail()).get().getBankcard(), user);
+            }
+            if(user.getCreditcard()!=null){
+                 encodeCardNumber(userRepository.findByEmail(user.getEmail()).get().getCreditcard(), user);
+            }
+           
+        }catch(OptimisticLockException ole){
+
             ole.printStackTrace();
             throw new UserServiceException("User could not be saved into the database.");
 
         }
-        return userRepository.save(user);
+
+      
+
+        userServiceLogger.info("User was saved into the repository.");
+        return user;
+
     }
 
     /**
@@ -144,8 +162,10 @@ public class UserServiceImpl implements UserService {
      *              Creating a new user oder editing the iban requires encoding the
      *              attribute
      */
+   
     private void encodeIBAN(List<Bankcard> cards, User user) {
         for (Bankcard card : cards) {
+
             pe.encode(card.getIban());
         }
         userRepository.findByEmail(user.getEmail()).get().setBankcard(cards);
@@ -160,11 +180,16 @@ public class UserServiceImpl implements UserService {
      *              Creating a new user oder editing the cardnumber requires
      *              encoding the attribute
      */
-    private void encodeCardNumber(List<Creditcard> cards, User user) {
-        for (Creditcard card : cards) {
-            pe.encode(card.getCreditcardnumber());
+
+    private void encodeCardNumber (List<Creditcard> cards, User user){
+        String encodedNr;
+        for(Creditcard card: cards){
+            encodedNr = pe.encode(card.getCreditcardnumber());
+            card.setCreditcardnumber(encodedNr);
+
         }
-        userRepository.findByEmail(user.getEmail()).get().setCreditcard(cards);
+        user = userRepository.findByEmail(user.getEmail()).get();
+        user.setCreditcard(cards);
         userRepository.save(user);
     }
 
@@ -175,9 +200,11 @@ public class UserServiceImpl implements UserService {
      *                 Creating a new user oder editing the password requires
      *                 encoding the attribute
      */
-    private void encodePassword(String password, User user) {
-        pe.encode(password);
-        userRepository.findByEmail(user.getEmail()).get().setPassword(password);
+
+    private void encodePassword (String password, User user){
+        password = pe.encode(password);
+        user = userRepository.findByEmail(user.getEmail()).get();
+        user.setPassword(password);
         userRepository.save(user);
     }
 
