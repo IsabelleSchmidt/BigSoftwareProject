@@ -9,13 +9,14 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-@Target({ElementType.FIELD })
+@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidEmailValidator.class)
 @Documented
 public @interface ValidEmail {
     String message() default "The Email Adress is invalid. ";
 
-    Class<? extends Payload>[] payload() default{ };
-    Class<?>[] groups() default{ };
+    Class<? extends Payload>[] payload() default {};
+
+    Class<?>[] groups() default {};
 }

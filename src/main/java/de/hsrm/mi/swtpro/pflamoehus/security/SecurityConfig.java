@@ -88,8 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 throw new UsernameNotFoundException(email); }
             return org.springframework.security.core.userdetails.User 
                 .withUsername(email)
-                .password(getPasswordEncoder().encode(user.get().getPassword())) // falls in DB encoded gespeichert 
-                .roles("USER")  //Muss später noch geschaut werden, wie man dann eventuelle Lagerarbeiter etc. entsprechend setzt. Nach aktuellem Stand aber noch nicht gebraucht
+                .password(getPasswordEncoder().encode(user.get().getPassword()))
+                .roles("USER")  //TODO: Muss später noch geschaut werden, wie man dann eventuelle Lagerarbeiter etc. entsprechend setzt. Nach aktuellem Stand aber noch nicht gebraucht
                 .build();
     }
 }

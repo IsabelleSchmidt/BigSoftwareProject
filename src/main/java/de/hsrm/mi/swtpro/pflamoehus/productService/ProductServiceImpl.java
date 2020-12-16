@@ -77,17 +77,14 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    /**
+     * @param type
+     * @return List<Product>
+     */
     @Override
     public List<Product> findAllProductsWithProductType(ProductType type) {
         // TODO Auto-generated method stub
         return productRepo.findByProductType(type.toString());
     }
 
- 
-
-
-
-
-
-    
 }

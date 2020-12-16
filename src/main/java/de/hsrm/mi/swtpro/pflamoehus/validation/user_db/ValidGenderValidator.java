@@ -5,21 +5,21 @@ import javax.validation.ConstraintValidatorContext;
 
 public class ValidGenderValidator implements ConstraintValidator<ValidGender, String> {
 
-    private enum GENDER{
-            MALE("MALE"), FEMALE("FEMALE"), DIVERSE("DIVERSE");
-            private String gender;
-            GENDER(String gender){
-                this.gender = gender;
-            }
-    
-            public String toString(){
-                return gender;
-            }
+    private enum GENDER {
+        MALE("MALE"), FEMALE("FEMALE"), DIVERSE("DIVERSE");
+
+        private String gender;
+
+        GENDER(String gender) {
+            this.gender = gender;
         }
 
+        public String toString() {
+            return gender;
+        }
+    }
 
-    
-    /** 
+    /**
      * @param value
      * @param context
      * @return boolean
@@ -27,13 +27,13 @@ public class ValidGenderValidator implements ConstraintValidator<ValidGender, St
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        
-        for(GENDER gender: GENDER.values()){
-            if(gender.toString().equals(value)){
+
+        for (GENDER gender : GENDER.values()) {
+            if (gender.toString().equals(value)) {
                 return true;
             }
         }
         return false;
     }
-    
+
 }

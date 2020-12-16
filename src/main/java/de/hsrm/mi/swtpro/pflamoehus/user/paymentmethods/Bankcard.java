@@ -34,82 +34,79 @@ public class Bankcard {
     private long version;
 
     @NotEmpty
-    @Pattern(regexp="((DE)\\d{2}(\\d{4}){4}\\d{2}")
-    @JsonProperty(access =  Access.WRITE_ONLY)
+    @Pattern(regexp = "((DE)\\d{2}(\\d{4}){4}\\d{2}")
+    @JsonProperty(access = Access.WRITE_ONLY)
     private String iban;
 
     @NotEmpty
-    @Size(min=6)
+    @Size(min = 6)
     private String owner;
 
     @NotEmpty
-    @Size(min=3)
+    @Size(min = 3)
     private String bank;
-
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    @JoinTable(name="User_Bankcards", joinColumns = @JoinColumn(name="id"), inverseJoinColumns = @JoinColumn(name="userID"))
+    @JoinTable(name = "User_Bankcards", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "userID"))
     private List<User> user;
 
-    
-    /** 
+    //Getter and Setter
+    /**
      * @return long
      */
     public long getId() {
         return this.id;
     }
 
-    
-    
-    /** 
+    /**
      * @return long
      */
     public long getVersion() {
         return this.version;
     }
 
-    public void setIban(String iban){
-        this.iban = iban;
-    }
     
     /** 
+     * @param iban
+     */
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
+
+    /**
      * @return String
      */
     public String getIban() {
         return this.iban;
     }
 
-    
-    /** 
+    /**
      * @return String
      */
     public String getOwner() {
         return this.owner;
     }
 
-    
-    /** 
+    /**
      * @param owner
      */
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
-    
-    /** 
+    /**
      * @return String
      */
     public String getBank() {
         return this.bank;
     }
 
-    
-    /** 
+    /**
      * @param bank
      */
     public void setBank(String bank) {
         this.bank = bank;
     }
-    
+
 }

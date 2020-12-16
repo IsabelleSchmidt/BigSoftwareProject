@@ -12,35 +12,46 @@ import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 
 @Service
-public class pictureServiceImpl implements pictureService {
+public class PictureServiceImpl implements PictureService {
 
     @Autowired
     PictureRepository pictureRepository;
 
+    /**
+     * @return List<Picture> returns all pictures found in the database
+     */
     @Override
     public List<Picture> findAll() {
-        
         return pictureRepository.findAll();
     }
 
+    /**
+     * @param id
+     * @return Picture returns the picture with the given id
+     */
     @Override
     public Picture findPictureWithID(long id) {
-        
         return pictureRepository.findById(id);
     }
 
+    /**
+     * @param product
+     * @return List<Picture> return alle pictures with the given product
+     */
     @Override
     public List<Picture> findPicturesWithProduct(Product product) {
-        
         return pictureRepository.findByProduct(product);
     }
 
+    /**
+     * @param path
+     * @return List<Picture> Filters the list for images that contain the relative
+     *         path
+     */
     @Override
     public List<Picture> findAllWithPath(String path) {
-        //Filtert die Liste nach Bildern die den relativen Pfad enthalten
         Predicate<Picture> byRelPath = picture -> picture.getPath().contains(path);
         return findAll().stream().filter(byRelPath).collect(Collectors.toList());
     }
 
-    
 }

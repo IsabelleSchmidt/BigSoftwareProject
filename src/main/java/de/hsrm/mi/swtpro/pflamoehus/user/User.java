@@ -25,9 +25,10 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
+
 @Entity
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
@@ -36,30 +37,32 @@ public class User {
     @Version
     @JsonIgnore
     private long version;
-    
+
     @NotEmpty
-    @Column(name="EMAIL", unique=true)
+    @Column(name = "EMAIL", unique = true)
     @ValidEmail
     private String email;
-    
+
     @ValidPassword
     @NotEmpty
-    @JsonProperty(access =  Access.WRITE_ONLY)
+    @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
 
-    @NotEmpty @Size(min=3)
-    @Column(name="firstname")
+    @NotEmpty
+    @Size(min = 3)
+    @Column(name = "firstname")
     private String firstName;
 
-    @NotEmpty @Size(min=2)
-    @Column(name="lastname")
+    @NotEmpty
+    @Size(min = 2)
+    @Column(name = "lastname")
     private String lastName;
 
     @ValidBirthDay
     private LocalDate birthdate;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="User_Adresses", joinColumns = @JoinColumn(name="userID"), inverseJoinColumns = @JoinColumn(name="adressID"))
+    @JoinTable(name = "User_Adresses", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "adressID"))
     private List<Adress> allAdresses;
 
     @NotEmpty
@@ -74,167 +77,164 @@ public class User {
     @ManyToMany(mappedBy = "user")
     private List<Creditcard> creditcard;
 
-    
+    // Getter and Setter
+    /**
+     * @return List<Creditcard>
+     */
     public List<Creditcard> getCreditcard() {
         return this.creditcard;
     }
 
+    /**
+     * @param creditcard
+     */
     public void setCreditcard(List<Creditcard> creditcard) {
         this.creditcard = creditcard;
     }
 
+    /**
+     * @return List<Bankcard>
+     */
     public List<Bankcard> getBankcard() {
         return this.bankcard;
     }
 
+    /**
+     * @param bankcard
+     */
     public void setBankcard(List<Bankcard> bankcard) {
         this.bankcard = bankcard;
     }
-    
-    /** 
+
+    /**
      * @param adress
      */
-    public void addAdress(Adress adress){
-        if(!allAdresses.contains(adress)){
+    public void addAdress(Adress adress) {
+        if (!allAdresses.contains(adress)) {
             allAdresses.add(adress);
         }
     }
 
-    
-    /** 
+    /**
      * @return String
      */
     public String getGender() {
         return this.gender;
     }
 
-    
-    /** 
+    /**
      * @param gender
      */
     public void setGender(String gender) {
         this.gender = gender;
     }
 
-    
-    /** 
+    /**
      * @return List<Adress>
      */
     public List<Adress> getAdress() {
         return this.allAdresses;
     }
 
-    
-    /** 
+    /**
      * @param allAdresses
      */
     public void setAdress(List<Adress> allAdresses) {
         this.allAdresses = allAdresses;
     }
 
-    
-    /** 
+    /**
      * @return LocalDate
      */
     public LocalDate getBirthdate() {
         return this.birthdate;
     }
 
-    
-    /** 
+    /**
      * @param birthdate
      */
     public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 
-    
-    /** 
+    /**
      * @return String
      */
     public String getLastName() {
         return this.lastName;
     }
 
-    
-    /** 
+    /**
      * @param lastName
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    
-    /** 
+    /**
      * @return String
      */
     public String getFirstName() {
         return this.firstName;
     }
 
-    
-    /** 
+    /**
      * @param firstName
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    
-    /** 
+    /**
      * @return long
      */
     public long getVersion() {
         return this.version;
     }
 
-
-    
-    /** 
+    /**
      * @return long
      */
     public long getId() {
         return this.userID;
     }
 
-    
-    /** 
+    /**
      * @return String
      */
     public String getPassword() {
         return this.password;
     }
 
-    
-    /** 
+    /**
      * @param password
      */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    
-    /** 
+    /**
      * @return String
      */
     public String getEmail() {
         return this.email;
     }
 
-    
-    /** 
+    /**
      * @param email
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * @return String
+     */
     @Override
     public String toString() {
-        return "User [bankcard=" + bankcard + ", birthdate=" + birthdate + ", creditcard="
-                + creditcard + ", email=" + email + ", firstName=" + firstName + ", gender=" + gender + ", id=" + userID
-                + ", lastName=" + lastName + ", passwort=" + password + ", version=" + version + "]";
+        return "User [bankcard=" + bankcard + ", birthdate=" + birthdate + ", creditcard=" + creditcard + ", email="
+                + email + ", firstName=" + firstName + ", gender=" + gender + ", id=" + userID + ", lastName="
+                + lastName + ", passwort=" + password + ", version=" + version + "]";
     }
-
 
 }

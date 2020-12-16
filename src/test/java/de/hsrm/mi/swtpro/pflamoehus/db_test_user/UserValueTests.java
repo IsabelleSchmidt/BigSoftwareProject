@@ -18,11 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
-
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class UserValueTests {
 
-    
     private final String FIRSTNAME = "Olaf der Dritte";
     private final String GENDER = "DIVERSE";
     private final String PASSWOrD = "HaaaaaaaHA11!";
@@ -32,19 +30,19 @@ public class UserValueTests {
     private final String EMAIL = "hansolaf@hs-rm.de";
     private final String WRONG_EMAIL = "3@2";
     private final String WRONG_PASSWORD = "ahahasdhasdnsjdckjdvkjbcvdkjbfvd";
-    private final String WRONG_GENDER ="Male";
+    private final String WRONG_GENDER = "Male";
 
     private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private Validator validator = factory.getValidator();
 
     @AfterAll
-    private void clear(){
+    private void clear() {
         factory.close();
     }
 
     @Test
     @DisplayName("create a new User with correct Values")
-    public void create_User(){
+    public void create_User() {
         User user1 = new User();
         user1.setBirthdate(BIRTHDAY);
         user1.setEmail(EMAIL);
@@ -52,38 +50,29 @@ public class UserValueTests {
         user1.setLastName(LASTNAME);
         user1.setGender(GENDER);
         user1.setPassword(PASSWOrD);
-       
 
-    
-        assertThat(user1.toString()).contains(EMAIL)
-                                    .contains(LASTNAME)
-                                    .contains(FIRSTNAME)
-                                    .contains(BIRTHDAY.toString())
-                                    .contains(GENDER)
-                                    .contains(PASSWOrD)
-                                    ;
+        assertThat(user1.toString()).contains(EMAIL).contains(LASTNAME).contains(FIRSTNAME)
+                .contains(BIRTHDAY.toString()).contains(GENDER).contains(PASSWOrD);
 
-                              
         assertTrue(validator.validate(user1).isEmpty());
     }
 
     @Test
     @DisplayName("create a new User with wrong values")
-    public void create_User_wrong_values(){
-      
-      
-        User user2 = new User(); 
-        //adding correct values
+    public void create_User_wrong_values() {
+
+        User user2 = new User();
+        // adding correct values
         user2.setFirstName(FIRSTNAME);
         user2.setLastName(LASTNAME);
         user2.setPassword(PASSWOrD);
         user2.setGender(GENDER);
-        user2.setEmail(EMAIL); 
-        //adding false values
+        user2.setEmail(EMAIL);
+        // adding false values
 
         user2.setBirthdate(WRONG_BIRTHDAY);
-        
-        assertFalse(validator.validate(user2).isEmpty(),"Geburtsdatum muss als falsch validiert sein.");
+
+        assertFalse(validator.validate(user2).isEmpty(), "Geburtsdatum muss als falsch validiert sein.");
         user2.setBirthdate(BIRTHDAY);
         user2.setPassword(WRONG_PASSWORD);
         assertFalse(validator.validate(user2).isEmpty(), "Passwort muss als falsch validiert sein.");
@@ -93,11 +82,6 @@ public class UserValueTests {
         user2.setEmail(EMAIL);
         user2.setGender(WRONG_GENDER);
         assertFalse(validator.validate(user2).isEmpty(), "Gender muss als falsch validiert werden.");
-
-
-
-       
-       
 
     }
 }

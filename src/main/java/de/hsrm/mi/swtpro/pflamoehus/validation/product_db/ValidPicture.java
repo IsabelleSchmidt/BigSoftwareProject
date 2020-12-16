@@ -12,14 +12,15 @@ import javax.validation.Payload;
 /**
  * Triggers a message if an wrong Picture is entered.
  */
-@Target({ElementType.FIELD})
+@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidPictureValidator.class)
 @Documented
 public @interface ValidPicture {
     String message() default "Es werden nur Links zu .png und .jpg/.jpeg Dateien akzeptiert.";
 
-    Class<? extends Payload>[] payload() default{ };
-    Class<?>[] groups() default{ };
-        
+    Class<? extends Payload>[] payload() default {};
+
+    Class<?>[] groups() default {};
+
 }

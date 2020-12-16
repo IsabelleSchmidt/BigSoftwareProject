@@ -37,78 +37,72 @@ public class Creditcard {
     private String owner;
 
     @NotEmpty
-    @JsonProperty(access =  Access.WRITE_ONLY)
+    @JsonProperty(access = Access.WRITE_ONLY)
     @ValidCreditCardNumber
     private String creditcardnumber;
 
     @NotEmpty
     private LocalDate dateOfExpiry;
 
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    @JoinTable(name="User_Creditcards", joinColumns = @JoinColumn(name="id"), inverseJoinColumns = @JoinColumn(name="userID"))
+    @JoinTable(name = "User_Creditcards", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "userID"))
     private List<User> user;
 
-    
-    /** 
+    /**
      * @return long
      */
     public long getId() {
         return this.id;
     }
 
-
-    
-    /** 
+    /**
      * @return long
      */
     public long getVersion() {
         return this.version;
     }
 
-
-    
-    /** 
+    /**
      * @return String
      */
     public String getOwner() {
         return this.owner;
     }
 
-    
-    /** 
+    /**
      * @param owner
      */
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
-    
-    /** 
+    /**
      * @return String
      */
     public String getCreditcardnumber() {
         return this.creditcardnumber;
     }
 
-    public void setCreditcardnumber(String number){
+    /**
+     * @param number
+     */
+    public void setCreditcardnumber(String number) {
         this.creditcardnumber = number;
     }
 
-    
-    /** 
+    /**
      * @return LocalDate
      */
     public LocalDate getDateOfExperiy() {
         return this.dateOfExpiry;
     }
 
-    
-    /** 
+    /**
      * @param dateOfExperiy
      */
     public void setDateOfExperiy(LocalDate dateOfExperiy) {
         this.dateOfExpiry = dateOfExperiy;
     }
-    
+
 }

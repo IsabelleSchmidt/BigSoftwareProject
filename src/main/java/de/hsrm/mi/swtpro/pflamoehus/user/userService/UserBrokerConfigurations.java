@@ -8,28 +8,22 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class UserBrokerConfigurations implements WebSocketMessageBrokerConfigurer{
+public class UserBrokerConfigurations implements WebSocketMessageBrokerConfigurer {
 
-    
-    /** 
-     * @param registry
-     * the StompBroker reacts to everything with the prefix "/user"
+    /**
+     * @param registry the StompBroker reacts to everything with the prefix "/user"
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/user");
     }
 
-    
-    /** 
-     * @param registry
-     * Registration requests are received
+    /**
+     * @param registry Registration requests are received
      */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/stompbroker").setAllowedOrigins("*");
     }
 
-
-    
 }

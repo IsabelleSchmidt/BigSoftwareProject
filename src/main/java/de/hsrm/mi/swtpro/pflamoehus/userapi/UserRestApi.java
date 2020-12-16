@@ -21,6 +21,13 @@ public class UserRestApi {
     @Autowired
     UserService userService;
 
+    /**
+     * @param user
+     * @return User
+     * @throws UserApiException
+     * 
+     *                          Register a new user
+     */
     @PostMapping("/user")
     public User registerUser(@RequestBody User user) throws UserApiException {
         try {
@@ -32,8 +39,16 @@ public class UserRestApi {
         return user;
     }
 
-    @GetMapping(value = "/user/{email}", produces = MediaType.APPLICATION_JSON_VALUE)   //TODO: Anny -> anschauen, was MediaType etc. genau nochmal tut
-    public User getUser(@PathVariable("email") String email) {
+    /**
+     * @param email
+     * @return User
+     * 
+     *         login a user
+     */
+    @GetMapping(value = "/user/{email}", produces = MediaType.APPLICATION_JSON_VALUE) // TODO: Anny -> anschauen, was
+                                                                                      // MediaType etc. genau nochmal
+                                                                                      // tut
+    public User loginUser(@PathVariable("email") String email) {
         if (userService.searchUserWithEmail(email) != null) {
             return userService.searchUserWithEmail(email);
         } else {

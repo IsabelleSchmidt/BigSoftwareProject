@@ -31,32 +31,30 @@ public class TagRepositoryTests {
     @Autowired
     private TagRepository tagRepo;
 
-    // @Autowired 
+    // @Autowired
     // private ProductRepository productRepo;
 
-    private final String VALUE ="Keramik";
+    private final String VALUE = "Keramik";
 
     @BeforeEach
-    public void clear_repos(){
+    public void clear_repos() {
         tagRepo.deleteAll();
-        //productRepo.deleteAll();
-        
+        // productRepo.deleteAll();
+
     }
-     
+
     @Test
-    public void basecheck(){
+    public void basecheck() {
         assertThat(TagRepository.class).isInterface();
         assertThat(tagRepo).isNotNull();
     }
 
     @Test
     @DisplayName("persist Tag")
-    public void persist_tag(){
-
+    public void persist_tag() {
 
         Tag unmanaged = new Tag();
         unmanaged.setValue(VALUE);
-        
 
         final Tag managed = tagRepo.save(unmanaged);
         assertThat(managed).isEqualTo(unmanaged);
@@ -66,37 +64,35 @@ public class TagRepositoryTests {
 
     @Test
     @DisplayName("Save and delete tags from repository")
-    public void save_and_delete_tag(){
+    public void save_and_delete_tag() {
 
         List<Tag> allTags = new ArrayList<Tag>();
 
         final int COUNT = 5;
-        for(int i = 0; i<COUNT;i++){
+        for (int i = 0; i < COUNT; i++) {
             Tag tag1 = new Tag();
             allTags.add(tag1);
             tagRepo.save(tag1);
-            assertTrue(tagRepo.count()==i+1,"The repo should hold "+(i+1)+" tags.");
+            assertTrue(tagRepo.count() == i + 1, "The repo should hold " + (i + 1) + " tags.");
         }
 
-        for(int i = COUNT;i>0;i--){
-            tagRepo.delete(allTags.get((i-1)));
-            assertTrue(tagRepo.count()==i-1,"The repo should have deleted "+(COUNT-(i-1))+" tags.");
+        for (int i = COUNT; i > 0; i--) {
+            tagRepo.delete(allTags.get((i - 1)));
+            assertTrue(tagRepo.count() == i - 1, "The repo should have deleted " + (COUNT - (i - 1)) + " tags.");
         }
-        
+
     }
 
     @Test
     @DisplayName("TagRepository findBy.. ")
-    public void repo_findBy(){
-
+    public void repo_findBy() {
 
         Tag tag1 = new Tag();
         Tag tag2 = new Tag();
 
         tag1.setValue(VALUE);
-       
+
         tag2.setValue("Different Value");
-        
 
         tagRepo.save(tag1);
         tagRepo.save(tag2);
@@ -104,7 +100,7 @@ public class TagRepositoryTests {
         Tag tag3;
         tag3 = tagRepo.findByValue(VALUE);
         assertThat(tag3.getValue()).isEqualTo(tag1.getValue());
-    
+
         tag3 = tagRepo.findById(tag2.getId());
         assertThat(tag3.getId()).isEqualTo(tag2.getId());
 
@@ -112,8 +108,7 @@ public class TagRepositoryTests {
 
     @Test
     @DisplayName("create two tags with the same value")
-    public void check_unique_values(){
-
+    public void check_unique_values() {
 
         Tag tag1 = new Tag();
         Tag tag2 = new Tag();
@@ -123,20 +118,13 @@ public class TagRepositoryTests {
 
         tagRepo.save(tag1);
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, ()->{
+        Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
             Tag managed2 = tagRepo.save(tag2);
             assertThat(managed2).isEqualTo(tag2);
         });
 
         assertThat(tagRepo.count()).isEqualTo(1);
 
-        
-
-        
-    } 
-
-
-
-
+    }
 
 }

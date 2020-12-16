@@ -20,11 +20,10 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 
-
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
 public class ProductValueTests {
-    
+
     @LocalServerPort
     private int port;
 
@@ -41,37 +40,36 @@ public class ProductValueTests {
     private final int AVAILABLE = 0;
     private final String DESCRIPTION = "Beschreibung ist da.";
     private final String INFORMATION = "Information ist da.";
-    private final double FALSE_PRICE =-1;
+    private final double FALSE_PRICE = -1;
     private final double FALSE_WIDTH = 12.123;
     private final double FALSE_HEIGHT = 12345678;
     private final String FALSE_PRODUCTTYPE = "Ziharmonika";
-    private final String FALSE_ROOMTYPE ="SCHlafzimmer";
+    private final String FALSE_ROOMTYPE = "SCHlafzimmer";
     private final int FALSE_AVAILABLE = -17;
     private final double FALSE_PRICE2 = 123.123;
     private final String FALSE_DESCRIPTION = "nein";
     private final String FALSE_INFORMATION = "nein";
 
-
     @BeforeAll
-    public void createValidator(){
-        factory =  Validation.buildDefaultValidatorFactory();
+    public void createValidator() {
+        factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
 
     @AfterAll
-    public void close(){
+    public void close() {
         factory.close();
     }
 
-    @Test 
+    @Test
     @DisplayName("New Product with wrong validation properties")
-    public void false_validation(){
-        
+    public void false_validation() {
+
         Product product1 = new Product();
         int nrWrongValues = 8;
 
-        //Product 1
-        //fill with wrong values
+        // Product 1
+        // fill with wrong values
         product1.setHeight(FALSE_HEIGHT);
         product1.setWidth(FALSE_WIDTH);
         product1.setNrAvailableItems(FALSE_AVAILABLE);
@@ -81,29 +79,29 @@ public class ProductValueTests {
         product1.setDescription(FALSE_DESCRIPTION);
         product1.setInformation(FALSE_INFORMATION);
 
-        //right values
+        // right values
         product1.setName(NAME);
         product1.setDepth(DEPTH);
 
-        //check for as many validation errors as wrong values
+        // check for as many validation errors as wrong values
         Set<ConstraintViolation<Product>> violations;
         violations = validator.validate(product1);
-        assertTrue(violations.size() == nrWrongValues,"The number of false values needs to be "+nrWrongValues +"but is: "+violations.size());
-        
+        assertTrue(violations.size() == nrWrongValues,
+                "The number of false values needs to be " + nrWrongValues + "but is: " + violations.size());
 
         product1.setPrice(2.0);
         violations = validator.validate(product1);
-        assertTrue(violations.size()==nrWrongValues-1,"The price needs to ne validated now.");
+        assertTrue(violations.size() == nrWrongValues - 1, "The price needs to ne validated now.");
 
         product1.setPrice(FALSE_PRICE2);
         violations = validator.validate(product1);
-        assertTrue(violations.size()==nrWrongValues, "The number of correctly detected violations is "+nrWrongValues);
+        assertTrue(violations.size() == nrWrongValues,
+                "The number of correctly detected violations is " + nrWrongValues);
     }
 
-
-    @Test 
+    @Test
     @DisplayName("New Product with correct values")
-    public void product_data(){
+    public void product_data() {
         Product product = new Product();
         product.setName(NAME);
         product.setDepth(DEPTH);
@@ -116,26 +114,12 @@ public class ProductValueTests {
         product.setDescription(DESCRIPTION);
         product.setInformation(INFORMATION);
 
-       
-        assertThat(product.toString()).contains(NAME)
-                                .contains(PRODUCTTYPE)
-                                .contains(ROOMTYPE)
-                                .contains(DESCRIPTION)
-                                .contains(String.valueOf(DEPTH))
-                                .contains(String.valueOf(WIDTH))
-                                .contains(String.valueOf(HEIGHT))
-                                .contains(String.valueOf(PRICE))
-                                .contains(String.valueOf(AVAILABLE))
-                                .contains(INFORMATION);
-                                
-       
+        assertThat(product.toString()).contains(NAME).contains(PRODUCTTYPE).contains(ROOMTYPE).contains(DESCRIPTION)
+                .contains(String.valueOf(DEPTH)).contains(String.valueOf(WIDTH)).contains(String.valueOf(HEIGHT))
+                .contains(String.valueOf(PRICE)).contains(String.valueOf(AVAILABLE)).contains(INFORMATION);
 
-        assertTrue(validator.validate(product).isEmpty(),"The number of validation errors should be 0.");
-        
+        assertTrue(validator.validate(product).isEmpty(), "The number of validation errors should be 0.");
+
     }
 
-    
-
-
-  
 }
