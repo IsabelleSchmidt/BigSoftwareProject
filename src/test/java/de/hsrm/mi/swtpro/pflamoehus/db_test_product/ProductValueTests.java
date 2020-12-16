@@ -91,7 +91,7 @@ public class ProductValueTests {
 
         product1.setPrice(2.0);
         violations = validator.validate(product1);
-        assertTrue(violations.size() == nrWrongValues - 1, "The price needs to ne validated now.");
+        assertTrue(violations.size() == nrWrongValues - 1, "The price needs to be validated now.");
 
         product1.setPrice(FALSE_PRICE2);
         violations = validator.validate(product1);

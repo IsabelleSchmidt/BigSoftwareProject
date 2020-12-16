@@ -34,7 +34,7 @@ public class Bankcard {
     private long version;
 
     @NotEmpty
-    @Pattern(regexp = "((DE)\\d{2}(\\d{4}){4}\\d{2}")
+    @Pattern(regexp = "DE\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{2}|DE\\d{20}")
     @JsonProperty(access = Access.WRITE_ONLY)
     private String iban;
 
@@ -51,7 +51,7 @@ public class Bankcard {
     @JoinTable(name = "User_Bankcards", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "userID"))
     private List<User> user;
 
-    //Getter and Setter
+    // Getter and Setter
     /**
      * @return long
      */
@@ -66,8 +66,7 @@ public class Bankcard {
         return this.version;
     }
 
-    
-    /** 
+    /**
      * @param iban
      */
     public void setIban(String iban) {
@@ -107,6 +106,16 @@ public class Bankcard {
      */
     public void setBank(String bank) {
         this.bank = bank;
+    }
+
+    
+    /** 
+     * @return String
+     */
+    @Override
+    public String toString() {
+        return "Bankcard [bank=" + bank + ", iban=" + iban + ", id=" + id + ", owner=" + owner + ", user=" + user
+                + ", version=" + version + "]";
     }
 
 }

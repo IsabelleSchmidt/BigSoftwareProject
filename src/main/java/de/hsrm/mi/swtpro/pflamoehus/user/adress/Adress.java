@@ -9,8 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Version;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,19 +28,19 @@ public class Adress {
     @JsonIgnore
     private long version;
 
-    @NotEmpty
+    @NotNull
     @Pattern(regexp = "\\p{L}{2,}")
     private String streetName;
 
     @Pattern(regexp = "\\d+?[a-zA-Z]?$")
-    @NotEmpty
+    @NotNull
     private String houseNumber;
 
-    @NotEmpty
-    @Digits(integer = 5, fraction = 0)
-    private int postCode;
+    @NotNull
+    @Pattern(regexp = "^[1-9]{1}[0-9]{4}$")
+    private String postCode;
 
-    @NotEmpty
+    @NotNull
     @Pattern(regexp = "\\p{L}{2,}")
     private String city;
 
@@ -94,14 +93,14 @@ public class Adress {
     /**
      * @return int
      */
-    public int getPostCode() {
+    public String getPostCode() {
         return postCode;
     }
 
     /**
      * @param postCode
      */
-    public void setPostCode(int postCode) {
+    public void setPostCode(String postCode) {
         this.postCode = postCode;
     }
 
@@ -132,5 +131,13 @@ public class Adress {
     public void setUser(List<User> user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Adress [adressID=" + adressID + ", city=" + city + ", houseNumber=" + houseNumber + ", postCode="
+                + postCode + ", streetName=" + streetName + ", user=" + user + ", version=" + version + "]";
+    }
+
+    
 
 }
