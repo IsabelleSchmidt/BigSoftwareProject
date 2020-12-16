@@ -5,7 +5,7 @@ import java.util.List;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 
-public interface PictureService {
+public interface PicturesService {
     
     public List<Picture> findAll();
     public Picture findPictureWithID(long id);
