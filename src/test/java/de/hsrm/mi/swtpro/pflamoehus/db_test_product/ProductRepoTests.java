@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
@@ -21,8 +20,6 @@ import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ProductRepoTests {
 
-    @LocalServerPort
-    private int port;
 
     final String TESTNAME = "Herbert";
     final String PRODUCTTYPE = "Sofa/Couch";
