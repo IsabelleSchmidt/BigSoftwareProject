@@ -1,6 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.product.pictureService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -12,7 +13,7 @@ import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 
 @Service
-public class PicturesServiceImpl implements PicturesService {
+public class PictureServiceImpl implements PictureService {
 
     @Autowired
     PictureRepository pictureRepository;
@@ -31,7 +32,11 @@ public class PicturesServiceImpl implements PicturesService {
      */
     @Override
     public Picture findPictureWithID(long id) {
-        return pictureRepository.findById(id);
+
+       Optional< Picture> found = pictureRepository.findById(id);
+       
+        return found.isPresent() ? found.get():null;
+
     }
 
     /**

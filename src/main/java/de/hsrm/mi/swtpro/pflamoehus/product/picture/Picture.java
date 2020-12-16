@@ -92,15 +92,18 @@ public class Picture {
     public long getId(){
         return this.id;
     }
-
     
     /** 
      * @return String
      */
     @Override
     public String toString() {
-        return "Picture [id=" + id + ", path=" + path + ", product=" + product + ", version=" + version + "]";
+        return "Picture [id=" + id + ", path=" + path + ", version=" + version + "]";
     }
+
+    
+    
+   
     
     
 }
