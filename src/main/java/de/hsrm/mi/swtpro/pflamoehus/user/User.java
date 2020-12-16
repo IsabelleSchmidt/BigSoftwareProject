@@ -27,10 +27,10 @@ import org.hibernate.annotations.LazyCollectionOption;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user.ValidBirthDay;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user.ValidEmail;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user.ValidGender;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user.ValidPassword;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
 @Entity
 public class User {
     

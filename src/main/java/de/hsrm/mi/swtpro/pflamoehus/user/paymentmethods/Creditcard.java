@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user.ValidCreditCardNumber;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidCreditCardNumber;
 
 import java.time.LocalDate;
 import java.util.List;

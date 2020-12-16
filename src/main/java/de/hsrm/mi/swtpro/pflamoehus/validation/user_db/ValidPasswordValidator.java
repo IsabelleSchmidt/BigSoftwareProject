@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.validation.user;
+package de.hsrm.mi.swtpro.pflamoehus.validation.user_db;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
