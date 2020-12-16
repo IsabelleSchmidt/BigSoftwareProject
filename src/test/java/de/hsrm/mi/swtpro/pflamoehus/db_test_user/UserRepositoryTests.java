@@ -1,5 +1,4 @@
 package de.hsrm.mi.swtpro.pflamoehus.db_test_user;
-
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
@@ -30,6 +29,7 @@ public class UserRepositoryTests {
     private final String LASTNAME = "Schmidt";
     private final LocalDate BIRTHDAY = LocalDate.of(1999, 1, 1);
     private final String EMAIL = "hansolaf@hs-rm.de";
+
     
   
 

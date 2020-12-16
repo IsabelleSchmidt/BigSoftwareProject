@@ -6,12 +6,18 @@ import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-
 public class ValidCreditCardNumberValidator implements ConstraintValidator<ValidCreditCardNumber, String> {
 
+    
+    /** 
+     * @param value
+     * @param context
+     * @return boolean
+     */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        Pattern masterCard = Pattern.compile("^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$)");
+        Pattern masterCard = Pattern.compile(
+                "^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$)");
         Pattern visaCard = Pattern.compile("^4[0-9]{12}(?:[0-9]{3})?$)");
         Pattern americanExpress = Pattern.compile("^3[47][0-9]{13}$");
         Pattern dinersClubInternational = Pattern.compile("^3(?:0[0-5]|[68][0-9])[0-9]{11}$");
@@ -20,19 +26,18 @@ public class ValidCreditCardNumberValidator implements ConstraintValidator<Valid
         Matcher matcher2 = visaCard.matcher(value);
         Matcher matcher3 = americanExpress.matcher(value);
         Matcher matcher4 = dinersClubInternational.matcher(value);
-        
-        
-        if(matcher1.matches()){
+
+        if (matcher1.matches()) {
             return true;
-        }else if(matcher2.matches()){
+        } else if (matcher2.matches()) {
             return true;
-        }else if(matcher3.matches()){
+        } else if (matcher3.matches()) {
             return true;
-        }else if(matcher4.matches()){
+        } else if (matcher4.matches()) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
+
 }

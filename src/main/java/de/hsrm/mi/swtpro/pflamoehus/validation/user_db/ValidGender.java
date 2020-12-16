@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-@Target({ElementType.FIELD })
+@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidGenderValidator.class)
 @Documented
@@ -17,7 +17,8 @@ public @interface ValidGender {
 
     String message() default "You can be female, male or diverse";
 
-    Class<? extends Payload>[] payload() default{ };
-    Class<?>[] groups() default{ };
-    
+    Class<? extends Payload>[] payload() default {};
+
+    Class<?>[] groups() default {};
+
 }

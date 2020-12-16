@@ -50,31 +50,53 @@ public class Picture {
     @NotEmpty
     @ValidPicture
     @Column(unique=true)
-    private String path; //Pfad zum Bild
+    private String path;
     
-
     //Getter and Setter
+    /** 
+     * @return Product
+     */
     public Product getProduct() {
         return product;
     }
 
+    
+    /** 
+     * @param product
+     */
     public void setProduct(Product product) {
         this.product = product;
     }
  
 
+    
+    /** 
+     * @return String
+     */
     public String getPath() {
         return path;
     }
 
+    
+    /** 
+     * @param path
+     */
     public void setPath(String path) {
         this.path = path;
     }
 
+    
+    /** 
+     * @return long
+     */
     public long getId(){
         return this.id;
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return "Picture [id=" + id + ", path=" + path + ", product=" + product + ", version=" + version + "]";

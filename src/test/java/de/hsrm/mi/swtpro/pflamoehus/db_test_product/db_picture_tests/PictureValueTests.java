@@ -20,16 +20,15 @@ public class PictureValueTests {
     private final String WRONG_PATH = "ch/ais.chair1.2.jpg";
     private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private final Validator validator = factory.getValidator();
-    
 
     @AfterAll
-    public void close(){
+    public void close() {
         factory.close();
     }
 
     @Test
     @DisplayName("create Picture with correct values")
-    public void create_picture(){
+    public void create_picture() {
         Picture pic = new Picture();
 
         pic.setPath(PATH);
@@ -40,13 +39,11 @@ public class PictureValueTests {
         assertThat(pic.toString()).contains(PATH2);
         assertThat(validator.validate(pic)).isEmpty();
 
-
-        
     }
 
     @Test
     @DisplayName("try to create Picture with wrong values")
-    public void check_picture_validation(){
+    public void check_picture_validation() {
         Picture pic = new Picture();
 
         pic.setPath("");
@@ -54,7 +51,5 @@ public class PictureValueTests {
         pic.setPath(WRONG_PATH);
         assertThat(validator.validate(pic)).isNotEmpty();
     }
-    
-    
-    
+
 }

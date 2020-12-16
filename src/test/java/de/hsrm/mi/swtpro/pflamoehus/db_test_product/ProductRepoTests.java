@@ -18,13 +18,11 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 
-
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ProductRepoTests {
-    
+
     @LocalServerPort
     private int port;
-
 
     final String TESTNAME = "Herbert";
     final String PRODUCTTYPE = "Sofa/Couch";
@@ -34,8 +32,8 @@ public class ProductRepoTests {
     final double WIDHT = 210.5;
     final double DEPTH = 55.0;
     final int AVIABLEPRODUCTS = 3;
-    final String DESCRIPTION ="beschreibung";
-    final String INFORMATION ="information";
+    final String DESCRIPTION = "beschreibung";
+    final String INFORMATION = "information";
 
     @Autowired
     private ProductRepository productRepository;
@@ -44,20 +42,20 @@ public class ProductRepoTests {
     private PictureRepository picutreRepository;
 
     @BeforeEach
-    public void clear_repos(){
+    public void clear_repos() {
         picutreRepository.deleteAll();
-        productRepository.deleteAll(); 
+        productRepository.deleteAll();
     }
 
     @Test
-    public void basiccheck(){
+    public void basiccheck() {
         assertThat(ProductRepository.class).isInterface();
         assertThat(productRepository).isNotNull();
     }
 
     @Test
-    @DisplayName("Persist product entity (empty table)")    
-    public void product_persist(){
+    @DisplayName("Persist product entity (empty table)")
+    public void product_persist() {
         final Product unmanaged = new Product();
         unmanaged.setName(TESTNAME);
         unmanaged.setDepth(DEPTH);
@@ -69,7 +67,6 @@ public class ProductRepoTests {
         unmanaged.setPrice(PRICE);
         unmanaged.setDescription(DESCRIPTION);
         unmanaged.setInformation(INFORMATION);
-      
 
        
         final Product managed = productRepository.save(unmanaged);
@@ -81,7 +78,7 @@ public class ProductRepoTests {
 
     @Test
     @DisplayName("Duplicate product names are forbidden")
-    public void product_name_unique(){
+    public void product_name_unique() {
         final Product product1 = new Product();
         product1.setName(TESTNAME);
         product1.setDepth(DEPTH);
@@ -93,10 +90,9 @@ public class ProductRepoTests {
         product1.setPrice(PRICE);
         product1.setDescription(DESCRIPTION);
         product1.setInformation(INFORMATION);
-        
 
         final Product managed1 = productRepository.save(product1);
-        assertThat(managed1).isEqualTo(product1);   
+        assertThat(managed1).isEqualTo(product1);
 
         final Product product2 = new Product();
         product2.setName(TESTNAME);
@@ -109,9 +105,8 @@ public class ProductRepoTests {
         product2.setPrice(PRICE);
         product2.setDescription(DESCRIPTION);
         product2.setInformation(INFORMATION);
-      
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, ()->{
+        Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
             Product managed2 = productRepository.save(product2);
             assertThat(managed2).isEqualTo(product2);
         });
@@ -122,37 +117,37 @@ public class ProductRepoTests {
 
     @Test
     @DisplayName("ProductRepository findByName")
-    public void product_name_findByName(){
+    public void product_name_findByName() {
         final int COUNT = 5;
 
 
-        for (int i = 0; i < COUNT; i++){
+        for (int i = 0; i < COUNT; i++) {
             final Product product1 = new Product();
-            product1.setName(TESTNAME+i);
-            product1.setDepth(DEPTH+i);
-            product1.setHeight(HEIGHT+i);
-            product1.setWidth(WIDHT+i);
-            product1.setNrAvailableItems(AVIABLEPRODUCTS+i);
+            product1.setName(TESTNAME + i);
+            product1.setDepth(DEPTH + i);
+            product1.setHeight(HEIGHT + i);
+            product1.setWidth(WIDHT + i);
+            product1.setNrAvailableItems(AVIABLEPRODUCTS + i);
             product1.setProductType(PRODUCTTYPE);
             product1.setRoomType(ROOMTYPE);
-            product1.setPrice(PRICE+i);
-            product1.setDescription(DESCRIPTION+i);
-            product1.setInformation(INFORMATION+i);
+            product1.setPrice(PRICE + i);
+            product1.setDescription(DESCRIPTION + i);
+            product1.setInformation(INFORMATION + i);
             productRepository.save(product1);
         }
 
         assertThat(productRepository.count()).isEqualTo(COUNT);
 
-        for (int i = 0; i < COUNT; i++){
-            Product fund = productRepository.findByName(TESTNAME+i);
-            assertThat(fund.getDepth()).isEqualTo(DEPTH+i);
-            assertThat(fund.getPrice()).isEqualTo(PRICE+i);
+        for (int i = 0; i < COUNT; i++) {
+            Product fund = productRepository.findByName(TESTNAME + i);
+            assertThat(fund.getDepth()).isEqualTo(DEPTH + i);
+            assertThat(fund.getPrice()).isEqualTo(PRICE + i);
         }
     }
 
     @Test
     @DisplayName("ProductRepository findByRoomType")
-    public void product_roomType_findByRoomtype(){
+    public void product_roomType_findByRoomtype() {
 
 
         final Product product1 = new Product();
@@ -192,7 +187,7 @@ public class ProductRepoTests {
 
     @Test
     @DisplayName("ProductRepository findBy...")
-    public void product_findBy(){
+    public void product_findBy() {
 
 
         final Product product1 = new Product();
@@ -243,16 +238,6 @@ public class ProductRepoTests {
         List<Product> fund6 = productRepository.findByHeightAndWidthAndDepth(HEIGHT, WIDHT, DEPTH);
         assertThat(fund6.size()).isEqualTo(2);
 
-        
-
     }
 
-   
-
- 
-
-
-   
-
-    
 }

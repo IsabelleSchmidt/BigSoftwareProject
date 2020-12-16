@@ -9,13 +9,14 @@ import java.lang.annotation.RetentionPolicy;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-@Target({ElementType.FIELD })
+@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidBirthDayValidator.class)
 @Documented
 public @interface ValidBirthDay {
     String message() default "You have to be 18 or older.";
 
-    Class<? extends Payload>[] payload() default{ };
-    Class<?>[] groups() default{ };
+    Class<? extends Payload>[] payload() default {};
+
+    Class<?>[] groups() default {};
 }
