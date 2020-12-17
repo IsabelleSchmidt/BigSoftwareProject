@@ -88,7 +88,9 @@ public class ProductRestApi {
     public Set<Picture> getAllPicturesOfAProduct(@PathVariable long articleNr) {
         Set<Picture> allPictures = null;
         try {
-            allPictures = productService.searchProductwithArticleNr(articleNr).get().getAllPictures();
+            if (productService.searchProductwithArticleNr(articleNr).isPresent()) {
+                allPictures = productService.searchProductwithArticleNr(articleNr).get().getAllPictures();
+            }
         } catch (ProductApiException pae) {
             // TODO: Abgefangene exception per fehlercode mitgeben?
         }

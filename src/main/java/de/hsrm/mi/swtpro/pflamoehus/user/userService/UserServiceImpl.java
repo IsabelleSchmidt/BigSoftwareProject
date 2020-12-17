@@ -22,7 +22,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
  * UserServiceImpl for implementing the interface 'UserService'.
  * 
  * @author Svenja Schenk, Ann-Cathrin Fabian
- * @version 3
+ * @version 4
  */
 @Service
 public class UserServiceImpl implements UserService {
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
      * @return list of users
      */
     @Override
-    public List<User> allUsers() {  //gut so
+    public List<User> allUsers() { // gut so
         return userRepository.findAll();
     }
 
@@ -52,8 +52,8 @@ public class UserServiceImpl implements UserService {
      * @return user
      */
     @Override
-    public User searchUserWithEmail(String email) { //gut so
-            
+    public User searchUserWithEmail(String email) { // gut so
+
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isEmpty()) {
             throw new UserServiceException("User with this mail wasn't found in the database");
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
      * @return user
      */
     @Override
-    public User searchUserWithId(long id) { //gut so
+    public User searchUserWithId(long id) { // gut so
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new UserServiceException("User with this ID wasn't found in the database");
@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
      * @return user
      */
     @Override
-    public User editUser(User editedUser) { //TODO nochmal drueber schauen
+    public User editUser(User editedUser) { // TODO nochmal drueber schauen
         try {
             // TODO: überprüfen ob immer gleich encodet wird
             User foundUser = searchUserWithEmail(editedUser.getEmail());
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
      * @param id user id that should get deleted
      */
     @Override
-    public void deleteUser(long id) {   //gut so
+    public void deleteUser(long id) { // gut so
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new UserServiceException("User with given ID was not found in the database.");
@@ -125,34 +125,33 @@ public class UserServiceImpl implements UserService {
      * @return user
      */
     @Override
-    public User registerUser(User user) { 
+    public User registerUser(User user) {
+        Optional<User> u = userRepository.findByEmail(user.getEmail());
 
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+        if (u.isPresent()) {
             throw new EmailAlreadyInUseException();
         }
 
-        
         user = userRepository.save(user);
 
-        try{
-            //TODO: encoder faellt durch unsere pwd validierung, nur einmal beim erstellen validieren
-            //encodePassword(user.getPassword(), user);
+        try {
+            // TODO: encoder faellt durch unsere pwd validierung, nur einmal beim erstellen
+            // validieren
+            // encodePassword(user.getPassword(), user);
 
-            if(user.getBankcard()!=null ){
+            if (user.getBankcard() != null && !u.isPresent()) {
                 encodeIBAN(userRepository.findByEmail(user.getEmail()).get().getBankcard(), user);
             }
-            if(user.getCreditcard()!=null){
-                 encodeCardNumber(userRepository.findByEmail(user.getEmail()).get().getCreditcard(), user);
+            if (user.getCreditcard() != null && !u.isPresent()) {
+                encodeCardNumber(userRepository.findByEmail(user.getEmail()).get().getCreditcard(), user);
             }
-           
-        }catch(OptimisticLockException ole){
+
+        } catch (OptimisticLockException ole) {
 
             ole.printStackTrace();
             throw new UserServiceException("User could not be saved into the database.");
 
         }
-
-      
 
         userServiceLogger.info("User was saved into the repository.");
         return user;
@@ -164,16 +163,18 @@ public class UserServiceImpl implements UserService {
      * encoded.
      * 
      * @param cards new or edited bankcards
-     * @param user user from database
+     * @param user  user from database
      */
-   
+
     private void encodeIBAN(List<Bankcard> cards, User user) {
         for (Bankcard card : cards) {
 
             pe.encode(card.getIban());
         }
-        userRepository.findByEmail(user.getEmail()).get().setBankcard(cards);
-        userRepository.save(user);
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            userRepository.findByEmail(user.getEmail()).get().setBankcard(cards);
+            userRepository.save(user);
+        }
     }
 
     /**
@@ -181,33 +182,39 @@ public class UserServiceImpl implements UserService {
      * to get encoded.
      * 
      * @param cards edited or new creditcards
-     * @param user user from database
+     * @param user  user from database
      */
 
-    private void encodeCardNumber (List<Creditcard> cards, User user){
+    private void encodeCardNumber(List<Creditcard> cards, User user) {
         String encodedNr;
-        for(Creditcard card: cards){
+        for (Creditcard card : cards) {
             encodedNr = pe.encode(card.getCreditcardnumber());
             card.setCreditcardnumber(encodedNr);
 
         }
-        user = userRepository.findByEmail(user.getEmail()).get();
-        user.setCreditcard(cards);
-        userRepository.save(user);
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            user = userRepository.findByEmail(user.getEmail()).get();
+            user.setCreditcard(cards);
+            userRepository.save(user);
+        }
     }
 
     /**
      * Creating a new user or editing the password requires encoding the attribute.
      * 
      * @param password new password
-     * @param user user from database or a new user
+     * @param user     user from database or a new user
      */
 
-    private void encodePassword (String password, User user){
-        password = pe.encode(password);
-        user = userRepository.findByEmail(user.getEmail()).get();
-        user.setPassword(password);
-        userRepository.save(user);
+    private void encodePassword(String password, User user) {
+
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            password = pe.encode(password);
+            user = userRepository.findByEmail(user.getEmail()).get();
+            user.setPassword(password);
+            userRepository.save(user);
+        }
+
     }
 
     /**
@@ -215,7 +222,7 @@ public class UserServiceImpl implements UserService {
      * one, we have to encode the new iban.
      * 
      * @param editedUser new user
-     * @param foundUser user from database
+     * @param foundUser  user from database
      */
     private void editBankcard(User editedUser, User foundUser) {
 
@@ -238,7 +245,7 @@ public class UserServiceImpl implements UserService {
      * adds antoher one, we habe to encode the new creditcard number.
      * 
      * @param editedUser new user
-     * @param foundUser user from database
+     * @param foundUser  user from database
      */
     private void editCreditcard(User editedUser, User foundUser) {
 
