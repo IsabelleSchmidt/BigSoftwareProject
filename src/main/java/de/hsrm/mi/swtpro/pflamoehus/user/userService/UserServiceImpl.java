@@ -126,9 +126,9 @@ public class UserServiceImpl implements UserService{
      */
     @Override
     public User registerUser(User user) {
-        Optional<User> u = userRepository.findByEmail(user.getEmail());
+        Optional<User> found = userRepository.findByEmail(user.getEmail());
 
-        if (u.isPresent()) {
+        if (found.isPresent()) {
             throw new EmailAlreadyInUseException();
         }
 
@@ -139,11 +139,11 @@ public class UserServiceImpl implements UserService{
             // validieren
             // encodePassword(user.getPassword(), user);
 
-            if (user.getBankcard() != null && !u.isPresent()) {
-                encodeIBAN(u.get().getBankcard(), user);
+            if (user.getBankcard() != null) {
+                encodeIBAN(found.isPresent()?found.get().getBankcard():null, user);
             }
-            if (user.getCreditcard() != null && !u.isPresent()) {
-                encodeCardNumber(u.get().getCreditcard(), user);
+            if (user.getCreditcard() != null) {
+                encodeCardNumber(found.isPresent()? found.get().getCreditcard():null, user);
             }
 
         } catch (OptimisticLockException ole) {
@@ -167,14 +167,20 @@ public class UserServiceImpl implements UserService{
      */
 
     private void encodeIBAN(List<Bankcard> cards, User user) {
-        for (Bankcard card : cards) {
-
-            pe.encode(card.getIban());
+        
+        Optional<User> found = userRepository.findByEmail(user.getEmail());
+        
+        if(cards.isEmpty()){
+            throw new UserServiceException();
         }
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-
-            userRepository.findByEmail(user.getEmail()).get().setBankcard(cards);
-            userRepository.save(user);
+        else{
+            for (Bankcard card : cards) {
+                pe.encode(card.getIban());
+            }
+            if (found.isPresent()){
+                user.setBankcard(cards);
+                userRepository.save(user);
+            }
         }
     }
 
@@ -187,16 +193,19 @@ public class UserServiceImpl implements UserService{
      */
 
     private void encodeCardNumber(List<Creditcard> cards, User user) {
-        String encodedNr;
-        for (Creditcard card : cards) {
-            encodedNr = pe.encode(card.getCreditcardnumber());
-            card.setCreditcardnumber(encodedNr);
-
+        Optional<User> found = userRepository.findByEmail(user.getEmail());
+        
+        if(cards.isEmpty()){
+            throw new UserServiceException();
         }
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            user = userRepository.findByEmail(user.getEmail()).get();
-            user.setCreditcard(cards);
-            userRepository.save(user);
+        else{
+            for (Creditcard card : cards) {
+                pe.encode(card.getCreditcardnumber());
+            }
+            if (found.isPresent()){
+                user.setCreditcard(cards);
+                userRepository.save(user);
+            }
         }
     }
 
@@ -209,9 +218,10 @@ public class UserServiceImpl implements UserService{
 
     private void encodePassword(String password, User user) {
 
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+        Optional<User> found = userRepository.findByEmail(user.getEmail());
+
+        if (found.isPresent()) {
             password = pe.encode(password);
-            user = userRepository.findByEmail(user.getEmail()).get();
             user.setPassword(password);
             userRepository.save(user);
         }
