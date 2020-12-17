@@ -24,7 +24,7 @@ import javax.validation.ConstraintValidatorContext;
     public boolean isValid(LocalDate value, ConstraintValidatorContext context) {
         LocalDate currentDate = LocalDate.now();
 
-        return Period.between(value, currentDate).getYears() >= 18 ? true:false;
+        return Period.between(value, currentDate).getYears() >= 18;
     }
 
 }

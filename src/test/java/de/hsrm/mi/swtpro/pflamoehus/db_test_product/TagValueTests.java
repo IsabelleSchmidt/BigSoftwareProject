@@ -40,7 +40,7 @@ public class TagValueTests {
         Tag tag1 = new Tag();
         tag1.setValue(FALSE_VALUE);
         Set<ConstraintViolation<Tag>> violations = validator.validate(tag1);
-        assertEquals(violations.size(),1);
+        assertEquals(1,violations.size());
 
     }
 

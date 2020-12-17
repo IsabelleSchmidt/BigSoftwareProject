@@ -74,10 +74,10 @@ public class AdressRepositoryTests {
         adress1.setPostCode(POSTCODE);
         adress1.setStreetName(STREETNAME);
         adressRepo.save(adress1);
-        assertEquals(adressRepo.count(),1);
+        assertEquals(1,adressRepo.count());
 
         adressRepo.delete(adress1);
-        assertEquals(adressRepo.count(),0);
+        assertEquals(0,adressRepo.count());
 
     }
 

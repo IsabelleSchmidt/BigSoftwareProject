@@ -33,7 +33,7 @@ class TagRepositoryTests {
     private final String VALUE = "Keramik";
 
     @Test
-    public void basecheck() {
+    void basecheck() {
         assertThat(TagRepository.class).isInterface();
         assertThat(tagRepo).isNotNull();
     }

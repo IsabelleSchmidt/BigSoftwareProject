@@ -34,7 +34,7 @@ import javax.validation.ConstraintValidatorContext;
         Matcher matcher3 = americanExpress.matcher(value);
         Matcher matcher4 = dinersClubInternational.matcher(value);
 
-        return matcher1.matches() || matcher2.matches() || matcher3.matches() || matcher4.matches() ? true : false;
+        return matcher1.matches() || matcher2.matches() || matcher3.matches() || matcher4.matches();
     }
 
 }

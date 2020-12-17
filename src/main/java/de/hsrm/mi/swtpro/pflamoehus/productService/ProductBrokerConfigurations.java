@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.productService;
+package de.hsrm.mi.swtpro.pflamoehus.productservice;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

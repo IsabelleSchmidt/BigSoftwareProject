@@ -34,7 +34,7 @@ public class UserRestApi {
      * @throws UserApiException gets thrown if the email is already in use
      */
     @PostMapping("/user")
-    public User registerUser(@RequestBody User user) throws UserApiException {
+    public User registerUser(@RequestBody User user){
         try {
             user = userService.registerUser(user);
         } catch (EmailAlreadyInUseException aliu) {

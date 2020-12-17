@@ -18,7 +18,7 @@ import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class ProductRepoTests {
+class ProductRepoTests {
 
     final String TESTNAME = "Herbert";
     final String PRODUCTTYPE = "Sofa/Couch";
@@ -44,14 +44,14 @@ public class ProductRepoTests {
     }
 
     @Test
-    public void basiccheck() {
+    void basiccheck() {
         assertThat(ProductRepository.class).isInterface();
         assertThat(productRepository).isNotNull();
     }
 
     @Test
     @DisplayName("Persist product entity (empty table)")
-    public void product_persist() {
+    void product_persist() {
         final Product unmanaged = new Product();
         unmanaged.setName(TESTNAME);
         unmanaged.setDepth(DEPTH);
@@ -73,7 +73,7 @@ public class ProductRepoTests {
 
     @Test
     @DisplayName("Duplicate product names are forbidden")
-    public void product_name_unique() {
+    void product_name_unique() {
         final Product product1 = new Product();
         product1.setName(TESTNAME);
         product1.setDepth(DEPTH);
@@ -102,8 +102,7 @@ public class ProductRepoTests {
         product2.setInformation(INFORMATION);
 
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
-            Product managed2 = productRepository.save(product2);
-            assertThat(managed2).isEqualTo(product2);
+            productRepository.save(product2);
         });
 
         assertThat(productRepository.count()).isEqualTo(1);
@@ -112,7 +111,7 @@ public class ProductRepoTests {
 
     @Test
     @DisplayName("ProductRepository findByName")
-    public void product_name_findByName() {
+    void product_name_findByName() {
         final int COUNT = 5;
 
         for (int i = 0; i < COUNT; i++) {
@@ -141,7 +140,7 @@ public class ProductRepoTests {
 
     @Test
     @DisplayName("ProductRepository findByRoomType")
-    public void product_roomType_findByRoomtype() {
+    void product_roomType_findByRoomtype() {
 
         final Product product1 = new Product();
         product1.setName(TESTNAME);
@@ -180,7 +179,7 @@ public class ProductRepoTests {
 
     @Test
     @DisplayName("ProductRepository findBy...")
-    public void product_findBy() {
+    void product_findBy() {
 
         final Product product1 = new Product();
         product1.setName(TESTNAME);

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductApiException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
-import de.hsrm.mi.swtpro.pflamoehus.productService.ProductService;
+import de.hsrm.mi.swtpro.pflamoehus.productservice.ProductService;
 
 /*
  * ProductRestApi for communication between front- and backend.

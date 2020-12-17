@@ -70,10 +70,10 @@ public class BankcardRepositoryTests {
         bc.setOwner(OWNER);
         bc.setBank(BANK);
         bankcardRepo.save(bc);
-        assertEquals(bankcardRepo.count(),1);
+        assertEquals(1,bankcardRepo.count());
 
         bankcardRepo.delete(bc);
-        assertEquals(bankcardRepo.count(),0);
+        assertEquals(0,bankcardRepo.count());
 
     }
 

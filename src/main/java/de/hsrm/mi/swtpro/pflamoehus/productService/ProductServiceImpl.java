@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.productService;
+package de.hsrm.mi.swtpro.pflamoehus.productservice;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.OptimisticLockException;
