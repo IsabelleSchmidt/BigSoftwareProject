@@ -1,12 +1,15 @@
 package de.hsrm.mi.swtpro.pflamoehus.product;
+
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     
-    Product findByArticlenr (long articlenr);
+    Optional<Product> findByArticlenr (long articlenr);
     Product findByName (String name);
     List<Product> findByProductType (String type);
     List<Product> findByRoomType (String roomtype);
