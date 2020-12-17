@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductApiException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.productservice.ProductService;
@@ -30,6 +33,8 @@ public class ProductRestApi {
 
     @Autowired
     ProductService productService;
+
+    Logger productRestApiLogger = LoggerFactory.getLogger(ProductRestApi.class);
 
     /**
      * Return a list of all products in the database.
@@ -73,10 +78,18 @@ public class ProductRestApi {
      */
     @PostMapping("/product/new")
     public Product postNewProduct(@RequestBody Product newProduct) {
-        // TODO: bratenserviceexception fangen, wenn wir eine haben
-        return productService.editProduct(newProduct);
+        Product product = new Product();
+        try {
+            product = productService.editProduct(newProduct);
+
+        } catch (ProductServiceException pse) {
+            productRestApiLogger.error("Failed to save the product.");
+        }
+
+        return product;
 
     }
+
 
     /**
      * Get all pictures of an product.
@@ -92,7 +105,7 @@ public class ProductRestApi {
             allPictures = found.isPresent() ? found.get().getAllPictures() : null;
 
         } catch (ProductApiException pae) {
-            // TODO: Abgefangene exception per fehlercode mitgeben?
+            productRestApiLogger.error("Failed to get the pictures.");
         }
         return allPictures;
     }

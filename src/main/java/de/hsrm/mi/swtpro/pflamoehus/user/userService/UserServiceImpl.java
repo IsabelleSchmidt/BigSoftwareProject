@@ -84,9 +84,8 @@ public class UserServiceImpl implements UserService{
      * @return user
      */
     @Override
-    public User editUser(User editedUser) { // TODO nochmal drueber schauen
+    public User editUser(User editedUser) {
         try {
-            // TODO: überprüfen ob immer gleich encodet wird
             User foundUser = searchUserWithEmail(editedUser.getEmail());
             if (!pe.encode(editedUser.getPassword()).equals(foundUser.getPassword())) {
                 encodePassword(editedUser.getPassword(), editedUser);
@@ -136,8 +135,7 @@ public class UserServiceImpl implements UserService{
         user = userRepository.save(user);
 
         try {
-            // TODO: encoder faellt durch unsere pwd validierung, nur einmal beim erstellen
-            // validieren
+
             // encodePassword(user.getPassword(), user);
 
             if (user.getBankcard() != null) {

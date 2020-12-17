@@ -62,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
             editedProduct = productRepo.save(editedProduct);
         } catch (OptimisticLockException oLE) {
             productServiceLogger.error("Products can only be edited by one person at a time.");
-            // TODO: productserviceexception werfen
+            throw new ProductServiceException();
         }
         return editedProduct;
     }
@@ -92,7 +92,6 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<Product> findAllProductsWithProductType(ProductType type) {
-        // TODO Auto-generated method stub
         return productRepo.findByProductType(type.toString());
     }
 
