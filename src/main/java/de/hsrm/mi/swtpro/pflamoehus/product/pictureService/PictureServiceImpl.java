@@ -13,7 +13,9 @@ import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 
 @Service
-public class PictureServiceImpl implements PicturesService {
+
+public class PictureServiceImpl implements PictureService {
+
 
     @Autowired
     PictureRepository pictureRepository;

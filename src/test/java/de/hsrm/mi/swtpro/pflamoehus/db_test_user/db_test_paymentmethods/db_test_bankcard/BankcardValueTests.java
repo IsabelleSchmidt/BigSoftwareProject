@@ -1,8 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.db_test_user.db_test_paymentmethods.db_test_bankcard;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
