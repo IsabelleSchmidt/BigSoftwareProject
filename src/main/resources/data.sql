@@ -216,9 +216,6 @@ INSERT INTO TAG(ID, VALUE, VERSION) VALUES
 (41, 'blüte', 1),
 (42, 'bequem', 1); 
 
-INSERT INTO Product_Tags VALUES
-(79,25);
-
 INSERT INTO USER(USERID,BIRTHDATE, EMAIL,FIRSTNAME,LASTNAME,PASSWORD,VERSION) VALUES
 (1,'1999-09-20','123@hsrm.de','Jürgen','Zwockel','CoolesPasswort!1',1),
 (2,'1976-02-28', 'joghurta@nl.de','Joghurta','Yogurette','ILikeJoghurt123.',1),

@@ -17,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.dao.DataIntegrityViolationException;
-//import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
 import de.hsrm.mi.swtpro.pflamoehus.tags.TagRepository;
 
@@ -31,17 +30,8 @@ public class TagRepositoryTests {
     @Autowired
     private TagRepository tagRepo;
 
-    // @Autowired
-    // private ProductRepository productRepo;
 
     private final String VALUE = "Keramik";
-
-    @BeforeEach
-    public void clear_repos() {
-        tagRepo.deleteAll();
-        // productRepo.deleteAll();
-
-    }
 
     @Test
     public void basecheck() {
@@ -52,6 +42,8 @@ public class TagRepositoryTests {
     @Test
     @DisplayName("persist Tag")
     public void persist_tag() {
+
+        tagRepo.deleteAll();
 
         Tag unmanaged = new Tag();
         unmanaged.setValue(VALUE);
@@ -65,6 +57,8 @@ public class TagRepositoryTests {
     @Test
     @DisplayName("Save and delete tags from repository")
     public void save_and_delete_tag() {
+
+        tagRepo.deleteAll();
 
         List<Tag> allTags = new ArrayList<Tag>();
 
@@ -86,6 +80,8 @@ public class TagRepositoryTests {
     @Test
     @DisplayName("TagRepository findBy.. ")
     public void repo_findBy() {
+
+        tagRepo.deleteAll();
 
         Tag tag1 = new Tag();
         Tag tag2 = new Tag();
@@ -109,6 +105,8 @@ public class TagRepositoryTests {
     @Test
     @DisplayName("create two tags with the same value")
     public void check_unique_values() {
+
+        tagRepo.deleteAll();
 
         Tag tag1 = new Tag();
         Tag tag2 = new Tag();
