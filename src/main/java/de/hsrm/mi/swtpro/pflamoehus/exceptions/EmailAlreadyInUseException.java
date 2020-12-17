@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public class EmailAlreadyInUseException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
-    final static Logger emailAlreadyInUseExceptionLogger = LoggerFactory.getLogger(EmailAlreadyInUseException.class);
+    static final Logger emailAlreadyInUseExceptionLogger = LoggerFactory.getLogger(EmailAlreadyInUseException.class);
 
     /**
      * Default massage.

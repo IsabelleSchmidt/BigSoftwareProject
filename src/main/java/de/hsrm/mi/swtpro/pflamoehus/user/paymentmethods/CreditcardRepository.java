@@ -25,8 +25,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
     /**
      * Find a creditcard by its id.
      * 
-     * @param Id wanted id
+     * @param id wanted id
      * @return optional of type creditcard
      */
-    Optional<Creditcard> findById(long Id);
+    Optional<Creditcard> findById(long id);
 }

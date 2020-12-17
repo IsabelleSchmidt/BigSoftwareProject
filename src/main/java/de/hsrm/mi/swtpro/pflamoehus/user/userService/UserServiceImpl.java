@@ -141,10 +141,10 @@ public class UserServiceImpl implements UserService{
             // encodePassword(user.getPassword(), user);
 
             if (user.getBankcard() != null) {
-                encodeIBAN(found.isPresent()?found.get().getBankcard():null, user);
+                encodeIBAN(user.getBankcard() , user);
             }
             if (user.getCreditcard() != null) {
-                encodeCardNumber(found.isPresent()? found.get().getCreditcard():null, user);
+                encodeCardNumber(user.getCreditcard(), user);
             }
 
         } catch (OptimisticLockException ole) {
