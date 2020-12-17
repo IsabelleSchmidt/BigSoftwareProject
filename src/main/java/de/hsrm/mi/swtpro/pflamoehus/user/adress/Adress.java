@@ -16,6 +16,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
+/*
+ * Adress entity for its database.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 1
+ */
 @Entity
 public class Adress {
 
@@ -47,97 +53,145 @@ public class Adress {
     @ManyToMany(mappedBy = "allAdresses", fetch = FetchType.LAZY)
     private List<User> user;
 
-    //Getter and Setter
     /**
-     * @return long
+     * Get id.
+     * 
+     * @return id
      */
     public long getId() {
         return adressID;
     }
 
     /**
-     * @return long
+     * Get version.
+     * 
+     * @return version
      */
     public long getVersion() {
         return version;
     }
 
     /**
-     * @return String
+     * Get streetname.
+     * 
+     * @return streetname
      */
     public String getStreetName() {
         return streetName;
     }
 
     /**
-     * @param streetName
+     * Set streetname.
+     * 
+     * @param streetName streetname that has to be set
      */
     public void setStreetName(String streetName) {
         this.streetName = streetName;
     }
 
     /**
-     * @return String
+     * Get housenumber.
+     * 
+     * @return housenumber
      */
     public String getHouseNumber() {
         return houseNumber;
     }
 
     /**
-     * @param houseNumber
+     * Set housenumber.
+     * 
+     * @param houseNumber housenumber that has to be set
      */
     public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
     }
 
     /**
-     * @return int
+     * Get postcode.
+     * 
+     * @return postcode
      */
     public String getPostCode() {
         return postCode;
     }
 
     /**
-     * @param postCode
+     * Set postcode.
+     * 
+     * @param postCode postcode that has to be set
      */
     public void setPostCode(String postCode) {
         this.postCode = postCode;
     }
 
     /**
-     * @return String
+     * Get city.
+     * 
+     * @return city
      */
     public String getCity() {
         return city;
     }
 
     /**
-     * @param city
+     * Set city.
+     * 
+     * @param city city that has to be set
      */
     public void setCity(String city) {
         this.city = city;
     }
 
     /**
-     * @return List<User>
+     * Get users.
+     * 
+     * @return list of users
      */
     public List<User> getUser() {
         return user;
     }
 
     /**
-     * @param user
+     * Set users.
+     * 
+     * @param user users that have to be set
      */
     public void setUser(List<User> user) {
         this.user = user;
     }
 
+    /**
+     * Adds a user to the user list.
+     * 
+     * @param us user that should get added
+     */
+    public void addUser (User us){
+        if(!user.contains(us)){
+            user.add(us);
+        }
+    }
+
+    /**
+     * Removes a user from the user list.
+     * 
+     * @param us user that should get removed
+     */
+    public void removeUser(User us){
+        if (user != null){
+            user.remove(us);
+        }
+    }
+
+    /**
+     * To generate a adress as a string.
+     * 
+     * @return String
+     */
     @Override
     public String toString() {
         return "Adress [adressID=" + adressID + ", city=" + city + ", houseNumber=" + houseNumber + ", postCode="
                 + postCode + ", streetName=" + streetName + ", user=" + user + ", version=" + version + "]";
     }
-
-    
 
 }

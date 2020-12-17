@@ -6,13 +6,20 @@ import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ValidCreditCardNumberValidator implements ConstraintValidator<ValidCreditCardNumber, String> {
+/*
+ * ValidCreditCardNumberValidator
+ * The given creditcard number has to equal one of the offical patterns of one of the most used credit card companies.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 1
+ */
+ public class ValidCreditCardNumberValidator implements ConstraintValidator<ValidCreditCardNumber, String> {
 
     
     /** 
-     * @param value
-     * @param context
-     * @return boolean
+     * @param value given creditcard number
+     * @param context contextual data
+     * @return valid or not
      */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {

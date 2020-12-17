@@ -12,16 +12,22 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 
+/**
+ * PictureServiceImpl for implementing the interface 'PictureService'.
+ * 
+ * @author Svenja Schenk
+ * @version 1
+ */
 @Service
-
 public class PictureServiceImpl implements PictureService {
-
 
     @Autowired
     PictureRepository pictureRepository;
 
     /**
-     * @return List<Picture> returns all pictures found in the database
+     * Returns all pictures found in the database.
+     * 
+     * @return list of pictures
      */
     @Override
     public List<Picture> findAll() {
@@ -29,8 +35,10 @@ public class PictureServiceImpl implements PictureService {
     }
 
     /**
-     * @param id
-     * @return Picture returns the picture with the given id
+     * Returns the picture with the given id.
+     * 
+     * @param id given id
+     * @return picture 
      */
     @Override
     public Picture findPictureWithID(long id) {
@@ -42,8 +50,10 @@ public class PictureServiceImpl implements PictureService {
     }
 
     /**
-     * @param product
-     * @return List<Picture> return alle pictures with the given product
+     * Returns alle pictures with the given product.
+     * 
+     * @param product given product
+     * @return list of pictures
      */
     @Override
     public List<Picture> findPicturesWithProduct(Product product) {
@@ -51,9 +61,10 @@ public class PictureServiceImpl implements PictureService {
     }
 
     /**
-     * @param path
-     * @return List<Picture> Filters the list for images that contain the relative
-     *         path
+     * Filters the list for images that contain the relative path.
+     * 
+     * @param path given path
+     * @return list of pictures
      */
     @Override
     public List<Picture> findAllWithPath(String path) {

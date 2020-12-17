@@ -21,6 +21,12 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
+/*
+ * Bankcard entity for its database.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 1
+ */
 @Entity
 public class Bankcard {
 
@@ -51,75 +57,121 @@ public class Bankcard {
     @JoinTable(name = "User_Bankcards", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "userID"))
     private List<User> user;
 
-    // Getter and Setter
     /**
-     * @return long
+     * Get id.
+     * 
+     * @return id
      */
     public long getId() {
         return this.id;
     }
 
     /**
-     * @return long
+     * Get version.
+     * 
+     * @return version
      */
     public long getVersion() {
         return this.version;
     }
 
     /**
-     * @param iban
+     * Set iban.
+     * 
+     * @param iban iban that has to be set
      */
     public void setIban(String iban) {
         this.iban = iban;
     }
 
     /**
-     * @return String
+     * Get iban.
+     * 
+     * @return iban
      */
     public String getIban() {
         return this.iban;
     }
 
     /**
-     * @return String
+     * Get owner.
+     * 
+     * @return owner
      */
     public String getOwner() {
         return this.owner;
     }
 
     /**
-     * @param owner
+     * Set owner.
+     * 
+     * @param owner owner that has to be set
      */
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
     /**
-     * @return String
+     * Get bank.
+     * 
+     * @return bank
      */
     public String getBank() {
         return this.bank;
     }
 
     /**
-     * @param bank
+     * Set bank.
+     * 
+     * @param bank bank that has to be set
      */
     public void setBank(String bank) {
         this.bank = bank;
     }
 
-
+    /**
+     * Get users.
+     * 
+     * @return list of users
+     */
     public List<User> getUser() {
         return user;
     }
 
+    /**
+     * Set users.
+     * 
+     * @param user users that have to be set
+     */
     public void setUser(List<User> user) {
         this.user = user;
     }
 
+    /**
+     * Adds a user to the user list.
+     * 
+     * @param us user that should get added
+     */
+    public void addUser (User us){
+        if(!user.contains(us)){
+            user.add(us);
+        }
+    }
+
+    /**
+     * Removes a user from the user list.
+     * 
+     * @param us user that should get removed
+     */
+    public void removeUser(User us){
+        if (user != null){
+            user.remove(us);
+        }
+    }
+
     
-    /** 
-     * @return String
+     /**
+     * To generate a bankcard as a string.
      */
     @Override
     public String toString() {

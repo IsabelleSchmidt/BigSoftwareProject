@@ -18,6 +18,12 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.productService.ProductService;
 
+/*
+ * ProductRestApi for communication between front- and backend.
+ * 
+ * @author Svenja Schenk, Ann-Cathrin Fabian
+ * @version 3
+ */
 @RestController
 @RequestMapping("/api")
 public class ProductRestApi {
@@ -26,7 +32,9 @@ public class ProductRestApi {
     ProductService productService;
 
     /**
-     * @return List<Product> returns all products in the database
+     * Return a list of all products in the database.
+     * 
+     * @return list of products
      */
     @GetMapping("/products")
     public List<Product> allProducts() {
@@ -34,8 +42,10 @@ public class ProductRestApi {
     }
 
     /**
-     * @param articleNr
-     * @return Product returns the product with the given id
+     * Return the product with the given id.
+     * 
+     * @param articleNr given articlenr
+     * @return product
      */
     @GetMapping("/product/{articleNr}")
     public Product getProductWithID(@PathVariable long articleNr) {
@@ -45,7 +55,9 @@ public class ProductRestApi {
     }
 
     /**
-     * @param articleNr deletes the product with the given id
+     * Delete a product with the given id.
+     * 
+     * @param articleNr product that should get deleted
      */
     @DeleteMapping("/product/{articleNr}")
     public void deleteProductWithArticleNr(@PathVariable long articleNr) {
@@ -54,19 +66,23 @@ public class ProductRestApi {
     }
 
     /**
-     * @param newProduct
-     * @return Product returns the edited/new product
+     * Create new product.
+     * 
+     * @param newProduct the new product that has du get saved
+     * @return new product
      */
     @PostMapping("/product/new")
     public Product postNewProduct(@RequestBody Product newProduct) {
-        // TODO bratenserviceexception fangen, wenn wir eine haben
+        // TODO: bratenserviceexception fangen, wenn wir eine haben
         return productService.editProduct(newProduct);
 
     }
 
     /**
-     * @param articleNr
-     * @return Set<Picture> returns all pictures of a product
+     * Get all pictures of an product.
+     * 
+     * @param articleNr articlenr of the wanted product
+     * @return all pictures
      */
     @GetMapping("/{articleNr}/pictures")
     public Set<Picture> getAllPicturesOfAProduct(@PathVariable long articleNr) {

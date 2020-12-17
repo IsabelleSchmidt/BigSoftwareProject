@@ -6,12 +6,20 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+/*
+ * UserBroker for the communication between back- and frontend.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 1
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class UserBrokerConfigurations implements WebSocketMessageBrokerConfigurer {
 
     /**
-     * @param registry the StompBroker reacts to everything with the prefix "/user"
+     * The StompBroker reacts to everything with the prefix "/user".
+     * 
+     * @param registry for configuring message broker options
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
@@ -19,7 +27,9 @@ public class UserBrokerConfigurations implements WebSocketMessageBrokerConfigure
     }
 
     /**
-     * @param registry Registration requests are received
+     * Register requests from frontend.
+     * 
+     * @param registry for registering STOMP endpoints
      */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {

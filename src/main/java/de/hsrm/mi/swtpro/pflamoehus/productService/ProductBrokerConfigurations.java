@@ -6,13 +6,20 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+/*
+ * ProductBroker for communication between front- and backend.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 2
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class ProductBrokerConfigurations implements WebSocketMessageBrokerConfigurer {
 
     /**
-     * @param registry the StompBroker reacts to everything with the prefix
-     *                 "/product"
+     * The StompBroker reacts to everything with the prefix "/product".
+     * 
+     * @param registry for configuring message broker options
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
@@ -20,7 +27,9 @@ public class ProductBrokerConfigurations implements WebSocketMessageBrokerConfig
     }
 
     /**
-     * @param registry Registration requests are received
+     * Recievinig requests from frontend.
+     * 
+     * @param registry for registering STOMP endpoint
      */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {

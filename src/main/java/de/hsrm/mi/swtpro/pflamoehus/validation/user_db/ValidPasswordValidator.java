@@ -6,12 +6,19 @@ import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ValidPasswordValidator implements ConstraintValidator<ValidPassword, String> {
+/*
+ * ValidPasswordValidator
+ * The given password has to match the given pattern.
+ * 
+ * @author Svenja Schenk
+ * @version 2
+ */
+ public class ValidPasswordValidator implements ConstraintValidator<ValidPassword, String> {
 
     /**
-     * @param value
-     * @param context
-     * @return boolean
+     * @param value given password
+     * @param context contextual data
+     * @return valid or not
      */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {

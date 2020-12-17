@@ -18,19 +18,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.ValidPicture;
 
-
+/**
+ * Picture entitiy for its database.
+ * 
+ * @author Svenja Schenk, Ann-Cathrin Fabian
+ * @version 3
+ */
 @Entity
-@Table(name="Picture")
+@Table(name = "Picture")
 public class Picture {
-
-
-   @PreRemove
-   public void delete(){
-       if(product!=null){
-           product.deletePicture(this);
-       }
-       
-   }
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -41,59 +37,68 @@ public class Picture {
     @JsonIgnore
     private long version;
 
+    /**
+     * one reference of a bi-directional relationship gets ignored, so the infinite
+     * recursion is solved
+     */
     @ManyToOne
-    @JoinColumn(name="product")
-    @JsonIgnore//one reference of a bi-directional relationship gets ignored, so the infinite recursion is solved
+    @JoinColumn(name = "product")
+    @JsonIgnore
     private Product product;
-
 
     @NotEmpty
     @ValidPicture
-    @Column(unique=true)
+    @Column(unique = true)
     private String path;
-    
-    //Getter and Setter
-    /** 
-     * @return Product
+
+    /**
+     * Get product.
+     * 
+     * @return product
      */
     public Product getProduct() {
         return product;
     }
 
-    
-    /** 
-     * @param product
+    /**
+     * Set product.
+     * 
+     * @param product -> product that has to be set
      */
     public void setProduct(Product product) {
         this.product = product;
     }
- 
 
-    
-    /** 
-     * @return String
+    /**
+     * Get path.
+     * 
+     * @return path
      */
     public String getPath() {
         return path;
     }
 
-    
-    /** 
-     * @param path
+    /**
+     * Set path.
+     * 
+     * @param path -> path that has to get set
      */
     public void setPath(String path) {
         this.path = path;
     }
 
-    
-    /** 
-     * @return long
+    /**
+     * Get id.
+     * 
+     * @return id
      */
-    public long getId(){
+    public long getId() {
         return this.id;
     }
-    
-    /** 
+
+    /**
+     * To generate a picutre as a string.
+     *
      * @return String
      */
     @Override
@@ -101,9 +106,14 @@ public class Picture {
         return "Picture [id=" + id + ", path=" + path + ", version=" + version + "]";
     }
 
-    
-    
-   
-    
-    
+    /**
+     * For deleting all pictures before deleting a product.
+     */
+    @PreRemove
+    public void delete() {
+        if (product != null) {
+            product.removePicture(this);
+        }
+
+    }
 }

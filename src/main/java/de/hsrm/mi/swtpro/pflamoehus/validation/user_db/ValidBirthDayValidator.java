@@ -6,14 +6,19 @@ import java.time.Period;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ValidBirthDayValidator implements ConstraintValidator<ValidBirthDay, LocalDate> {
+/*
+ * ValidBirthDayValidator
+ * The user has to be at least 18. Otherwise he can't purchase products from the shop.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 1
+ */
+ public class ValidBirthDayValidator implements ConstraintValidator<ValidBirthDay, LocalDate> {
 
     /**
-     * @param value
-     * @param context
-     * @return boolean
-     * 
-     * Valid, if the user is at least 18 years old
+     * @param value given birthdate
+     * @param context contextual data
+     * @return valid or not
      */
     @Override
     public boolean isValid(LocalDate value, ConstraintValidatorContext context) {

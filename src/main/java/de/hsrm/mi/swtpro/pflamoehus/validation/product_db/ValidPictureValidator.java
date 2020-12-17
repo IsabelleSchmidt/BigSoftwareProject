@@ -6,12 +6,19 @@ import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ValidPictureValidator implements ConstraintValidator<ValidPicture, String> {
+/*
+ * ValidPictureValidator
+ * Compares a given picture with a pattern. The path has to at least end with .jpg or .png.
+ * 
+ * @author Svenja Schenk
+ * @version 2
+ */
+ public class ValidPictureValidator implements ConstraintValidator<ValidPicture, String> {
 
     /**
-     * @param value   passed value
-     * @param context Provides contextual data and operation
-     * @return boolean if the entered house number is valid or not
+     * @param value given picture
+     * @param context contextual data
+     * @return valid or not
      */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {

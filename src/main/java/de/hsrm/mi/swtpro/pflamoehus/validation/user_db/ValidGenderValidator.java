@@ -3,10 +3,31 @@ package de.hsrm.mi.swtpro.pflamoehus.validation.user_db;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/*
+ * ValidGenderValidator
+ * The given gender has to be the same as one value in the gender enum.
+ * 
+ * @author Svenja Schenk, Ann-Cathrin Fabian
+ * @version 2
+ */
 public class ValidGenderValidator implements ConstraintValidator<ValidGender, String> {
 
+    /**
+     * Gender enum, which defines the valid types of gender.
+     */
     private enum GENDER {
-        MALE("MALE"), FEMALE("FEMALE"), DIVERSE("DIVERSE");
+        /**
+         * type 'männlich'
+         */
+        MALE("MALE"),
+        /**
+         * type 'weiblich'
+         */
+        FEMALE("FEMALE"),
+        /**
+         * type 'diverse'
+         */
+        DIVERSE("DIVERSE");
 
         private String gender;
 
@@ -20,9 +41,9 @@ public class ValidGenderValidator implements ConstraintValidator<ValidGender, St
     }
 
     /**
-     * @param value
-     * @param context
-     * @return boolean
+     * @param value given gender
+     * @param context contextual data
+     * @return valid or not
      */
 
     @Override

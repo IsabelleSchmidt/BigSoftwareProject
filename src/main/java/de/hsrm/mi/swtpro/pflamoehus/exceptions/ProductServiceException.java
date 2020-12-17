@@ -1,16 +1,28 @@
 package de.hsrm.mi.swtpro.pflamoehus.exceptions;
 
-public class ProductServiceException extends RuntimeException{
+/**
+ * ProductServiceException for errors in the ProductSerivce classes.
+ * 
+ * @author Svenja Schenk
+ * @version 1
+ */
+public class ProductServiceException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
 
     /**
-     *
+     * Method for throwing a exception with a custom message.
+     * 
+     * @param msg -> message that gets printed
      */
-    private static final long serialVersionUID = 1L;
-    public ProductServiceException(String msg){
+    public ProductServiceException(String msg) {
         super(msg);
     }
 
-    public ProductServiceException(){
+    /**
+     * Default massage.
+     */
+    public ProductServiceException() {
         super("Exception occured while trying to access or save repository data.");
     }
 }
