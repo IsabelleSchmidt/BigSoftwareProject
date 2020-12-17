@@ -5,12 +5,19 @@ import javax.validation.ConstraintValidatorContext;
 
 import de.hsrm.mi.swtpro.pflamoehus.product.RoomType;
 
-public class ValidRoomTypeValidator implements ConstraintValidator<ValidRoomType, String> {
+/*
+ * ValidRoomTypeValidator
+ * The given producttype has to be the same as one value in the producttype enum.
+ * 
+ * @author Svenja Schenk, Ann-Cathrin Fabian
+ * @version 2
+ */
+ public class ValidRoomTypeValidator implements ConstraintValidator<ValidRoomType, String> {
 
     /**
-     * @param value   passed value
-     * @param context Provides contextual data and operation
-     * @return boolean if the entered RoomType exists in the database
+     * @param value given roomtype
+     * @param context contextual data
+     * @return valid or not
      */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {

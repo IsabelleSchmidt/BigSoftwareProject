@@ -6,8 +6,20 @@ import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/*
+ * ValidEmailValidator
+ * The given email has to match the given pattern.
+ * 
+ * @author Svenja Schenk
+ * @version 2
+ */
 public class ValidEmailValidator implements ConstraintValidator<ValidEmail, String> {
 
+    /**
+     * @param value given email
+     * @param context contextual data
+     * @return valid or not
+     */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
 

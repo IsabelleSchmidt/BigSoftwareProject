@@ -6,9 +6,27 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CreditcardRepository extends JpaRepository<Creditcard, Long> {
-    //so you can implement a function which look for expired CreditCards so you have to get a new PaymentMethod
+/*
+ * Creditcard-Repository for different operations within the database.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 1
+ */
+ public interface CreditcardRepository extends JpaRepository<Creditcard, Long> {
+    /**
+     * Finds all creditcards with a certain date of expiry. It's usefull for finding expired creditcards so the user has
+     * to choose a new payment method.
+     * 
+     * @param expiry wanted date of expiry
+     * @return list of creditcards
+     */
     List<Creditcard> findByDateOfExpiry(LocalDate expiry);
-    Optional<Creditcard> findById(long Id);   
-
+    
+    /**
+     * Find a creditcard by its id.
+     * 
+     * @param Id wanted id
+     * @return optional of type creditcard
+     */
+    Optional<Creditcard> findById(long Id);
 }

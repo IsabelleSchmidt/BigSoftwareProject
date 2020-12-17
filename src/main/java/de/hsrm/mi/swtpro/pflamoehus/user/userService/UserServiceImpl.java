@@ -18,51 +18,57 @@ import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 
+/*
+ * UserServiceImpl for implementing the interface 'UserService'.
+ * 
+ * @author Svenja Schenk, Ann-Cathrin Fabian
+ * @version 3
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     PasswordEncoder pe;
+
     Logger userServiceLogger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     /**
-     * @return List<User>
+     * Returns a list of all users written in the database.
      * 
-     *         returns all users in the database
+     * @return list of users
      */
     @Override
-    public List<User> allUsers() {
+    public List<User> allUsers() {  //gut so
         return userRepository.findAll();
     }
 
     /**
-     * @param email
-     * @return User
+     * Returns the user with the given email adress.
      * 
-     *         returns the user with the given email
+     * @param email wanted email
+     * @return user
      */
     @Override
-    public User searchUserWithEmail(String email) {
-        userServiceLogger.info("Searching for user with given mail.");
+    public User searchUserWithEmail(String email) { //gut so
+            
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isEmpty()) {
-            userServiceLogger.error("User not found");
             throw new UserServiceException("User with this mail wasn't found in the database");
         }
         return user.get();
     }
 
     /**
-     * @param id
-     * @return Optional<User>
+     * Searches for the user with the given id.
      * 
-     *         return the user with the given id
+     * @param id wanted id
+     * @return user
      */
     @Override
-    public User searchUserWithId(long id) {
-        userServiceLogger.info("Searching for User with given ID.");
+    public User searchUserWithId(long id) { //gut so
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new UserServiceException("User with this ID wasn't found in the database");
@@ -71,13 +77,13 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @param editedUser
-     * @return User
+     * Edits and saves the given (new) user.
      * 
-     *         editing or creating a new user
+     * @param editedUser new or edited user
+     * @return user
      */
     @Override
-    public User editUser(User editedUser) {
+    public User editUser(User editedUser) { //TODO nochmal drueber schauen
         try {
             // TODO: überprüfen ob immer gleich encodet wird
             User foundUser = searchUserWithEmail(editedUser.getEmail());
@@ -97,12 +103,12 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @param id
+     * Delets the user with the given id.
      * 
-     *           deleting a user with the given id
+     * @param id user id that should get deleted
      */
     @Override
-    public void deleteUser(long id) {
+    public void deleteUser(long id) {   //gut so
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new UserServiceException("User with given ID was not found in the database.");
@@ -113,13 +119,13 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @param user
-     * @return User
+     * Registers the new user given.
      * 
-     *         register a new user
+     * @param user new user
+     * @return user
      */
     @Override
-    public User registerUser(User user) {
+    public User registerUser(User user) { 
 
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new EmailAlreadyInUseException();
@@ -154,13 +160,11 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * When creating a new user or editing the iban, the new iban has to get
+     * encoded.
      * 
-     * 
-     * @param cards
-     * @param user
-     * 
-     *              Creating a new user oder editing the iban requires encoding the
-     *              attribute
+     * @param cards new or edited bankcards
+     * @param user user from database
      */
    
     private void encodeIBAN(List<Bankcard> cards, User user) {
@@ -173,12 +177,11 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * When creating a new user or editing the creditcard number, the new number has
+     * to get encoded.
      * 
-     * @param cards
-     * @param user
-     * 
-     *              Creating a new user oder editing the cardnumber requires
-     *              encoding the attribute
+     * @param cards edited or new creditcards
+     * @param user user from database
      */
 
     private void encodeCardNumber (List<Creditcard> cards, User user){
@@ -194,11 +197,10 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @param password
-     * @param user
+     * Creating a new user or editing the password requires encoding the attribute.
      * 
-     *                 Creating a new user oder editing the password requires
-     *                 encoding the attribute
+     * @param password new password
+     * @param user user from database or a new user
      */
 
     private void encodePassword (String password, User user){
@@ -209,11 +211,11 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @param editedUser
-     * @param foundUser
+     * When a user changes his bankcards, for example the iban or he adds another
+     * one, we have to encode the new iban.
      * 
-     *                   If a user changes his Bankcards, for Example the IBAN or he
-     *                   adds another one, we have to encode the new IBAN number
+     * @param editedUser new user
+     * @param foundUser user from database
      */
     private void editBankcard(User editedUser, User foundUser) {
 
@@ -232,12 +234,11 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @param editedUser
-     * @param foundUser
+     * When a user changes his creditcards, for example the creditcard number or he
+     * adds antoher one, we habe to encode the new creditcard number.
      * 
-     *                   If a user changes his creditcards, for example the
-     *                   credicartnumber or he adds another one, we have to encode
-     *                   the new creditcardnumber
+     * @param editedUser new user
+     * @param foundUser user from database
      */
     private void editCreditcard(User editedUser, User foundUser) {
 

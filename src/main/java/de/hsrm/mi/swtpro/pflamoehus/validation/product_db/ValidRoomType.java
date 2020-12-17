@@ -9,18 +9,35 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-/**
- * Triggers a message if an wrong RoomType is entered.
+/*
+ * ValidRoomType
+ * Triggers a message when the given roomtype is not valid.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 2
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidRoomTypeValidator.class)
 @Documented
 public @interface ValidRoomType {
-    String message() default "This is not an existing room type. The following types are available: bathroom, bedroom, living room, kitchen / eat-in kitchen, children's room, study";
 
+    /**
+     * 
+     * @return default message
+     */
+    String message() default "This is not an existing room type. The following types are available: Wohnzimmer, Küche/Wohnküche, Kinderzimmer, Arbeitszimmer";
+
+    /**
+     * 
+     * @return class
+     */
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * 
+     * @return class
+     */
     Class<?>[] groups() default {};
 
 }

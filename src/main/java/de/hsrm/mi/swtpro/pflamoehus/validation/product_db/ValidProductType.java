@@ -9,18 +9,35 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-/**
- * Triggers a message if an wrong ProductType is entered.
+/*
+ * ValidProductType
+ * Triggers a message when the given producttype is not valid.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 1
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidProductTypeValidator.class)
 @Documented
 public @interface ValidProductType {
-    String message() default "Das ist kein existierender Produkttyp. Folgende Typen stehen zur Auswahl: Pflanze, Tisch, Bett, Stuhl, Dekoration, Schrank/Kommode, Sofa/Couch";
+    
+    /**
+     * 
+     * @return default message
+     */
+    String message() default "This is not an existing type of product. The following types are available: Pflanze, Tisch, Bett, Stuhl, Dekoration, Schrank/Kommode, Sofa/Couch";
 
+    /**
+     * 
+     * @return class
+     */
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * 
+     * @return class
+     */
     Class<?>[] groups() default {};
 
 }

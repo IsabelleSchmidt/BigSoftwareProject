@@ -9,18 +9,36 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-/**
- * Triggers a message if an wrong Picture is entered.
+/*
+ * ValidPicture
+ * Triggers a message when the given picture is not valid.
+ * 
+ * 
+ * @author Svenja Schenk
+ * @version 2
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidPictureValidator.class)
 @Documented
 public @interface ValidPicture {
+
+    /**
+     * 
+     * @return default message
+     */
     String message() default "Es werden nur Links zu .png und .jpg/.jpeg Dateien akzeptiert.";
 
+    /**
+     * 
+     * @return class
+     */
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * 
+     * @return class
+     */
     Class<?>[] groups() default {};
 
 }

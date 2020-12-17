@@ -21,6 +21,12 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidCreditCardNumber;
 import java.time.LocalDate;
 import java.util.List;
 
+/*
+ * Creditcard entity for its database.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 1
+ */
 @Entity
 public class Creditcard {
 
@@ -51,68 +57,115 @@ public class Creditcard {
     private List<User> user;
 
     /**
-     * @return long
+     * Get id.
+     * 
+     * @return id
      */
     public long getId() {
         return this.id;
     }
 
     /**
-     * @return long
+     * Get version.
+     * 
+     * @return version
      */
     public long getVersion() {
         return this.version;
     }
 
     /**
-     * @return String
+     * Get Owner.
+     * 
+     * @return owner
      */
     public String getOwner() {
         return this.owner;
     }
 
     /**
-     * @param owner
+     * Set owner.
+     * 
+     * @param owner owner that has to be set
      */
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
     /**
-     * @return String
+     * Get creditcardnumber.
+     * 
+     * @return creditcardnumber
      */
     public String getCreditcardnumber() {
         return this.creditcardnumber;
     }
 
     /**
-     * @param number
+     * Set creditcardnumber.
+     * 
+     * @param number creditcard number that has to be set
      */
     public void setCreditcardnumber(String number) {
         this.creditcardnumber = number;
     }
 
     /**
-     * @return LocalDate
+     * Get date of experiy.
+     * 
+     * @return date of experiy.
      */
     public LocalDate getDateOfExpiry() {
         return this.dateOfExpiry;
     }
 
     /**
-     * @param dateOfExperiy
+     * Set date of experiy.
+     * 
+     * @param dateOfExperiy date of experiy that has ot be set
      */
     public void setDateOfExpiry(LocalDate dateOfExperiy) {
         this.dateOfExpiry = dateOfExperiy;
     }
 
-
+    /**
+     * Get users.
+     * 
+     * @return list of users
+     */
     public List<User> getUser() {
         return user;
     }
 
+    /**
+     * Set users.
+     * 
+     * @param user list of users that has to be set
+     */
     public void setUser(List<User> user) {
         this.user = user;
+    }
+
+    /**
+     * Adds a user to the user list.
+     * 
+     * @param us user that should get added
+     */
+    public void addUser (User us){
+        if(!user.contains(us)){
+            user.add(us);
+        }
+    }
+
+    /**
+     * Removes a user from the user list.
+     * 
+     * @param us user that should get removed
+     */
+    public void removeUser(User us){
+        if (user != null){
+            user.remove(us);
+        }
     }
 
     @Override

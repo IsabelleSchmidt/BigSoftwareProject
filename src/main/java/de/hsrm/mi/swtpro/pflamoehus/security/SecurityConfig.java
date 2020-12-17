@@ -19,80 +19,82 @@ import org.springframework.stereotype.Service;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 
-@Configuration @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+/*
+ * SecurityConfiq: certain pages can only be accessed by certain types of user. So in this class we define 
+ * who can access which part of the website.
+ * 
+ * @author Svenja Schenk, Ann-Cathrin Fabian
+ * @version 3
+ */
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired BenutzerUserDetailService buds;
+    @Autowired
+    BenutzerUserDetailService buds;
 
-    
-    /** 
-     * @return PasswordEncoder
+    /**
+     * Implementing the service for encoding some of the given attributes of an
+     * user.
+     * 
+     * @return passwordencoder
      */
-    @Bean PasswordEncoder getPasswordEncoder() {
+    @Bean
+    PasswordEncoder getPasswordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-    
-    
-    /** 
-     * @param http
-     * @throws Exception
+
+    /**
+     * Defining who can access which part of the website. The different roles are:
+     * user, default visitor and worker.
+     * 
+     * @param http to configure the security for specific http requests
+     * @throws Exception if a request doesn't work
      */
     @Override
-    protected void configure(HttpSecurity http) throws Exception{
-        http.authorizeRequests()
-            .antMatchers("/").permitAll()
-            .antMatchers("/console/**").permitAll() //am ende loeschen
-            .antMatchers("/products").permitAll()
-            .antMatchers("/favorites").permitAll()
-            .antMatchers("/cart").permitAll()
-            .antMatchers("/rooms").permitAll()
-            .antMatchers("/console/*").permitAll()
-            .antMatchers("/profile").hasRole("USER")
-        .and()
-            .formLogin()
-            .loginPage("/login")
-            .permitAll()
-        .and()
-            .logout()
-            .logoutUrl("/logout")
-            .permitAll()
-        .and()
-            .csrf()
-            .disable();
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/console/**").permitAll() // am ende loeschen
+                .antMatchers("/products").permitAll().antMatchers("/favorites").permitAll().antMatchers("/cart")
+                .permitAll().antMatchers("/rooms").permitAll().antMatchers("/console/*").permitAll()
+                .antMatchers("/profile").hasRole("USER").and().formLogin().loginPage("/login").permitAll().and()
+                .logout().logoutUrl("/logout").permitAll().and().csrf().disable();
 
         http.csrf().disable();
         http.headers().frameOptions().disable();
     }
 
-    
-    /** 
-     * @param authmanagerbuilder
-     * @throws Exception
+    /**
+     * Implementing an AuthenticationManagerBuilder for easy memory authentication.
+     * 
+     * @param authmanagerbuilder for easy memory authentication
+     * @throws Exception if the passwordEncoder isn't working properly
      */
     @Override
-    public void configure(AuthenticationManagerBuilder authmanagerbuilder) throws Exception{
+    public void configure(AuthenticationManagerBuilder authmanagerbuilder) throws Exception {
 
-        authmanagerbuilder
-            .userDetailsService(buds)
-            .passwordEncoder(getPasswordEncoder());
-    
+        authmanagerbuilder.userDetailsService(buds).passwordEncoder(getPasswordEncoder());
+
     }
 
+    /**
+    * Service class: Here it is possible to control the login of an user. If the email is not found, the user has to register himself first.
+    * Otherwise the password and username(email) get controlled and verified.
+    */
     @Service
     public class BenutzerUserDetailService implements UserDetailsService {
-        @Autowired private UserRepository userRepository;
+        @Autowired
+        private UserRepository userRepository;
+
         @Override
         public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
             Optional<User> user = userRepository.findByEmail(email);
-            if (user.isEmpty()) { 
-                throw new UsernameNotFoundException(email); }
-            return org.springframework.security.core.userdetails.User 
-                .withUsername(email)
-                .password(getPasswordEncoder().encode(user.get().getPassword()))
-                .roles("USER")  //TODO: Muss später noch geschaut werden, wie man dann eventuelle Lagerarbeiter etc. entsprechend setzt. Nach aktuellem Stand aber noch nicht gebraucht
-                .build();
+            if (user.isEmpty()) {
+                throw new UsernameNotFoundException(email);
+            }
+            return org.springframework.security.core.userdetails.User.withUsername(email)
+                    .password(getPasswordEncoder().encode(user.get().getPassword())).roles("USER") 
+                    .build();
+        }
     }
-}
 
-    
 }

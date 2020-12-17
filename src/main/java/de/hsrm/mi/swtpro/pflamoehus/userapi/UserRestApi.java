@@ -13,6 +13,12 @@ import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserApiException;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.userService.UserService;
 
+/*
+ * UserRestController for the communcation between front- and backend.
+ * 
+ * @author Svenja Schenk, Ann-Cathrin Fabian
+ * @version 2
+ */
 @RestController
 @RequestMapping("/api")
 public class UserRestApi {
@@ -21,11 +27,11 @@ public class UserRestApi {
     UserService userService;
 
     /**
-     * @param user
-     * @return User
-     * @throws UserApiException
+     * Register a new given user.
      * 
-     *                          Register a new user
+     * @param user user that should get registered
+     * @return user
+     * @throws UserApiException gets thrown if the email is already in use
      */
     @PostMapping("/user")
     public User registerUser(@RequestBody User user) throws UserApiException {
@@ -38,11 +44,14 @@ public class UserRestApi {
         return user;
     }
 
-
-
+    /**
+     * Login an already existing user.
+     * 
+     * @param email user, that wants to get logged in
+     * @return user
+     */
     @GetMapping(value = "/user/{email}")  
     public User getUser(@PathVariable String email) {
-
         if (userService.searchUserWithEmail(email) != null) {
             return userService.searchUserWithEmail(email);
         } else {

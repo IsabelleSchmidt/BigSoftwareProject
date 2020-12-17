@@ -15,6 +15,12 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
 
+/*
+ * ProductServiceImpl for implementing the interface 'ProductService'.
+ * 
+ * @author Svenja Schenk, Ann-Cathrin Fabian
+ * @version 1
+ */
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -23,7 +29,8 @@ public class ProductServiceImpl implements ProductService {
     Logger productServiceLogger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     /**
-     * @return a list of all products
+     * 
+     * @return list of all products saved in the database
      */
     @Override
     public List<Product> allProducts() {
@@ -32,8 +39,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * @param articleNr unique key/identifier of the Product
-     * @return a product if the id is found, null otherwise
+     * Finds the product by its given articlenr.
+     * 
+     * @param articleNr wanted articlenr
+     * @return optional of type product
      */
     @Override
     public Optional<Product> searchProductwithArticleNr(long articleNr) {
@@ -45,11 +54,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * saves the edited product in the database
+     * To edit and save a given (new) product.
      * 
-     * @param editedProduct product object that has been edited
-     * @return the edited, saved product if the saving process was successful,
-     *         otherwise null
+     * @param editedProduct given product that has to be saved
+     * @return product
      */
     @Override
     public Product editProduct(Product editedProduct) {
@@ -63,7 +71,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * Deletes the product with the given id in the database
+     * Deleting a product by its given id.
+     * 
+     * @param id product-id that has to be deleted
      */
     @Override
     public void deleteProduct(long id) {
@@ -78,8 +88,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * @param type
-     * @return List<Product>
+     * Find all products with a certain type of product.
+     * 
+     * @param type wanted producttype
+     * @return list of products
      */
     @Override
     public List<Product> findAllProductsWithProductType(ProductType type) {
