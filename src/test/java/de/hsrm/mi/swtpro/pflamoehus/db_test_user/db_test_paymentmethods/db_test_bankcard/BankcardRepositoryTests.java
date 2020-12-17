@@ -17,7 +17,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
 

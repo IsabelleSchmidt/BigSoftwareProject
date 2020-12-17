@@ -140,10 +140,10 @@ public class UserServiceImpl implements UserService{
             // encodePassword(user.getPassword(), user);
 
             if (user.getBankcard() != null && !u.isPresent()) {
-                encodeIBAN(userRepository.findByEmail(user.getEmail()).get().getBankcard(), user);
+                encodeIBAN(u.get().getBankcard(), user);
             }
             if (user.getCreditcard() != null && !u.isPresent()) {
-                encodeCardNumber(userRepository.findByEmail(user.getEmail()).get().getCreditcard(), user);
+                encodeCardNumber(u.get().getCreditcard(), user);
             }
 
         } catch (OptimisticLockException ole) {
@@ -172,6 +172,7 @@ public class UserServiceImpl implements UserService{
             pe.encode(card.getIban());
         }
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+
             userRepository.findByEmail(user.getEmail()).get().setBankcard(cards);
             userRepository.save(user);
         }

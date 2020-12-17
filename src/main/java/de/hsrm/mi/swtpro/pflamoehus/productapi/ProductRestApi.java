@@ -87,10 +87,10 @@ public class ProductRestApi {
     @GetMapping("/{articleNr}/pictures")
     public Set<Picture> getAllPicturesOfAProduct(@PathVariable long articleNr) {
         Set<Picture> allPictures = null;
+        Optional<Product> found = productService.searchProductwithArticleNr(articleNr);
         try {
-            if (productService.searchProductwithArticleNr(articleNr).isPresent()) {
-                allPictures = productService.searchProductwithArticleNr(articleNr).get().getAllPictures();
-            }
+            allPictures = found.isPresent() ? found.get().getAllPictures() : null;
+
         } catch (ProductApiException pae) {
             // TODO: Abgefangene exception per fehlercode mitgeben?
         }
