@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
+
 /**
  * PictureService for different operations to apply on the pictures.
  * 
@@ -37,4 +38,5 @@ public interface PictureService {
      * @return list of picutres
      */
     public List<Picture> findAllWithPath(String path);
+
 }
