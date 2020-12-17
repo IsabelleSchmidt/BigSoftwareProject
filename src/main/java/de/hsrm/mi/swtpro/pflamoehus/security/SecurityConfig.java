@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/console/**").permitAll() // am ende loeschen
+        http.authorizeRequests().antMatchers("/").permitAll()
                 .antMatchers("/products").permitAll().antMatchers("/favorites").permitAll().antMatchers("/cart")
                 .permitAll().antMatchers("/rooms").permitAll().antMatchers("/console/*").permitAll()
                 .antMatchers("/profile").hasRole("USER").and().formLogin().loginPage("/login").permitAll().and()
@@ -86,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         private UserRepository userRepository;
 
         @Override
-        public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        public UserDetails loadUserByUsername(String email) {
             Optional<User> user = userRepository.findByEmail(email);
             if (user.isEmpty()) {
                 throw new UsernameNotFoundException(email);

@@ -1,5 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.db_test_product;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Set;
@@ -22,7 +23,7 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
-public class ProductValueTests {
+class ProductValueTests {
 
     @LocalServerPort
     private int port;
@@ -51,19 +52,19 @@ public class ProductValueTests {
     private final String FALSE_INFORMATION = "nein";
 
     @BeforeAll
-    public void createValidator() {
+    void createValidator() {
         factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
 
     @AfterAll
-    public void close() {
+    void close() {
         factory.close();
     }
 
     @Test
     @DisplayName("New Product with wrong validation properties")
-    public void false_validation() {
+    void false_validation() {
 
         Product product1 = new Product();
         int nrWrongValues = 8;
@@ -86,22 +87,20 @@ public class ProductValueTests {
         // check for as many validation errors as wrong values
         Set<ConstraintViolation<Product>> violations;
         violations = validator.validate(product1);
-        assertTrue(violations.size() == nrWrongValues,
-                "The number of false values needs to be " + nrWrongValues + "but is: " + violations.size());
+        assertEquals(violations.size(),nrWrongValues);
 
         product1.setPrice(2.0);
         violations = validator.validate(product1);
-        assertTrue(violations.size() == nrWrongValues - 1, "The price needs to be validated now.");
+        assertEquals(violations.size(),nrWrongValues - 1);
 
         product1.setPrice(FALSE_PRICE2);
         violations = validator.validate(product1);
-        assertTrue(violations.size() == nrWrongValues,
-                "The number of correctly detected violations is " + nrWrongValues);
+        assertEquals(violations.size(),nrWrongValues);
     }
 
     @Test
     @DisplayName("New Product with correct values")
-    public void product_data() {
+    void product_data() {
         Product product = new Product();
         product.setName(NAME);
         product.setDepth(DEPTH);

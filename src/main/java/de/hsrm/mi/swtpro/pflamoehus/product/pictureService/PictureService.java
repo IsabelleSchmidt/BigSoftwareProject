@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.product.pictureService;
+package de.hsrm.mi.swtpro.pflamoehus.product.pictureservice;
 
 import java.util.List;
 

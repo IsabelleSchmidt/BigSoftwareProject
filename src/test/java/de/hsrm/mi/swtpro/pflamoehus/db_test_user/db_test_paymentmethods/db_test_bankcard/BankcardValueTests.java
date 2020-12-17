@@ -1,6 +1,8 @@
 package de.hsrm.mi.swtpro.pflamoehus.db_test_user.db_test_paymentmethods.db_test_bankcard;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -53,15 +55,10 @@ public class BankcardValueTests {
     public void check_picture_validation() {
         
         Bankcard bc = new Bankcard();
-        int nrWrongValues = 3;
 
-        bc.setBank(WRONG_BANK);
         bc.setIban(WRONG_IBAN);
-        bc.setOwner(WRONG_OWNER);
 
-        Set<ConstraintViolation<Bankcard>> violations;
-        violations = validator.validate(bc);
-        assertThat(violations.size() == nrWrongValues);
+        assertThat(validator.validate(bc)).isNotEmpty();
                 
 
     }

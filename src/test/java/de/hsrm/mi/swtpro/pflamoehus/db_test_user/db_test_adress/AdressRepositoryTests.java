@@ -16,6 +16,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -36,11 +37,6 @@ public class AdressRepositoryTests {
     private final String HOUSENUMBER = "15a";
     private final String POSTCODE = "55433";
     private final String CITY = "Wiesbaden";
-
-    // @BeforeEach
-    // public void clear_repos() {
-    //     adressRepo.deleteAll();
-    // }
 
     @Test
     public void basecheck() {
@@ -79,10 +75,10 @@ public class AdressRepositoryTests {
         adress1.setPostCode(POSTCODE);
         adress1.setStreetName(STREETNAME);
         adressRepo.save(adress1);
-        assertTrue(adressRepo.count() == 1, "The repo should hold " + (1) + " adresses.");
+        assertEquals(adressRepo.count(),1);
 
         adressRepo.delete(adress1);
-        assertTrue(adressRepo.count() == 0, "The repo should have deleted " + (1) + " adresses.");
+        assertEquals(adressRepo.count(),0);
 
     }
 

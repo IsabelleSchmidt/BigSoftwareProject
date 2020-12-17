@@ -1,5 +1,8 @@
 package de.hsrm.mi.swtpro.pflamoehus.exceptions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Error message if an email is already in use.
  * 
@@ -9,12 +12,13 @@ package de.hsrm.mi.swtpro.pflamoehus.exceptions;
 public class EmailAlreadyInUseException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
+    Logger emailAlreadyInUseExceptionLogger = LoggerFactory.getLogger(EmailAlreadyInUseException.class);
 
     /**
      * Default massage.
      */
     public EmailAlreadyInUseException() {
-        System.out.println("Email is already in use.");
+        emailAlreadyInUseExceptionLogger.error("Email is already in use.");
     }
 
     /**
@@ -23,7 +27,7 @@ public class EmailAlreadyInUseException extends RuntimeException {
      * @param error -> the given error message
      */
     EmailAlreadyInUseException(String error) {
-        System.out.println(error);
+        emailAlreadyInUseExceptionLogger.error(error);
     }
 
 }

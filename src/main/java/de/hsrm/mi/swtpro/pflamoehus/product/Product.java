@@ -67,7 +67,7 @@ public class Product {
     private double price = 0.0;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Set<Picture> allPictures = new HashSet<Picture>();
+    private Set<Picture> allPictures = new HashSet<>();
 
     @PositiveOrZero
     @Digits(integer = 3, fraction = 2)
@@ -84,7 +84,7 @@ public class Product {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JsonIgnore
     @JoinTable(name = "Product_Tags", joinColumns = @JoinColumn(name = "articlenr"), inverseJoinColumns = @JoinColumn(name = "tagID"))
-    private Set<Tag> allTags = new HashSet<Tag>();
+    private Set<Tag> allTags = new HashSet<>();
 
     @Column(name = "available")
     @PositiveOrZero
@@ -243,7 +243,7 @@ public class Product {
      * 
      * @param allPictures -> pictures that have to be set
      */
-    public void setAllPictures(HashSet<Picture> allPictures) {
+    public void setAllPictures(Set<Picture> allPictures) {
         this.allPictures = allPictures;
     }
 
@@ -325,7 +325,7 @@ public class Product {
      * 
      * @param allTags -> tags that have to be set
      */
-    public void setAllTags(HashSet<Tag> allTags) {
+    public void setAllTags(Set<Tag> allTags) {
         this.allTags = allTags;
     }
 

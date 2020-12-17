@@ -16,10 +16,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
     /**
      * Find all adresses in the given city.
      * 
-     * @param City wanted city
+     * @param city wanted city
      * @return list of adresses
      */
-    List<Adress> findByCity (String City);
+    List<Adress> findByCity (String city);
 
     /**
      * Find all adresses with the given postcode.

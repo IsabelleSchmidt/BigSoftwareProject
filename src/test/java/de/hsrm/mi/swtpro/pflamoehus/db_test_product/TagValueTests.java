@@ -1,5 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.db_test_product;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -39,7 +40,7 @@ public class TagValueTests {
         Tag tag1 = new Tag();
         tag1.setValue(FALSE_VALUE);
         Set<ConstraintViolation<Tag>> violations = validator.validate(tag1);
-        assertTrue(violations.size() == 1, "The value must have a length of  3 chars minimum");
+        assertEquals(violations.size(),1);
 
     }
 

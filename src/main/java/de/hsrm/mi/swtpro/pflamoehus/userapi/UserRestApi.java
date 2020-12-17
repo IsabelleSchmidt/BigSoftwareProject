@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUseException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserApiException;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
-import de.hsrm.mi.swtpro.pflamoehus.user.userService.UserService;
+import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 
 /*
  * UserRestController for the communcation between front- and backend.

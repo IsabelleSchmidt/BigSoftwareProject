@@ -29,14 +29,15 @@ public class ValidGenderValidator implements ConstraintValidator<ValidGender, St
          */
         DIVERSE("DIVERSE");
 
-        private String gender;
+        private String value;
 
-        GENDER(String gender) {
-            this.gender = gender;
+        GENDER(String value) {
+            this.value = value;
         }
 
+        @Override
         public String toString() {
-            return gender;
+            return value;
         }
     }
 

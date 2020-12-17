@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.user.userService;
+package de.hsrm.mi.swtpro.pflamoehus.user.userservice;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +25,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
  * @version 4
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
 
     @Autowired
     UserRepository userRepository;

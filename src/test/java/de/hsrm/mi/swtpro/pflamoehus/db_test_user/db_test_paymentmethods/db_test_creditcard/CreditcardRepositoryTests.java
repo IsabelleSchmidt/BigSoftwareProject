@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Test;
@@ -70,11 +71,11 @@ public class CreditcardRepositoryTests {
             creditRepo.save(card);
            
         } 
-        assertTrue(creditRepo.count()==COUNT,"The repo should hold "+COUNT+" tags.");
+        assertEquals(creditRepo.count(),COUNT);
 
         for(int i = COUNT;i>0;i--){
             creditRepo.delete(allcards.get((i-1)));
-            assertTrue(creditRepo.count()==i-1,"The repo should have deleted "+(COUNT-(i-1))+" tags.");
+            assertEquals(creditRepo.count(),i-1);
         }
     }
 

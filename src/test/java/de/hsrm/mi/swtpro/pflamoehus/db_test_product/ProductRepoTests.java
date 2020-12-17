@@ -20,7 +20,6 @@ import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ProductRepoTests {
 
-
     final String TESTNAME = "Herbert";
     final String PRODUCTTYPE = "Sofa/Couch";
     final String ROOMTYPE = "Bad";
@@ -39,7 +38,7 @@ public class ProductRepoTests {
     private PictureRepository picutreRepository;
 
     @BeforeEach
-    public void clear_repos() {
+    void clear_repos() {
         picutreRepository.deleteAll();
         productRepository.deleteAll();
     }
@@ -65,7 +64,6 @@ public class ProductRepoTests {
         unmanaged.setDescription(DESCRIPTION);
         unmanaged.setInformation(INFORMATION);
 
-       
         final Product managed = productRepository.save(unmanaged);
         assertThat(managed).isEqualTo(unmanaged);
 
@@ -117,7 +115,6 @@ public class ProductRepoTests {
     public void product_name_findByName() {
         final int COUNT = 5;
 
-
         for (int i = 0; i < COUNT; i++) {
             final Product product1 = new Product();
             product1.setName(TESTNAME + i);
@@ -145,7 +142,6 @@ public class ProductRepoTests {
     @Test
     @DisplayName("ProductRepository findByRoomType")
     public void product_roomType_findByRoomtype() {
-
 
         final Product product1 = new Product();
         product1.setName(TESTNAME);
@@ -185,7 +181,6 @@ public class ProductRepoTests {
     @Test
     @DisplayName("ProductRepository findBy...")
     public void product_findBy() {
-
 
         final Product product1 = new Product();
         product1.setName(TESTNAME);

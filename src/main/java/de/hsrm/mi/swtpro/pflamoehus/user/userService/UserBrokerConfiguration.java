@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.user.userService;
+package de.hsrm.mi.swtpro.pflamoehus.user.userservice;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -14,7 +14,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
  */
 @Configuration
 @EnableWebSocketMessageBroker
-public class UserBrokerConfigurations implements WebSocketMessageBrokerConfigurer {
+public class UserBrokerConfiguration implements WebSocketMessageBrokerConfigurer {
 
     /**
      * The StompBroker reacts to everything with the prefix "/user".

@@ -3,6 +3,7 @@ package de.hsrm.mi.swtpro.pflamoehus.db_test_user.db_test_adress;
 import javax.validation.ValidatorFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
@@ -67,8 +68,7 @@ public class AdressValueTests {
 
         Set<ConstraintViolation<Adress>> violations;
         violations = validator.validate(adr);
-        assertTrue(violations.size() == nrWrongValues,
-                "The number of false values needs to be " + nrWrongValues + "but is: " + violations.size());
+        assertEquals(violations.size(),nrWrongValues);
     }
 
 }

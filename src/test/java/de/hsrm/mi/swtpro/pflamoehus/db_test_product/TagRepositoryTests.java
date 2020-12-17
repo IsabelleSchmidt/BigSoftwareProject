@@ -1,7 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.db_test_product;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import de.hsrm.mi.swtpro.pflamoehus.tags.TagRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
-public class TagRepositoryTests {
+class TagRepositoryTests {
 
     @LocalServerPort
     private int port;
@@ -40,7 +40,7 @@ public class TagRepositoryTests {
 
     @Test
     @DisplayName("persist Tag")
-    public void persist_tag() {
+    void persist_tag() {
 
         tagRepo.deleteAll();
 
@@ -55,7 +55,7 @@ public class TagRepositoryTests {
 
     @Test
     @DisplayName("Save and delete tags from repository")
-    public void save_and_delete_tag() {
+    void save_and_delete_tag() {
 
         tagRepo.deleteAll();
 
@@ -66,19 +66,19 @@ public class TagRepositoryTests {
             Tag tag1 = new Tag();
             allTags.add(tag1);
             tagRepo.save(tag1);
-            assertTrue(tagRepo.count() == i + 1, "The repo should hold " + (i + 1) + " tags.");
+            assertEquals(tagRepo.count(),i + 1, "The repo should hold " + (i + 1) + " tags.");
         }
 
         for (int i = COUNT; i > 0; i--) {
             tagRepo.delete(allTags.get((i - 1)));
-            assertTrue(tagRepo.count() == i - 1, "The repo should have deleted " + (COUNT - (i - 1)) + " tags.");
+            assertEquals(tagRepo.count(),i - 1, "The repo should have deleted " + (COUNT - (i - 1)) + " tags.");
         }
 
     }
 
     @Test
     @DisplayName("TagRepository findBy.. ")
-    public void repo_findBy() {
+    void repo_findBy() {
 
         tagRepo.deleteAll();
 
@@ -103,7 +103,7 @@ public class TagRepositoryTests {
 
     @Test
     @DisplayName("create two tags with the same value")
-    public void check_unique_values() {
+    void check_unique_values() {
 
         tagRepo.deleteAll();
 
@@ -116,8 +116,8 @@ public class TagRepositoryTests {
         tagRepo.save(tag1);
 
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
-            Tag managed2 = tagRepo.save(tag2);
-            assertThat(managed2).isEqualTo(tag2);
+            tagRepo.save(tag2);
+            //assertThat(managed2).isEqualTo(tag2);
         });
 
         assertThat(tagRepo.count()).isEqualTo(1);

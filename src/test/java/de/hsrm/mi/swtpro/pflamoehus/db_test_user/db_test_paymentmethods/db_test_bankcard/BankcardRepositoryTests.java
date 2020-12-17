@@ -16,6 +16,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
@@ -70,10 +71,10 @@ public class BankcardRepositoryTests {
         bc.setOwner(OWNER);
         bc.setBank(BANK);
         bankcardRepo.save(bc);
-        assertTrue(bankcardRepo.count() == 1, "The repo should hold " + (1) + " adresses.");
+        assertEquals(bankcardRepo.count(),1);
 
         bankcardRepo.delete(bc);
-        assertTrue(bankcardRepo.count() == 0, "The repo should have deleted " + (1) + " adresses.");
+        assertEquals(bankcardRepo.count(),0);
 
     }
 

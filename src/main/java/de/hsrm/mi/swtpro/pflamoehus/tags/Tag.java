@@ -37,7 +37,7 @@ public class Tag {
 
     @ManyToMany(mappedBy = "allTags", cascade = CascadeType.DETACH)
     @JsonIgnore // one reference of a bi-directional relationship gets ignored, so the infinite occursion is solved
-    private Set<Product> allProductsWithTag = new HashSet<Product>();
+    private Set<Product> allProductsWithTag = new HashSet<>();
 
     @Size(min = 3)
     @Column(name = "value", unique = true)
