@@ -20,17 +20,15 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
+
 
 /*
  * User-Entity for its database.
@@ -55,7 +53,7 @@ public class User {
     @ValidEmail
     private String email;
 
-    @ValidPassword
+  
     @NotEmpty
     @JsonProperty(access = Access.WRITE_ONLY)
     private String password;

@@ -29,7 +29,7 @@ public class UserValueTests {
     private final LocalDate WRONG_BIRTHDAY = LocalDate.of(2018, 3, 3);
     private final String EMAIL = "hansolaf@hs-rm.de";
     private final String WRONG_EMAIL = "3@2";
-    private final String WRONG_PASSWORD = "ahahasdhasdnsjdckjdvkjbcvdkjbfvd";
+    private final String WRONG_PASSWORD = null;
     private final String WRONG_GENDER = "Male";
 
     private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

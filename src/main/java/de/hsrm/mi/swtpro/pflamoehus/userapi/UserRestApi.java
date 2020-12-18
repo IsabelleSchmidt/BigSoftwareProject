@@ -1,6 +1,11 @@
 package de.hsrm.mi.swtpro.pflamoehus.userapi;
 
+import java.util.regex.Pattern;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,15 +38,25 @@ public class UserRestApi {
      * @return user
      * @throws UserApiException gets thrown if the email is already in use
      */
-    @PostMapping("/user")
-    public User registerUser(@RequestBody User user){
-        try {
+    @PostMapping("/user/new")
+    public String registerUser(@Valid @RequestBody User user, BindingResult result){
+        String message = "message: ";
+        if(result.hasErrors()){
+            message+=" --bindingerror-- "+result.toString();
+        }
+        if(!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\p{Punct}).{8,32}$", user.getPassword())){
+            message+=" --passwortfehler--- passwort braucht klein-, Großbuchstaben, Zahlen und Sonerzeichen.";
+        }
+        else{
+             try {
             user = userService.registerUser(user);
         } catch (EmailAlreadyInUseException aliu) {
             throw new UserApiException("Email already in use. Choose another one or log in.");
         }
+        }
+       
 
-        return user;
+        return user.toString()+message;
     }
 
     /**
@@ -50,7 +65,7 @@ public class UserRestApi {
      * @param email user, that wants to get logged in
      * @return user
      */
-    @GetMapping(value = "/user/{email}")  
+    @GetMapping(value = "/user/get/{email}")  
     public User getUser(@PathVariable String email) {
         if (userService.searchUserWithEmail(email) != null) {
             return userService.searchUserWithEmail(email);

@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService{
 
         try {
 
-            // encodePassword(user.getPassword(), user);
+            encodePassword(user.getPassword(), user);
 
             if (user.getBankcard() != null) {
                 encodeIBAN(user.getBankcard() , user);

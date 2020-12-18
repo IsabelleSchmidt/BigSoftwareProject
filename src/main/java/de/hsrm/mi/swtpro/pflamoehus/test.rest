@@ -1,8 +1,24 @@
 GET http://localhost:9090/api/products
-
+###
 
 GET http://localhost:9090/api/28/pictures
-
+###
 
 GET http://localhost:9090/api/product/11
+###
+POST http://localhost:9090/api/user/new
+Content-Type: application/json
 
+{
+    "firstName":"korrekt", "lastName":"eintrag","gender":"MALE","birthdate":"2000-01-01","email":"test@korrekt.de",
+    "password":"abcdefgH9."
+}
+
+###
+POST http://localhost:9090/api/user/new
+Content-Type: application/json
+
+{
+    "firstName":"falscher", "lastName":"eintrag","gender":"MALe","birthdate":"2000-01-01","email":"test@falsch.de",
+    "password":"falsch"
+}
