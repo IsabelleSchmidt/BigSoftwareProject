@@ -4,21 +4,27 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.validation.Valid;
 
-import org.apache.tomcat.util.http.parser.MediaType;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductApiException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
@@ -33,6 +39,7 @@ import de.hsrm.mi.swtpro.pflamoehus.productservice.ProductService;
  */
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class ProductRestApi {
 
     @Autowired
@@ -87,9 +94,11 @@ public class ProductRestApi {
      */
     @PostMapping("/product/new")
     public String postNewProduct(@Valid @RequestBody Product newProduct, BindingResult result) {
+        productRestApiLogger.info("Neues Produkt erhalten!");
         Product product = null;
         String message = "Message: ";
         if(result.hasErrors()){
+            productRestApiLogger.info("Validationsfehler");
             message += "Validationsfehler -- "+result.getFieldErrors().toString();
 
         }else{
@@ -99,6 +108,7 @@ public class ProductRestApi {
         } catch (ProductServiceException pse) {
             productRestApiLogger.error("Failed to save the product.");
             message+= "saving_error";
+            return message;
         }
             return product.toString()+message;
         }
@@ -127,5 +137,30 @@ public class ProductRestApi {
         }
         return allPictures;
     }
+
+    @PostMapping(value="/product/{articleNr}/newpicture")
+    public boolean postPicturedata(byte[] image, @PathVariable Long articleNr, @RequestParam("picturename") String path){
+
+        //erst Bild speichern 
+        FileOutputStream fileOutStream;
+        try{
+            fileOutStream = new FileOutputStream(path);
+            fileOutStream.write(image);
+            fileOutStream.close();
+
+       }catch(FileNotFoundException fnoe){
+           //TODO: exceptionhandling
+       }catch(IOException ioe){
+           //TODO: exceptionhandling
+       }
+       
+        return false;
+    }
+
+    @InitBinder
+    protected void initBinder(ServletRequestDataBinder binder) {
+    binder.registerCustomEditor(byte[].class,
+            new ByteArrayMultipartFileEditor());
+}
 
 }
