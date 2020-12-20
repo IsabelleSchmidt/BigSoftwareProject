@@ -372,25 +372,25 @@ public class Product {
     
 
     /**
-     * To generate a product as a string.
-     * 
-     * @return string
-     */
-    @Override
-    public String toString() {
-        return "Product [allTags=" + allTags + ", articlenr=" + articlenr + ", depth=" + depth + ", height=" + height
-                + ", name=" + name + ", nrAvailableItems=" + nrAvailableItems + ", pictures =" + allPictures.toString()
-                + ", price=" + price + ", productType=" + productType + ", roomType=" + roomType + ", version="
-                + version + ", width=" + width + ", description=" + description + ", information=" + information + "]";
-    }
-
-    /**
      * Get version.
      * 
      * @return version
      */
     public long getVersion() {
         return version;
+    }
+
+    /**
+     * To generate a product as a string.
+     * 
+     * @return string
+     */
+    @Override
+    public String toString() {
+        return "Product [allPictures=" + allPictures + ", allTags=" + allTags + ", articlenr=" + articlenr + ", depth="
+                + depth + ", description=" + description + ", height=" + height + ", information=" + information
+                + ", name=" + name + ", nrAvailableItems=" + nrAvailableItems + ", price=" + price + ", productType="
+                + productType + ", roomType=" + roomType + ", version=" + version + ", width=" + width + "]";
     }
 
 }

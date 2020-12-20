@@ -4,9 +4,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.validation.Valid;
+
+import org.apache.tomcat.util.http.parser.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,10 +68,15 @@ public class ProductRestApi {
      * 
      * @param articleNr product that should get deleted
      */
-    @DeleteMapping("/product/{articleNr}")
-    public void deleteProductWithArticleNr(@PathVariable long articleNr) {
-        productService.deleteProduct(articleNr);
-
+    @DeleteMapping(value="/product/{articleNr}")
+    public boolean deleteProductWithArticleNr(@PathVariable long articleNr) {
+        try{
+            productService.deleteProduct(articleNr);
+        }catch(ProductServiceException pse){
+            return false;
+        }
+        
+        return true;
     }
 
     /**
@@ -77,16 +86,25 @@ public class ProductRestApi {
      * @return new product
      */
     @PostMapping("/product/new")
-    public Product postNewProduct(@RequestBody Product newProduct) {
-        Product product = new Product();
-        try {
+    public String postNewProduct(@Valid @RequestBody Product newProduct, BindingResult result) {
+        Product product = null;
+        String message = "Message: ";
+        if(result.hasErrors()){
+            message += "Validationsfehler -- "+result.getFieldErrors().toString();
+
+        }else{
+            try {
             product = productService.editProduct(newProduct);
 
         } catch (ProductServiceException pse) {
             productRestApiLogger.error("Failed to save the product.");
+            message+= "saving_error";
         }
-
-        return product;
+            return product.toString()+message;
+        }
+        
+        return message;
+       
 
     }
 

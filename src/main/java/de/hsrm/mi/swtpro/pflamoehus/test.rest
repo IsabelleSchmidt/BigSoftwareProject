@@ -22,3 +22,17 @@ Content-Type: application/json
     "firstName":"falscher", "lastName":"eintrag","gender":"MALe","birthdate":"2000-01-01","email":"test@falsch.de",
     "password":"falsch"
 }
+
+###
+POST http://localhost:9090/api/product/new
+Content-Type: application/json
+
+{
+    "width":1.0, "height":1.0, "depth":3.0,"productType":"Stuhl", "roomType":"Bad", "nrAvailableItems":2,"description":"test 1234 string",
+    "information":"sehr schicker stuhl jo","price":1.99, "name":"Hanspeter"
+}
+
+###
+DELETE http://localhost:9090/api/product/114
+
+###
