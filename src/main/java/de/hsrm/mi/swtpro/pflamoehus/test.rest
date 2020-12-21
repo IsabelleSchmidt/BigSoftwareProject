@@ -10,8 +10,8 @@ POST http://localhost:9090/api/user/new
 Content-Type: application/json
 
 {
-    "firstName":"korrekt", "lastName":"eintrag","gender":"MALE","birthdate":"2000-01-01","email":"test@korrekt.de",
-    "password":"abcdefgH9."
+    "firstName":"korrekt", "lastName":"eintrag","gender":"MALE","birthdate":"2000-01-01","email":"te3st@korrekt.de",
+    "password":"abcdefgH9.", "bankcard":[{"user":[], "id":1, "version":0, "iban":"DE89 3704 0044 0532 0130 00", "owner":"olaf", "bank":"die coole"}]
 }
 
 ###
@@ -19,7 +19,7 @@ POST http://localhost:9090/api/user/new
 Content-Type: application/json
 
 {
-    "firstName":"falscher", "lastName":"eintrag","gender":"MALe","birthdate":"2000-01-01","email":"test@falsch.de",
+    "firstName":"falscher", "lastName":"eintrag","gender":"MALE","birthdate":"2000-01-01","email":"test@falsch.de",
     "password":"falsch"
 }
 

@@ -28,6 +28,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
 
 
 /*
@@ -53,7 +54,7 @@ public class User {
     @ValidEmail
     private String email;
 
-  
+    @ValidPassword
     @NotEmpty
     @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
@@ -348,9 +349,9 @@ public class User {
      */
     @Override
     public String toString() {
-        return "User [bankcard=" + bankcard + ", birthdate=" + birthdate + ", creditcard=" + creditcard + ", email="
-                + email + ", firstName=" + firstName + ", gender=" + gender + ", id=" + userID + ", lastName="
-                + lastName + ", passwort=" + password + ", version=" + version + "]";
+        return "User {bankcard:" + bankcard + ", birthdate:" + birthdate + ", creditcard=" + creditcard + ", email:"
+                + email + ", firstName:" + firstName + ", gender:" + gender + ", id:" + userID + ", lastName:"
+                + lastName + ", passwort:" + password + ", version:" + version + "}";
     }
 
 }
