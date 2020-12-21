@@ -23,7 +23,7 @@ import javax.validation.ConstraintValidatorContext;
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
-        Pattern passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\p{Punct}).{8,32}$");
+        Pattern passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\p{Punct}).{8,}$");
         Matcher matcher = passwordPattern.matcher(value);
 
         return matcher.matches();

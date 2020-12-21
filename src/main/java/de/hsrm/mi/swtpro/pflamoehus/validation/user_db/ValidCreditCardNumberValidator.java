@@ -28,13 +28,15 @@ import javax.validation.ConstraintValidatorContext;
         Pattern visaCard = Pattern.compile("^4[0-9]{12}(?:[0-9]{3})?$");
         Pattern americanExpress = Pattern.compile("^3[47][0-9]{13}$");
         Pattern dinersClubInternational = Pattern.compile("^3(?:0[0-5]|[68][0-9])[0-9]{11}$");
+        Pattern encoded = Pattern.compile("\\{bcrypt\\}.*");
 
         Matcher matcher1 = masterCard.matcher(value);
         Matcher matcher2 = visaCard.matcher(value);
         Matcher matcher3 = americanExpress.matcher(value);
         Matcher matcher4 = dinersClubInternational.matcher(value);
+        Matcher matcher5 = encoded.matcher(value);
 
-        return matcher1.matches() || matcher2.matches() || matcher3.matches() || matcher4.matches();
+        return matcher1.matches() || matcher2.matches() || matcher3.matches() || matcher4.matches() || matcher5.matches();
     }
 
 }

@@ -40,12 +40,12 @@ public class Bankcard {
     private long version;
 
     @NotEmpty
-    @Pattern(regexp = "DE\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{2}|DE\\d{20}")
+    @Pattern(regexp = "^(DE\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{2}|DE\\d{20}$)|(^\\{bcrypt\\}.*$)")
     @JsonProperty(access = Access.WRITE_ONLY)
     private String iban;
 
     @NotEmpty
-    @Size(min = 6)
+    @Size(min = 3)
     private String owner;
 
     @NotEmpty
