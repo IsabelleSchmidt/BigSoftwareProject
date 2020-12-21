@@ -1,7 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.userapi;
 
 import java.util.regex.Pattern;
-
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUseException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserApiException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 
@@ -50,7 +50,7 @@ public class UserRestApi {
 
         if (result.hasErrors()) {
             userRestApiLogger.info("Validierungsfehler");
-            message += " --bindingerror--" + result.toString();
+            message += "Validierungsfehler --" + result.getFieldErrors().toString();
         }
         if (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\p{Punct}).{8,32}$", newUser.getPassword())) {
             userRestApiLogger.error("Passwort entspricht nicht den Vorgaben.");
