@@ -1,30 +1,23 @@
 package de.hsrm.mi.swtpro.pflamoehus.userapi;
 
-import java.util.regex.Pattern;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUseException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserApiException;
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
-import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.ValidRoomType;
-import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.ValidRoomTypeValidator;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
 
 /*
  * UserRestController for the communcation between front- and backend.
