@@ -1,9 +1,10 @@
 package de.hsrm.mi.swtpro.pflamoehus.userapi;
 
 import java.util.regex.Pattern;
-
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUseException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserApiException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 
@@ -22,7 +24,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
  * UserRestController for the communcation between front- and backend.
  * 
  * @author Svenja Schenk, Ann-Cathrin Fabian
- * @version 2
+ * @version 4
  */
 @RestController
 @RequestMapping("/api")
@@ -30,6 +32,8 @@ public class UserRestApi {
 
     @Autowired
     UserService userService;
+
+    Logger userRestApiLogger = LoggerFactory.getLogger(UserRestApi.class);
 
     /**
      * Register a new given user.
@@ -39,24 +43,29 @@ public class UserRestApi {
      * @throws UserApiException gets thrown if the email is already in use
      */
     @PostMapping("/user/new")
-    public String registerUser(@Valid @RequestBody User user, BindingResult result){
+    public String registerUser(@Valid @RequestBody User newUser, BindingResult result) {
         String message = "message: ";
-        if(result.hasErrors()){
-            message+=" --bindingerror-- "+result.toString();
-        }
-        if(!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\p{Punct}).{8,32}$", user.getPassword())){
-            message+=" --passwortfehler--- passwort braucht klein-, Großbuchstaben, Zahlen und Sonerzeichen.";
-        }
-        else{
-             try {
-            user = userService.registerUser(user);
-        } catch (EmailAlreadyInUseException aliu) {
-            throw new UserApiException("Email already in use. Choose another one or log in.");
-        }
-        }
-       
+        User user = null;
+        userRestApiLogger.info("Neuen Benutzer erhalten");
 
-        return user.toString()+message;
+        if (result.hasErrors()) {
+            userRestApiLogger.info("Validierungsfehler");
+            message += "Validierungsfehler --" + result.getFieldErrors().toString();
+        }
+        if (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\p{Punct}).{8,32}$", newUser.getPassword())) {
+            userRestApiLogger.error("Passwort entspricht nicht den Vorgaben.");
+            message += " --Passwortfehler--- Passwort braucht Klein-, Großbuchstaben, Zahlen und Sonerzeichen.";
+        } else {
+            try {
+                user = userService.registerUser(newUser);
+            } catch (EmailAlreadyInUseException aliu) {
+                userRestApiLogger.error("User konnte nicht registriert werden.");
+                message+="register_error";
+                return message;
+            }
+        }
+
+        return user.toString() + message;
     }
 
     /**
@@ -65,12 +74,19 @@ public class UserRestApi {
      * @param email user, that wants to get logged in
      * @return user
      */
-    @GetMapping(value = "/user/get/{email}")  
-    public User getUser(@PathVariable String email) {
+    @GetMapping(value = "/user/get/{email}")
+    public String getUser(@PathVariable("email") String email) {
+        userRestApiLogger.info("User wird versucht einzuloggen.");
+        User user = null;
+        String message = "Message: ";
+
         if (userService.searchUserWithEmail(email) != null) {
-            return userService.searchUserWithEmail(email);
+            user = userService.searchUserWithEmail(email);
         } else {
-            throw new UserApiException("This email doesn't exist. Register first.");
+            userRestApiLogger.error("Email Adresse konnte nicht gefunden werden.");
+            message += "login_error";
         }
+
+        return user.toString()+message;
     }
 }
