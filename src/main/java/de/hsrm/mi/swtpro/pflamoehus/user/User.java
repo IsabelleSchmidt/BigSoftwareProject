@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;

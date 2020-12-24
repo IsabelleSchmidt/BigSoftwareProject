@@ -221,19 +221,6 @@ public class UserServiceImpl implements UserService{
         
     }
 
-    /**
-     * Creating a new user or editing the password requires encoding the attribute.
-     * 
-     * @param password new password
-     * @param user     user from database or a new user
-     */
-
-    private void encodePassword(String password, User user) {
-
-       user = searchUserWithEmail(user.getEmail());
-        user.setPassword(pe.encode(password));
-    }
-
 
     /**
      * When a user changes his bankcards, for example the iban or he adds another
@@ -279,6 +266,18 @@ public class UserServiceImpl implements UserService{
             
         }
         foundUser.setCreditcard(newcards);
+    }
+
+    /**
+     * Creating a new user or editing the password requires encoding the attribute.
+     * 
+     * @param password new password
+     * @param user     user from database or a new user
+     */
+    private void encodePassword(String password, User user) {
+
+       user = searchUserWithEmail(user.getEmail());
+       user.setPassword(pe.encode(password));
     }
 
 }
