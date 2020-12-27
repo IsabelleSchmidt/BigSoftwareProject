@@ -1,7 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.exceptions;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
@@ -18,7 +17,7 @@ public class UserApiException extends RuntimeException {
     /**
      * Method for throwing a exception with a custom message.
      * 
-     * @param msg -> message that gets printed
+     * @param msg message that gets printed
      */
     public UserApiException(String msg) {
         super(msg);

@@ -74,6 +74,7 @@ public class ProductRestApi {
      * Delete a product with the given id.
      * 
      * @param articleNr product that should get deleted
+     * @return true or false
      */
     @DeleteMapping(value="/product/{articleNr}")
     public boolean deleteProductWithArticleNr(@PathVariable long articleNr) {
@@ -90,7 +91,8 @@ public class ProductRestApi {
      * Create new product.
      * 
      * @param newProduct the new product that has du get saved
-     * @return new product
+     * @param result shows errors from validating the given attributes
+     * @return string new product
      */
     @PostMapping("/product/new")
     public String postNewProduct(@Valid @RequestBody Product newProduct, BindingResult result) {

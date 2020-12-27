@@ -110,7 +110,7 @@ public class Product {
     /**
      * Set information.
      * 
-     * @param information -> information that has to be set
+     * @param information information that has to be set
      */
     public void setInformation(String information) {
         this.information = information;
@@ -128,7 +128,7 @@ public class Product {
     /**
      * Set description.
      * 
-     * @param description -> description that has to be set
+     * @param description description that has to be set
      */
     public void setDescription(String description) {
         this.description = description;
@@ -146,7 +146,7 @@ public class Product {
     /**
      * Set name.
      * 
-     * @param name -> name that has to be set
+     * @param name name that has to be set
      */
     public void setName(String name) {
         this.name = name;
@@ -164,7 +164,7 @@ public class Product {
     /**
      * Set producttype.
      * 
-     * @param productType -> producttype that has to be set
+     * @param productType producttype that has to be set
      */
     public void setProductType(String productType) {
         this.productType = productType;
@@ -182,7 +182,7 @@ public class Product {
     /**
      * Set roomtype.
      * 
-     * @param roomType -> roomtype that has to be set
+     * @param roomType roomtype that has to be set
      */
     public void setRoomType(String roomType) {
         this.roomType = roomType;
@@ -200,7 +200,7 @@ public class Product {
     /**
      * Set price.
      * 
-     * @param price -> price that has to be set
+     * @param price price that has to be set
      */
     public void setPrice(Double price) {
         this.price = price;
@@ -218,7 +218,7 @@ public class Product {
     /**
      * Add a picture to the list allPictures.
      * 
-     * @param picture -> picture that has to be added
+     * @param picture picture that has to be added
      */
     public void addPicture(Picture picture) {
         if(!allPictures.contains(picture)){
@@ -241,7 +241,7 @@ public class Product {
     /**
      * Set allPicutres.
      * 
-     * @param allPictures -> pictures that have to be set
+     * @param allPictures pictures that have to be set
      */
     public void setAllPictures(Set<Picture> allPictures) {
         this.allPictures = allPictures;
@@ -268,7 +268,7 @@ public class Product {
     /**
      * Set height.
      * 
-     * @param height -> height that has to be set
+     * @param height height that has to be set
      */
     public void setHeight(double height) {
         this.height = height;
@@ -286,7 +286,7 @@ public class Product {
     /**
      * Set width.
      * 
-     * @param width -> width that has to be set
+     * @param width width that has to be set
      */
     public void setWidth(double width) {
         this.width = width;
@@ -305,7 +305,7 @@ public class Product {
     /**
      * Set depth.
      * 
-     * @param depth -> depth that has to be set
+     * @param depth depth that has to be set
      */
     public void setDepth(double depth) {
         this.depth = depth;
@@ -323,7 +323,7 @@ public class Product {
     /**
      * Set all tags.
      * 
-     * @param allTags -> tags that have to be set
+     * @param allTags tags that have to be set
      */
     public void setAllTags(Set<Tag> allTags) {
         this.allTags = allTags;
@@ -332,7 +332,7 @@ public class Product {
     /**
      * Add tags to allTags.
      * 
-     * @param tag -> tag that has to be added
+     * @param tag tag that has to be added
      */
     public void addTag(Tag tag) {
         if (!allTags.contains(tag)) {
@@ -363,7 +363,7 @@ public class Product {
     /**
      * Set number of available items.
      * 
-     * @param nrAvailableItems -> number of available items that has to be set
+     * @param nrAvailableItems number of available items that has to be set
      */
     public void setNrAvailableItems(int nrAvailableItems) {
         this.nrAvailableItems = nrAvailableItems;

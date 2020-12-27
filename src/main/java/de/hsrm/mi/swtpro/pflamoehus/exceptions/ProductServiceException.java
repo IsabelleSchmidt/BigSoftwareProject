@@ -13,7 +13,7 @@ public class ProductServiceException extends RuntimeException {
     /**
      * Method for throwing a exception with a custom message.
      * 
-     * @param msg -> message that gets printed
+     * @param msg message that gets printed
      */
     public ProductServiceException(String msg) {
         super(msg);

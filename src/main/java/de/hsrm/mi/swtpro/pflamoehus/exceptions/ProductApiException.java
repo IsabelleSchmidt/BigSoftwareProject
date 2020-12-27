@@ -17,7 +17,7 @@ public class ProductApiException extends RuntimeException {
     /**
      * Method for throwing a exception with a custom message.
      * 
-     * @param msg -> the message that has to be printed
+     * @param msg the message that has to be printed
      */
     public ProductApiException(String msg) {
         super(msg);
