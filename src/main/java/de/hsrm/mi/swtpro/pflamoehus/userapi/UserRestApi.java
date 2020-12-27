@@ -1,9 +1,5 @@
 package de.hsrm.mi.swtpro.pflamoehus.userapi;
 
-import java.util.Collections;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -18,7 +14,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUseException;
@@ -32,7 +27,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
  * UserRestController for the communcation between front- and backend.
  * 
  * @author Svenja Schenk, Ann-Cathrin Fabian, Sarah Wenzel
- * @version 5
+ * @version 6
  */
 @RestController
 @RequestMapping("/api")
@@ -90,8 +85,8 @@ public class UserRestApi {
      * @return user
      */
     @PostMapping(value = "/user/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public UserMessage loginUser(@RequestBody User loginUser) {
+
         userRestApiLogger.info("User wird versucht einzuloggen.");
         UserMessage um = new UserMessage();
         um.setEmail(loginUser.getEmail());
@@ -118,5 +113,15 @@ public class UserRestApi {
         return um;
         
     }
+
+//     @ExceptionHandler(value=UserApiException.class)
+//     public void handleException(
+//     UserApiException uae, HttpServletResponse response) throws IOException {
+ 
+//         response.sendError(HttpStatus.BAD_REQUEST.value());
+//         userRestApiLogger.info("RESPONSE: " + );
+//         response.addHeader("LoginFehler", HttpStatus.BAD_REQUEST.getReasonPhrase());
+ 
+//   }
 
 }
