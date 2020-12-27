@@ -25,6 +25,7 @@ import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUseException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserApiException;
 import de.hsrm.mi.swtpro.pflamoehus.security.SecurityConfig.UserDetailService;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
+import de.hsrm.mi.swtpro.pflamoehus.user.UserMessage;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 
 /*
@@ -90,25 +91,31 @@ public class UserRestApi {
      */
     @PostMapping(value = "/user/login", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public User loginUser(@RequestBody User loginUser) {
+    public UserMessage loginUser(@RequestBody User loginUser) {
         userRestApiLogger.info("User wird versucht einzuloggen.");
+        UserMessage um = new UserMessage();
+        um.setEmail(loginUser.getEmail());
 
         try{
             UserDetails ud = userdetailservice.loadUserByUsername(loginUser.getEmail());
             
             if(pe.matches(loginUser.getPassword(), ud.getPassword())){
                 userRestApiLogger.info("EINGELOGGT!");
+                um.setMessage("alles Toll");
             }else{
                 userRestApiLogger.error("Passwort ist falsch.");
-                throw new UserApiException("Das angegebene Passwort ist falsch.");
+                um.setMessage("Das angegebene Passwort ist falsch.");
+                // throw new UserApiException("Das angegebene Passwort ist falsch.");
             }
             
         }catch(UsernameNotFoundException unfe){
             userRestApiLogger.error("User not found.");
-            throw new UserApiException("Die angegebene Email-Adresse konnte nicht gefunden werden.");
+            um.setMessage("Die angegebene Email-Adresse konnte nicht gefunden werden.");
+            // throw new UserApiException("Die angegebene Email-Adresse konnte nicht gefunden werden.");
         }
-
-        return loginUser;
+        
+        userRestApiLogger.info("__________RETURN__________");
+        return um;
         
     }
 
