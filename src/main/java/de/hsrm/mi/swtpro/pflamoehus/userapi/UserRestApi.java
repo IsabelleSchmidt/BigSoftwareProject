@@ -90,30 +90,25 @@ public class UserRestApi {
      */
     @PostMapping(value = "/user/login", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<String, String> loginUser(@RequestBody User loginUser) {
+    public User loginUser(@RequestBody User loginUser) {
         userRestApiLogger.info("User wird versucht einzuloggen.");
-
-        String message = "";
 
         try{
             UserDetails ud = userdetailservice.loadUserByUsername(loginUser.getEmail());
             
             if(pe.matches(loginUser.getPassword(), ud.getPassword())){
-                message+= "Erfolgreich eingeloggt";
                 userRestApiLogger.info("EINGELOGGT!");
             }else{
                 userRestApiLogger.error("Passwort ist falsch.");
-                message+= "Passwort ist falsch. ";
+                throw new UserApiException("Das angegebene Passwort ist falsch.");
             }
             
         }catch(UsernameNotFoundException unfe){
             userRestApiLogger.error("User not found.");
-            message+= "Die Email-Adresse existiert nicht. ";
+            throw new UserApiException("Die angegebene Email-Adresse konnte nicht gefunden werden.");
         }
 
-        userRestApiLogger.info(loginUser.toString() + message);
-        userRestApiLogger.info("RESPONSE: " + Collections.singletonMap("response", message));
-        return Collections.singletonMap("message", message);
+        return loginUser;
         
     }
 
