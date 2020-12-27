@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUseException;
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserApiException;
 import de.hsrm.mi.swtpro.pflamoehus.security.SecurityConfig.UserDetailService;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserMessage;
@@ -48,40 +47,39 @@ public class UserRestApi {
     /**
      * Register a new given user.
      * 
-     * @param user user that should get registered
+     * @param newUser user that wants to get registerd
+     * @param result shows errors if the given attributes are incorrect
      * @return user
-     * @throws UserApiException gets thrown if the email is already in use
      */
 
     @PostMapping("/user/new")
-    public String registerUser(@Valid @RequestBody User newUser, BindingResult result) {
+    public UserMessage registerUser(@Valid @RequestBody User newUser, BindingResult result) {
 
-        String message = "message: ";
+        UserMessage um = new UserMessage();
         userRestApiLogger.info("Neuen Benutzer erhalten");
 
         if (result.hasErrors()) {
-            userRestApiLogger.info("Validierungsfehler");
-            message += "Validierungsfehler --" + result.getFieldErrors().toString();
+            userRestApiLogger.info("Validierungsfehler" +  result.getFieldErrors().toString());
+            um.setMessage("Validierungsfehler --" + result.getFieldErrors().toString());
         }
 
         else {
             try {
                 newUser = userService.registerUser(newUser);
+                um.setEmail(newUser.getEmail());
             } catch (EmailAlreadyInUseException aliu) {
                 userRestApiLogger.error("User konnte nicht registriert werden.");
-                message += "register_error";
-                return message;
+                um.setMessage("User konnte nicht registriert werden. Die Email-Adresse existiert bereits");
             }
         }
 
-        return newUser.toString() + message;
+        return um;
     }
 
     /**
      * Login an already existing user.
      * 
-     * @param email email of the user, that wants to get logged in
-     * @param password password of the user, that wants to get logged in
+     * @param loginUser user that wants to be logged in
      * @return user
      */
     @PostMapping(value = "/user/login", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -89,14 +87,14 @@ public class UserRestApi {
 
         userRestApiLogger.info("User wird versucht einzuloggen.");
         UserMessage um = new UserMessage();
-        um.setEmail(loginUser.getEmail());
-
+       
         try{
             UserDetails ud = userdetailservice.loadUserByUsername(loginUser.getEmail());
+            um.setEmail(loginUser.getEmail());
             
             if(pe.matches(loginUser.getPassword(), ud.getPassword())){
                 userRestApiLogger.info("EINGELOGGT!");
-                um.setMessage("alles Toll");
+                //um.setMessage("Einloggen erfolgreich.");
             }else{
                 userRestApiLogger.error("Passwort ist falsch.");
                 um.setMessage("Das angegebene Passwort ist falsch.");

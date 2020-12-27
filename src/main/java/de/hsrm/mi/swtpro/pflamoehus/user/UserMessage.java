@@ -1,5 +1,11 @@
 package de.hsrm.mi.swtpro.pflamoehus.user;
 
+/*
+ * UserMessage for sending a message to frontend
+ * 
+ * @author Sarah Wenzel
+ * @version 1
+ */
 public class UserMessage {
 
     private String email;
