@@ -1,5 +1,8 @@
 package de.hsrm.mi.swtpro.pflamoehus.userapi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -10,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +30,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
  * UserRestController for the communcation between front- and backend.
  * 
  * @author Svenja Schenk, Ann-Cathrin Fabian, Sarah Wenzel
- * @version 6
+ * @version 7
  */
 @RestController
 @RequestMapping("/api")
@@ -53,23 +57,32 @@ public class UserRestApi {
      */
 
     @PostMapping("/user/new")
-    public UserMessage registerUser(@Valid @RequestBody User newUser, BindingResult result) {
+    public List<UserMessage> registerUser(@Valid @RequestBody User newUser, BindingResult result) {
 
-        UserMessage um = new UserMessage();
-        userRestApiLogger.info("Neuen Benutzer erhalten");
+        List<UserMessage> um = new ArrayList<>();
+        userRestApiLogger.info("Neuen Benutzer erhalten" + newUser.toString());
+
 
         if (result.hasErrors()) {
-            userRestApiLogger.info("Validierungsfehler" +  result.getFieldErrors().toString());
-            um.setMessage("Validierungsfehler --" + result.getFieldErrors().toString());
+            List<FieldError> errors = result.getFieldErrors();
+                for (FieldError error : errors ) {
+                    UserMessage num = new UserMessage();
+                    num.setType(error.getDefaultMessage().split(":")[0]);
+                    num.setMessage(error.getDefaultMessage().split(":")[1]);
+                    um.add(num);
+                    System.out.println (error.getField() + ": " + error.getDefaultMessage() + "; ");
+                }
         }
-
+       
         else {
             try {
                 newUser = userService.registerUser(newUser);
-                um.setEmail(newUser.getEmail());
             } catch (EmailAlreadyInUseException aliu) {
+                UserMessage num = new UserMessage();
                 userRestApiLogger.error("User konnte nicht registriert werden.");
-                um.setMessage("User konnte nicht registriert werden. Die Email-Adresse existiert bereits");
+                num.setMessage("User konnte nicht registriert werden. Die Email-Adresse existiert bereits");
+                num.setType("NOTVALID");
+                um.add(num);
             }
         }
 
@@ -97,17 +110,18 @@ public class UserRestApi {
                 //um.setMessage("Einloggen erfolgreich.");
             }else{
                 userRestApiLogger.error("Passwort ist falsch.");
+                um.setType("WRONG");
                 um.setMessage("Das angegebene Passwort ist falsch.");
                 // throw new UserApiException("Das angegebene Passwort ist falsch.");
             }
             
         }catch(UsernameNotFoundException unfe){
             userRestApiLogger.error("User not found.");
+            um.setType("NOTVALID");
             um.setMessage("Die angegebene Email-Adresse konnte nicht gefunden werden.");
             // throw new UserApiException("Die angegebene Email-Adresse konnte nicht gefunden werden.");
         }
         
-        userRestApiLogger.info("__________RETURN__________");
         return um;
         
     }

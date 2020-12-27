@@ -31,7 +31,6 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
 
-
 /*
  * User-Entity for its database.
  * 
@@ -50,34 +49,35 @@ public class User {
     @JsonIgnore
     private long version;
 
-    @NotEmpty
-    @Column(name = "EMAIL", unique = true)
-    @ValidEmail
-    private String email;
-
-    @ValidPassword
-    @NotEmpty
-    @JsonProperty(access = Access.WRITE_ONLY)
-    private String password;
-
-    @NotEmpty
+    @NotEmpty(message = "EMPTY:Der Vorname muss angegeben werden.")
     @Size(min = 3)
     @Column(name = "firstname")
     private String firstName;
 
-    @NotEmpty
+    @NotEmpty(message = "EMPTY:Der Nachname muss angegeben werden.")
     @Size(min = 2)
     @Column(name = "lastname")
     private String lastName;
 
+    @NotEmpty(message = "EMPTY:Die Email-Adresse muss angegeben werden.")
+    @Column(name = "EMAIL", unique = true)
+    @ValidEmail
+    private String email;
+
     @ValidBirthDay
     private LocalDate birthdate;
 
+    @NotEmpty(message = "EMPTY:Es muss ein Passwort angegeben werden.")
+    @ValidPassword
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private String password;
+
+    @Valid
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name = "User_Adresses", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "adressID"))
     private List<Adress> allAdresses;
 
-    @NotEmpty
+    @NotEmpty(message = "EMPTY:Das Geschlecht muss angegeben werden.")
     @ValidGender
     private String gender;
 
@@ -212,7 +212,7 @@ public class User {
         this.allAdresses = allAdresses;
     }
 
-     /**
+    /**
      * Add a new adress to the list of all adresses owned by one user.
      * 
      * @param adress adress that has to be added to the adress list

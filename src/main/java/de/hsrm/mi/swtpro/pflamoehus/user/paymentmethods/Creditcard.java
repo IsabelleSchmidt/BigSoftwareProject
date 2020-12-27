@@ -42,12 +42,12 @@ public class Creditcard {
     @NotEmpty
     private String owner;
 
-    @NotEmpty
+    @NotEmpty(message="Die Kreditkartennummer muss angegeben werden.")
     @JsonProperty(access = Access.WRITE_ONLY)
     @ValidCreditCardNumber
     private String creditcardnumber;
 
-    @NotNull
+    @NotNull(message="Das Ablaufdatum der Karte muss angebeben werden.")
     @Future
     private LocalDate dateOfExpiry;
 

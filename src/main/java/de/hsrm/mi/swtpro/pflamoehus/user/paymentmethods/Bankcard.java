@@ -39,16 +39,16 @@ public class Bankcard {
     @JsonIgnore
     private long version;
 
-    @NotEmpty
+    @NotEmpty(message="Die IBAN muss angebeben werden.")
     @Pattern(regexp = "^(DE\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{2}|DE\\d{20}$)|(^\\{bcrypt\\}.*$)")
     @JsonProperty(access = Access.WRITE_ONLY)
     private String iban;
 
-    @NotEmpty
+    @NotEmpty(message="Der Besitzer der Karte muss angebeben werden.")
     @Size(min = 3)
     private String owner;
 
-    @NotEmpty
+    @NotEmpty(message="Die Bank muss angegeben werden")
     @Size(min = 3)
     private String bank;
 

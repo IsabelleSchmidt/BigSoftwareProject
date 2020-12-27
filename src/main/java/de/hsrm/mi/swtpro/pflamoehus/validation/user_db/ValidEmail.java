@@ -13,8 +13,8 @@ import javax.validation.Payload;
  * ValidEmail
  * Triggers a message when the given email is not valid.
  * 
- * @author Svenja Schenk
- * @version 2
+ * @author Svenja Schenk, Ann-Cathrin Fabian
+ * @version 3
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
@@ -26,7 +26,7 @@ public @interface ValidEmail {
      * 
      * @return default message
      */
-    String message() default "The Email Adress is invalid. ";
+    String message() default "NOTVALID:Die angegebene Email-Adresse ist ungültig.";
     
     /**
      * 

@@ -15,7 +15,7 @@ import java.lang.annotation.ElementType;
  * Triggers a message when the given creditcard number is not valid.
  * 
  * @author Ann-Cathrin Fabian
- * @version 1
+ * @version 2
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
@@ -26,7 +26,7 @@ public @interface ValidCreditCardNumber {
     /**
      * @return default message
      */
-    String message() default "The given credit card number is not valid.";
+    String message() default "NOTVALID:Die angegebene Kreditkartennummer ist ungültig.";
 
     /**
      * 

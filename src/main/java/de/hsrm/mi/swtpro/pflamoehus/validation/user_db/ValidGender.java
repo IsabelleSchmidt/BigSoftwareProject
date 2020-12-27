@@ -14,7 +14,7 @@ import javax.validation.Payload;
  * Triggers a message when the given gender is not valid.
  * 
  * @author Ann-Cathrin Fabian
- * @version 1
+ * @version 2
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
@@ -26,7 +26,7 @@ public @interface ValidGender {
      * 
      * @return default message
      */
-    String message() default "You can be female, male or diverse";
+    String message() default "NOTVALID:Ungültige Eingabe.";
 
     /**
      * @return class

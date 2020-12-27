@@ -13,8 +13,8 @@ import javax.validation.Payload;
  * ValidPassword
  * Triggers a message when the given password is not valid.
  * 
- * @author Svenja Schenk
- * @version 2
+ * @author Svenja Schenk, Ann-Cathrin Fabian
+ * @version 3
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
@@ -25,7 +25,7 @@ public @interface ValidPassword {
      * 
      * @return default message
      */
-    String message() default "The password needs to contain at least one upper case, one lower case letter, a sign and a number. Furthermore, the password needs to be at least 8 and at maximum 32 characters long.";
+    String message() default "NOTVALID:Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, ein Zeichen und eine Nummer enthalten. Desweiteren muss das Passwort mindestens 8 Zeichen und darf höchstens 32 Zeichen lang sein.";
 
     /**
      * 

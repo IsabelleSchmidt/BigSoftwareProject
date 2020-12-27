@@ -3,12 +3,13 @@ package de.hsrm.mi.swtpro.pflamoehus.user;
 /*
  * UserMessage for sending a message to frontend
  * 
- * @author Sarah Wenzel
- * @version 1
+ * @author Sarah Wenzel, Ann-Cathrin Fabian
+ * @version 2
  */
 public class UserMessage {
 
     private String email;
+    private String type;
     private String message;
 
     /**
@@ -46,5 +47,26 @@ public class UserMessage {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    
+    /** 
+     * Set type.
+     * 
+     * @return String
+     */
+    public String getType() {
+        return this.type;
+    }
+
+    
+    /** 
+     * Get type.
+     * 
+     * @param type
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
     
 }

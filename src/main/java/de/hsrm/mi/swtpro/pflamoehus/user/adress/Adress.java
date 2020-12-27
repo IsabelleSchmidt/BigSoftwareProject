@@ -34,20 +34,21 @@ public class Adress {
     @JsonIgnore
     private long version;
 
-    @NotNull
-    @Pattern(regexp = "\\p{L}{2,}")
+    @NotNull(message="EMPTY:Der Straßenname muss angegeben werden.")
+    @Pattern(regexp = "\\p{L}{2,}", message="NOTVALID:Der Straßennamen ist ungültig.")
     private String streetName;
 
-    @Pattern(regexp = "\\d+?[a-zA-Z]?$")
-    @NotNull
+    
+    @NotNull(message="EMPTY:Die Hausnummer muss angegeben werden.")
+    @Pattern(regexp = "\\d+?[a-zA-Z]?$", message="NOTVALID:Die Hausnummer ist ungültig.")
     private String houseNumber;
 
-    @NotNull
-    @Pattern(regexp = "^[1-9]{1}[0-9]{4}$")
+    @NotNull(message="EMPTY:Die Postleitzahl muss angegeben werden,")
+    @Pattern(regexp = "^[1-9]{1}[0-9]{4}$", message="NOTVALID:Die Postleitzahl ist unültig.")
     private String postCode;
 
-    @NotNull
-    @Pattern(regexp = "\\p{L}{2,}")
+    @NotNull(message="EMPTY:Der Wohnort muss angegeben werden")
+    @Pattern(regexp = "\\p{L}{2,}", message="NOTVALID:Der Wohnort ist ungültig.")
     private String city;
 
     @ManyToMany(mappedBy = "allAdresses", fetch = FetchType.LAZY)
