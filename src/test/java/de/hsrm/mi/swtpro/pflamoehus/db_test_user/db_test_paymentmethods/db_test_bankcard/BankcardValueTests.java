@@ -10,7 +10,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
+import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Bankcard;
 @SpringBootTest
 public class BankcardValueTests {
     

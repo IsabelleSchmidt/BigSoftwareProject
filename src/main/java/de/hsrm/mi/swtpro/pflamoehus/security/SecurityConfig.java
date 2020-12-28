@@ -2,21 +2,30 @@ package de.hsrm.mi.swtpro.pflamoehus.security;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
+import de.hsrm.mi.swtpro.pflamoehus.security.jwt.AuthEntryPointJwt;
+import de.hsrm.mi.swtpro.pflamoehus.security.jwt.AuthTokenFilter;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 
@@ -25,15 +34,31 @@ import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
  * who can access which part of the website.
  * 
  * @author Svenja Schenk, Ann-Cathrin Fabian
- * @version 3
+ * @version 5
  */
 @Configuration
-@EnableWebSecurity
-@CrossOrigin
+@EnableWebSecurity 
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserDetailService buds;
+    UserDetailServiceImpl buds;
+
+    @Autowired
+    private AuthEntryPointJwt unauthorizedHandler;
+    
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+
+    
+    /** 
+     * Executes once per request.
+     * 
+     * @return AuthTokenFilter
+     */
+    @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter(){
+        return new AuthTokenFilter();
+    }
 
     /**
      * Implementing the service for encoding some of the given attributes of an
@@ -46,7 +71,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-
     /**
      * Defining who can access which part of the website. The different roles are:
      * user, default visitor and worker.
@@ -56,14 +80,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/").permitAll()
-                .antMatchers("/products").permitAll().antMatchers("/favorites").permitAll().antMatchers("/cart")
-                .permitAll().antMatchers("/rooms").permitAll().antMatchers("/console/*").permitAll()
-                .antMatchers("/profile").hasRole("USER").and()
-                .logout().logoutUrl("/logout").permitAll().and().csrf().disable();
+        http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+        .and()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authorizeRequests()
+            .antMatchers("/profile").hasRole("USER")
+            .anyRequest().permitAll();
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
     }
 
     /**
@@ -74,23 +99,39 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(AuthenticationManagerBuilder authmanagerbuilder) throws Exception {
-
         authmanagerbuilder.userDetailsService(buds).passwordEncoder(getPasswordEncoder());
 
     }
 
+    
+    /** 
+     * Has a provider to validate UsernamePasswordAuthenticationToken.
+     * If successful: returns fully populated authentication object.
+     * 
+     * @return AuthenticationManager
+     * @throws Exception if the authentication can't be resolved
+     */
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean () throws Exception {
+        return super.authenticationManager();
+    }
+
     /**
-    * Service class: Here it is possible to control the login of an user. If the email is not found, the user has to register himself first.
-    * Otherwise the password and username(email) get controlled and verified.
-    */
+     * Service class: Here it is possible to control the login of an user. If the
+     * email is not found, the user has to register himself first. Otherwise the
+     * password and username(email) get controlled and verified.
+     */
     @Service
-    public class UserDetailService implements UserDetailsService {
+    public class UserDetailServiceImpl implements UserDetailsService {
         @Autowired
         private UserRepository userRepository;
 
         @Override
-        public UserDetails loadUserByUsername(String email) {
+        @Transactional
+        public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
             Optional<User> user = userRepository.findByEmail(email);
+            
             if (user.isEmpty()) {
                 throw new UsernameNotFoundException(email);
             }

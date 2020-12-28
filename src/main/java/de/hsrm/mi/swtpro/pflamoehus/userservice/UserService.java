@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.user.userservice;
+package de.hsrm.mi.swtpro.pflamoehus.userservice;
 
 import java.util.List;
 

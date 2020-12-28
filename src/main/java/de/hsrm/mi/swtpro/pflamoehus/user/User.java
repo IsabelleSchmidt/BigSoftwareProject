@@ -1,7 +1,10 @@
 package de.hsrm.mi.swtpro.pflamoehus.user;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -23,9 +27,10 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
+import de.hsrm.mi.swtpro.pflamoehus.roles.Roles;
+import de.hsrm.mi.swtpro.pflamoehus.adress.Adress;
+import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Bankcard;
+import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
@@ -50,12 +55,12 @@ public class User {
     private long version;
 
     @NotEmpty(message = "EMPTY:Der Vorname muss angegeben werden.")
-    @Size(min = 3)
+    @Size(min = 3, message="NOTVALID: Der Vorname muss mindestens 3 Buchstaben lang sein.")
     @Column(name = "firstname")
     private String firstName;
 
     @NotEmpty(message = "EMPTY:Der Nachname muss angegeben werden.")
-    @Size(min = 2)
+    @Size(min = 2, message="NOTVALID: Der Nachname muss mindestens 2 Buchstaben lang sein.")
     @Column(name = "lastname")
     private String lastName;
 
@@ -90,6 +95,18 @@ public class User {
     @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Creditcard> creditcard;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="user_roles", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="role_id"))
+    private List<Roles> roles = new ArrayList<>();
+
+    public List<Roles> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(List<Roles> roles) {
+        this.roles = roles;
+    }
 
     /**
      * Get creditcards.
@@ -352,7 +369,7 @@ public class User {
     public String toString() {
         return "User {bankcard:" + bankcard + ", birthdate:" + birthdate + ", creditcard=" + creditcard + ", email:"
                 + email + ", firstName:" + firstName + ", gender:" + gender + ", id:" + userID + ", lastName:"
-                + lastName + ", passwort:" + password + ", version:" + version + "}";
+                + lastName + ", passwort:" + password + ", version:" + version + ", roles:" + roles.toString() + "}";
     }
 
 }

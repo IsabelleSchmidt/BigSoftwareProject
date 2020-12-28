@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods;
+package de.hsrm.mi.swtpro.pflamoehus.paymentmethods;
 
 import java.util.Optional;
 

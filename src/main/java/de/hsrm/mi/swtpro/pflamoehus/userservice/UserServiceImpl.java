@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.user.userservice;
+package de.hsrm.mi.swtpro.pflamoehus.userservice;
 
 
 import java.util.List;
@@ -17,8 +17,8 @@ import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUseException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
+import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Bankcard;
+import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Creditcard;
 
 /*
  * UserServiceImpl for implementing the interface 'UserService'.

@@ -19,6 +19,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     Optional<User> findByEmail(String email);
 
+    Optional<User> findOneByEmail(String email);
+
     /**
      * Find a user by its id.
      * 
@@ -26,5 +28,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return optional of type user
      */
     Optional<User> findById(long id);
+
+    Boolean existsByEmail(String email);
 
 }

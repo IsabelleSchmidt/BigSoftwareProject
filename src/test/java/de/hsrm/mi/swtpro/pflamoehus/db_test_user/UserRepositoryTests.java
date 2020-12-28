@@ -16,9 +16,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
-import de.hsrm.mi.swtpro.pflamoehus.user.adress.AdressRepository;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.BankcardRepository;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.CreditcardRepository;
+import de.hsrm.mi.swtpro.pflamoehus.adress.AdressRepository;
+import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.BankcardRepository;
+import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.CreditcardRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class UserRepositoryTests {

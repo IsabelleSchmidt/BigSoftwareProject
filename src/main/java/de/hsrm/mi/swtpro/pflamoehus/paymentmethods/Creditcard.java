@@ -1,34 +1,34 @@
-package de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods;
-
-import java.util.List;
+package de.hsrm.mi.swtpro.pflamoehus.paymentmethods;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.Version;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidCreditCardNumber;
+import java.time.LocalDate;
+import java.util.List;
 
 /*
- * Bankcard entity for its database.
+ * Creditcard entity for its database.
  * 
  * @author Ann-Cathrin Fabian
  * @version 1
  */
 @Entity
-public class Bankcard {
+public class Creditcard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,22 +39,21 @@ public class Bankcard {
     @JsonIgnore
     private long version;
 
-    @NotEmpty(message="Die IBAN muss angebeben werden.")
-    @Pattern(regexp = "^(DE\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{2}|DE\\d{20}$)|(^\\{bcrypt\\}.*$)")
-    @JsonProperty(access = Access.WRITE_ONLY)
-    private String iban;
-
-    @NotEmpty(message="Der Besitzer der Karte muss angebeben werden.")
-    @Size(min = 3)
+    @NotEmpty
     private String owner;
 
-    @NotEmpty(message="Die Bank muss angegeben werden")
-    @Size(min = 3)
-    private String bank;
+    @NotEmpty(message="Die Kreditkartennummer muss angegeben werden.")
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @ValidCreditCardNumber
+    private String creditcardnumber;
+
+    @NotNull(message="Das Ablaufdatum der Karte muss angebeben werden.")
+    @Future
+    private LocalDate dateOfExpiry;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    @JoinTable(name = "User_Bankcards", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "userID"))
+    @JoinTable(name = "User_Creditcards", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "userID"))
     private List<User> user;
 
     /**
@@ -76,25 +75,7 @@ public class Bankcard {
     }
 
     /**
-     * Set iban.
-     * 
-     * @param iban iban that has to be set
-     */
-    public void setIban(String iban) {
-        this.iban = iban;
-    }
-
-    /**
-     * Get iban.
-     * 
-     * @return iban
-     */
-    public String getIban() {
-        return this.iban;
-    }
-
-    /**
-     * Get owner.
+     * Get Owner.
      * 
      * @return owner
      */
@@ -112,21 +93,39 @@ public class Bankcard {
     }
 
     /**
-     * Get bank.
+     * Get creditcardnumber.
      * 
-     * @return bank
+     * @return creditcardnumber
      */
-    public String getBank() {
-        return this.bank;
+    public String getCreditcardnumber() {
+        return this.creditcardnumber;
     }
 
     /**
-     * Set bank.
+     * Set creditcardnumber.
      * 
-     * @param bank bank that has to be set
+     * @param number creditcard number that has to be set
      */
-    public void setBank(String bank) {
-        this.bank = bank;
+    public void setCreditcardnumber(String number) {
+        this.creditcardnumber = number;
+    }
+
+    /**
+     * Get date of experiy.
+     * 
+     * @return date of experiy.
+     */
+    public LocalDate getDateOfExpiry() {
+        return this.dateOfExpiry;
+    }
+
+    /**
+     * Set date of experiy.
+     * 
+     * @param dateOfExperiy date of experiy that has ot be set
+     */
+    public void setDateOfExpiry(LocalDate dateOfExperiy) {
+        this.dateOfExpiry = dateOfExperiy;
     }
 
     /**
@@ -141,7 +140,7 @@ public class Bankcard {
     /**
      * Set users.
      * 
-     * @param user users that have to be set
+     * @param user list of users that has to be set
      */
     public void setUser(List<User> user) {
         this.user = user;
@@ -169,14 +168,11 @@ public class Bankcard {
         }
     }
 
-    
-     /**
-     * To generate a bankcard as a string.
-     */
     @Override
     public String toString() {
-        return "Bankcard [bank=" + bank + ", iban=" + iban + ", id=" + id + ", owner=" + owner + ", user=" + user
-                + ", version=" + version + "]";
+        return "Creditcard [creditcardnumber=" + creditcardnumber + ", dateOfExpiry=" + dateOfExpiry + ", id=" + id
+                + ", owner=" + owner + ", version=" + version + "]";
     }
+    
 
 }

@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods;
+package de.hsrm.mi.swtpro.pflamoehus.paymentmethods;
 
 import java.time.LocalDate;
 import java.util.List;
