@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.request.LoginRequest;
 import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.request.SignUpRequest;
@@ -40,7 +38,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 /*
  * UserRestController for the communcation between front- and backend.
  * 
- * @author Svenja Schenk, Ann-Cathrin Fabian, Sarah Wenzel
+ * @author Ann-Cathrin Fabian
  * @version 7
  */
 @RestController
@@ -62,8 +60,6 @@ public class UserRestApi {
 
 	@Autowired
 	JwtUtils jwtUtils;
-
-	private static final Logger logger = LoggerFactory.getLogger(UserRestApi.class);
 
 	/**
 	 * @param loginRequest login values
@@ -94,7 +90,6 @@ public class UserRestApi {
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest, BindingResult result) {
 		MessageResponse mr = new MessageResponse();
 		List<MessageResponse> mrs = new ArrayList<>();
-		logger.info("Benutzer wird registriert." + signUpRequest.toString());
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			mr.setMessage("Email ist already taken.");
 			mr.setField("email");
@@ -123,11 +118,7 @@ public class UserRestApi {
 		List<String> strRoles = signUpRequest.getRole();
 		List<Roles> roles = new ArrayList<>();
 
-		logger.info("DAS KOMMT IN DER REQUEST MIT: " + signUpRequest.getRole());
-
 		if (strRoles == null) {
-			logger.info("ROLE IST LEER");
-			logger.info("DAS HIER IST DIE USER ROLE: " + rolesRepository.findByName(ERoles.USER));
 			Roles userRole = rolesRepository.findByName(ERoles.USER)
 
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -169,7 +160,6 @@ public class UserRestApi {
 		}
 
 		user.setRoles(roles);
-		logger.info("User wird gespeichert: " + user.toString());
 		userRepository.save(user);
 
 		mr.setMessage("User registered successfully!");
