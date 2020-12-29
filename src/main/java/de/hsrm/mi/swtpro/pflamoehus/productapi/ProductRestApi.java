@@ -3,13 +3,14 @@ package de.hsrm.mi.swtpro.pflamoehus.productapi;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-
+import java.util.ArrayList;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -93,13 +94,18 @@ public class ProductRestApi {
      * @return new product
      */
     @PostMapping("/product/new")
-    public String postNewProduct(@Valid @RequestBody Product newProduct, BindingResult result) {
+    public ResponseEntity<String> postNewProduct(@Valid @RequestBody Product newProduct, BindingResult result) {
         productRestApiLogger.info("Neues Produkt erhalten!");
         Product product = null;
-        String message = "Message: ";
         if(result.hasErrors()){
+           
             productRestApiLogger.info("Validationsfehler");
-            message += "Validationsfehler -- "+result.getFieldErrors().toString();
+            List<String> allErrors = new ArrayList<>();
+            
+            for(FieldError error: result.getFieldErrors()){
+               allErrors.add("Validationerror: {field : " +error.getField() +" , message : "+error.getDefaultMessage()+"}");
+            }
+            return ResponseEntity.status(406).body("AllErrors : "+allErrors.toString());
 
         }else{
             try {
@@ -107,13 +113,12 @@ public class ProductRestApi {
 
         } catch (ProductServiceException pse) {
             productRestApiLogger.error("Failed to save the product.");
-            message+= "saving_error";
-            return message;
+            return ResponseEntity.badRequest().body("error : saving_error");
         }
-            return product.toString()+message;
+            return ResponseEntity.ok().body(product.toJSON());
         }
-        
-        return message;
+
+    
        
 
     }

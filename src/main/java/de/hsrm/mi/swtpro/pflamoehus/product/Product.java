@@ -393,4 +393,10 @@ public class Product {
                 + productType + ", roomType=" + roomType + ", version=" + version + ", width=" + width + "]";
     }
 
+    public String toJSON(){
+        return "Product {allPictures:" + allPictures + ", allTags:" + allTags + ", articlenr:" + articlenr + ", depth:"
+        + depth + ", description:" + description + ", height:" + height + ", information:" + information
+        + ", name:" + name + ", nrAvailableItems:" + nrAvailableItems + ", price:" + price + ", productType:"
+        + productType + ", roomType:" + roomType + ", version:" + version + ", width:" + width + "}";
+    }
 }
