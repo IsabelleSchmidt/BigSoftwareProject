@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,7 +67,6 @@ public class UserRestApi {
 
 	/**
 	 * @param loginRequest login values
-	 * @param result bindingresult
 	 * @return ResponseEntity
 	 */
 	@PostMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -92,11 +93,23 @@ public class UserRestApi {
 	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest, BindingResult result) {
 		MessageResponse mr = new MessageResponse();
+		List<MessageResponse> mrs = new ArrayList<>();
 		logger.info("Benutzer wird registriert." + signUpRequest.toString());
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			mr.setMessage("Email ist already taken.");
-			mr.setType("NOTVALID");
-			return ResponseEntity.badRequest().body(mr);
+			mr.setField("email");
+			mrs.add(mr);
+			return ResponseEntity.badRequest().body(mrs);
+		}if (result.hasErrors()){
+
+			for (FieldError error : result.getFieldErrors()){
+				mr.setMessage(error.getDefaultMessage());
+				mr.setField(error.getField());
+				mrs.add(mr);
+			}
+			
+			return new ResponseEntity<>(mrs, HttpStatus.NOT_ACCEPTABLE);
+
 		}
 
 		User user = new User();

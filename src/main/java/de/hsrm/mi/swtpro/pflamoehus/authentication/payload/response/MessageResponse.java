@@ -4,12 +4,29 @@ package de.hsrm.mi.swtpro.pflamoehus.authentication.payload.response;
  * Shows, how a MessageResponse has to look like.
  * 
  * @author Ann-Cathrin Fabian
- * @version 1
+ * @version 2
  */
 public class MessageResponse {
 
-    private String type;
     private String message;
+
+    private String field;
+
+    
+    /** 
+     * @return String
+     */
+    public String getField() {
+        return this.field;
+    }
+
+    
+    /** 
+     * @param field
+     */
+    public void setField(String field) {
+        this.field = field;
+    };
 
 	
     /** 
@@ -30,24 +47,10 @@ public class MessageResponse {
     public void setMessage(String message) {
 		this.message = message;
     }
-    
-    
-    /** 
-     * Get type.
-     * 
-     * @return String
-     */
-    public String getType() {
-        return this.type;
-    }
 
-    
-    /** 
-     * Set type.
-     * 
-     * @param type that has to be set.
-     */
-    public void setType(String type) {
-        this.type = type;
+    @Override
+    public String toString() {
+        return "MessageResponse [field=" + field + ", message=" + message + "]";
     }
+    
 }
