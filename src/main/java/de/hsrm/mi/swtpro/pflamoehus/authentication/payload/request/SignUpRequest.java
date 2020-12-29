@@ -2,7 +2,6 @@ package de.hsrm.mi.swtpro.pflamoehus.authentication.payload.request;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
@@ -20,13 +19,13 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
  * @version 1
  */
 public class SignUpRequest {
-    
+
     @NotEmpty(message = "EMPTY:Der Vorname muss angegeben werden.")
-    @Size(min = 3, message="NOTVALID: Der Vorname muss mindestens 3 Buchstaben lang sein.")
+    @Size(min = 3, message = "NOTVALID: Der Vorname muss mindestens 3 Buchstaben lang sein.")
     private String firstName;
 
     @NotEmpty(message = "EMPTY:Der Nachname muss angegeben werden.")
-    @Size(min = 2, message="NOTVALID: Der Nachname muss mindestens 2 Buchstaben lang sein.")
+    @Size(min = 2, message = "NOTVALID:Der Nachname muss mindestens 2 Buchstaben lang sein.")
     private String lastName;
 
     @NotEmpty(message = "EMPTY:Die Email-Adresse muss angegeben werden.")
@@ -47,29 +46,25 @@ public class SignUpRequest {
 
     private List<String> roles;
 
-	
-    /** 
+    /**
      * Get role.
      * 
      * @return String
      */
     public List<String> getRole() {
-		return this.roles;
-	}
+        return this.roles;
+    }
 
-	
-    /** 
+    /**
      * Set role.
      * 
      * @param role that has to be set.
      */
     public void setRole(List<String> role) {
-		this.roles = role;
-	}
+        this.roles = role;
+    }
 
-
-    
-    /** 
+    /**
      * Get password.
      * 
      * @return String
@@ -78,8 +73,7 @@ public class SignUpRequest {
         return this.password;
     }
 
-    
-    /** 
+    /**
      * Set password.
      * 
      * @param password that has to be set.
@@ -88,8 +82,7 @@ public class SignUpRequest {
         this.password = password;
     }
 
-    
-    /** 
+    /**
      * Get gender.
      * 
      * @return String
@@ -98,8 +91,7 @@ public class SignUpRequest {
         return this.gender;
     }
 
-    
-    /** 
+    /**
      * Set gender.
      * 
      * @param gender that has to be set.
@@ -108,8 +100,7 @@ public class SignUpRequest {
         this.gender = gender;
     }
 
-    
-    /** 
+    /**
      * Get birthdate.
      * 
      * @return LocalDate
@@ -118,8 +109,7 @@ public class SignUpRequest {
         return this.birthdate;
     }
 
-    
-    /** 
+    /**
      * Set birthdate.
      * 
      * @param birthdate that has to be set.
@@ -128,8 +118,7 @@ public class SignUpRequest {
         this.birthdate = birthdate;
     }
 
-    
-    /** 
+    /**
      * Get email.
      * 
      * @return String
@@ -138,8 +127,7 @@ public class SignUpRequest {
         return this.email;
     }
 
-    
-    /** 
+    /**
      * Set email.
      * 
      * @param email that has to be set.
@@ -148,8 +136,7 @@ public class SignUpRequest {
         this.email = email;
     }
 
-    
-    /** 
+    /**
      * Get lastname.
      * 
      * @return String
@@ -158,8 +145,7 @@ public class SignUpRequest {
         return this.lastName;
     }
 
-    
-    /** 
+    /**
      * Set lastname.
      * 
      * @param lastName that has to be set.
@@ -168,8 +154,7 @@ public class SignUpRequest {
         this.lastName = lastName;
     }
 
-    
-    /** 
+    /**
      * Get firstname.
      * 
      * @return String
@@ -178,8 +163,7 @@ public class SignUpRequest {
         return this.firstName;
     }
 
-    
-    /** 
+    /**
      * Set firstname.
      * 
      * @param firstName that has to be set.
@@ -193,6 +177,5 @@ public class SignUpRequest {
         return "SignUpRequest [birthdate=" + birthdate + ", email=" + email + ", firstName=" + firstName + ", gender="
                 + gender + ", lastName=" + lastName + ", password=" + password + ", roles=" + roles + "]";
     }
-
 
 }

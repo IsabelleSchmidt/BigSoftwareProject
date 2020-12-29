@@ -37,7 +37,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
  * @version 5
  */
 @Configuration
-@EnableWebSecurity 
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -46,17 +46,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
-    
-    /** 
+    /**
      * Executes once per request.
      * 
      * @return AuthTokenFilter
      */
     @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter(){
+    public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
     }
 
@@ -80,17 +79,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-        .and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-        .authorizeRequests()
-            .antMatchers("/profile").hasRole("USER")
-            .anyRequest().permitAll();
+        http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+                .antMatchers("/profile").hasRole("USER")
+                .anyRequest().permitAll();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
     }
-
     /**
      * Implementing an AuthenticationManagerBuilder for easy memory authentication.
      * 
@@ -103,17 +97,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    
-    /** 
-     * Has a provider to validate UsernamePasswordAuthenticationToken.
-     * If successful: returns fully populated authentication object.
+    /**
+     * Has a provider to validate UsernamePasswordAuthenticationToken. If
+     * successful: returns fully populated authentication object.
      * 
      * @return AuthenticationManager
      * @throws Exception if the authentication can't be resolved
      */
     @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean () throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManager();
     }
 
@@ -131,14 +124,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         @Transactional
         public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
             Optional<User> user = userRepository.findByEmail(email);
-            
+
+            logger.info("HALLOOOOOOO ICH MACH DAS GRAD.");
+
             if (user.isEmpty()) {
+                logger.info("JA IST LEER.");
                 throw new UsernameNotFoundException(email);
             }
             return org.springframework.security.core.userdetails.User.withUsername(email)
-                    .password(getPasswordEncoder().encode(user.get().getPassword()))
-                    .roles("USER") 
-                    .build();
+                    .password(getPasswordEncoder().encode(user.get().getPassword())).roles("USER").build();
         }
     }
 

@@ -10,10 +10,10 @@ import javax.validation.constraints.NotBlank;
  */
 public class LoginRequest {
     
-    @NotBlank(message="EMPTY:Die Email-Adresse muss angegeben werden.")
+    @NotBlank(message="Die Email-Adresse muss angegeben werden.")
 	private String email;
 
-	@NotBlank(message="EMTPY:Das Passwort muss angegeben werden.")
+	@NotBlank(message="Das Passwort muss angegeben werden.")
 	private String password;
 
 	public String getEmail() {

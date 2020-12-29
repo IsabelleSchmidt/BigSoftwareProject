@@ -1,13 +1,19 @@
 package de.hsrm.mi.swtpro.pflamoehus.roles;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
 /*
  * Roles entitiy.
@@ -26,6 +32,9 @@ public class Roles {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private ERoles name;
+
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    private List<User> user;
 
     
     /** 
@@ -76,6 +85,46 @@ public class Roles {
     @Override
     public String toString() {
         return name.toString();
+    }
+
+    /**
+     * Get users.
+     * 
+     * @return list of users
+     */
+    public List<User> getUser() {
+        return user;
+    }
+
+    /**
+     * Set users.
+     * 
+     * @param user users that have to be set
+     */
+    public void setUser(List<User> user) {
+        this.user = user;
+    }
+
+    /**
+     * Adds a user to the user list.
+     * 
+     * @param us user that should get added
+     */
+    public void addUser (User us){
+        if(!user.contains(us)){
+            user.add(us);
+        }
+    }
+
+    /**
+     * Removes a user from the user list.
+     * 
+     * @param us user that should get removed
+     */
+    public void removeUser(User us){
+        if (user != null){
+            user.remove(us);
+        }
     }
 
     

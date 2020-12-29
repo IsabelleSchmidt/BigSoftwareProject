@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,33 +63,28 @@ public class UserRestApi {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserRestApi.class);
 
-	
-	/** 
+	/**
 	 * @param loginRequest login values
+	 * @param result bindingresult
 	 * @return ResponseEntity
 	 */
-	@PostMapping("/login")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		logger.info("LoginRequestPasswort: " + loginRequest.getPassword());
-		logger.info("AUTHENTICATION:  " + new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+	@PostMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result) {
 
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 
-		logger.info("GESCHAAAAAAAAAAAAAFFT");
-
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
 				.collect(Collectors.toList());
-
-		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), roles));
+		JwtResponse response = new JwtResponse(jwt, userDetails.getUsername(), roles);
+		return ResponseEntity.ok(response);
 
 	}
 
-	
-	/** 
+	/**
 	 * @param signUpRequest given values of the user that wants to be registerd
 	 * @param result for controlling if the given SignUp request is valid
 	 * @return ResponseEntity
@@ -113,7 +108,7 @@ public class UserRestApi {
 		user.setPassword(signUpRequest.getPassword());
 
 		List<String> strRoles = signUpRequest.getRole();
-		List<Roles> roles = new ArrayList<>() ;
+		List<Roles> roles = new ArrayList<>();
 
 		logger.info("DAS KOMMT IN DER REQUEST MIT: " + signUpRequest.getRole());
 
@@ -121,14 +116,14 @@ public class UserRestApi {
 			logger.info("ROLE IST LEER");
 			logger.info("DAS HIER IST DIE USER ROLE: " + rolesRepository.findByName(ERoles.USER));
 			Roles userRole = rolesRepository.findByName(ERoles.USER)
-				
+
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
 					case "admin":
-					
+
 						Roles adminRole = rolesRepository.findByName(ERoles.ADMIN)
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 						roles.add(adminRole);

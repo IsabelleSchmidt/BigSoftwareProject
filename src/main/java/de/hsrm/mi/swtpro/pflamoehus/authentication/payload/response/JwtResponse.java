@@ -11,7 +11,6 @@ import java.util.List;
 public class JwtResponse {
 
     private String token;
-	private String type = "Bearer";
 	private String email;
 	private List<String> roles;
 
@@ -43,26 +42,6 @@ public class JwtResponse {
 
 	
 	/** 
-	 * Get tokentype.
-	 * 
-	 * @return String
-	 */
-	public String getTokenType() {
-		return type;
-	}
-
-	
-	/** 
-	 * Set tokentype.
-	 * 
-	 * @param tokenType that has to be set.
-	 */
-	public void setTokenType(String tokenType) {
-		this.type = tokenType;
-	}
-
-	
-	/** 
 	 * Get email.
 	 * 
 	 * @return String
@@ -89,6 +68,15 @@ public class JwtResponse {
 	 */
 	public List<String> getRoles() {
 		return roles;
+	}
+
+	@Override
+	public String toString() {
+		return "JwtResponse [email=" + email + ", roles=" + roles + ", token=" + token + "]";
+	}
+
+	public String toJson(){
+		return "{ email : " + email + ", roles : " + roles + ", token : " + token + "}";
 	}
     
 }

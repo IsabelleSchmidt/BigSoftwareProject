@@ -2,9 +2,7 @@ package de.hsrm.mi.swtpro.pflamoehus.user;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -55,12 +52,12 @@ public class User {
     private long version;
 
     @NotEmpty(message = "EMPTY:Der Vorname muss angegeben werden.")
-    @Size(min = 3, message="NOTVALID: Der Vorname muss mindestens 3 Buchstaben lang sein.")
+    @Size(min = 3, message = "NOTVALID: Der Vorname muss mindestens 3 Buchstaben lang sein.")
     @Column(name = "firstname")
     private String firstName;
 
     @NotEmpty(message = "EMPTY:Der Nachname muss angegeben werden.")
-    @Size(min = 2, message="NOTVALID: Der Nachname muss mindestens 2 Buchstaben lang sein.")
+    @Size(min = 2, message = "NOTVALID: Der Nachname muss mindestens 2 Buchstaben lang sein.")
     @Column(name = "lastname")
     private String lastName;
 
@@ -96,18 +93,53 @@ public class User {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Creditcard> creditcard;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="user_roles", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="role_id"))
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Roles> roles = new ArrayList<>();
 
+    
+    /** 
+     * Get roles.
+     * 
+     * @return List<Roles>
+     */
     public List<Roles> getRoles() {
         return this.roles;
     }
 
+    
+    /** 
+     * Set roles.
+     * 
+     * @param roles roles that should be set.
+     */
     public void setRoles(List<Roles> roles) {
         this.roles = roles;
     }
 
+    
+    /** 
+     * Add role.
+     * 
+     * @param role role that should be added
+     */
+    public void addRole(Roles role){
+        if(!roles.contains(role)){
+            roles.add(role);
+        }
+    }
+
+    
+    /** 
+     * Remove role.
+     * 
+     * @param role that should get removed
+     */
+    public void removeRole(Roles role){
+        if(role != null){
+            roles.remove(role);
+        }
+    }
     /**
      * Get creditcards.
      * 
@@ -369,7 +401,7 @@ public class User {
     public String toString() {
         return "User {bankcard:" + bankcard + ", birthdate:" + birthdate + ", creditcard=" + creditcard + ", email:"
                 + email + ", firstName:" + firstName + ", gender:" + gender + ", id:" + userID + ", lastName:"
-                + lastName + ", passwort:" + password + ", version:" + version + ", roles:" + roles.toString() + "}";
+                + lastName + ", passwort:" + password + ", version:" + version + ", roles:" + roles + "}";
     }
 
 }
