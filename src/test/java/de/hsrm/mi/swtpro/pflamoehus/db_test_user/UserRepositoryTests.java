@@ -2,6 +2,7 @@ package de.hsrm.mi.swtpro.pflamoehus.db_test_user;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,6 +22,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 import de.hsrm.mi.swtpro.pflamoehus.adress.AdressRepository;
 import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.BankcardRepository;
 import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.CreditcardRepository;
+import de.hsrm.mi.swtpro.pflamoehus.roles.RolesRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class UserRepositoryTests {
@@ -38,9 +42,14 @@ class UserRepositoryTests {
     private BankcardRepository bankRepo;
     @Autowired
     private AdressRepository adressRepo;
+    @Autowired
+    private RolesRepository rolesRepo;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserRepositoryTests.class);
 
     @BeforeEach
     public void clear_repos() {
+        rolesRepo.deleteAll();
         creditRepo.deleteAll();
         bankRepo.deleteAll();
         adressRepo.deleteAll();
@@ -56,7 +65,7 @@ class UserRepositoryTests {
     @Test
     @DisplayName("Persist product entity (empty table)")
     void persist_user() {
-
+        userRepo.deleteAll();
         final User unmanaged = new User();
 
         unmanaged.setFirstName(FIRSTNAME);
@@ -66,10 +75,13 @@ class UserRepositoryTests {
         unmanaged.setGender(GENDER);
         unmanaged.setPassword(PASSWORD);
 
+        logger.info("REPO: " + userRepo.findAll());
+        //System.out.println("REPO" + userRepo.findAll());
+        List<User> repo = userRepo.findAll();
         final User managed = userRepo.save(unmanaged);
         assertThat(managed).isEqualTo(unmanaged);
 
-        assertThat(userRepo.count()).isEqualTo(1);
+        assertTrue(userRepo.count()==1, "REPO: " + repo);
 
     }
 
