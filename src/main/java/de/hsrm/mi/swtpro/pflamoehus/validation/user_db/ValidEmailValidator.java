@@ -24,7 +24,6 @@ public class ValidEmailValidator implements ConstraintValidator<ValidEmail, Stri
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
         Pattern mailPattern = Pattern
-                //.compile("^\\w{2,}[\\w\\p{Punct}\\d]{2,}@\\w{2,}[\\w\\p{Punct}\\d]*\\w{2,}((.de)|(.com))$");
                 .compile("^\\w{2,}[\\w\\p{Punct}\\d]{2,}@\\w{2,}([\\w\\p{Punct}\\d]*\\w{2,})*((.de)|(.com)|(.net))$");
         Matcher matcher = mailPattern.matcher(value);
 
