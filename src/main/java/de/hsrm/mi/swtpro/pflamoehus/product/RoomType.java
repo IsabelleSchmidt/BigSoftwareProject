@@ -31,7 +31,12 @@ public enum RoomType {
     /**
      * type 'Wohnzimmer' 
      * */
-    LIVINGROOM("Wohnzimmer");
+    LIVINGROOM("Wohnzimmer"),
+   
+    /**
+     * type 'Esszimmer'
+     */
+    EATINGROOM("Esszimmer");
 
     
     private String type;
