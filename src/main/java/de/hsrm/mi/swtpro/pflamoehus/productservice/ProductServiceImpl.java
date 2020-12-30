@@ -42,12 +42,12 @@ public class ProductServiceImpl implements ProductService {
      * @return optional of type product
      */
     @Override
-    public Optional<Product> searchProductwithArticleNr(long articleNr) {
+    public Product searchProductwithArticleNr(long articleNr) {
         Optional<Product> product = productRepo.findById(articleNr);
         if (product.isEmpty()) {
             throw new ProductServiceException("Product is not in the database.");
         }
-        return product;
+        return product.get();
     }
 
     /**
