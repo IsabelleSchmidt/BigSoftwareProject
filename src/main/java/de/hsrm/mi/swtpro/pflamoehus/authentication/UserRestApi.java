@@ -35,6 +35,9 @@ import de.hsrm.mi.swtpro.pflamoehus.roles.Roles;
 import de.hsrm.mi.swtpro.pflamoehus.roles.ERoles;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /*
  * UserRestController for the communcation between front- and backend.
  * 
@@ -60,6 +63,8 @@ public class UserRestApi {
 
 	@Autowired
 	JwtUtils jwtUtils;
+
+	private static final Logger logger = LoggerFactory.getLogger(UserRestApi.class);
 
 	/**
 	 * @param loginRequest login values
@@ -94,6 +99,7 @@ public class UserRestApi {
 			mr.setMessage("Email ist already taken.");
 			mr.setField("email");
 			mrs.add(mr);
+			logger.error("BITCH DAS GEHT NICHT");
 			return ResponseEntity.badRequest().body(mrs);
 		}if (result.hasErrors()){
 
@@ -102,7 +108,7 @@ public class UserRestApi {
 				mr.setField(error.getField());
 				mrs.add(mr);
 			}
-			
+			logger.info("FEHLER: " + mr);
 			return new ResponseEntity<>(mrs, HttpStatus.NOT_ACCEPTABLE);
 
 		}
