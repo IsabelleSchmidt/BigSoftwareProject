@@ -1,7 +1,9 @@
 package de.hsrm.mi.swtpro.pflamoehus.authentication;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -100,16 +102,17 @@ public class UserRestApi {
 			mr.setField("email");
 			mrs.add(mr);
 			logger.error("BITCH DAS GEHT NICHT");
-			return ResponseEntity.badRequest().body(mrs);
+			return new ResponseEntity<>(mrs, HttpStatus.OK);
 		}if (result.hasErrors()){
 
 			for (FieldError error : result.getFieldErrors()){
 				mr.setMessage(error.getDefaultMessage());
 				mr.setField(error.getField());
 				mrs.add(mr);
+				logger.info("FEHLER: " + mr);
 			}
-			logger.info("FEHLER: " + mr);
-			return new ResponseEntity<>(mrs, HttpStatus.NOT_ACCEPTABLE);
+			
+			return new ResponseEntity<>(mrs, HttpStatus.OK);
 
 		}
 
@@ -122,7 +125,7 @@ public class UserRestApi {
 		user.setPassword(signUpRequest.getPassword());
 
 		List<String> strRoles = signUpRequest.getRole();
-		List<Roles> roles = new ArrayList<>();
+		Set<Roles> roles = new HashSet<>();
 
 		if (strRoles == null) {
 			Roles userRole = rolesRepository.findByName(ERoles.USER)
@@ -165,6 +168,7 @@ public class UserRestApi {
 			});
 		}
 
+		logger.info("ROLLEN: " + roles);
 		user.setRoles(roles);
 		userRepository.save(user);
 

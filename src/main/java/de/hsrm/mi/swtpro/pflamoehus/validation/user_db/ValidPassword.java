@@ -25,7 +25,7 @@ public @interface ValidPassword {
      * 
      * @return default message
      */
-    String message() default "NOTVALID:Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, ein Zeichen und eine Nummer enthalten. Desweiteren muss das Passwort mindestens 8 Zeichen und darf höchstens 32 Zeichen lang sein.";
+    String message() default "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, ein Zeichen und eine Nummer enthalten. Desweiteren muss das Passwort mindestens 8 Zeichen und darf höchstens 32 Zeichen lang sein.";
 
     /**
      * 

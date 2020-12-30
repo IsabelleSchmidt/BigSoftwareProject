@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
 /*
@@ -33,7 +35,8 @@ public class Roles {
     @Column(length = 20)
     private ERoles name;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<User> user;
 
     

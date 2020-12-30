@@ -26,7 +26,7 @@ public @interface ValidCreditCardNumber {
     /**
      * @return default message
      */
-    String message() default "NOTVALID:Die angegebene Kreditkartennummer ist ungültig.";
+    String message() default "Die angegebene Kreditkartennummer ist ungültig.";
 
     /**
      * 

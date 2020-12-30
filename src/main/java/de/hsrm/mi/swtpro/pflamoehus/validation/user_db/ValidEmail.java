@@ -26,7 +26,7 @@ public @interface ValidEmail {
      * 
      * @return default message
      */
-    String message() default "NOTVALID:Die angegebene Email-Adresse ist ungültig.";
+    String message() default "Die angegebene Email-Adresse ist ungültig.";
     
     /**
      * 

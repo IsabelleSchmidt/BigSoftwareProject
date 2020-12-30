@@ -20,15 +20,15 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
  */
 public class SignUpRequest {
 
-    @NotEmpty(message = "EMPTY:Der Vorname muss angegeben werden.")
-    @Size(min = 3, message = "NOTVALID: Der Vorname muss mindestens 3 Buchstaben lang sein.")
+    @NotEmpty(message = "Der Vorname muss angegeben werden.")
+    @Size(min = 3, message = "Der Vorname muss mindestens 3 Buchstaben lang sein.")
     private String firstName;
 
-    @NotEmpty(message = "EMPTY:Der Nachname muss angegeben werden.")
-    @Size(min = 2, message = "NOTVALID:Der Nachname muss mindestens 2 Buchstaben lang sein.")
+    @NotEmpty(message = "Der Nachname muss angegeben werden.")
+    @Size(min = 2, message = "Der Nachname muss mindestens 2 Buchstaben lang sein.")
     private String lastName;
 
-    @NotEmpty(message = "EMPTY:Die Email-Adresse muss angegeben werden.")
+    @NotEmpty(message = "Die Email-Adresse muss angegeben werden.")
     @Column(name = "EMAIL", unique = true)
     @ValidEmail
     private String email;
@@ -36,11 +36,11 @@ public class SignUpRequest {
     @ValidBirthDay
     private LocalDate birthdate;
 
-    @NotEmpty(message = "EMPTY:Das Geschlecht muss angegeben werden.")
+    @NotEmpty(message = "Das Geschlecht muss angegeben werden.")
     @ValidGender
     private String gender;
 
-    @NotEmpty(message = "EMPTY:Es muss ein Passwort angegeben werden.")
+    @NotEmpty(message = "Es muss ein Passwort angegeben werden.")
     @ValidPassword
     private String password;
 

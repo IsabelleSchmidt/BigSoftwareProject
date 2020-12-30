@@ -2,7 +2,9 @@ package de.hsrm.mi.swtpro.pflamoehus.user;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -51,17 +53,17 @@ public class User {
     @JsonIgnore
     private long version;
 
-    @NotEmpty(message = "EMPTY:Der Vorname muss angegeben werden.")
-    @Size(min = 3, message = "NOTVALID: Der Vorname muss mindestens 3 Buchstaben lang sein.")
+    @NotEmpty(message = "Der Vorname muss angegeben werden.")
+    @Size(min = 3, message = "Der Vorname muss mindestens 3 Buchstaben lang sein.")
     @Column(name = "firstname")
     private String firstName;
 
-    @NotEmpty(message = "EMPTY:Der Nachname muss angegeben werden.")
-    @Size(min = 2, message = "NOTVALID: Der Nachname muss mindestens 2 Buchstaben lang sein.")
+    @NotEmpty(message = "Der Nachname muss angegeben werden.")
+    @Size(min = 2, message = "Der Nachname muss mindestens 2 Buchstaben lang sein.")
     @Column(name = "lastname")
     private String lastName;
 
-    @NotEmpty(message = "EMPTY:Die Email-Adresse muss angegeben werden.")
+    @NotEmpty(message = "Die Email-Adresse muss angegeben werden.")
     @Column(name = "EMAIL", unique = true)
     @ValidEmail
     private String email;
@@ -69,7 +71,7 @@ public class User {
     @ValidBirthDay
     private LocalDate birthdate;
 
-    @NotEmpty(message = "EMPTY:Es muss ein Passwort angegeben werden.")
+    @NotEmpty(message = "Es muss ein Passwort angegeben werden.")
     @ValidPassword
     @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
@@ -79,7 +81,7 @@ public class User {
     @JoinTable(name = "User_Adresses", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "adressID"))
     private List<Adress> allAdresses;
 
-    @NotEmpty(message = "EMPTY:Das Geschlecht muss angegeben werden.")
+    @NotEmpty(message = "Das Geschlecht muss angegeben werden.")
     @ValidGender
     private String gender;
 
@@ -93,9 +95,9 @@ public class User {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Creditcard> creditcard;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Roles> roles = new ArrayList<>();
+    private Set<Roles> roles = new HashSet<>();
 
     
     /** 
@@ -103,7 +105,7 @@ public class User {
      * 
      * @return List<Roles>
      */
-    public List<Roles> getRoles() {
+    public Set<Roles> getRoles() {
         return this.roles;
     }
 
@@ -113,7 +115,7 @@ public class User {
      * 
      * @param roles roles that should be set.
      */
-    public void setRoles(List<Roles> roles) {
+    public void setRoles(Set<Roles> roles) {
         this.roles = roles;
     }
 

@@ -26,7 +26,7 @@ public @interface ValidGender {
      * 
      * @return default message
      */
-    String message() default "NOTVALID:Ungültige Eingabe.";
+    String message() default "Ungültige Eingabe.";
 
     /**
      * @return class

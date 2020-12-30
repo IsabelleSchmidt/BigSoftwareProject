@@ -26,7 +26,7 @@ public @interface ValidBirthDay {
      * 
      * @return default message
      */
-    String message() default "NOTVALID:Sie müssen mindestens 18 Jahre alt sein, um sich registrieren zu können.";
+    String message() default "Sie müssen mindestens 18 Jahre alt sein, um sich registrieren zu können.";
     
     /**
      * 
