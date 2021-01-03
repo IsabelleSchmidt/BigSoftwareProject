@@ -98,10 +98,9 @@ public class UserRestApi {
 		MessageResponse mr = new MessageResponse();
 		List<MessageResponse> mrs = new ArrayList<>();
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			mr.setMessage("Email ist already taken.");
+			mr.setMessage("Diese Email ist schon vergeben");
 			mr.setField("email");
 			mrs.add(mr);
-			logger.error("BITCH DAS GEHT NICHT");
 			return new ResponseEntity<>(mrs, HttpStatus.OK);
 		}if (result.hasErrors()){
 

@@ -9,6 +9,6 @@ public class EmailOrPasswordWrongException extends RuntimeException {
      * @param msg the message that has to be printed
      */
     public EmailOrPasswordWrongException() {
-        super("Password or Email wrong.");
+        super("Passwort oder Email falsch.");
     }
 }
