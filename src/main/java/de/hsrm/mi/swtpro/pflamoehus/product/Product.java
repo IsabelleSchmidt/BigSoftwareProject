@@ -23,6 +23,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import de.hsrm.mi.swtpro.pflamoehus.order.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
 import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.*;
@@ -97,6 +98,12 @@ public class Product {
     @NotNull
     @Size(min = 10, max = 180)
     private String information;
+
+    //Unidirectional Relationship, owning side: OrderDetails
+    @OneToMany
+    @JsonIgnore
+    @JoinColumn(name = "OrderDetailProduct")
+    private Set<OrderDetails> allOrderDetails;
 
     /**
      * Get information.
