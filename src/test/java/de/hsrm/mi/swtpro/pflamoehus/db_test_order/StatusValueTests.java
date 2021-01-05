@@ -46,17 +46,17 @@ public class StatusValueTests {
 
         for(Statuscode aktcode :    Statuscode.values()){
             status.setStatuscode(aktcode.toString()+"s");
-            assertTrue(validator.validate(status).size() == 0, "Statuscode mit s hintendran muss als falsch validiert werden");
+            assertTrue(validator.validate(status).size() == 1, "Statuscode mit s hintendran muss als falsch validiert werden");
         }   
 
         for(Statuscode aktcode :    Statuscode.values()){
             status.setStatuscode(aktcode.toString().toLowerCase());
-            assertTrue(validator.validate(status).size() == 0, "Statuscode in klein muss als falsch validiert werden");
+            assertTrue(validator.validate(status).size() == 1, "Statuscode in klein muss als falsch validiert werden");
         }   
 
       
         status.setStatuscode("");
-        assertTrue(validator.validate(status).size() == 0, "Statuscode '' muss als falsch validiert werden");
+        assertTrue(validator.validate(status).size() == 1, "Statuscode '' muss als falsch validiert werden");
         
     }
 }
