@@ -100,23 +100,21 @@ public class User {
     private Set<Roles> roles = new HashSet<>();
 
     @Valid
-    @OneToMany(mappedBy="userID", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "userID", cascade = CascadeType.DETACH)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
     private Set<Order> orders = new HashSet<>();
 
-    
-    /** 
+    /**
      * Get roles.
      * 
-     * @return List<Roles>
+     * @return roles
      */
     public Set<Roles> getRoles() {
         return this.roles;
     }
 
-    
-    /** 
+    /**
      * Set roles.
      * 
      * @param roles roles that should be set.
@@ -125,29 +123,28 @@ public class User {
         this.roles = roles;
     }
 
-    
-    /** 
+    /**
      * Add role.
      * 
      * @param role role that should be added
      */
-    public void addRole(Roles role){
-        if(!roles.contains(role)){
+    public void addRole(Roles role) {
+        if (!roles.contains(role)) {
             roles.add(role);
         }
     }
 
-    
-    /** 
+    /**
      * Remove role.
      * 
      * @param role that should get removed
      */
-    public void removeRole(Roles role){
-        if(role != null){
+    public void removeRole(Roles role) {
+        if (role != null) {
             roles.remove(role);
         }
     }
+
     /**
      * Get creditcards.
      * 
@@ -233,7 +230,7 @@ public class User {
      * @return boolean
      */
     public boolean removeBankcard(Bankcard deleteBankcard) {
-            return bankcard.remove(deleteBankcard);
+        return bankcard.remove(deleteBankcard);
     }
 
     /**
@@ -420,18 +417,16 @@ public class User {
         return orders.remove(deleteOrder);
     }
 
-    
-    /** 
+    /**
      * Get orders.
      * 
-     * @return Set<Order> given orders
+     * @return orders
      */
     public Set<Order> getOrders() {
         return orders;
     }
 
-    
-    /** 
+    /**
      * Set orders.
      * 
      * @param orders orders that should be get
@@ -440,9 +435,7 @@ public class User {
         this.orders = orders;
     }
 
-
-    
-    /** 
+    /**
      * User to string.
      * 
      * @return String
@@ -454,10 +447,5 @@ public class User {
                 + ", lastName=" + lastName + ", orders=" + orders + ", password=" + password + ", roles=" + roles
                 + ", userID=" + userID + ", version=" + version + "]";
     }
-
-    
-    
-
-  
 
 }

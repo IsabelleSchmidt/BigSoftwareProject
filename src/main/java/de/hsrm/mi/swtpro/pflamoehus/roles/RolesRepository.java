@@ -12,6 +12,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface RolesRepository extends JpaRepository<Roles, Long> {
     
+    /**
+     * Find a role by its name.
+     * 
+     * @param name wanted name
+     * @return role
+     */
     Optional<Roles> findByName(ERoles name);
 
 }

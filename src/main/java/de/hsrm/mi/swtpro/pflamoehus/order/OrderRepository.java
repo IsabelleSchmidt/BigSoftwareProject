@@ -29,7 +29,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
      * @param user wanted order
      * @return oder
      */
-    Order findByUserID (User user);
+    Order findByUserID(User user);
 
     /**
      * Sort all orders by their delivery date.
@@ -37,5 +37,13 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
      * @return list of orders
      */
     List<Order> findAllByOrderByDeliveryDateAsc();
-    
+
+    /**
+     * Find all orders with a ceratin status.
+     * 
+     * @param status status
+     * @return list of orders
+     */
+    List<Order> findOderByStatus(Status status);
+
 }

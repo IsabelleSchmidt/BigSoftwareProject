@@ -14,6 +14,13 @@ public class JwtResponse {
 	private String email;
 	private List<String> roles;
 
+	/** 
+	 * JwtResponse Constructor
+	 * 
+	 * @param accessToken accessToken
+	 * @param email email from user
+	 * @param roles roles of a user
+	 */
 	public JwtResponse(String accessToken, String email, List<String> roles) {
 		this.token = accessToken;
 		this.email = email;
@@ -70,13 +77,15 @@ public class JwtResponse {
 		return roles;
 	}
 
+	
+	/** 
+	 * Response to string. 
+	 * 
+	 * @return String
+	 */
 	@Override
 	public String toString() {
 		return "JwtResponse [email=" + email + ", roles=" + roles + ", token=" + token + "]";
-	}
-
-	public String toJson(){
-		return "{ email : " + email + ", roles : " + roles + ", token : " + token + "}";
 	}
     
 }

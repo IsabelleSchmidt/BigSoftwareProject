@@ -22,7 +22,9 @@ public class MessageResponse {
 
     
     /** 
-     * @param field
+     * Set field.
+     * 
+     * @param field to be set
      */
     public void setField(String field) {
         this.field = field;

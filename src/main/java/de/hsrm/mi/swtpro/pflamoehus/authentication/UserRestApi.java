@@ -69,6 +69,9 @@ public class UserRestApi {
 	private static final Logger logger = LoggerFactory.getLogger(UserRestApi.class);
 
 	/**
+	 * PostMapping for login.
+	 * 
+	 * @param result binding result
 	 * @param loginRequest login values
 	 * @return ResponseEntity
 	 */

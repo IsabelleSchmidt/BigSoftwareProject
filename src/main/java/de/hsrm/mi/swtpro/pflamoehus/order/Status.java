@@ -29,10 +29,11 @@ public class Status {
     @GeneratedValue
     private long statusID;
 
-    @Version @JsonIgnore
+    @Version
+    @JsonIgnore
     private long version;
 
-    @ManyToOne 
+    @ManyToOne
     @JsonIgnore
     private Set<Order> allOrderNR = new HashSet<>();
 
@@ -43,8 +44,7 @@ public class Status {
     @ValidStatus
     private String statuscode;
 
-    
-    /** 
+    /**
      * Get statusId.
      * 
      * @return long
@@ -53,30 +53,27 @@ public class Status {
         return statusID;
     }
 
-    
-    /** 
+    /**
      * Add a new order.
      * 
      * @param newOrder to be added
      * @return boolean
      */
-    public boolean addOrder(Order newOrder){
+    public boolean addOrder(Order newOrder) {
         return allOrderNR.add(newOrder);
     }
 
-    
-    /** 
+    /**
      * Remove a order.
      * 
      * @param delOrder to be removed
      * @return boolean
      */
-    public boolean removeOrder(Order delOrder){
+    public boolean removeOrder(Order delOrder) {
         return allOrderNR.remove(delOrder);
     }
 
-    
-    /** 
+    /**
      * Get statuscode.
      * 
      * @return String
@@ -85,8 +82,7 @@ public class Status {
         return statuscode;
     }
 
-    
-    /** 
+    /**
      * Set statuscode.
      * 
      * @param statuscode to be set
@@ -95,18 +91,16 @@ public class Status {
         this.statuscode = statuscode;
     }
 
-    
-    /** 
+    /**
      * Get all orders.
      * 
-     * @return Set<Order>
+     * @return Order
      */
     public Set<Order> getAllOrderNR() {
         return allOrderNR;
     }
 
-    
-    /** 
+    /**
      * Set all orders.
      * 
      * @param allOrderNR to be set
@@ -115,18 +109,16 @@ public class Status {
         this.allOrderNR = allOrderNR;
     }
 
-    
-    /** 
+    /**
      * Get all oderdetails.
      * 
-     * @return Set<OrderDetails>
+     * @return OrderDetails
      */
     public Set<OrderDetails> getAllOrderDetailNR() {
         return allOrderDetailNR;
     }
 
-    
-    /** 
+    /**
      * Set all orderdetails.
      * 
      * @param allOrderDetailNR to be set
@@ -135,41 +127,37 @@ public class Status {
         this.allOrderDetailNR = allOrderDetailNR;
     }
 
-    
-    /** 
+    /**
      * Add order details.
      * 
      * @param details to be added
      * @return boolean
      */
-    public boolean addOrderDetail(OrderDetails details){
+    public boolean addOrderDetail(OrderDetails details) {
         return allOrderDetailNR.add(details);
     }
 
-    
-    /** 
+    /**
      * Remove order details.
      * 
      * @param details to be removed
      * @return boolean
      */
-    public boolean removeOrderDetail(OrderDetails details){
+    public boolean removeOrderDetail(OrderDetails details) {
         return allOrderDetailNR.remove(details);
     }
 
-  
- 
- /** 
-  * Status to string.
-  
-  * @return String
-  */
- @Override
+    /**
+     * Status to string.
+     * 
+     * @return String
+     */
+    @Override
     public String toString() {
         return "Status [allOrderDetailNR=" + allOrderDetailNR + ", allOrderNR=" + allOrderNR + ", statusID=" + statusID
                 + ", statuscode=" + statuscode + ", version=" + version + "]";
     }
 
-//TODO: in allen Entities checken ob wir ein Set oder eine Liste brauchen
-//TODO: in allen Entities add und remove methoden die boolean zurueckgeben
+    // TODO: in allen Entities checken ob wir ein Set oder eine Liste brauchen
+    // TODO: in allen Entities add und remove methoden die boolean zurueckgeben
 }

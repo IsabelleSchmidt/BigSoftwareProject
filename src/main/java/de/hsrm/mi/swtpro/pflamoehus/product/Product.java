@@ -221,10 +221,10 @@ public class Product {
      * @param picture picture that has to be added
      */
     public void addPicture(Picture picture) {
-        if(!allPictures.contains(picture)){
+        if (!allPictures.contains(picture)) {
             allPictures.add(picture);
         }
-        
+
     }
 
     /**
@@ -232,8 +232,8 @@ public class Product {
      * 
      * @param picture picture that should be deleted
      */
-    public void removePicture(Picture picture){
-        if (allPictures != null){
+    public void removePicture(Picture picture) {
+        if (allPictures != null) {
             allPictures.remove(picture);
         }
     }
@@ -345,7 +345,7 @@ public class Product {
      * 
      * @param tag tag that has to be removed
      */
-    public void removeTag(Tag tag){
+    public void removeTag(Tag tag) {
         if (!allTags.contains(tag)) {
             allTags.remove(tag);
         }
@@ -368,8 +368,6 @@ public class Product {
     public void setNrAvailableItems(int nrAvailableItems) {
         this.nrAvailableItems = nrAvailableItems;
     }
-
-    
 
     /**
      * Get version.

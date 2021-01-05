@@ -140,6 +140,15 @@ public class ProductRestApi {
         return allPictures;
     }
 
+    
+    /** 
+     * Post picturedata.
+     * 
+     * @param image given image
+     * @param articleNr given articleNr
+     * @param path given path
+     * @return boolean
+     */
     @PostMapping(value="/product/{articleNr}/newpicture")
     public boolean postPicturedata(byte[] image, @PathVariable Long articleNr, @RequestParam("picturename") String path){
 
@@ -159,6 +168,12 @@ public class ProductRestApi {
         return false;
     }
 
+    
+    /** 
+     * Init binder.
+     * 
+     * @param binder binder
+     */
     @InitBinder
     protected void initBinder(ServletRequestDataBinder binder) {
     binder.registerCustomEditor(byte[].class,

@@ -21,7 +21,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.User;
  * @version 1
  */
 @Entity
-public class Order {    
+public class Order {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -39,7 +39,7 @@ public class Order {
 
     private Status status;
 
-    /** 
+    /**
      * Get orderNr.
      * 
      * @return long
@@ -47,8 +47,8 @@ public class Order {
     public long getOrderNR() {
         return orderNR;
     }
-    
-    /** 
+
+    /**
      * Get version.
      * 
      * @return long
@@ -57,8 +57,7 @@ public class Order {
         return version;
     }
 
-    
-    /** 
+    /**
      * Set version
      * 
      * @param version version that should be set.
@@ -67,8 +66,7 @@ public class Order {
         this.version = version;
     }
 
-    
-    /** 
+    /**
      * Get user.
      * 
      * @return User
@@ -77,8 +75,7 @@ public class Order {
         return userID;
     }
 
-    
-    /** 
+    /**
      * Set user.
      * 
      * @param userID user that should be set.
@@ -87,8 +84,7 @@ public class Order {
         this.userID = userID;
     }
 
-    
-    /** 
+    /**
      * Get delivery date.
      * 
      * @return LocalDate
@@ -97,8 +93,7 @@ public class Order {
         return deliveryDate;
     }
 
-    
-    /** 
+    /**
      * Set delivery date.
      * 
      * @param deliveryDate new date
@@ -107,8 +102,7 @@ public class Order {
         this.deliveryDate = deliveryDate;
     }
 
-    
-    /** 
+    /**
      * Get status.
      * 
      * @return Status
@@ -117,8 +111,7 @@ public class Order {
         return status;
     }
 
-    
-    /** 
+    /**
      * Set status.
      * 
      * @param status new status
@@ -127,8 +120,7 @@ public class Order {
         this.status = status;
     }
 
-    
-    /** 
+    /**
      * Order to string.
      * 
      * @return String
@@ -138,8 +130,5 @@ public class Order {
         return "Order [deliveryDate=" + deliveryDate + ", orderNR=" + orderNR + ", status=" + status + ", userID="
                 + userID + ", version=" + version + "]";
     }
-
-    
-
 
 }
