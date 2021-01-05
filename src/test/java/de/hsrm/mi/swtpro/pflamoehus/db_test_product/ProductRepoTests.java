@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import de.hsrm.mi.swtpro.pflamoehus.order.OrderDetailsRepository;
+import de.hsrm.mi.swtpro.pflamoehus.order.OrderRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
@@ -37,9 +39,13 @@ class ProductRepoTests {
     @Autowired
     private PictureRepository picutreRepository;
 
+    @Autowired
+    private OrderDetailsRepository orderRepository;
+
     @BeforeEach
     void clear_repos() {
         picutreRepository.deleteAll();
+        orderRepository.deleteAll();
         productRepository.deleteAll();
     }
 

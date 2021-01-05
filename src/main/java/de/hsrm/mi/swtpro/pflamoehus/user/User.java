@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.validation.annotation.Validated;
 
 import de.hsrm.mi.swtpro.pflamoehus.roles.Roles;
 import de.hsrm.mi.swtpro.pflamoehus.adress.Adress;
@@ -43,6 +44,7 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
  * @version 3
  */
 @Entity
+@Validated
 public class User {
 
     @Id
@@ -85,12 +87,10 @@ public class User {
     @ValidGender
     private String gender;
 
-    @Valid
     @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Bankcard> bankcard;
 
-    @Valid
     @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Creditcard> creditcard;
@@ -99,8 +99,7 @@ public class User {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Roles> roles = new HashSet<>();
 
-    @Valid
-    @OneToMany(mappedBy = "userID", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
     private Set<Order> orders = new HashSet<>();

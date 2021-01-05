@@ -26,24 +26,16 @@ public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long
     /**
      * Find orderdetails by its order-id.
      * 
-     * @param id wanted order
+     * @param order wanted order
      * @return orderdetails
      */
     List<OrderDetails> findByOrderID(Order order);
 
     /**
-     * Find a orderdetail by its order-id and group it after the different status codes.
-     * 
-     * @param id wanted order
-     * @return orderdetails
-     */
-    List<OrderDetails> findByOrderIDGroupByStatusID(Order id);
-
-    /**
      * Find orderdetails by a certain product id.
      * 
-     * @param id wanted orderdetails
+     * @param product wanted orderdetails
      * @return orderdetail
      */
-    List<OrderDetails> findByProductID(Product product);
+    List<OrderDetails> findByArticleNR(Product product);
 }

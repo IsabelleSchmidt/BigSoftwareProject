@@ -3,10 +3,10 @@ package de.hsrm.mi.swtpro.pflamoehus.order;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Version;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -29,8 +29,8 @@ public class OrderDetails {
     @Version
     private long version;
 
-    @OneToOne(mappedBy = "orderNR")
-    @JoinColumn(name = "OrderID")
+    @ManyToOne
+    @JsonIgnore
     private Order orderID;
 
     @ManyToOne
