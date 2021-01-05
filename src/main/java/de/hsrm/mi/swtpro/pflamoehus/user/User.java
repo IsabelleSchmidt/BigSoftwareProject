@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -27,6 +28,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import de.hsrm.mi.swtpro.pflamoehus.roles.Roles;
 import de.hsrm.mi.swtpro.pflamoehus.adress.Adress;
+import de.hsrm.mi.swtpro.pflamoehus.order.Order;
 import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
@@ -45,7 +47,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private long userID;
 
     @Version
@@ -97,6 +98,12 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Roles> roles = new HashSet<>();
+
+    @Valid
+    @OneToMany(mappedBy="userID", cascade = CascadeType.DETACH)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
+    private Set<Order> orders = new HashSet<>();
 
     
     /** 
@@ -164,11 +171,13 @@ public class User {
      * Adds a new creditcard to the list of a user.
      * 
      * @param newCreditcard creditcard that should be added
+     * @return boolean
      */
-    public void addCreditcard(Creditcard newCreditcard) {
+    public boolean addCreditcard(Creditcard newCreditcard) {
         if (!creditcard.contains(newCreditcard)) {
-            creditcard.add(newCreditcard);
+            return creditcard.add(newCreditcard);
         }
+        return false;
 
     }
 
@@ -176,11 +185,14 @@ public class User {
      * Removes a given creditcard from the list of a user.
      * 
      * @param deleteCard card that should get removed
+     * @return boolean
      */
-    public void removeCreditCard(Creditcard deleteCard) {
+    public boolean removeCreditCard(Creditcard deleteCard) {
         if (deleteCard != null) {
-            creditcard.remove(deleteCard);
+            return creditcard.remove(deleteCard);
         }
+
+        return false;
 
     }
 
@@ -198,6 +210,7 @@ public class User {
      * Set bankcards.
      * 
      * @param bankcard bankcards that have to be set
+     * 
      */
     public void setBankcard(List<Bankcard> bankcard) {
         this.bankcard = bankcard;
@@ -207,23 +220,20 @@ public class User {
      * Adds a new bankcard to the list of a user.
      * 
      * @param newBankcard bankcard that sould be added
+     * @return boolean
      */
-    public void addBankcard(Bankcard newBankcard) {
-        if (!bankcard.contains(newBankcard)) {
-            bankcard.add(newBankcard);
-        }
+    public boolean addBankcard(Bankcard newBankcard) {
+        return bankcard.add(newBankcard);
     }
 
     /**
      * Removes a given bankcard from the list of a user.
      * 
      * @param deleteBankcard bankcard that should get deleted
+     * @return boolean
      */
-    public void removeBankcard(Bankcard deleteBankcard) {
-        if (deleteBankcard != null) {
-            bankcard.remove(deleteBankcard);
-        }
-
+    public boolean removeBankcard(Bankcard deleteBankcard) {
+            return bankcard.remove(deleteBankcard);
     }
 
     /**
@@ -249,7 +259,7 @@ public class User {
      * 
      * @return list of adresses
      */
-    public List<Adress> getAdress() {
+    public List<Adress> getAllAdresses() {
         return this.allAdresses;
     }
 
@@ -258,7 +268,7 @@ public class User {
      * 
      * @param allAdresses list of adresses that has to be set
      */
-    public void setAdress(List<Adress> allAdresses) {
+    public void setAllAdresses(List<Adress> allAdresses) {
         this.allAdresses = allAdresses;
     }
 
@@ -266,23 +276,20 @@ public class User {
      * Add a new adress to the list of all adresses owned by one user.
      * 
      * @param adress adress that has to be added to the adress list
+     * @return boolean
      */
-    public void addAdress(Adress adress) {
-        if (!allAdresses.contains(adress)) {
-            allAdresses.add(adress);
-        }
+    public boolean addAdress(Adress adress) {
+        return allAdresses.add(adress);
     }
 
     /**
      * Removes a adress from the list of all adresses owned by one user.
      * 
      * @param adress adress that has to be removed from the adress list
+     * @return boolean
      */
-    public void removeAdress(Adress adress) {
-        if (adress != null) {
-            allAdresses.remove(adress);
-        }
-
+    public boolean removeAdress(Adress adress) {
+        return allAdresses.remove(adress);
     }
 
     /**
@@ -394,15 +401,63 @@ public class User {
     }
 
     /**
-     * To create a user as a string.
+     * Adds a new order to the list of a user.
      * 
-     * @return string
+     * @param newOrder order that sould be added
+     * @return boolean
+     */
+    public boolean addOrder(Order newOrder) {
+        return orders.add(newOrder);
+    }
+
+    /**
+     * Removes a given oder from the list of a user.
+     * 
+     * @param deleteOrder order that should get deleted
+     * @return boolean
+     */
+    public boolean removeBankcard(Order deleteOrder) {
+        return orders.remove(deleteOrder);
+    }
+
+    
+    /** 
+     * Get orders.
+     * 
+     * @return Set<Order> given orders
+     */
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    
+    /** 
+     * Set orders.
+     * 
+     * @param orders orders that should be get
+     */
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
+
+
+    
+    /** 
+     * User to string.
+     * 
+     * @return String
      */
     @Override
     public String toString() {
-        return "User {bankcard:" + bankcard + ", birthdate:" + birthdate + ", creditcard=" + creditcard + ", email:"
-                + email + ", firstName:" + firstName + ", gender:" + gender + ", id:" + userID + ", lastName:"
-                + lastName + ", passwort:" + password + ", version:" + version + ", roles:" + roles + "}";
+        return "User [allAdresses=" + allAdresses + ", bankcard=" + bankcard + ", birthdate=" + birthdate
+                + ", creditcard=" + creditcard + ", email=" + email + ", firstName=" + firstName + ", gender=" + gender
+                + ", lastName=" + lastName + ", orders=" + orders + ", password=" + password + ", roles=" + roles
+                + ", userID=" + userID + ", version=" + version + "]";
     }
+
+    
+    
+
+  
 
 }
