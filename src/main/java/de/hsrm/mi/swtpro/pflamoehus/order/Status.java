@@ -6,13 +6,10 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.springframework.validation.annotation.Validated;
-
 import de.hsrm.mi.swtpro.pflamoehus.validation.order_db.ValidStatus;
 
 /*
@@ -32,12 +29,12 @@ public class Status {
     @Version
     @JsonIgnore
     private long version;
-
-    @ManyToOne
+    
+    @OneToMany(mappedBy = "statusID")
     @JsonIgnore
     private Set<Order> allOrderNR = new HashSet<>();
 
-    @ManyToOne
+    @OneToMany(mappedBy = "statusID")
     @JsonIgnore
     private Set<OrderDetails> allOrderDetailNR = new HashSet<>();
 
