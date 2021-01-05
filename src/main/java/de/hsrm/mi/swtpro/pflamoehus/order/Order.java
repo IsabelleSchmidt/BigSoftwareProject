@@ -3,19 +3,19 @@ package de.hsrm.mi.swtpro.pflamoehus.order;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.FutureOrPresent;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import de.hsrm.mi.swtpro.pflamoehus.user.User;
+import org.springframework.validation.annotation.Validated;
+
 
 /*
  * Order-Entitiy for its database.
@@ -24,6 +24,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.User;
  * @version 1
  */
 @Entity
+@Validated
 public class Order {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,17 +35,18 @@ public class Order {
     @JsonIgnore
     private long version;
 
-    @ManyToOne
-    private User user;
 
-    @OneToMany(mappedBy="orderID")
+    @ManyToOne
+    private Status statusID;
+
+    @OneToMany(mappedBy = "orderID")
     private Set<OrderDetails> orderdetails = new HashSet<>();
 
     @FutureOrPresent
     private LocalDate deliveryDate;
 
-    @ManyToOne
-    private Status statusID;
+   
+    //private Status statusID;
 
     /**
      * Get orderNr.
@@ -73,23 +75,8 @@ public class Order {
         this.version = version;
     }
 
-    /**
-     * Get user.
-     * 
-     * @return User
-     */
-    public User getUserID() {
-        return user;
-    }
 
-    /**
-     * Set user.
-     * 
-     * @param userID user that should be set.
-     */
-    public void setUserID(User userID) {
-        this.user = userID;
-    }
+   
 
     /**
      * Get delivery date.
@@ -135,7 +122,7 @@ public class Order {
     @Override
     public String toString() {
         return "Order [deliveryDate=" + deliveryDate + ", orderNR=" + orderNR + ", status=" + statusID + ", userID="
-                + user + ", version=" + version + "]";
+                +  ", version=" + version +"]";
     }
 
 }

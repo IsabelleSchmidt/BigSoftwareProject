@@ -29,8 +29,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
      * @param user wanted order
      * @return oder
      */
-    Order findByUser(User user);
-
+  
     /**
      * Sort all orders by their delivery date.
      * 

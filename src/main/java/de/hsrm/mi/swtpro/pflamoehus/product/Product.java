@@ -100,10 +100,8 @@ public class Product {
     private String information;
 
     //Unidirectional Relationship, owning side: OrderDetails
-    @OneToMany
-    @JsonIgnore
-    @JoinColumn(name = "OrderDetailProduct")
-    private Set<OrderDetails> allOrderDetails;
+  
+    //private Set<OrderDetails> allOrderDetails;
 
     /**
      * Get information.

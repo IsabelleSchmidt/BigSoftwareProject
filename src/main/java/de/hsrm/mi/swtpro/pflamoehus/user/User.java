@@ -99,10 +99,8 @@ public class User {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Roles> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JsonIgnore
-    private Set<Order> orders = new HashSet<>();
+   
+   // private Set<Order> orders = new HashSet<>();
 
     /**
      * Get roles.
@@ -396,43 +394,7 @@ public class User {
         this.email = email;
     }
 
-    /**
-     * Adds a new order to the list of a user.
-     * 
-     * @param newOrder order that sould be added
-     * @return boolean
-     */
-    public boolean addOrder(Order newOrder) {
-        return orders.add(newOrder);
-    }
-
-    /**
-     * Removes a given oder from the list of a user.
-     * 
-     * @param deleteOrder order that should get deleted
-     * @return boolean
-     */
-    public boolean removeBankcard(Order deleteOrder) {
-        return orders.remove(deleteOrder);
-    }
-
-    /**
-     * Get orders.
-     * 
-     * @return orders
-     */
-    public Set<Order> getOrders() {
-        return orders;
-    }
-
-    /**
-     * Set orders.
-     * 
-     * @param orders orders that should be get
-     */
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
-    }
+    
 
     /**
      * User to string.
@@ -443,7 +405,7 @@ public class User {
     public String toString() {
         return "User [allAdresses=" + allAdresses + ", bankcard=" + bankcard + ", birthdate=" + birthdate
                 + ", creditcard=" + creditcard + ", email=" + email + ", firstName=" + firstName + ", gender=" + gender
-                + ", lastName=" + lastName + ", orders=" + orders + ", password=" + password + ", roles=" + roles
+                + ", lastName=" + lastName + ", orders=" + ", password=" + password + ", roles=" + roles
                 + ", userID=" + userID + ", version=" + version + "]";
     }
 

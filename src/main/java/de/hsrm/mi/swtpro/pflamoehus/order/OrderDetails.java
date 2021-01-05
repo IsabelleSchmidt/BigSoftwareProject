@@ -3,6 +3,7 @@ package de.hsrm.mi.swtpro.pflamoehus.order;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
@@ -10,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.validation.annotation.Validated;
 
-import de.hsrm.mi.swtpro.pflamoehus.product.Product;
+
 
 /*
  * OrderDetails-Entity for its database.
@@ -31,13 +32,14 @@ public class OrderDetails {
 
     @ManyToOne
     @JsonIgnore
+    @JoinColumn(name="orderID")
     private Order orderID;
 
     @ManyToOne
+    @JoinColumn(name="statusID")
     private Status statusID;
 
-    @ManyToOne
-    private Product articleNR;
+ 
 
     
     /** 
@@ -47,7 +49,7 @@ public class OrderDetails {
      */
     @Override
     public String toString() {
-        return "OrderDetails [articleNR=" + articleNR + ", orderDetailsID=" + orderDetailsID + ", orderID=" + orderID
+        return "OrderDetails [articleNR="  + ", orderDetailsID=" + orderDetailsID + ", orderID=" + orderID
                 + ", statusID=" + statusID + ", version=" + version + "]";
     }
 
@@ -114,24 +116,7 @@ public class OrderDetails {
     }
 
     
-    /** 
-     * Get articlenr.
-     * 
-     * @return Product
-     */
-    public Product getArticleNR() {
-        return articleNR;
-    }
-
-    
-    /** 
-     * Set articlenr.
-     * 
-     * @param articleNR to be set
-     */
-    public void setArticleNR(Product articleNR) {
-        this.articleNR = articleNR;
-    }
+   
 
 
 
