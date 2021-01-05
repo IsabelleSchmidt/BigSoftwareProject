@@ -3,11 +3,13 @@ package de.hsrm.mi.swtpro.pflamoehus.order;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
@@ -16,6 +18,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.validation.annotation.Validated;
 
+import de.hsrm.mi.swtpro.pflamoehus.user.User;
+import io.micrometer.core.lang.Nullable;
+
 
 /*
  * Order-Entitiy for its database.
@@ -23,20 +28,23 @@ import org.springframework.validation.annotation.Validated;
  * @author Ann-Cathrin Fabian
  * @version 1
  */
-@Entity
+@Entity(name = "OrderTable")
 @Validated
 public class Order {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long orderNR;
 
     @Version
     @JsonIgnore
     private long version;
 
+    @ManyToOne(cascade = CascadeType.DETACH)
+    private User user; 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "status")
     private Status statusID;
 
     @OneToMany(mappedBy = "orderID")

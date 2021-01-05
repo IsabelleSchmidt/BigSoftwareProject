@@ -1,5 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.order;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,6 +11,8 @@ import javax.persistence.Version;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.validation.annotation.Validated;
+
+import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 
 
 
@@ -38,6 +41,9 @@ public class OrderDetails {
     @ManyToOne
     @JoinColumn(name="statusID")
     private Status statusID;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    private Product product;
 
  
 
