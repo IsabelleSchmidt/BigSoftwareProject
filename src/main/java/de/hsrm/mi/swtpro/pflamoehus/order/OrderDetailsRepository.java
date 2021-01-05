@@ -1,11 +1,9 @@
 package de.hsrm.mi.swtpro.pflamoehus.order;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 
 /*
  * OrderDetails-Repository for different operations to apply on the database.
