@@ -132,7 +132,7 @@ class ProductRepoTests {
         assertThat(productRepository.count()).isEqualTo(COUNT);
 
         for (int i = 0; i < COUNT; i++) {
-            Product fund = productRepository.findByName(TESTNAME + i);
+            Product fund = productRepository.findByName(TESTNAME + i).get();
             assertThat(fund.getDepth()).isEqualTo(DEPTH + i);
             assertThat(fund.getPrice()).isEqualTo(PRICE + i);
         }

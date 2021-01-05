@@ -1,5 +1,5 @@
 ;             
-  
+ --das muss fuer den betrieb dann weg damit neue daten gespeichert bleiben? 
 Delete from picture;
 delete from product;
 delete from tag;

@@ -11,24 +11,19 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
@@ -105,11 +100,15 @@ public class ProductRestApi {
     @PostMapping(value="/product/new", produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductResponse> postNewProduct(@Valid @RequestBody Product newProduct, BindingResult result) {
         
-    
+        
         productRestApiLogger.info("Neues Produkt erhalten!");
         Product product = null;
         ProductResponse response = new ProductResponse(product);
         
+        if(productService.findProductWithName(newProduct.getName())!= null){
+            response.addErrormessage(new Errormessage("name", "Produktname bereits vergeben."));
+            return ResponseEntity.ok().body(response);
+        }
         
         if(result.hasErrors()){
             List<Errormessage> allErrors = new ArrayList<>();
@@ -125,13 +124,15 @@ public class ProductRestApi {
         }else{
             try {
             product = productService.editProduct(newProduct);
+            response.setProduct(product);
 
         } catch (ProductServiceException pse) {
             productRestApiLogger.error("Failed to save the product.");
             response.addErrormessage(new Errormessage(null,"SAVING_ERROR"));
+            response.addErrormessage(new Errormessage("name", "schon vergeben"));
             return ResponseEntity.badRequest().body(response);
         }
-            productRestApiLogger.info(product.toJSON());
+            productRestApiLogger.info(product.toString());
             return ResponseEntity.ok().body(response);
         }
 
@@ -142,7 +143,7 @@ public class ProductRestApi {
 
 
     /**
-     * Get all pictures of an product.
+     * Get all pictures of a product.
      * 
      * @param articleNr articlenr of the wanted product
      * @return all pictures
@@ -159,9 +160,11 @@ public class ProductRestApi {
         return allPictures;
     }
 
+    @CrossOrigin
     @PostMapping(value="/product/{articleNr}/newpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean postPicturedata(@PathVariable Long articleNr, @RequestPart(required = true) MultipartFile picture){
-        
+    public boolean postPicturedata(@PathVariable Long articleNr, @RequestPart MultipartFile pictures){
+        productRestApiLogger.info("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+        productRestApiLogger.info("Multipartfile: "+pictures);
         Product newProduct;
         FileOutputStream fileOutStream;
 
@@ -178,7 +181,7 @@ public class ProductRestApi {
             //Bild speichern
             String path = "/"+newProduct.getProductType().toLowerCase()+"s/"+newProduct.getName()+".jpg";
             fileOutStream = new FileOutputStream(path);
-            fileOutStream.write(picture.getBytes());
+            fileOutStream.write(pictures.getBytes());
             fileOutStream.close();
             Picture newPicture = new Picture();
             newPicture.setPath(path);
@@ -193,10 +196,6 @@ public class ProductRestApi {
         return true;
     }
 
-    @InitBinder
-    protected void initBinder(ServletRequestDataBinder binder) {
-    binder.registerCustomEditor(byte[].class,
-            new ByteArrayMultipartFileEditor());
-}
+
 
 }
