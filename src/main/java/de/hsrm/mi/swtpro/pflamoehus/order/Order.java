@@ -15,11 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.FutureOrPresent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.springframework.validation.annotation.Validated;
-
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
-import io.micrometer.core.lang.Nullable;
+
 
 
 /*
@@ -52,6 +50,7 @@ public class Order {
 
     @FutureOrPresent
     private LocalDate deliveryDate;
+
 
    
     //private Status statusID;
@@ -131,6 +130,14 @@ public class Order {
     public String toString() {
         return "Order [deliveryDate=" + deliveryDate + ", orderNR=" + orderNR + ", status=" + statusID + ", userID="
                 +  ", version=" + version +"]";
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

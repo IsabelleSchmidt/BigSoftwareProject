@@ -3,6 +3,7 @@ package de.hsrm.mi.swtpro.pflamoehus.order;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -39,6 +40,7 @@ public class Status {
     private Set<OrderDetails> allOrderDetailNR = new HashSet<>();
 
     @ValidStatus
+    @Column(unique = true)
     private String statuscode;
 
     /**
