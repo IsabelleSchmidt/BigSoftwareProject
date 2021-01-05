@@ -35,6 +35,7 @@ public class StatusRepoTests {
     void clear_repos() {
         orderDetailsRepository.deleteAll();
         orderRepository.deleteAll();
+        statusRepo.deleteAll();
     }
 
     @Test
