@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
  * @version 7
  */
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/user")
 @CrossOrigin
 public class UserRestApi {
 
