@@ -20,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.Status;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 
 
 
@@ -42,7 +43,11 @@ public class Order {
     private long version;
 
     @ManyToOne(cascade = CascadeType.DETACH)
+    @JsonIgnore
     private User user; 
+
+    @ValidEmail
+    private String customerEmail;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "status")
@@ -141,6 +146,14 @@ public class Order {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
 }

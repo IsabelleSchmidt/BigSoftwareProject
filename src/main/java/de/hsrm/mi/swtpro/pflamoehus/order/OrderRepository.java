@@ -1,5 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.order;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,16 +27,29 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     /**
      * Find a order by its user.
      * 
-     * @param user wanted order
-     * @return oder
+     * @param user user who placed the order
+     * @return all orders placed by this user
      */
-    Optional<Order> findByUser(User user);
+    List<Order> findByUser(User user);
+
+    /**
+     * @param email customer's eail
+     * @return all orders placed by the customer with this email
+     */
+    List<Order> findByCustomerMail(String email);
+
     /**
      * Sort all orders by their delivery date.
      * 
-     * @return list of orders
+     * @return list of orders sorted by deliverydate 
      */
     List<Order> findAllByOrderByDeliveryDateAsc();
+
+    /**
+     * @param date Date of the delivery
+     * @return all orders due to that date
+     */
+    List<Order> findByDeliveryDate(LocalDate date);
 
 
 }
