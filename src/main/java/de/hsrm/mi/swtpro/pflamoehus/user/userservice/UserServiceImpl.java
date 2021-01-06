@@ -1,8 +1,8 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.userservice;
 
-
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.persistence.OptimisticLockException;
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService{
      * @return user
      */
     @Override
-    public User searchUserWithEmail(String email) { 
+    public User searchUserWithEmail(String email) throws UserServiceException{ 
 
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isEmpty()) {
@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService{
      * @param user  user from database
      */
 
-    private void encodeIBAN(List<Bankcard> cards, User user) {
+    private void encodeIBAN(Set<Bankcard> cards, User user) {
         
         //checks whether user exists in database
         user = searchUserWithEmail(user.getEmail());
@@ -201,7 +201,7 @@ public class UserServiceImpl implements UserService{
      * @param user  user from database
      */
 
-    private void encodeCardNumber(List<Creditcard> cards, User user) {
+    private void encodeCardNumber(Set<Creditcard> cards, User user) {
        
         user = searchUserWithEmail(user.getEmail());
         
@@ -231,7 +231,7 @@ public class UserServiceImpl implements UserService{
      */
     private void editBankcard(User editedUser, User foundUser) {
        
-        List<Bankcard> newcards = editedUser.getBankcard();
+        Set<Bankcard> newcards = editedUser.getBankcard();
         
         for (Bankcard newcard : newcards) {
 
@@ -255,7 +255,7 @@ public class UserServiceImpl implements UserService{
 
       
 
-        List<Creditcard> newcards = editedUser.getCreditcard();
+        Set<Creditcard> newcards = editedUser.getCreditcard();
         
         for (Creditcard newcard : newcards) {
 
