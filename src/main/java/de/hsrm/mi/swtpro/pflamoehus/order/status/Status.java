@@ -129,25 +129,6 @@ public class Status {
         this.allOrderDetailNR = allOrderDetailNR;
     }
 
-    /**
-     * Add order details.
-     * 
-     * @param details to be added
-     * @return boolean
-     */
-    public boolean addOrderDetail(OrderDetails details) {
-        return allOrderDetailNR.add(details);
-    }
-
-    /**
-     * Remove order details.
-     * 
-     * @param details to be removed
-     * @return boolean
-     */
-    public boolean removeOrderDetail(OrderDetails details) {
-        return allOrderDetailNR.remove(details);
-    }
 
     /**
      * Status to string.
