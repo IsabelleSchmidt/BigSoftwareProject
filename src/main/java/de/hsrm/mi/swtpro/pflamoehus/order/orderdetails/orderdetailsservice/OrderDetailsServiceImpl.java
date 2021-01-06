@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.OrderDetailsServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.OrderDetailsServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.order.Order;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetailsRepository;

@@ -12,7 +12,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -40,7 +39,6 @@ public class Bankcard {
     private long version;
 
     @NotEmpty(message="Die IBAN muss angebeben werden.")
-    @Pattern(regexp = "^(DE\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{2}|DE\\d{20}$)|(^\\{bcrypt\\}.*$)")
     @JsonProperty(access = Access.WRITE_ONLY)
     private String iban;
 
