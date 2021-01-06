@@ -10,5 +10,9 @@ public interface BankcardService {
     Bankcard saveBankcard(Bankcard card);
 
     void deleteBankcard(long id);
+
+    String encodeIBAN(String iban);
+
+    
     
 }

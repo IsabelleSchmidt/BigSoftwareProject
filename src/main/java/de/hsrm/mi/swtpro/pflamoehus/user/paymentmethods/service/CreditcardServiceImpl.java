@@ -3,17 +3,21 @@ package de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.persistence.OptimisticLockException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.CreditcardServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.CreditcardServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.CreditcardRepository;
+import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 
 @Service
 public class CreditcardServiceImpl implements CreditcardService {
@@ -22,6 +26,12 @@ public class CreditcardServiceImpl implements CreditcardService {
 
     @Autowired
     CreditcardRepository creditcardRepo;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    PasswordEncoder pe;
 
     @Override
     public List<Creditcard> findByDateOfExpiry(LocalDate expiry) {
@@ -50,6 +60,21 @@ public class CreditcardServiceImpl implements CreditcardService {
         Optional<Creditcard> cc = findById(id);
         creditcardRepo.delete(cc.get());
 
+    }
+
+    /**
+     * When creating a new user or editing the creditcard number, the new number has
+     * to get encoded.
+     * 
+     * @param cardnumber to be encoded
+     * @return String
+     */
+    @Override
+    public String encodeCardNumber(String cardnumber) {
+       
+        return pe.encode(cardnumber);
+        
+          
     }
     
 }
