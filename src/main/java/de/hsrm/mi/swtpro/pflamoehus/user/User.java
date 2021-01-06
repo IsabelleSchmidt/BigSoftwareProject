@@ -2,7 +2,6 @@ package de.hsrm.mi.swtpro.pflamoehus.user;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -34,7 +33,6 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
 
 /*
  * User-Entity for its database.
@@ -73,7 +71,6 @@ public class User {
     private LocalDate birthdate;
 
     @NotEmpty(message = "Es muss ein Passwort angegeben werden.")
-    @ValidPassword
     @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
 

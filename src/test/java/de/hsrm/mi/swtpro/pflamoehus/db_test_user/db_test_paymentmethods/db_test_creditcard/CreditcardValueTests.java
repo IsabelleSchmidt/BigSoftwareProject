@@ -25,7 +25,6 @@ public class CreditcardValueTests {
 
     final private String WRONG_OWNER ="";
     final private LocalDate WRONG_EXPIRY = LocalDate.of(2020,01,01);
-    final private String WRONG_NUMBER = "4 1111 1111 1111";
 
 
     @AfterAll
@@ -54,9 +53,6 @@ public class CreditcardValueTests {
         Creditcard incorrect = new Creditcard();
         incorrect.setOwner(OWNER);
         incorrect.setDateOfExpiry(EXPIRY);
-        incorrect.setCreditcardnumber(WRONG_NUMBER);
-        
-        assertThat(validator.validate(incorrect).size()).isEqualTo(1);
         incorrect.setDateOfExpiry(WRONG_EXPIRY);
         assertThat(validator.validate(incorrect).size()).isEqualTo(2);
         incorrect.setOwner(WRONG_OWNER);
