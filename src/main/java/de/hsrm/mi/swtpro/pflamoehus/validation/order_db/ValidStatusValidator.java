@@ -3,7 +3,9 @@ package de.hsrm.mi.swtpro.pflamoehus.validation.order_db;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import de.hsrm.mi.swtpro.pflamoehus.order.Statuscode;
+import de.hsrm.mi.swtpro.pflamoehus.order.status.Statuscode;
+
+
 
 public class ValidStatusValidator implements ConstraintValidator<ValidStatus,String > {
 

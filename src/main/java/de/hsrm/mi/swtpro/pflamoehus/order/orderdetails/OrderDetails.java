@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.order;
+package de.hsrm.mi.swtpro.pflamoehus.order.orderdetails;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,9 +12,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.validation.annotation.Validated;
 
+import de.hsrm.mi.swtpro.pflamoehus.order.Order;
+import de.hsrm.mi.swtpro.pflamoehus.order.status.Status;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
-
-
 
 /*
  * OrderDetails-Entity for its database.
@@ -25,7 +25,7 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 @Entity
 @Validated
 public class OrderDetails {
-    
+
     @Id
     @GeneratedValue
     private long orderDetailsID;
@@ -35,32 +35,28 @@ public class OrderDetails {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="orderID")
+    @JoinColumn(name = "orderID")
     private Order orderID;
 
     @ManyToOne
-    @JoinColumn(name="statusID")
+    @JoinColumn(name = "statusID")
     private Status statusID;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     private Product product;
 
- 
-
-    
-    /** 
+    /**
      * Orderdetails to string.
      * 
      * @return String
      */
     @Override
     public String toString() {
-        return "OrderDetails [articleNR="  + ", orderDetailsID=" + orderDetailsID + ", orderID=" + orderID
+        return "OrderDetails [articleNR=" + ", orderDetailsID=" + orderDetailsID + ", orderID=" + orderID
                 + ", statusID=" + statusID + ", version=" + version + "]";
     }
 
-    
-    /** 
+    /**
      * Get orderdetails-id.
      * 
      * @return long
@@ -69,9 +65,7 @@ public class OrderDetails {
         return orderDetailsID;
     }
 
-
-    
-    /** 
+    /**
      * Get version.
      * 
      * @return long
@@ -80,9 +74,7 @@ public class OrderDetails {
         return version;
     }
 
-
-    
-    /** 
+    /**
      * Get orderid.
      * 
      * @return Order
@@ -91,8 +83,7 @@ public class OrderDetails {
         return orderID;
     }
 
-    
-    /** 
+    /**
      * Set orderid.
      * 
      * @param orderID to be set
@@ -101,8 +92,7 @@ public class OrderDetails {
         this.orderID = orderID;
     }
 
-    
-    /** 
+    /**
      * Get statusid.
      * 
      * @return Status

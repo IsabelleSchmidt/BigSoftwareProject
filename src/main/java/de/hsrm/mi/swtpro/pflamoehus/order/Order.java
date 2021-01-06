@@ -16,6 +16,9 @@ import javax.persistence.Version;
 import javax.validation.constraints.FutureOrPresent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.validation.annotation.Validated;
+
+import ch.qos.logback.core.status.Status;
+import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
 

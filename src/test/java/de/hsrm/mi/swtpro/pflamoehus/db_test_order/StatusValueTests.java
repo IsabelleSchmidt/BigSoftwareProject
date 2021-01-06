@@ -11,8 +11,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import de.hsrm.mi.swtpro.pflamoehus.order.Status;
-import de.hsrm.mi.swtpro.pflamoehus.order.Statuscode;
+
+import de.hsrm.mi.swtpro.pflamoehus.order.status.Status;
+import de.hsrm.mi.swtpro.pflamoehus.order.status.Statuscode;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)

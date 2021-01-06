@@ -104,7 +104,6 @@ public class UserRestApi {
 			mr.setMessage("Email ist already taken.");
 			mr.setField("email");
 			mrs.add(mr);
-			logger.error("BITCH DAS GEHT NICHT");
 			return new ResponseEntity<>(mrs, HttpStatus.OK);
 		}if (result.hasErrors()){
 
@@ -170,8 +169,6 @@ public class UserRestApi {
 				}
 			});
 		}
-
-		logger.info("ROLLEN: " + roles);
 		user.setRoles(roles);
 		userRepository.save(user);
 

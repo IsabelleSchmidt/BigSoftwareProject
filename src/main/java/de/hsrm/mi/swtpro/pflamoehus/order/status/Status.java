@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.order;
+package de.hsrm.mi.swtpro.pflamoehus.order.status;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +11,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.validation.annotation.Validated;
+
+import de.hsrm.mi.swtpro.pflamoehus.order.Order;
+import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.validation.order_db.ValidStatus;
 
 /*

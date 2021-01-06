@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.order;
+package de.hsrm.mi.swtpro.pflamoehus.order.status;
 
 public enum Statuscode {
    
