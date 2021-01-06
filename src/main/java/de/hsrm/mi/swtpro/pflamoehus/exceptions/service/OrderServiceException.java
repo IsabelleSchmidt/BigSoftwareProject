@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.exceptions;
+package de.hsrm.mi.swtpro.pflamoehus.exceptions.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

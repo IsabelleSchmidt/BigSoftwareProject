@@ -1,7 +1,10 @@
-package de.hsrm.mi.swtpro.pflamoehus.exceptions;
+package de.hsrm.mi.swtpro.pflamoehus.exceptions.service;
 
-public class AdressServiceException extends RuntimeException {
-
+public class CreditcardServiceException extends RuntimeException {
+    
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
 
     /**
@@ -9,15 +12,14 @@ public class AdressServiceException extends RuntimeException {
      * 
      * @param msg message that gets printed
      */
-    public AdressServiceException(String msg) {
+    public CreditcardServiceException(String msg) {
         super(msg);
     }
 
     /**
      * Default message.
      */
-    public AdressServiceException() {
+    public CreditcardServiceException() {
         super("Exception occured while trying to access or save repository data.");
     }
-    
 }

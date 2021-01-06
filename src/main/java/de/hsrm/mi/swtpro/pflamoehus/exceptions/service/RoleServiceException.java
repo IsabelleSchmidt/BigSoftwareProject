@@ -1,25 +1,25 @@
-package de.hsrm.mi.swtpro.pflamoehus.exceptions;
+package de.hsrm.mi.swtpro.pflamoehus.exceptions.service;
 
-public class CreditcardServiceException extends RuntimeException {
-    
+public class RoleServiceException extends RuntimeException {
+
     /**
      *
      */
     private static final long serialVersionUID = 1L;
 
-    /**
+     /**
      * Method for throwing a exception with a custom message.
      * 
      * @param msg message that gets printed
      */
-    public CreditcardServiceException(String msg) {
+    public RoleServiceException(String msg) {
         super(msg);
     }
 
     /**
-     * Default message.
+     * Default massage.
      */
-    public CreditcardServiceException() {
+    public RoleServiceException() {
         super("Exception occured while trying to access or save repository data.");
     }
 }

@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.exceptions;
+package de.hsrm.mi.swtpro.pflamoehus.exceptions.service;
 
 public class BankcardServiceException extends RuntimeException{
 

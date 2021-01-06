@@ -1,12 +1,6 @@
-package de.hsrm.mi.swtpro.pflamoehus.exceptions;
+package de.hsrm.mi.swtpro.pflamoehus.exceptions.service;
 
-/**
- * UserServiceException for errors in the UserService classes.
- * 
- * @author Ann-Cathrin Fabian
- * @version 1
- */
-public class UserServiceException extends RuntimeException {
+public class AdressServiceException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
@@ -15,14 +9,15 @@ public class UserServiceException extends RuntimeException {
      * 
      * @param msg message that gets printed
      */
-    public UserServiceException(String msg) {
+    public AdressServiceException(String msg) {
         super(msg);
     }
 
     /**
      * Default message.
      */
-    public UserServiceException() {
+    public AdressServiceException() {
         super("Exception occured while trying to access or save repository data.");
     }
+    
 }
