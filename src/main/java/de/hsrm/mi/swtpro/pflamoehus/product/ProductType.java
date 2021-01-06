@@ -19,7 +19,7 @@ public enum ProductType {
     /**
      * type 'Tisch' 
      * */
-    TABLE("Tisch"), 
+    TABLE("Table"), 
     /**
      * type 'Bett' 
      * */

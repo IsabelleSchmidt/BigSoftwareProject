@@ -25,9 +25,15 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
+import org.thymeleaf.model.IModel;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
@@ -69,12 +75,12 @@ public class ProductRestApi {
     @GetMapping("/product/{articleNr}")
     public Product getProductWithID(@PathVariable long articleNr) {
         Product found = null;
-        try{
+        try {
             found = productService.searchProductwithArticleNr(articleNr);
-        }catch(ProductServiceException pse){
+        } catch (ProductServiceException pse) {
             productRestApiLogger.error(pse.getMessage());
         }
-        
+
         return found;
 
     }
@@ -84,15 +90,15 @@ public class ProductRestApi {
      * 
      * @param articleNr product that should get deleted
      */
-    @DeleteMapping(value="/product/{articleNr}")
+    @DeleteMapping(value = "/product/{articleNr}")
     public boolean deleteProductWithArticleNr(@PathVariable long articleNr) {
-        try{
+        try {
             productService.deleteProduct(articleNr);
-        }catch(ProductServiceException pse){
+        } catch (ProductServiceException pse) {
             productRestApiLogger.error(pse.getMessage());
             return false;
         }
-        
+
         return true;
     }
 
@@ -102,44 +108,41 @@ public class ProductRestApi {
      * @param newProduct the new product that has du get saved
      * @return new product
      */
-    @PostMapping(value="/product/new", produces=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductResponse> postNewProduct(@Valid @RequestBody Product newProduct, BindingResult result) {
-        
-    
+    @PostMapping(value = "/product/new", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductResponse> postNewProduct(@Valid @RequestBody Product newProduct,
+            BindingResult result) {
+
         productRestApiLogger.info("Neues Produkt erhalten!");
         Product product = null;
         ProductResponse response = new ProductResponse(product);
-        
-        
-        if(result.hasErrors()){
+
+        if (result.hasErrors()) {
             List<Errormessage> allErrors = new ArrayList<>();
             productRestApiLogger.info("Validationsfehler");
-            
-            for(FieldError error: result.getFieldErrors()){
-               allErrors.add(new Errormessage(error.getField(),error.getDefaultMessage()));
+
+            for (FieldError error : result.getFieldErrors()) {
+                allErrors.add(new Errormessage(error.getField(), error.getDefaultMessage()));
             }
             response.setAllErrors(allErrors);
-            productRestApiLogger.info("Errorrrs: "+allErrors);
+            productRestApiLogger.info("Errorrrs: " + allErrors);
             return ResponseEntity.ok().body(response);
 
-        }else{
+        } else {
             try {
-            product = productService.editProduct(newProduct);
+                product = productService.editProduct(newProduct);
+                // productRestApiLogger.info("ArtikelNr"+product.getArticlenr());
+                response.setProduct(product);
 
-        } catch (ProductServiceException pse) {
-            productRestApiLogger.error("Failed to save the product.");
-            response.addErrormessage(new Errormessage(null,"SAVING_ERROR"));
-            return ResponseEntity.badRequest().body(response);
-        }
+            } catch (ProductServiceException pse) {
+                productRestApiLogger.error("Failed to save the product.");
+                response.addErrormessage(new Errormessage(null, "SAVING_ERROR"));
+                return ResponseEntity.badRequest().body(response);
+            }
             productRestApiLogger.info(product.toJSON());
             return ResponseEntity.ok().body(response);
         }
 
-    
-       
-
     }
-
 
     /**
      * Get all pictures of an product.
@@ -151,37 +154,48 @@ public class ProductRestApi {
     public Set<Picture> getAllPicturesOfAProduct(@PathVariable long articleNr) {
         Set<Picture> allPictures = null;
         try {
-             allPictures= productService.searchProductwithArticleNr(articleNr).getAllPictures();
-        
+            allPictures = productService.searchProductwithArticleNr(articleNr).getAllPictures();
+
         } catch (ProductServiceException pse) {
             productRestApiLogger.error(pse.getMessage());
         }
         return allPictures;
     }
 
-    @PostMapping(value="/product/{articleNr}/newpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean postPicturedata(@PathVariable Long articleNr, @RequestPart(required = true) MultipartFile picture){
-        
+    @PostMapping(value = "/product/{articleNr}/newpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean postPicturedata(@PathVariable Long articleNr,
+            @RequestPart(name = "picture", required = true) MultipartFile picture) {
+
         Product newProduct;
         FileOutputStream fileOutStream;
 
-        try{
-            //Produkt suchen 
+        try {
+            // Produkt suchen
+            productRestApiLogger.info("Suche Artikel mit Nummer" + articleNr);
             newProduct = productService.searchProductwithArticleNr(articleNr);
-        }catch(ProductServiceException pse){
+        } catch (ProductServiceException pse) {
             productRestApiLogger.error(pse.getMessage());
             return false;
         }
-        
-       //TODO: wie kriege ich einzelne Bilder raus wenn es mehrere sind?
-        try{
-            //Bild speichern
-            String path = "/"+newProduct.getProductType().toLowerCase()+"s/"+newProduct.getName()+".jpg";
-            fileOutStream = new FileOutputStream(path);
-            fileOutStream.write(picture.getBytes());
-            fileOutStream.close();
-            Picture newPicture = new Picture();
-            newPicture.setPath(path);
+
+        // TODO: wie kriege ich einzelne Bilder raus wenn es mehrere sind?
+        try {
+            // Bild speichern
+            productRestApiLogger.info("Bilderrrr: " + picture.getOriginalFilename());
+            String pfad = "/" + newProduct.getProductType().toLowerCase() + "s/"+newProduct.getName()+".jpg"; // +newProduct.getName()+".jpg"
+            productRestApiLogger.info("Path" + pfad);
+            
+            byte[] bytes = picture.getBytes();
+            Path path = Paths.get(pfad);
+            Files.write(path, bytes);
+
+            // File file = new File(path);
+            // fileOutStream = new FileOutputStream(file);
+            // productRestApiLogger.info("OutPutStream: "+fileOutStream);
+            // fileOutStream.write(picture.getBytes());
+            // fileOutStream.close();
+            // Picture newPicture = new Picture();
+            // newPicture.setPath(path);
 
        }catch(FileNotFoundException fnoe){
           productRestApiLogger.error(fnoe.getMessage());
