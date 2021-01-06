@@ -1,10 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.product.productapi;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-
-
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +22,6 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductApiException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
@@ -65,8 +61,14 @@ public class ProductRestApi {
      */
     @GetMapping("/product/{articleNr}")
     public Product getProductWithID(@PathVariable long articleNr) {
-        Optional<Product> found = productService.searchProductwithArticleNr(articleNr);
-        return found.isEmpty() ? null : found.get();
+        Product product = null;
+        try{
+             product = productService.searchProductwithArticleNr(articleNr);
+        }catch(ProductServiceException pse){
+            return null;
+        }
+       
+        return product;
 
     }
 
@@ -129,15 +131,16 @@ public class ProductRestApi {
      */
     @GetMapping("/{articleNr}/pictures")
     public Set<Picture> getAllPicturesOfAProduct(@PathVariable long articleNr) {
-        Set<Picture> allPictures = null;
-        Optional<Product> found = productService.searchProductwithArticleNr(articleNr);
+        Product found;
+       
         try {
-            allPictures = found.isPresent() ? found.get().getAllPictures() : null;
+             found = productService.searchProductwithArticleNr(articleNr);
 
-        } catch (ProductApiException pae) {
+        } catch (ProductServiceException pae) {
             productRestApiLogger.error("Failed to get the pictures.");
+            return null;
         }
-        return allPictures;
+        return found.getAllPictures();
     }
 
     
