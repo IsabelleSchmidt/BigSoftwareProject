@@ -23,7 +23,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     @Autowired
     OrderDetailsRepository orderDetailsRepo;
 
-    private static final Logger orderDetailsServiceLogger = LoggerFactory.getLogger(OrderDetailsServiceImpl.class);
+    private static final Logger ORDERDETAILSSERVICELOGGER = LoggerFactory.getLogger(OrderDetailsServiceImpl.class);
 
     @Override
     public OrderDetails editOrderDetail(OrderDetails orderDetail) {
@@ -31,7 +31,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         try{
             orderDetail = orderDetailsRepo.save(orderDetail);
         }catch(OptimisticLockException oLE){
-            orderDetailsServiceLogger.error("OrderDetails can only be edited by one person at a time.");
+            ORDERDETAILSSERVICELOGGER.error("OrderDetails can only be edited by one person at a time.");
             throw new OrderDetailsServiceException();
 
         }
