@@ -81,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findAllCustomerOrdersViaEmail(String email) {
-        return orderRepo.findByCustomerMail(email);
+        return orderRepo.findByCustomerEmail(email);
     }
 
  

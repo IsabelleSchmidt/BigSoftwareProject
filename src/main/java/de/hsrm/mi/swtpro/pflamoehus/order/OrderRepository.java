@@ -36,7 +36,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
      * @param email customer's eail
      * @return all orders placed by the customer with this email
      */
-    List<Order> findByCustomerMail(String email);
+    List<Order> findByCustomerEmail(String email);
 
     /**
      * Sort all orders by their delivery date.

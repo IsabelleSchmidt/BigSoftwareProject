@@ -23,6 +23,8 @@ public class OrderValueTests {
     
     private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private Validator validator = factory.getValidator();
+    private final LocalDate DELIVERY = LocalDate.now().plusDays(1);
+    private final String EMAIL = "abdcgsdh@sbsb.de";
 
     @AfterAll
     public void close(){
@@ -34,11 +36,12 @@ public class OrderValueTests {
     public void delivery_date_correct(){
         Order order = new Order();
 
-        LocalDate delivery = LocalDate.parse("2021-02-15");
-        order.setDeliveryDate(delivery);
+       
+        order.setDeliveryDate(DELIVERY);
+        order.setCustomerEmail(EMAIL);
         assertTrue(validator.validate(order).size() == 0);
 
-        delivery = LocalDate.now();
+        LocalDate delivery = LocalDate.now();
         order.setDeliveryDate(delivery);
         assertTrue(validator.validate(order).size() == 0);
 
@@ -51,8 +54,12 @@ public class OrderValueTests {
         Order order = new Order();
 
         LocalDate delivery = LocalDate.parse("2020-02-15");
+        order.setCustomerEmail(EMAIL);
         order.setDeliveryDate(delivery);
         assertTrue(validator.validate(order).size() == 1);
+
+        order.setCustomerEmail("customerEmail");
+        assertTrue(validator.validate(order).size()==2);
         
     }
 
