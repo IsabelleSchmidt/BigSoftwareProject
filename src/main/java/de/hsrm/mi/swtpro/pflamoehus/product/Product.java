@@ -221,28 +221,7 @@ public class Product {
         return allPictures;
     }
 
-    /**
-     * Add a picture to the list allPictures.
-     * 
-     * @param picture picture that has to be added
-     */
-    public void addPicture(Picture picture) {
-        if (!allPictures.contains(picture)) {
-            allPictures.add(picture);
-        }
-
-    }
-
-    /**
-     * Remove a picture from the list of all pictures.
-     * 
-     * @param picture picture that should be deleted
-     */
-    public void removePicture(Picture picture) {
-        if (allPictures != null) {
-            allPictures.remove(picture);
-        }
-    }
+   
 
     /**
      * Set allPicutres.
@@ -335,28 +314,7 @@ public class Product {
         this.allTags = allTags;
     }
 
-    /**
-     * Add tags to allTags.
-     * 
-     * @param tag tag that has to be added
-     */
-    public void addTag(Tag tag) {
-        if (!allTags.contains(tag)) {
-            allTags.add(tag);
-        }
-    }
-
-    /**
-     * Remove tag from allTags.
-     * 
-     * @param tag tag that has to be removed
-     */
-    public void removeTag(Tag tag) {
-        if (!allTags.contains(tag)) {
-            allTags.remove(tag);
-        }
-    }
-
+  
     /**
      * Get number of available items.
      * 

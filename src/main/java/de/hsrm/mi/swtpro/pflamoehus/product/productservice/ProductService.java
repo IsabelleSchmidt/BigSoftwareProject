@@ -23,7 +23,7 @@ public interface ProductService {
      * @param articleNr wanteed articlenr
      * @return optional of type product
      */
-    Optional<Product> searchProductwithArticleNr(long articleNr);
+    Product searchProductwithArticleNr(long articleNr);
 
     /**
      * To edit and save a given (new) product.

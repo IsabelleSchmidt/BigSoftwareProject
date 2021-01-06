@@ -31,7 +31,6 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<Product> allProducts() {
-
         return productRepo.findAll();
     }
 
@@ -42,12 +41,12 @@ public class ProductServiceImpl implements ProductService {
      * @return optional of type product
      */
     @Override
-    public Optional<Product> searchProductwithArticleNr(long articleNr) {
+    public Product searchProductwithArticleNr(long articleNr) {
         Optional<Product> product = productRepo.findById(articleNr);
         if (product.isEmpty()) {
             throw new ProductServiceException("Product is not in the database.");
         }
-        return product;
+        return product.get();
     }
 
     /**
@@ -74,15 +73,10 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public void deleteProduct(long id) throws ProductServiceException {
-        Optional<Product> opt = productRepo.findById(id);
-        if (!opt.isPresent()) {
-            productServiceLogger.info("Product was not deleted, articleNr not found");
-            throw new ProductServiceException("Product could not be deleted. Product wasn't found in the database.");
-        } else {
-            productRepo.delete(opt.get());
-        }
-
+            productRepo.delete(searchProductwithArticleNr(id));
     }
+
+    
 
     /**
      * Find all products with a certain type of product.

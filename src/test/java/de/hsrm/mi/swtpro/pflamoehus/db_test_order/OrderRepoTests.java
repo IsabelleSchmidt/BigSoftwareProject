@@ -25,6 +25,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 public class OrderRepoTests{
 
     private final LocalDate DATE = LocalDate.of(2021, 06, 01);
+    private final String MAIL = "hans@gmx.de";
 
     @Autowired
     UserRepository userRepo;
@@ -42,6 +43,7 @@ public class OrderRepoTests{
     public void persist_empty(){
         Order unmanaged = new Order();
         unmanaged.setDeliveryDate(DATE);
+        unmanaged.setCustomerEmail(MAIL);
 
        Order managed = orderRepo.save(unmanaged);
        assertThat(managed.toString()).contains(DATE.toString());
@@ -61,6 +63,7 @@ public class OrderRepoTests{
             LocalDate date = LocalDate.of(2021, 05, i);
 
             order.setDeliveryDate(date);
+            order.setCustomerEmail(MAIL);
             allorders.add(order);
             orderRepo.save(order);
         }
@@ -81,6 +84,7 @@ public class OrderRepoTests{
         for(int i = 1; i<=5; i++){
             Order order = new Order();
             order.setDeliveryDate(LocalDate.of(2022, 04, i));
+            order.setCustomerEmail(i+MAIL);
         }
 
         List<Order> allOrdersWithAscendingDate = orderRepo.findAllByOrderByDeliveryDateAsc();
@@ -105,10 +109,13 @@ public class OrderRepoTests{
         user.setGender("FEMALE");
         userRepo.save(user);
         order.setUser(user);
+        order.setCustomerEmail(MAIL);
+        order.setDeliveryDate(DATE);
+        orderRepo.save(order);
 
-        assertThat(orderRepo.findByUser(user).isPresent());
+        assertThat(orderRepo.findByUser(user).size()>0);
 
-
+        assertThat(orderRepo.findByCustomerEmail(MAIL).size()>0);
         assertThat(orderRepo.findById(order.getOrderNR()).isPresent());
     }
 }

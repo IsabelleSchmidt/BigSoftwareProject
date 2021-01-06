@@ -13,6 +13,9 @@ public class ValidStatusValidator implements ConstraintValidator<ValidStatus,Str
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+        if(value == null){
+            return true;
+        }
         for(Statuscode status: Statuscode.values()){
             if(status.toString().equals(value)){
                 return true;
