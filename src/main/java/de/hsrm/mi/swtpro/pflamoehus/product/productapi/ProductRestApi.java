@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.productapi;
+package de.hsrm.mi.swtpro.pflamoehus.product.productapi;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +29,7 @@ import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductApiException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
-import de.hsrm.mi.swtpro.pflamoehus.productservice.ProductService;
+import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;
 
 /*
  * ProductRestApi for communication between front- and backend.

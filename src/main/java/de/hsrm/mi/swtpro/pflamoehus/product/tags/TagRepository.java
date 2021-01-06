@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.tags;
+package de.hsrm.mi.swtpro.pflamoehus.product.tags;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

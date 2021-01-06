@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.userservice;
+package de.hsrm.mi.swtpro.pflamoehus.product.productservice;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -7,29 +7,29 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 /*
- * UserBroker for the communication between back- and frontend.
+ * ProductBroker for communication between front- and backend.
  * 
  * @author Ann-Cathrin Fabian
- * @version 1
+ * @version 2
  */
 @Configuration
 @EnableWebSocketMessageBroker
-public class UserBrokerConfiguration implements WebSocketMessageBrokerConfigurer {
+public class ProductBrokerConfigurations implements WebSocketMessageBrokerConfigurer {
 
     /**
-     * The StompBroker reacts to everything with the prefix "/user".
+     * The StompBroker reacts to everything with the prefix "/product".
      * 
      * @param registry for configuring message broker options
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/user");
+        registry.enableSimpleBroker("/product");
     }
 
     /**
-     * Register requests from frontend.
+     * Recievinig requests from frontend.
      * 
-     * @param registry for registering STOMP endpoints
+     * @param registry for registering STOMP endpoint
      */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {

@@ -30,11 +30,11 @@ import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.request.LoginRequest;
 import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.request.SignUpRequest;
 import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.response.JwtResponse;
 import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.response.MessageResponse;
-import de.hsrm.mi.swtpro.pflamoehus.roles.RolesRepository;
+import de.hsrm.mi.swtpro.pflamoehus.user.roles.RolesRepository;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
-import de.hsrm.mi.swtpro.pflamoehus.roles.Roles;
-import de.hsrm.mi.swtpro.pflamoehus.roles.ERoles;
+import de.hsrm.mi.swtpro.pflamoehus.user.roles.Roles;
+import de.hsrm.mi.swtpro.pflamoehus.user.roles.ERoles;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.adress;
+package de.hsrm.mi.swtpro.pflamoehus.user.adress;
 
 import java.util.List;
 import java.util.Optional;

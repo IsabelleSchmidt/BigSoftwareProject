@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
+import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
 
 /*
  * ProductRepository for different operations to apply on the database.

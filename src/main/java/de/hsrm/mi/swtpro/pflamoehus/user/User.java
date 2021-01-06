@@ -27,11 +27,11 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.validation.annotation.Validated;
 
-import de.hsrm.mi.swtpro.pflamoehus.roles.Roles;
-import de.hsrm.mi.swtpro.pflamoehus.adress.Adress;
+import de.hsrm.mi.swtpro.pflamoehus.user.roles.Roles;
+import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.order.Order;
-import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Bankcard;
-import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Creditcard;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;

@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Bankcard;
-import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.BankcardRepository;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.BankcardRepository;
 
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;

@@ -9,8 +9,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import de.hsrm.mi.swtpro.pflamoehus.roles.ERoles;
-import de.hsrm.mi.swtpro.pflamoehus.roles.Roles;
+import de.hsrm.mi.swtpro.pflamoehus.user.roles.ERoles;
+import de.hsrm.mi.swtpro.pflamoehus.user.roles.Roles;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest

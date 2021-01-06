@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.tags;
+package de.hsrm.mi.swtpro.pflamoehus.product.tags;
 
 import java.util.HashSet;
 import java.util.Set;

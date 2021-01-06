@@ -9,7 +9,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
-import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Creditcard;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 
 
 

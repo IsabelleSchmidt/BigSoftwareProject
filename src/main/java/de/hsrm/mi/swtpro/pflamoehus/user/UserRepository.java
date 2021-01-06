@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import de.hsrm.mi.swtpro.pflamoehus.roles.Roles;
+import de.hsrm.mi.swtpro.pflamoehus.user.roles.Roles;
 /*
  * User-Entity for its database.
  * 

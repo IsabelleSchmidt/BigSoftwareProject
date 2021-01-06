@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.roles;
+package de.hsrm.mi.swtpro.pflamoehus.user.roles;
 
 /*
  * Roles is a enum, which defines the different types of visitors, that may come to the website.
