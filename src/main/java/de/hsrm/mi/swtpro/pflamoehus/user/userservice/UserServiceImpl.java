@@ -2,8 +2,6 @@ package de.hsrm.mi.swtpro.pflamoehus.user.userservice;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 import javax.persistence.OptimisticLockException;
 
@@ -14,11 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUseException;
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.UserServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 
 /*
  * UserServiceImpl for implementing the interface 'UserService'.
@@ -27,7 +23,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
  * @version 4
  */
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
@@ -54,7 +50,7 @@ public class UserServiceImpl implements UserService{
      * @return user
      */
     @Override
-    public User searchUserWithEmail(String email) throws UserServiceException{ 
+    public User searchUserWithEmail(String email) throws UserServiceException {
 
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isEmpty()) {
@@ -70,48 +66,12 @@ public class UserServiceImpl implements UserService{
      * @return user
      */
     @Override
-    public User searchUserWithId(long id) { 
+    public User searchUserWithId(long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new UserServiceException("User with this ID wasn't found in the database");
         }
         return user.get();
-    }
-
-    /**
-     * Edits and saves the given (new) user.
-     * 
-     * @param editedUser new or edited user
-     * @return user
-     */
-    @Override
-    public User editUser(User editedUser) {
-        
-
-        User foundUser = searchUserWithEmail(editedUser.getEmail());
-        
-        if (pe.matches(editedUser.getPassword(), foundUser.getPassword())) {
-            encodePassword(editedUser.getPassword(), foundUser);
-        }else{
-            throw new UserServiceException("The new password does not match the old one.");
-        }
-
-        editBankcard(editedUser, foundUser);
-        editCreditcard(editedUser, foundUser);
-        foundUser.setFirstName(editedUser.getFirstName());
-        foundUser.setLastName(editedUser.getLastName());
-        foundUser.setGender(editedUser.getGender());
-        foundUser.setBirthdate(editedUser.getBirthdate());
-        
-        //check whether new mail already has a password
-        try{
-            searchUserWithEmail(editedUser.getEmail());
-        }catch(UserServiceException use){
-            foundUser.setEmail(editedUser.getEmail());
-        }
-        
-        return foundUser;
-
     }
 
     /**
@@ -144,128 +104,19 @@ public class UserServiceImpl implements UserService{
             throw new EmailAlreadyInUseException();
         }
 
-        user = userRepository.save(user);
-
         try {
 
-            encodePassword(user.getPassword(), user);
-
-            if (user.getBankcard() != null) {
-                encodeIBAN(user.getBankcard() , user);
-            }
-            if (user.getCreditcard() != null) {
-                encodeCardNumber(user.getCreditcard(), user);
-            }
+            user.setPassword(encodePassword(user.getPassword()));
 
         } catch (OptimisticLockException ole) {
 
             throw new UserServiceException("User could not be saved into the database.");
 
         }
-
+        user = userRepository.save(user);
         userServiceLogger.info("User was saved into the repository.");
         return user;
 
-    }
-
-    /**
-     * When creating a new user or editing the iban, the new iban has to get
-     * encoded.
-     * 
-     * @param cards new or edited bankcards
-     * @param user  user from database
-     */
-
-    private void encodeIBAN(Set<Bankcard> cards, User user) {
-        
-        //checks whether user exists in database
-        user = searchUserWithEmail(user.getEmail());
-        if(cards.isEmpty()){
-            throw new UserServiceException("No bankcard available for encoding");
-        }
-
-        
-        for (Bankcard card : cards) {
-            card.setIban(pe.encode(card.getIban()));
-        
-        }
-        user.setBankcard(cards);
-        userServiceLogger.info("all bankcards encoded.");
-    }
-
-    /**
-     * When creating a new user or editing the creditcard number, the new number has
-     * to get encoded.
-     * 
-     * @param cards edited or new creditcards
-     * @param user  user from database
-     */
-
-    private void encodeCardNumber(Set<Creditcard> cards, User user) {
-       
-        user = searchUserWithEmail(user.getEmail());
-        
-        if(cards.isEmpty()){
-            throw new UserServiceException("No creditcard for encoding available");
-        }
-       
-       
-        for (Creditcard card : cards) {
-            card.setCreditcardnumber(pe.encode(card.getCreditcardnumber()));
-        }
-        
-            user.setCreditcard(cards);
-            userServiceLogger.info("all creditcards encoded.");
-          
-            
-        
-    }
-
-
-    /**
-     * When a user changes his bankcards, for example the iban or he adds another
-     * one, we have to encode the new iban.
-     * 
-     * @param editedUser new user
-     * @param foundUser  user from database
-     */
-    private void editBankcard(User editedUser, User foundUser) {
-       
-        Set<Bankcard> newcards = editedUser.getBankcard();
-        
-        for (Bankcard newcard : newcards) {
-
-            //If bankcard wasn't encoded before: encode
-            if(!Pattern.matches("^\\{bcrypt\\}.*",newcard.getIban())){
-                newcard.setIban(pe.encode(newcard.getIban()));
-            }
-            
-        }
-        foundUser.setBankcard(newcards);
-    }
-
-    /**
-     * When a user changes his creditcards, for example the creditcard number or he
-     * adds antoher one, we habe to encode the new creditcard number.
-     * 
-     * @param editedUser new user
-     * @param foundUser  user from database
-     */
-    private void editCreditcard(User editedUser, User foundUser) {
-
-      
-
-        Set<Creditcard> newcards = editedUser.getCreditcard();
-        
-        for (Creditcard newcard : newcards) {
-
-            //If creditcard wasn't encoded before: encode
-            if(!Pattern.matches("^\\{bcrypt\\}.*",newcard.getCreditcardnumber())){
-                newcard.setCreditcardnumber(pe.encode(newcard.getCreditcardnumber()));
-            }
-            
-        }
-        foundUser.setCreditcard(newcards);
     }
 
     /**
@@ -274,10 +125,16 @@ public class UserServiceImpl implements UserService{
      * @param password new password
      * @param user     user from database or a new user
      */
-    private void encodePassword(String password, User user) {
+    private String encodePassword(String password) {
 
-       user = searchUserWithEmail(user.getEmail());
-       user.setPassword(pe.encode(password));
+        return pe.encode(password);
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    
 
 }

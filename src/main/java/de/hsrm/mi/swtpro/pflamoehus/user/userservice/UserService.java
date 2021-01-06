@@ -36,14 +36,6 @@ public interface UserService {
     User searchUserWithId(long id);
 
     /**
-     * Edits and saves the given (new) user.
-     * 
-     * @param editedUser editet user that has to be saved
-     * @return user
-     */
-    User editUser(User editedUser);
-
-    /**
      * Deletes the user with the given id.
      * 
      * @param id user id that has to be deleted
@@ -57,6 +49,8 @@ public interface UserService {
      * @return user
      */
     User registerUser(User email);
+
+    boolean existsByEmail(String email);
 
 
 }
