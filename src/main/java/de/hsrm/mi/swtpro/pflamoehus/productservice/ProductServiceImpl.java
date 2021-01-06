@@ -42,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
      * @return optional of type product
      */
     @Override
-    public Product searchProductwithArticleNr(long articleNr) {
+    public Product searchProductwithArticleNr(long articleNr) throws ProductServiceException {
         Optional<Product> product = productRepo.findById(articleNr);
         if (product.isEmpty()) {
             throw new ProductServiceException("Product is not in the database.");
@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
      * @return product
      */
     @Override
-    public Product editProduct(Product editedProduct) {
+    public Product editProduct(Product editedProduct) throws ProductServiceException{
         try {
             editedProduct = productRepo.save(editedProduct);
         } catch (OptimisticLockException oLE) {
@@ -93,6 +93,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAllProductsWithProductType(ProductType type) {
         return productRepo.findByProductType(type.toString());
+    }
+
+    @Override
+    public Product findProductWithName(String name) {
+        Optional<Product> found = productRepo.findByName(name);
+        
+        return found.isPresent() ? found.get() : null;
     }
 
 }

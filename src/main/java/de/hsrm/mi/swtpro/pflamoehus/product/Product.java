@@ -60,24 +60,24 @@ public class Product {
     @Column(name = "room")
     private String roomType;
 
-    @NotNull
-    @Positive
-    @Digits(integer = 5, fraction = 2)
+    @NotNull(message = "Der Preis darf nicht leer bleiben.")
+    @Positive(message = "Der Preis muss positiv sein.")
+    @Digits(integer = 5, fraction = 2, message="Der Preis darf max. 5 Stellen vor und 2 Stellen nach dem Komma besitzen.")
     private double price = 0.0;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Picture> allPictures = new HashSet<>();
 
-    @PositiveOrZero
-    @Digits(integer = 3, fraction = 2)
+    @PositiveOrZero(message = "Zahl muss positiv oder Null sein.")
+    @Digits(integer = 3, fraction = 2, message = "Zahl darf max. 3 Stellen vor und 2 Stellen nach dem Komma gross sein.")
     private double height = 0.0;
 
-    @PositiveOrZero
-    @Digits(integer = 3, fraction = 2)
+    @PositiveOrZero(message = "Zahl muss positiv oder Null sein.")
+    @Digits(integer = 3, fraction = 2, message = "Zahl darf max. 3 Stellen vor und 2 Stellen nach dem Komma gross sein.")
     private double width = 0.0;
 
-    @PositiveOrZero
-    @Digits(integer = 3, fraction = 2)
+    @PositiveOrZero(message = "Zahl muss positiv oder Null sein.")
+    @Digits(integer = 3, fraction = 2, message = "Zahl darf max. 3 Stellen vor und 2 Stellen nach dem Komma gross sein.")
     private double depth = 0.0;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
@@ -392,10 +392,5 @@ public class Product {
                 + productType + ", roomType=" + roomType + ", version=" + version + ", width=" + width + "]";
     }
 
-    public String toJSON(){
-        return "Product {allPictures:" + allPictures + ", allTags:" + allTags + ", articlenr:" + articlenr + ", depth:"
-        + depth + ", description:" + description + ", height:" + height + ", information:" + information
-        + ", name:" + name + ", nrAvailableItems:" + nrAvailableItems + ", price:" + price + ", productType:"
-        + productType + ", roomType:" + roomType + ", version:" + version + ", width:" + width + "}";
-    }
+
 }

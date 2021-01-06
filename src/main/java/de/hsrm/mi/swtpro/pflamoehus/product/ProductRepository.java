@@ -30,7 +30,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @param name wanted name
      * @return product
      */
-    Product findByName(String name);
+    Optional<Product> findByName(String name);
 
     /**
      * Find products by their producttype.

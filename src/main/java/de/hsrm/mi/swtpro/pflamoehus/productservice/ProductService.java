@@ -1,7 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.productservice;
 
 import java.util.List;
-import java.util.Optional;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
 /*
@@ -47,5 +46,11 @@ public interface ProductService {
      * @return list of products
      */
     List<Product> findAllProductsWithProductType(ProductType type);
+
+    /**
+     * @param name productname
+     * @return product with given name
+     */
+    Product findProductWithName(String name);
 
 }
