@@ -1,8 +1,13 @@
 package de.hsrm.mi.swtpro.pflamoehus.order.orderdetails;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import de.hsrm.mi.swtpro.pflamoehus.order.Order;
+import de.hsrm.mi.swtpro.pflamoehus.order.status.Status;
+import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 
 
 /*
@@ -27,6 +32,7 @@ public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long
      * @param order wanted order
      * @return orderdetails
      */
+    List<OrderDetails> findByOrderID(Order order);
    
 
     /**
@@ -35,5 +41,7 @@ public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long
      * @param product wanted orderdetails
      * @return orderdetail
      */
-  
+    List<OrderDetails> findByProduct(Product product);
+
+    List<OrderDetails> findByStatusID(Status status);
 }
