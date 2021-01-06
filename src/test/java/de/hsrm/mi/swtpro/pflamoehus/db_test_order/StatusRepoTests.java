@@ -5,15 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import de.hsrm.mi.swtpro.pflamoehus.order.OrderDetailsRepository;
 import de.hsrm.mi.swtpro.pflamoehus.order.OrderRepository;
 import de.hsrm.mi.swtpro.pflamoehus.order.Status;
 import de.hsrm.mi.swtpro.pflamoehus.order.StatusRepository;
 import de.hsrm.mi.swtpro.pflamoehus.order.Statuscode;
-
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 
