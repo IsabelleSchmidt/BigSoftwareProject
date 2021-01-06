@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.authentication;
+package de.hsrm.mi.swtpro.pflamoehus.user.userapi;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.naming.AuthenticationException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.request.LoginRequest;
 import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.request.SignUpRequest;
+import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.request.UserOrderRequest;
 import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.response.JwtResponse;
 import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.response.MessageResponse;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.AdressServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.BankcardServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.CreditcardServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserApiException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.user.roles.RolesRepository;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
+import de.hsrm.mi.swtpro.pflamoehus.user.userservice.*;
+import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
+import de.hsrm.mi.swtpro.pflamoehus.user.adress.service.*;
 import de.hsrm.mi.swtpro.pflamoehus.user.roles.Roles;
 import de.hsrm.mi.swtpro.pflamoehus.user.roles.ERoles;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.service.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +60,7 @@ import org.slf4j.LoggerFactory;
  * @version 7
  */
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/user")
 @CrossOrigin
 public class UserRestApi {
 
@@ -61,21 +74,33 @@ public class UserRestApi {
 	RolesRepository rolesRepository;
 
 	@Autowired
+	AdressService adressSerivce;
+
+	@Autowired
+	BankcardService bankcardSerivce;
+
+	@Autowired
+	CreditcardService creditcardService;
+
+	@Autowired
 	PasswordEncoder encoder;
+
+	@Autowired
+	UserService userService;
 
 	@Autowired
 	JwtUtils jwtUtils;
 
-	private static final Logger logger = LoggerFactory.getLogger(UserRestApi.class);
+	private static final Logger LOGGER2 = LoggerFactory.getLogger(UserRestApi.class);
 
 	/**
 	 * PostMapping for login.
 	 * 
-	 * @param result binding result
+	 * @param result       binding result
 	 * @param loginRequest login values
 	 * @return ResponseEntity
 	 */
-	@PostMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result) {
 
 		Authentication authentication = authenticationManager.authenticate(
@@ -93,7 +118,7 @@ public class UserRestApi {
 
 	/**
 	 * @param signUpRequest given values of the user that wants to be registerd
-	 * @param result for controlling if the given SignUp request is valid
+	 * @param result        for controlling if the given SignUp request is valid
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/register")
@@ -105,15 +130,16 @@ public class UserRestApi {
 			mr.setField("email");
 			mrs.add(mr);
 			return new ResponseEntity<>(mrs, HttpStatus.OK);
-		}if (result.hasErrors()){
+		}
+		if (result.hasErrors()) {
 
-			for (FieldError error : result.getFieldErrors()){
+			for (FieldError error : result.getFieldErrors()) {
 				mr.setMessage(error.getDefaultMessage());
 				mr.setField(error.getField());
 				mrs.add(mr);
-				logger.info("FEHLER: " + mr);
+				LOGGER2.info("FEHLER: " + mr);
 			}
-			
+
 			return new ResponseEntity<>(mrs, HttpStatus.OK);
 
 		}
@@ -176,4 +202,69 @@ public class UserRestApi {
 		return ResponseEntity.ok(mr);
 
 	}
+
+	@PostMapping("/addInfos")
+	public ResponseEntity<?> addInfosToUser(@Valid @RequestBody UserOrderRequest userOrderRequest, BindingResult result)
+			throws AuthenticationException {
+
+		MessageResponse mr = new MessageResponse();
+		List<MessageResponse> mrs = new ArrayList<>();
+
+		if (result.hasErrors()) {
+
+			for (FieldError error : result.getFieldErrors()) {
+				mr.setMessage(error.getDefaultMessage());
+				mr.setField(error.getField());
+				mrs.add(mr);
+				LOGGER2.info("FEHLER: " + mr);
+			}
+
+			return new ResponseEntity<>(mrs, HttpStatus.OK);
+		}
+		// TODO: eventuell Validation-Methoden
+		Adress newAdress = userOrderRequest.getAdress();
+		Bankcard newBankcard = userOrderRequest.getBankcard();
+		Creditcard newCreditcard = userOrderRequest.getCreditcard();
+
+		String jwtToken = userOrderRequest.getToken();
+		String email = jwtUtils.getUserNameFromJwtToken(jwtToken);
+
+		try {
+
+			User user = userService.searchUserWithEmail(email);
+
+			if (newAdress != null) {
+				adressSerivce.saveAdress(newAdress);
+				user.getAllAdresses().add(newAdress);
+			}
+
+			if (newBankcard != null) {
+				bankcardSerivce.saveBankcard(newBankcard);
+				user.getBankcard().add(newBankcard);
+			}
+
+			if (newCreditcard != null) {
+				creditcardService.saveCreditcard(newCreditcard);
+				user.getCreditcard().add(newCreditcard);
+			}
+
+		} catch (AdressServiceException ase) {
+			LOGGER2.error("Adress couldn't be saved.");
+			throw new UserApiException("Adress couldn't be saved.");
+
+		} catch (BankcardServiceException bse) {
+			LOGGER2.error("Bankcard couldn't be saved.");
+			throw new UserApiException("Adress couldn't be saved.");
+
+		} catch (CreditcardServiceException cse) {
+			LOGGER2.error("Creditcard couldn't be saved.");
+			throw new UserApiException("Creditcard couldn't be saved.");
+
+		} catch (UserServiceException use) {
+			throw new AuthenticationException();
+		}
+		mr.setMessage("Neue Daten erfolgreich hinzugefügt.");
+		return ResponseEntity.ok(mr);
+	}
+
 }
