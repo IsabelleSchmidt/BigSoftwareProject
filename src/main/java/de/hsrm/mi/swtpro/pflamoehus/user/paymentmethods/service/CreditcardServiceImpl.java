@@ -3,7 +3,6 @@ package de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.persistence.OptimisticLockException;
 
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.CreditcardServiceException;
-import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.CreditcardRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
