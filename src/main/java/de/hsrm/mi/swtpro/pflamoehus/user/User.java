@@ -37,8 +37,8 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
 /*
  * User-Entity for its database.
  * 
- * @author Ann-Cathrin Fabian
- * @version 3
+ * @author Ann-Cathrin Fabian, Svenja Schenk
+ * @version 4
  */
 @Entity
 @Validated

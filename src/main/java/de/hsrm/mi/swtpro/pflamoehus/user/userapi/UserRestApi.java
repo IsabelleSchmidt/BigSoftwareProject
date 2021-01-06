@@ -92,7 +92,7 @@ public class UserRestApi {
 	/**
 	 * PostMapping for login.
 	 * 
-	 * @param result binding result
+	 * @param result       binding result
 	 * @param loginRequest login values
 	 * @return ResponseEntity
 	 */
@@ -113,6 +113,8 @@ public class UserRestApi {
 	}
 
 	/**
+	 * PostMapping for registration.
+	 * 
 	 * @param signUpRequest given values of the user that wants to be registerd
 	 * @param result        for controlling if the given SignUp request is valid
 	 * @return ResponseEntity
@@ -174,7 +176,7 @@ public class UserRestApi {
 
 						break;
 					case "warehouse":
-						Roles warehouseRole = roleService.findByName(ERoles.WAREHOUSE); 
+						Roles warehouseRole = roleService.findByName(ERoles.WAREHOUSE);
 						roles.add(warehouseRole);
 
 						break;
@@ -192,6 +194,14 @@ public class UserRestApi {
 
 	}
 
+	/**
+	 * PostMapping for the data the user has to give while he is ordering.
+	 * 
+	 * @param userOrderRequest includes a token, paymentmethod and adress
+	 * @param result           for showing mistakes in the formular
+	 * @return response
+	 * @throws AuthenticationException if the user is not known in the database
+	 */
 	@PostMapping("/addInfos")
 	public ResponseEntity<?> addInfosToUser(@Valid @RequestBody UserOrderRequest userOrderRequest, BindingResult result)
 			throws AuthenticationException {
@@ -236,7 +246,8 @@ public class UserRestApi {
 				Creditcard newCreditcard = new Creditcard();
 				newCreditcard.setOwner(userOrderRequest.getCreditcard_owner());
 				newCreditcard.setDateOfExpiry(userOrderRequest.getDateOfExpiry());
-				newCreditcard.setCreditcardnumber(creditcardService.encodeCardNumber(userOrderRequest.getCreditcardnumber()));
+				newCreditcard.setCreditcardnumber(
+						creditcardService.encodeCardNumber(userOrderRequest.getCreditcardnumber()));
 				user.getCreditcard().add(newCreditcard);
 			}
 

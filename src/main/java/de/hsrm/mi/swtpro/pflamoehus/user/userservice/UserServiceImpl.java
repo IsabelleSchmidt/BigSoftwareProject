@@ -130,6 +130,12 @@ public class UserServiceImpl implements UserService {
         return pe.encode(password);
     }
 
+    /**
+     * Shows if the user with this email exits in the database
+     * 
+     * @param email searched email
+     * @return boolean
+     */
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);

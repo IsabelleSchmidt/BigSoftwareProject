@@ -50,6 +50,12 @@ public interface UserService {
      */
     User registerUser(User email);
 
+    /**
+     * Shows if the user with this email exits in the database
+     * 
+     * @param email searched email
+     * @return boolean
+     */
     boolean existsByEmail(String email);
 
 
