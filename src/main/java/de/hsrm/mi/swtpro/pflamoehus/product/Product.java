@@ -40,7 +40,6 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private long articlenr;
 
     @Version
@@ -88,7 +87,7 @@ public class Product {
 
     @Column(name = "available")
     @PositiveOrZero
-    private int nrAvailableItems = 0;
+    private int available = 0;
 
     @NotNull
     @Size(min = 10, max = 180)
@@ -356,8 +355,8 @@ public class Product {
      * 
      * @return available items
      */
-    public int getNrAvailableItems() {
-        return nrAvailableItems;
+    public int getAvailable() {
+        return available;
     }
 
     /**
@@ -365,8 +364,8 @@ public class Product {
      * 
      * @param nrAvailableItems -> number of available items that has to be set
      */
-    public void setNrAvailableItems(int nrAvailableItems) {
-        this.nrAvailableItems = nrAvailableItems;
+    public void setAvailable(int nrAvailableItems) {
+        this.available = nrAvailableItems;
     }
 
     
@@ -379,7 +378,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product [allTags=" + allTags + ", articlenr=" + articlenr + ", depth=" + depth + ", height=" + height
-                + ", name=" + name + ", nrAvailableItems=" + nrAvailableItems + ", pictures =" + allPictures.toString()
+                + ", name=" + name + ", available=" + available + ", pictures =" + allPictures.toString()
                 + ", price=" + price + ", productType=" + productType + ", roomType=" + roomType + ", version="
                 + version + ", width=" + width + ", description=" + description + ", information=" + information + "]";
     }
