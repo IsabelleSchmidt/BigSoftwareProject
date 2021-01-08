@@ -96,7 +96,7 @@ public class UserRestApi {
 	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest, BindingResult result) {
 		MessageResponse mr = new MessageResponse();
-		List<MessageResponse> mrs = new ArrayList<>();
+		Set<MessageResponse> mrs = new HashSet<>();
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			mr.setMessage("Diese Email ist schon vergeben");
 			mr.setField("email");
@@ -105,12 +105,13 @@ public class UserRestApi {
 		}if (result.hasErrors()){
 
 			for (FieldError error : result.getFieldErrors()){
-				mr.setMessage(error.getDefaultMessage());
-				mr.setField(error.getField());
-				mrs.add(mr);
-				logger.info("FEHLER: " + mr);
+				MessageResponse mrp = new MessageResponse();
+				mrp.setMessage(error.getDefaultMessage());
+				mrp.setField(error.getField());
+				mrs.add(mrp);
+				logger.info("FEHLER: " + mrp);
 			}
-			
+			logger.info("FEHLERLISTE: " + mrs.toString());
 			return new ResponseEntity<>(mrs, HttpStatus.OK);
 
 		}
