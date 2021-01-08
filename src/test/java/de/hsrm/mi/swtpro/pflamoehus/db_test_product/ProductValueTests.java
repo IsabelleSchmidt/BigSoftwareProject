@@ -73,7 +73,7 @@ class ProductValueTests {
         // fill with wrong values
         product1.setHeight(FALSE_HEIGHT);
         product1.setWidth(FALSE_WIDTH);
-        product1.setNrAvailableItems(FALSE_AVAILABLE);
+        product1.setAvailable(FALSE_AVAILABLE);
         product1.setPrice(FALSE_PRICE);
         product1.setRoomType(FALSE_ROOMTYPE);
         product1.setProductType(FALSE_PRODUCTTYPE);
@@ -107,7 +107,7 @@ class ProductValueTests {
         product.setHeight(HEIGHT);
         product.setWidth(WIDTH);
         product.setPrice(PRICE);
-        product.setNrAvailableItems(AVAILABLE);
+        product.setAvailable(AVAILABLE);
         product.setProductType(PRODUCTTYPE);
         product.setRoomType(ROOMTYPE);
         product.setDescription(DESCRIPTION);
