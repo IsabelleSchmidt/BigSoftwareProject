@@ -267,7 +267,6 @@ public class UserRestApi {
 		} catch (UserServiceException use) {
 			throw new AuthenticationException();
 		}
-		mr.setMessage("Neue Daten erfolgreich hinzugefügt.");
 		return ResponseEntity.ok(mr);
 	}
 
