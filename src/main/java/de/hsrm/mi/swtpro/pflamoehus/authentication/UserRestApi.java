@@ -172,7 +172,6 @@ public class UserRestApi {
 		user.setRoles(roles);
 		userRepository.save(user);
 
-		mr.setMessage("User registered successfully!");
 		return ResponseEntity.ok(mr);
 
 	}
