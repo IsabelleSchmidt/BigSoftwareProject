@@ -222,7 +222,7 @@ public class UserRestApi {
 			return new ResponseEntity<>(mrs, HttpStatus.OK);
 		}
 
-		String jwtToken = userOrderRequest.toString();
+		String jwtToken = userOrderRequest.getToken().toString();
 		String email = jwtUtils.getUserNameFromJwtToken(jwtToken);
 
 		try {
