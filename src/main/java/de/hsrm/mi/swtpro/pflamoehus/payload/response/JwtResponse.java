@@ -27,6 +27,10 @@ public class JwtResponse {
 		this.roles = roles;
 	}
 
+	public JwtResponse(){
+		
+	}
+
 	
 	/** 
 	 * Get accessToken.

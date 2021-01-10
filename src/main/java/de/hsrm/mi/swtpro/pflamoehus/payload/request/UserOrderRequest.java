@@ -16,7 +16,7 @@ public class UserOrderRequest {
     @Valid
     private Adress adress;
 
-    @Pattern(regexp = "^(DE\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{2}|DE\\d{20}$))")
+    @Pattern(regexp = "^(DE\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{2}|DE\\d{20}$)")
     private String iban;
 
     @Size(min = 3)

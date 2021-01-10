@@ -205,7 +205,7 @@ public class UserRestApi {
 	@PostMapping("/newOrder/user")
 	public ResponseEntity<?> addInfosToUser(@Valid @RequestBody UserOrderRequest userOrderRequest, BindingResult result)
 			throws AuthenticationException {
-
+		LOGGER2.info("HALLOOOOO HIER");
 		MessageResponse mr = new MessageResponse();
 		List<MessageResponse> mrs = new ArrayList<>();
 
@@ -225,6 +225,8 @@ public class UserRestApi {
 		String jwtToken = userOrderRequest.getToken().toString();
 		String email = jwtUtils.getUserNameFromJwtToken(jwtToken);
 
+		LOGGER2.info("JWT TOKEN: " + jwtToken);
+
 		try {
 			User user = userService.searchUserWithEmail(email);
 
@@ -243,7 +245,7 @@ public class UserRestApi {
 				user.getBankcard().add(newBankcard);
 			}
 
-			if (userOrderRequest.getCreditcard_owner() != "") {
+			if (userOrderRequest.getCreditcardnumber() != ""){
 				Creditcard newCreditcard = new Creditcard();
 				newCreditcard.setOwner(userOrderRequest.getCreditcard_owner());
 				newCreditcard.setDateOfExpiry(userOrderRequest.getDateOfExpiry());
