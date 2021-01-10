@@ -202,7 +202,7 @@ public class UserRestApi {
 	 * @return response
 	 * @throws AuthenticationException if the user is not known in the database
 	 */
-	@PostMapping("/addInfos")
+	@PostMapping("/newOrder/user")
 	public ResponseEntity<?> addInfosToUser(@Valid @RequestBody UserOrderRequest userOrderRequest, BindingResult result)
 			throws AuthenticationException {
 
