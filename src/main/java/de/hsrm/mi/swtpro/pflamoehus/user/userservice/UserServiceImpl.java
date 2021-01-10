@@ -2,8 +2,6 @@ package de.hsrm.mi.swtpro.pflamoehus.user.userservice;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.regex.Pattern;
 import javax.persistence.OptimisticLockException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

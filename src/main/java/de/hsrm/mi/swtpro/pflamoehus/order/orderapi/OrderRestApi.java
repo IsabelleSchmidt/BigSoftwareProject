@@ -32,6 +32,7 @@ import de.hsrm.mi.swtpro.pflamoehus.order.orderservice.OrderService;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.Status;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.Statuscode;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.statusservice.StatusService;
+import de.hsrm.mi.swtpro.pflamoehus.payload.request.OrderRequest;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
@@ -80,38 +81,13 @@ public class OrderRestApi {
 
         }
 
-        public String getField() {
-            return field;
-        }
-
-        public void setField(String field) {
-            this.field = field;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
         @Override
         public String toString() {
             return "OrderMessage [field=" + field + ", message=" + message + ", orderid="+ orderid+"]";
         }
 
-        public long getOrderid() {
-            return orderid;
-        }
-
-        public void setOrderid(long orderid) {
-            this.orderid = orderid;
-        }
-
     }
 
-    
     /** 
      * Delete order.
      * 
@@ -132,7 +108,7 @@ public class OrderRestApi {
 
 
     @PostMapping("/new")
-    public ResponseEntity<Set<OrderMessage>> newOrder(@Valid @RequestBody OrderDTO orderDTO, BindingResult result){
+    public ResponseEntity<Set<OrderMessage>> newOrder(@Valid @RequestBody OrderRequest orderDTO, BindingResult result){
 
         
         Order order = new Order();
@@ -270,11 +246,11 @@ public class OrderRestApi {
         return deliverydate;
     }
 
-    private Set<OrderDetails> createDetails(OrderDTO orderDTO, Order order, Status incoming) throws ProductServiceException, OrderDetailsServiceException{
+    private Set<OrderDetails> createDetails(OrderRequest orderDTO, Order order, Status incoming) throws ProductServiceException, OrderDetailsServiceException{
         Set<OrderDetails> allDetails = new HashSet<>();
         Product product;
 
-        for(OrderDTO.ProductDTO productdto : orderDTO.getAllProductsOrdered()){
+        for(OrderRequest.ProductDTO productdto : orderDTO.getAllProductsOrdered()){
             OrderDetails details = new OrderDetails();
            
 

@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.order.orderapi;
+package de.hsrm.mi.swtpro.pflamoehus.payload.request;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
  * Data Transfer Object for an Order
  */
 @Validated
-public class OrderDTO {
+public class OrderRequest {
 
 
     public class ProductDTO{
