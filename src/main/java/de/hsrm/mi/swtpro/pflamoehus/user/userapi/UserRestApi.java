@@ -1,6 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.userapi;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,6 +11,7 @@ import javax.naming.AuthenticationException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -218,17 +222,24 @@ public class UserRestApi {
 				mrs.add(mrp);
 				LOGGER2.info("FEHLER: " + mrp);
 			}
+			if (mrs.toString().contains("creditcardnumber") || mrs.toString().contains("iban")) {
 
-			return new ResponseEntity<>(mrs, HttpStatus.OK);
+				mrs.removeIf(s -> s.getField().contains("creditcardnumber"));
+				mrs.removeIf(s -> s.getField().contains("iban"));
+
+			}
+			if (mrs.size() > 0) {
+				return new ResponseEntity<>(mrs, HttpStatus.OK);
+			}
+
 		}
 
-		String jwtToken = userOrderRequest.getToken().toString();
-		String email = jwtUtils.getUserNameFromJwtToken(jwtToken);
-
-		LOGGER2.info("JWT TOKEN: " + jwtToken);
+		JwtResponse jwtToken = userOrderRequest.getToken();
+		String email = jwtToken.getEmail();
 
 		try {
 			User user = userService.searchUserWithEmail(email);
+			LOGGER2.info("ORDER: " + userOrderRequest.toString());
 
 			if (userOrderRequest.getAdress() != null) {
 				Adress newAdress = userOrderRequest.getAdress();
@@ -236,18 +247,18 @@ public class UserRestApi {
 				user.getAllAdresses().add(newAdress);
 			}
 
-			if (userOrderRequest.getBankcard_owner() != "") {
+			if (userOrderRequest.getBankcardOwner() != null) {
 				Bankcard newBankcard = new Bankcard();
-				newBankcard.setOwner(userOrderRequest.getBankcard_owner());
+				newBankcard.setOwner(userOrderRequest.getBankcardOwner());
 				newBankcard.setBank(userOrderRequest.getBank());
 				newBankcard.setIban(bankcardSerivce.encodeIBAN(userOrderRequest.getIban()));
 				bankcardSerivce.saveBankcard(newBankcard);
 				user.getBankcard().add(newBankcard);
 			}
 
-			if (userOrderRequest.getCreditcardnumber() != ""){
+			if (userOrderRequest.getCreditcardnumber() != null) {
 				Creditcard newCreditcard = new Creditcard();
-				newCreditcard.setOwner(userOrderRequest.getCreditcard_owner());
+				newCreditcard.setOwner(userOrderRequest.getCreditcardOwner());
 				newCreditcard.setDateOfExpiry(userOrderRequest.getDateOfExpiry());
 				newCreditcard.setCreditcardnumber(
 						creditcardService.encodeCardNumber(userOrderRequest.getCreditcardnumber()));

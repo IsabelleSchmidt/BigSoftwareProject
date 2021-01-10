@@ -4,18 +4,22 @@ import java.time.LocalDate;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidCreditCardNumber;
+import io.micrometer.core.lang.Nullable;
 
 public class UserOrderRequest {
 
     @Valid
     private Adress adress;
 
+    @Nullable
     @Pattern(regexp = "^(DE\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{2}|DE\\d{20}$)")
     private String iban;
 
@@ -27,6 +31,7 @@ public class UserOrderRequest {
 
     private String creditcardOwner;
 
+    @Size(min = 0)
     @ValidCreditCardNumber
     private String creditcardnumber;
 
@@ -45,8 +50,8 @@ public class UserOrderRequest {
 
     @Override
     public String toString() {
-        return "UserOrderRequest [adress=" + adress + ", bank=" + bank + ", bankcard_owner=" + bankcardOwner
-                + ", creditcard_owner=" + creditcardOwner + ", creditcardnumber=" + creditcardnumber
+        return "UserOrderRequest [adress=" + adress + ", bank=" + bank + ", bankcardOwner=" + bankcardOwner
+                + ", creditcardOwner=" + creditcardOwner + ", creditcardnumber=" + creditcardnumber
                 + ", dateOfExpiry=" + dateOfExpiry + ", iban=" + iban + ", token=" + token + "]";
     }
 
@@ -66,12 +71,12 @@ public class UserOrderRequest {
         this.iban = iban;
     }
 
-    public String getBankcard_owner() {
+    public String getBankcardOwner() {
         return bankcardOwner;
     }
 
-    public void setBankcard_owner(String bankcard_owner) {
-        this.bankcardOwner = bankcard_owner;
+    public void setBankcardOwner(String bankcardOwner) {
+        this.bankcardOwner = bankcardOwner;
     }
 
     public String getBank() {
@@ -82,12 +87,12 @@ public class UserOrderRequest {
         this.bank = bank;
     }
 
-    public String getCreditcard_owner() {
+    public String getCreditcardOwner() {
         return creditcardOwner;
     }
 
-    public void setCreditcard_owner(String creditcard_owner) {
-        this.creditcardOwner = creditcard_owner;
+    public void setCreditcardOwner(String creditcardOwner) {
+        this.creditcardOwner = creditcardOwner;
     }
 
     public String getCreditcardnumber() {
