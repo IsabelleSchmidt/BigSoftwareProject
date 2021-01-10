@@ -20,12 +20,12 @@ public class UserOrderRequest {
     private String iban;
 
     @Size(min = 3)
-    private String bankcard_owner;
+    private String bankcardOwner;
 
     @Size(min = 3)
     private String bank;
 
-    private String creditcard_owner;
+    private String creditcardOwner;
 
     @ValidCreditCardNumber
     private String creditcardnumber;
@@ -45,8 +45,8 @@ public class UserOrderRequest {
 
     @Override
     public String toString() {
-        return "UserOrderRequest [adress=" + adress + ", bank=" + bank + ", bankcard_owner=" + bankcard_owner
-                + ", creditcard_owner=" + creditcard_owner + ", creditcardnumber=" + creditcardnumber
+        return "UserOrderRequest [adress=" + adress + ", bank=" + bank + ", bankcard_owner=" + bankcardOwner
+                + ", creditcard_owner=" + creditcardOwner + ", creditcardnumber=" + creditcardnumber
                 + ", dateOfExpiry=" + dateOfExpiry + ", iban=" + iban + ", token=" + token + "]";
     }
 
@@ -67,11 +67,11 @@ public class UserOrderRequest {
     }
 
     public String getBankcard_owner() {
-        return bankcard_owner;
+        return bankcardOwner;
     }
 
     public void setBankcard_owner(String bankcard_owner) {
-        this.bankcard_owner = bankcard_owner;
+        this.bankcardOwner = bankcard_owner;
     }
 
     public String getBank() {
@@ -83,11 +83,11 @@ public class UserOrderRequest {
     }
 
     public String getCreditcard_owner() {
-        return creditcard_owner;
+        return creditcardOwner;
     }
 
     public void setCreditcard_owner(String creditcard_owner) {
-        this.creditcard_owner = creditcard_owner;
+        this.creditcardOwner = creditcard_owner;
     }
 
     public String getCreditcardnumber() {
