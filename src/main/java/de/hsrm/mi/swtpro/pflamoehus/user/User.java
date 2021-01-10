@@ -1,7 +1,9 @@
 package de.hsrm.mi.swtpro.pflamoehus.user;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,13 +24,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
+
+import de.hsrm.mi.swtpro.pflamoehus.roles.Roles;
+import de.hsrm.mi.swtpro.pflamoehus.adress.Adress;
+import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Bankcard;
+import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
-
+import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
 
 /*
  * User-Entity for its database.
@@ -48,34 +52,35 @@ public class User {
     @JsonIgnore
     private long version;
 
-    @NotEmpty
+    @NotEmpty(message = "Der Vorname muss angegeben werden.")
+    @Size(min = 3, message = "Der Vorname muss mindestens 3 Buchstaben lang sein.")
+    @Column(name = "firstname")
+    private String firstName;
+
+    @NotEmpty(message = "Der Nachname muss angegeben werden.")
+    @Size(min = 2, message = "Der Nachname muss mindestens 2 Buchstaben lang sein.")
+    @Column(name = "lastname")
+    private String lastName;
+
+    @NotEmpty(message = "Die Email-Adresse muss angegeben werden.")
     @Column(name = "EMAIL", unique = true)
     @ValidEmail
     private String email;
 
-  
-    @NotEmpty
-    @JsonProperty(access = Access.WRITE_ONLY)
-    private String password;
-
-    @NotEmpty
-    @Size(min = 3)
-    @Column(name = "firstname")
-    private String firstName;
-
-    @NotEmpty
-    @Size(min = 2)
-    @Column(name = "lastname")
-    private String lastName;
-
     @ValidBirthDay
     private LocalDate birthdate;
 
+    @NotEmpty(message = "Es muss ein Passwort angegeben werden.")
+    @ValidPassword
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private String password;
+
+    @Valid
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name = "User_Adresses", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "adressID"))
     private List<Adress> allAdresses;
 
-    @NotEmpty
+    @NotEmpty(message = "Das Geschlecht muss angegeben werden.")
     @ValidGender
     private String gender;
 
@@ -89,6 +94,53 @@ public class User {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Creditcard> creditcard;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Roles> roles = new HashSet<>();
+
+    
+    /** 
+     * Get roles.
+     * 
+     * @return List<Roles>
+     */
+    public Set<Roles> getRoles() {
+        return this.roles;
+    }
+
+    
+    /** 
+     * Set roles.
+     * 
+     * @param roles roles that should be set.
+     */
+    public void setRoles(Set<Roles> roles) {
+        this.roles = roles;
+    }
+
+    
+    /** 
+     * Add role.
+     * 
+     * @param role role that should be added
+     */
+    public void addRole(Roles role){
+        if(!roles.contains(role)){
+            roles.add(role);
+        }
+    }
+
+    
+    /** 
+     * Remove role.
+     * 
+     * @param role that should get removed
+     */
+    public void removeRole(Roles role){
+        if(role != null){
+            roles.remove(role);
+        }
+    }
     /**
      * Get creditcards.
      * 
@@ -210,7 +262,7 @@ public class User {
         this.allAdresses = allAdresses;
     }
 
-     /**
+    /**
      * Add a new adress to the list of all adresses owned by one user.
      * 
      * @param adress adress that has to be added to the adress list
@@ -348,9 +400,9 @@ public class User {
      */
     @Override
     public String toString() {
-        return "User [bankcard=" + bankcard + ", birthdate=" + birthdate + ", creditcard=" + creditcard + ", email="
-                + email + ", firstName=" + firstName + ", gender=" + gender + ", id=" + userID + ", lastName="
-                + lastName + ", passwort=" + password + ", version=" + version + "]";
+        return "User {bankcard:" + bankcard + ", birthdate:" + birthdate + ", creditcard=" + creditcard + ", email:"
+                + email + ", firstName:" + firstName + ", gender:" + gender + ", id:" + userID + ", lastName:"
+                + lastName + ", passwort:" + password + ", version:" + version + ", roles:" + roles + "}";
     }
 
 }

@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.user;
+package de.hsrm.mi.swtpro.pflamoehus.roles;
 
 /*
  * Roles is a enum, which defines the different types of visitors, that may come to the website.
@@ -6,8 +6,7 @@ package de.hsrm.mi.swtpro.pflamoehus.user;
  * @author Svenja Schenk
  * @version 1
  */
-public enum Roles {
-
+public enum ERoles {
     /**
      * type 'Admin' 
      * */
@@ -36,7 +35,7 @@ public enum Roles {
      * 
      * @param role given role
      */
-    Roles(final String role) {
+    ERoles(final String role) {
         this.role = role;
     }
 

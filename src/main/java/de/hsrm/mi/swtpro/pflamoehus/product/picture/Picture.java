@@ -63,7 +63,7 @@ public class Picture {
     /**
      * Set product.
      * 
-     * @param product -> product that has to be set
+     * @param product product that has to be set
      */
     public void setProduct(Product product) {
         this.product = product;
@@ -81,7 +81,7 @@ public class Picture {
     /**
      * Set path.
      * 
-     * @param path -> path that has to get set
+     * @param path path that has to get set
      */
     public void setPath(String path) {
         this.path = path;

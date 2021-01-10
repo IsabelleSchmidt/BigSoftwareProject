@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
      * @param id product-id that has to be deleted
      */
     @Override
-    public void deleteProduct(long id) {
+    public void deleteProduct(long id) throws ProductServiceException {
         Optional<Product> opt = productRepo.findById(id);
         if (!opt.isPresent()) {
             productServiceLogger.info("Product was not deleted, articleNr not found");

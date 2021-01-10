@@ -17,7 +17,7 @@ public class UserApiException extends RuntimeException {
     /**
      * Method for throwing a exception with a custom message.
      * 
-     * @param msg -> message that gets printed
+     * @param msg message that gets printed
      */
     public UserApiException(String msg) {
         super(msg);

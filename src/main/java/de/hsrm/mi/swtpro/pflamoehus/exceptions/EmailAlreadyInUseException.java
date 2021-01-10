@@ -18,7 +18,7 @@ public class EmailAlreadyInUseException extends RuntimeException {
      * Default massage.
      */
     public EmailAlreadyInUseException() {
-        emailAlreadyInUseExceptionLogger.error("Email is already in use.");
+        emailAlreadyInUseExceptionLogger.error("Diese Email ist schon vergeben");
     }
 
     /**

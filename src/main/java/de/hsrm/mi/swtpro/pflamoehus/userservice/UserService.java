@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.user.userservice;
+package de.hsrm.mi.swtpro.pflamoehus.userservice;
 
 import java.util.List;
 
@@ -57,5 +57,6 @@ public interface UserService {
      * @return user
      */
     User registerUser(User email);
+
 
 }

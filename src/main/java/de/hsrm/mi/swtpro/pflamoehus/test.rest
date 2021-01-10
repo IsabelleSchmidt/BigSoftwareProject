@@ -1,24 +1,39 @@
 GET http://localhost:9090/api/products
 ###
 
-GET http://localhost:9090/api/28/pictures
+GET http://localhost:9090/api/62/pictures
 ###
 
-GET http://localhost:9090/api/product/11
+GET http://localhost:9090/api/product/62
+
+
 ###
-POST http://localhost:9090/api/user/new
+POST http://localhost:9090/api/user/register
 Content-Type: application/json
 
 {
-    "firstName":"korrekt", "lastName":"eintrag","gender":"MALE","birthdate":"2000-01-01","email":"test@korrekt.de",
-    "password":"abcdefgH9."
+    "firstName":"Anny", "lastName":"Fabian","gender":"FEMALE","birthdate":"1999-04-29", "email":"te3st@korrekt.de", "password":"abcdefgH9!", "version":1.0
 }
 
 ###
-POST http://localhost:9090/api/user/new
+POST http://localhost:9090/api/user/login
 Content-Type: application/json
 
 {
-    "firstName":"falscher", "lastName":"eintrag","gender":"MALe","birthdate":"2000-01-01","email":"test@falsch.de",
-    "password":"falsch"
+    "email":"joghurta@nl.de" , "password":"ILikeJoghurt123."
 }
+
+
+###
+POST http://localhost:9090/api/product/new
+Content-Type: application/json
+
+{
+    "width":1.0, "height":1.0, "depth":3.0,"productType":"Stuhl", "roomType":"Bad", "nrAvailableItems":2,"description":"test 1234 string",
+    "information":"sehr schicker stuhl jo","price":1.99, "name":"Hanspeter"
+}
+
+###
+DELETE http://localhost:9090/api/product/114
+
+###

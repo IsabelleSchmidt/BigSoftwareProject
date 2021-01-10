@@ -18,7 +18,7 @@ public interface PictureRepository extends JpaRepository<Picture, Long> {
     /**
      * Finding a picture by its id.
      * 
-     * @param id -> given id
+     * @param id given id
      * @return optional of type picture
      */
     Optional<Picture> findById(long id);
@@ -26,7 +26,7 @@ public interface PictureRepository extends JpaRepository<Picture, Long> {
     /**
      * Finding a picture by its product.
      * 
-     * @param product -> given product
+     * @param product given product
      * @return list of picutres
      */
     List<Picture> findByProduct(Product product);

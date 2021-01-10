@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
-import de.hsrm.mi.swtpro.pflamoehus.user.adress.AdressRepository;
+import de.hsrm.mi.swtpro.pflamoehus.adress.Adress;
+import de.hsrm.mi.swtpro.pflamoehus.adress.AdressRepository;
 
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.runner.RunWith;

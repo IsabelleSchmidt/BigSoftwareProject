@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.user.adress;
+package de.hsrm.mi.swtpro.pflamoehus.adress;
 
 import java.util.List;
 
@@ -34,20 +34,21 @@ public class Adress {
     @JsonIgnore
     private long version;
 
-    @NotNull
-    @Pattern(regexp = "\\p{L}{2,}")
+    @NotNull(message="Der Straßenname muss angegeben werden.")
+    @Pattern(regexp = "\\p{L}{2,}", message="Der Straßennamen ist ungültig.")
     private String streetName;
 
-    @Pattern(regexp = "\\d+?[a-zA-Z]?$")
-    @NotNull
+    
+    @NotNull(message="Die Hausnummer muss angegeben werden.")
+    @Pattern(regexp = "\\d+?[a-zA-Z]?$", message="Die Hausnummer ist ungültig.")
     private String houseNumber;
 
-    @NotNull
-    @Pattern(regexp = "^[1-9]{1}[0-9]{4}$")
+    @NotNull(message="Die Postleitzahl muss angegeben werden,")
+    @Pattern(regexp = "^[1-9]{1}[0-9]{4}$", message="Die Postleitzahl ist unültig.")
     private String postCode;
 
-    @NotNull
-    @Pattern(regexp = "\\p{L}{2,}")
+    @NotNull(message="Der Wohnort muss angegeben werden")
+    @Pattern(regexp = "\\p{L}{2,}", message="Der Wohnort ist ungültig.")
     private String city;
 
     @ManyToMany(mappedBy = "allAdresses", fetch = FetchType.LAZY)

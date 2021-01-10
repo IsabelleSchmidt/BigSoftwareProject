@@ -14,7 +14,7 @@ import javax.validation.Payload;
  * Triggers a message when the given birhdate is not valid.
  * 
  * @author Ann-Cathrin Fabian
- * @version 1
+ * @version 2
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
@@ -26,7 +26,7 @@ public @interface ValidBirthDay {
      * 
      * @return default message
      */
-    String message() default "You have to be 18 or older.";
+    String message() default "Sie müssen mindestens 18 Jahre alt sein, um sich registrieren zu können.";
     
     /**
      * 

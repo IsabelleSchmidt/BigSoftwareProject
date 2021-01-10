@@ -217,9 +217,16 @@ INSERT INTO TAG(ID, VALUE, VERSION) VALUES
 (42, 'bequem', 1); 
 
 INSERT INTO USER(USERID,BIRTHDATE, EMAIL,FIRSTNAME,LASTNAME,PASSWORD,VERSION) VALUES
-(1,'1999-09-20','123@hsrm.de','Jürgen','Zwockel','CoolesPasswort!1',1),
-(2,'1976-02-28', 'joghurta@nl.de','Joghurta','Yogurette','ILikeJoghurt123.',1),
-(3,'1988-06-17','glo@go.mir.de','Glogomir','hotzenplotz','AAAAAAAHhhhhh88,',1),
-(4,'200-10-10','Anette2000@hotmail.de','Anette','Schmitt', '12345aA!',1),
-(5,'1968-11-01','Peter66@gmail.com','Peter','Bäcker','-Peter666Satan-',1),
-(6,'1717-01-07','eisbergsalat@dressing.de','Bananenbrot','schmecktgut','Hahahah12323...',1);
+(7,'1999-09-20','123@hsrm.de','Jürgen','Zwockel','CoolesPasswort!1',1),
+(1,'1976-02-28', 'joghurta@nl.de','Joghurta','Yogurette','ILikeJoghurt123.',1),
+(2,'1988-06-17','glo@go.mir.de','Glogomir','hotzenplotz','AAAAAAAHhhhhh88,',1),
+(3,'200-10-10','Anette2000@hotmail.de','Anette','Schmitt', '12345aA!',1),
+(4,'1968-11-01','Peter66@gmail.com','Peter','Bäcker','-Peter666Satan-',1),
+(5,'1717-01-07','eisbergsalat@dressing.de','Bananenbrot','schmecktgut','Hahahah12323...',1);
+
+INSERT INTO ROLES (ID, NAME) VALUES
+(5, 'USER'),
+(1, 'ADMIN'),
+(2, 'STAFF'),
+(3, 'WAREHOUSE'),
+(4, 'SERVICE');

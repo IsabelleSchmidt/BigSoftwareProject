@@ -16,8 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.CreditcardRepository;
+import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Creditcard;
+import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.CreditcardRepository;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
