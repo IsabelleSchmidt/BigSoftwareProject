@@ -1,5 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.order.status;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /*
@@ -16,6 +18,6 @@ public interface StatusRepository extends JpaRepository<Status, Long> {
      * @param status wanted status
      * @return status
      */
-    Status findByStatuscode(String status);
+    Optional<Status> findByStatuscode(String status);
     
 }
