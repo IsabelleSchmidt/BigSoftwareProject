@@ -108,8 +108,7 @@ public class OrderDetails {
         return statusID;
     }
 
-    
-    /** 
+    /**
      * Set statusid.
      * 
      * @param statusID to be set
@@ -118,27 +117,40 @@ public class OrderDetails {
         this.statusID = statusID;
     }
 
+    /**
+     * Get product.
+     * 
+     * @return Product
+     */
     public Product getProduct() {
         return product;
     }
 
+    /**
+     * Set product.
+     * 
+     * @param product to be set
+     */
     public void setProduct(Product product) {
         this.product = product;
     }
 
+    /**
+     * Get amount of products.
+     * 
+     * @return int
+     */
     public int getProductAmount() {
         return productAmount;
     }
 
+    /**
+     * Set amount of products.
+     * 
+     * @param productAmount to be set
+     */
     public void setProductAmount(int productAmount) {
         this.productAmount = productAmount;
     }
 
-    
-   
-
-
-
-
-    
 }

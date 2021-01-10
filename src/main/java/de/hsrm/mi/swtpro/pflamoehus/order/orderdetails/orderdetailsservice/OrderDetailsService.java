@@ -58,7 +58,7 @@ public interface OrderDetailsService {
     /**
      * Finds order details with a ceratin status.
      * 
-     * @param status which should be included 
+     * @param status which should be included
      * @return list of order details
      */
     List<OrderDetails> findByStatus(Status status);
@@ -68,9 +68,6 @@ public interface OrderDetailsService {
      * 
      * @param id which should get deleted
      */
-    void deleteOrderDetail (long id);
+    void deleteOrderDetail(long id);
 
-
-
-    
 }

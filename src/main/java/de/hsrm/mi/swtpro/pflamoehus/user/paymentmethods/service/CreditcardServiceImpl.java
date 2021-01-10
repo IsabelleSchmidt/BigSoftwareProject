@@ -17,6 +17,12 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.CreditcardRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 
+/*
+ * CreditcardServiceImpl for implementing the interface 'CreditcardService'.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 1
+ */
 @Service
 public class CreditcardServiceImpl implements CreditcardService {
 
@@ -31,16 +37,37 @@ public class CreditcardServiceImpl implements CreditcardService {
     @Autowired
     PasswordEncoder pe;
 
+    
+    /** 
+     * Find all creditcards with a certain date of expiry.
+     * 
+     * @param expiry date of expiry
+     * @return all creditcards
+     */
     @Override
     public List<Creditcard> findByDateOfExpiry(LocalDate expiry) {
         return creditcardRepo.findByDateOfExpiry(expiry);
     }
 
+    
+    /** 
+     * Find a creditcard by its id.
+     * 
+     * @param id from creditcard
+     * @return creditcard
+     */
     @Override
     public Optional<Creditcard> findById(long id) {
         return creditcardRepo.findById(id);
     }
 
+    
+    /** 
+     * Save one creditcard.
+     * 
+     * @param card to be saved
+     * @return Creditcard
+     */
     @Override
     public Creditcard saveCreditcard(Creditcard card) {
        try{
@@ -53,6 +80,12 @@ public class CreditcardServiceImpl implements CreditcardService {
        return card;
     }
 
+    
+    /** 
+     * Delete one creditcard.
+     * 
+     * @param id creditcard to be deleted
+     */
     @Override
     public void deleteCreditcard(long id) {
         Optional<Creditcard> cc = findById(id);

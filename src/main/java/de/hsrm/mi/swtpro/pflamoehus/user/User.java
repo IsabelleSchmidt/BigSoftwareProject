@@ -343,10 +343,22 @@ public class User {
                 + ", userID=" + userID + ", version=" + version + "]";
     }
 
+    
+    /** 
+     * Get orders.
+     * 
+     * @return Order
+     */
     public Set<Order> getOrders() {
         return orders;
     }
 
+    
+    /** 
+     * Set orders.
+     *  
+     * @param orders to be set
+     */
     public void setOrders(Set<Order> orders) {
         this.orders = orders;
     }

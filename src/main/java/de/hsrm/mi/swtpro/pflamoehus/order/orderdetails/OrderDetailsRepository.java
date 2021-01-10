@@ -9,7 +9,6 @@ import de.hsrm.mi.swtpro.pflamoehus.order.Order;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.Status;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 
-
 /*
  * OrderDetails-Repository for different operations to apply on the database.
  * 
@@ -17,7 +16,7 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
  * @version 1
  */
 public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long> {
-    
+
     /**
      * Find a orderdetail by its id.
      * 
@@ -33,7 +32,6 @@ public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long
      * @return orderdetails
      */
     List<OrderDetails> findByOrderID(Order order);
-   
 
     /**
      * Find orderdetails by a certain product id.

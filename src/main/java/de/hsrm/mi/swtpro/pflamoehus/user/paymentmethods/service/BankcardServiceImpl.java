@@ -15,6 +15,12 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.BankcardRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 
+/*
+ * BankcardServiceImpl for implementing the interface 'BankcardService'.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 1
+ */
 @Service
 public class BankcardServiceImpl implements BankcardService {
 
@@ -29,11 +35,25 @@ public class BankcardServiceImpl implements BankcardService {
 
     private static final Logger BANKCARDSERVICELOGGER = LoggerFactory.getLogger(BankcardServiceImpl.class);
 
+    
+    /** 
+     * Find a bankcard by its id.
+     * 
+     * @param id from the bankcard
+     * @return Bankcard
+     */
     @Override
     public Optional<Bankcard> findById(long id) {
         return bankcardRepo.findById(id);
     }
 
+    
+    /** 
+     * Save bankcard in repository.
+     * 
+     * @param card that should get saved
+     * @return Bankcard
+     */
     @Override
     public Bankcard saveBankcard(Bankcard card) {
         try{
@@ -45,6 +65,12 @@ public class BankcardServiceImpl implements BankcardService {
         return card;
     }
 
+    
+    /** 
+     * Delete one bankcard.
+     * 
+     * @param id bankcard, that should get deleted
+     */
     @Override
     public void deleteBankcard(long id) {
         Optional<Bankcard> b = findById(id);

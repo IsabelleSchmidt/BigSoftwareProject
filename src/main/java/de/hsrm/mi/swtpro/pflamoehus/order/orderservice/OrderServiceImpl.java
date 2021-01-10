@@ -31,28 +31,33 @@ public class OrderServiceImpl implements OrderService {
 
     static final Logger orderServiceLogger = org.slf4j.LoggerFactory.getLogger(OrderServiceImpl.class);
 
- 
+    
+    /**
+     * Edits and saves the editet order.
+     * 
+     * @param newOrder that has been edited
+     * @return order
+     */
     @Override
-    public Order editOrder(Order newOrder) throws OrderServiceException, UserServiceException{
-        Order savedorder = null; 
+    public Order editOrder(Order newOrder) throws OrderServiceException, UserServiceException {
+        Order savedorder = null;
         User user;
-       try{
-            savedorder= orderRepo.save(newOrder);
-            
-          }catch(OptimisticLockException ole){
-           orderServiceLogger.error("Order could not be saved.");
-           throw new OrderServiceException("Order could not be saved.");
-           
-         }    
-            if(savedorder.getUser() == null){
-               user = userService.searchUserWithEmail(savedorder.getCustomerEmail());
-               savedorder.setUser(user);
-            }else{
-                user= savedorder.getUser();
-            }
-            user.getOrders().add(savedorder);
+        try {
+            savedorder = orderRepo.save(newOrder);
 
-     
+        } catch (OptimisticLockException ole) {
+            orderServiceLogger.error("Order could not be saved.");
+            throw new OrderServiceException("Order could not be saved.");
+
+        }
+        if (savedorder.getUser() == null) {
+            user = userService.searchUserWithEmail(savedorder.getCustomerEmail());
+            savedorder.setUser(user);
+        } else {
+            user = savedorder.getUser();
+        }
+        user.getOrders().add(savedorder);
+
         return savedorder;
     }
 
@@ -65,12 +70,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findOrderByOrderNR(long orderNR) {
         Optional<Order> order = orderRepo.findByOrderNR(orderNR);
-        if(order.isEmpty()){
-          
+        if (order.isEmpty()) {
+
             throw new OrderServiceException("No order with the given ID was found.");
         }
-      
-            return order.get(); 
+
+        return order.get();
     }
 
     /**
@@ -116,11 +121,14 @@ public class OrderServiceImpl implements OrderService {
         return orderRepo.findByCustomerEmail(email);
     }
 
+    /**
+     * Delete order.
+     * 
+     * @param orderNR to be deleted
+     */
     @Override
     public void deleteOrder(long orderNR) {
-       orderRepo.delete(findOrderByOrderNR(orderNR));
+        orderRepo.delete(findOrderByOrderNR(orderNR));
     }
 
- 
-    
 }

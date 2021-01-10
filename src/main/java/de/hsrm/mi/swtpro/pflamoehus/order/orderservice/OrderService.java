@@ -13,7 +13,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.User;
  * @version 1
  */
 public interface OrderService {
-    
+
     /**
      * @param newOrder the new order that should be saved into the database saves
      *                 the new order into the order table and adds the new order
@@ -61,7 +61,11 @@ public interface OrderService {
      */
     List<Order> findAllOrdersOnDate(LocalDate date);
 
+    /**
+     * Delete order.
+     * 
+     * @param orderNR to be deleted
+     */
     void deleteOrder(long orderNR);
-
 
 }

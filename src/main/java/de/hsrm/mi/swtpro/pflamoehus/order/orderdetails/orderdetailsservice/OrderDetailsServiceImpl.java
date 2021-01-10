@@ -101,7 +101,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     /**
      * Finds order details with a ceratin status.
      * 
-     * @param status which should be included 
+     * @param status which should be included
      * @return list of order details
      */
     @Override

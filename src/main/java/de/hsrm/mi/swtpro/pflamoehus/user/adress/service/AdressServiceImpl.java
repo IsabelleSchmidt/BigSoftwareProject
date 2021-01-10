@@ -22,6 +22,13 @@ public class AdressServiceImpl implements AdressService {
 
     private static final Logger ADRESSSERVICE_LOGGER = LoggerFactory.getLogger(AdressServiceImpl.class);
 
+    
+    /** 
+     * Find adress by id.
+     * 
+     * @param id to be found
+     * @return Adress
+     */
     @Override
     public Optional<Adress> findById(long id) {
 
@@ -34,16 +41,37 @@ public class AdressServiceImpl implements AdressService {
 
     }
 
+    
+    /** 
+     * Find a adress by its city.
+     * 
+     * @param city to be found
+     * @return all adresses
+     */
     @Override
     public List<Adress> findByCity(String city) {
         return adressRepo.findByCity(city);
     }
 
+    
+    /** 
+     * Find adresses by postcode.
+     * 
+     * @param postCode to be found
+     * @return list of adresses
+     */
     @Override
     public List<Adress> findPostCode(String postCode) {
         return adressRepo.findByPostCode(postCode);
     }
 
+    
+    /** 
+     * Save adress in repository.
+     * 
+     * @param adress to be saved
+     * @return Adress
+     */
     @Override
     public Adress saveAdress(Adress adress) {
         try{
@@ -55,11 +83,23 @@ public class AdressServiceImpl implements AdressService {
         return adress;
     }
 
+    
+    /** 
+     * Find all adresses.
+     * 
+     * @return all adresses
+     */
     @Override
     public List<Adress> findAll() {
         return adressRepo.findAll();
     }
 
+    
+    /** 
+     * Delete a adress.
+     * 
+     * @param id to be deleted
+     */
     @Override
     public void deleteAdress(long id) {
         Optional<Adress> a = findById(id);

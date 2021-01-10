@@ -25,8 +25,6 @@ import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 
-
-
 /*
  * Order-Entitiy for its database.
  * 
@@ -48,7 +46,7 @@ public class Order {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JsonIgnore
     @Valid
-    private User user; 
+    private User user;
 
     @ValidEmail
     private String customerEmail;
@@ -66,11 +64,8 @@ public class Order {
     @Positive
     private double priceTotal;
 
+    // private Status statusID;
 
-   
-    //private Status statusID;
-
-    
     /**
      * Get orderNr.
      * 
@@ -97,9 +92,6 @@ public class Order {
     public void setVersion(long version) {
         this.version = version;
     }
-
-
-   
 
     /**
      * Get delivery date.
@@ -145,37 +137,77 @@ public class Order {
     @Override
     public String toString() {
         return "Order [deliveryDate=" + deliveryDate + ", orderNR=" + orderNR + ", status=" + statusID + ", userID="
-                +  ", version=" + version +"]";
+                + ", version=" + version + "]";
     }
 
+    /**
+     * Get user.
+     * 
+     * @return User
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Set user.
+     * 
+     * @param user to be set
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Get email of customer.
+     * 
+     * @return String
+     */
     public String getCustomerEmail() {
         return customerEmail;
     }
 
+    /**
+     * Set email of customer.
+     * 
+     * @param customerEmail to be set
+     */
     public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
     }
 
+    /**
+     * Get order details.
+     * 
+     * @return orderdetails
+     */
     public Set<OrderDetails> getOrderdetails() {
         return orderdetails;
     }
 
+    /**
+     * Set order details
+     * 
+     * @param orderdetails to be set
+     */
     public void setOrderdetails(Set<OrderDetails> orderdetails) {
         this.orderdetails = orderdetails;
     }
 
+    /**
+     * Get total price.
+     * 
+     * @return double
+     */
     public double getPriceTotal() {
         return priceTotal;
     }
 
+    /**
+     * Set total price.
+     * 
+     * @param priceTotal to be set
+     */
     public void setPriceTotal(double priceTotal) {
         this.priceTotal = priceTotal;
     }

@@ -18,6 +18,11 @@ public class OrderServiceException extends RuntimeException{
      */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Method for throwing a exception with a custom message.
+     * 
+     * @param message message that gets printed
+     */
     public OrderServiceException(String message) {
         super(message);
     }

@@ -7,20 +7,32 @@ import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.StatusServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.Status;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.StatusRepository;
 
-
+/*
+ * StatusServiceImpl for implementing the interface 'StatusService'.
+ * 
+ * @author Svenja Schenk
+ * @version 1
+ */
 @Service
 public class StatusServiceImpl implements StatusService {
 
     @Autowired
     StatusRepository statusRepo;
 
+    /**
+     * Find a status with a certain code.
+     * 
+     * @param code to be found
+     * @return status
+     */
     @Override
     public Status findStatusWithCode(String code) {
         Optional<Status> status = statusRepo.findByStatuscode(code);
-        
-		if(status.isEmpty()){
+
+        if (status.isEmpty()) {
             throw new StatusServiceException("Status was not found!");
-        } return status.get();
-	}
-    
+        }
+        return status.get();
+    }
+
 }

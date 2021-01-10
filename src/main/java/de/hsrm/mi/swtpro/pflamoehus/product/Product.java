@@ -355,10 +355,22 @@ public class Product {
                 + productType + ", roomType=" + roomType + ", version=" + version + ", width=" + width + "]";
     }
 
+    
+    /** 
+     * Get all order details.
+     * 
+     * @return all order details
+     */
     public Set<OrderDetails> getAllOrderDetails() {
         return allOrderDetails;
     }
 
+    
+    /** 
+     * Set all order details.
+     * 
+     * @param allOrderDetails to be set
+     */
     public void setAllOrderDetails(Set<OrderDetails> allOrderDetails) {
         this.allOrderDetails = allOrderDetails;
     }

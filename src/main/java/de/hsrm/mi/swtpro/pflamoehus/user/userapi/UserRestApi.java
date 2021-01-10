@@ -127,6 +127,7 @@ public class UserRestApi {
 			mr.setMessage("Email ist already taken.");
 			mr.setField("email");
 			mrs.add(mr);
+			LOGGER2.error("EMAIL IS ALREADY TAKEN.");
 			return new ResponseEntity<>(mrs, HttpStatus.OK);
 		}
 		if (result.hasErrors()) {
@@ -135,7 +136,7 @@ public class UserRestApi {
 				mr.setMessage(error.getDefaultMessage());
 				mr.setField(error.getField());
 				mrs.add(mr);
-				LOGGER2.info("FEHLER: " + mr);
+				LOGGER2.info("ERROR: " + mr);
 			}
 
 			return new ResponseEntity<>(mrs, HttpStatus.OK);
@@ -186,6 +187,7 @@ public class UserRestApi {
 				}
 			});
 		}
+
 		user.setRoles(roles);
 		userService.registerUser(user);
 
@@ -205,7 +207,6 @@ public class UserRestApi {
 	@PostMapping("/newOrder/user")
 	public ResponseEntity<?> addInfosToUser(@Valid @RequestBody UserOrderRequest userOrderRequest, BindingResult result)
 			throws AuthenticationException {
-		LOGGER2.info("HALLOOOOO HIER");
 		MessageResponse mr = new MessageResponse();
 		List<MessageResponse> mrs = new ArrayList<>();
 
@@ -216,7 +217,7 @@ public class UserRestApi {
 				mrp.setMessage(error.getDefaultMessage());
 				mrp.setField(error.getField());
 				mrs.add(mrp);
-				LOGGER2.info("FEHLER: " + mrp);
+				LOGGER2.info("ERROR: " + mrp);
 			}
 			if (mrs.toString().contains("creditcardnumber") || mrs.toString().contains("iban")) {
 
@@ -235,7 +236,6 @@ public class UserRestApi {
 
 		try {
 			User user = userService.searchUserWithEmail(email);
-			LOGGER2.info("ORDER: " + userOrderRequest.toString());
 
 			if (userOrderRequest.getAdress() != null) {
 				Adress newAdress = userOrderRequest.getAdress();
