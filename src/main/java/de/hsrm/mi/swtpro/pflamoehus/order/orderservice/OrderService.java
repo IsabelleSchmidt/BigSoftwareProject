@@ -13,22 +13,14 @@ import de.hsrm.mi.swtpro.pflamoehus.user.User;
  * @version 1
  */
 public interface OrderService {
-
-    /**
-     * For editing a new order.
-     * 
-     * @param newOrder edited
-     * @return order
-     */
-    Order editOrder(Order newOrder);
-
+    
     /**
      * @param newOrder the new order that should be saved into the database saves
      *                 the new order into the order table and adds the new order
      *                 into the corresponding user's order list
      * @return the order that's saved in the OrderRepository
      */
-    Order saveNewOrder(Order newOrder);
+    Order editOrder(Order newOrder);
 
     /**
      * Find a order by its id.
@@ -68,5 +60,8 @@ public interface OrderService {
      * @return list of orders
      */
     List<Order> findAllOrdersOnDate(LocalDate date);
+
+    void deleteOrder(long orderNR);
+
 
 }

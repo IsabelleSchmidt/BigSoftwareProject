@@ -32,7 +32,7 @@ public class Status {
 
     @Version
     @JsonIgnore
-    private long version;
+    private long version = 1;
     
     @OneToMany(mappedBy = "statusID")
     @JsonIgnore
@@ -107,7 +107,7 @@ public class Status {
      * 
      * @param allOrderNR to be set
      */
-    public void setAllOrderNR(HashSet<Order> allOrderNR) {
+    public void setAllOrderNR(Set<Order> allOrderNR) {
         this.allOrderNR = allOrderNR;
     }
 
@@ -125,7 +125,7 @@ public class Status {
      * 
      * @param allOrderDetailNR to be set
      */
-    public void setAllOrderDetailNR(HashSet<OrderDetails> allOrderDetailNR) {
+    public void setAllOrderDetailNR(Set<OrderDetails> allOrderDetailNR) {
         this.allOrderDetailNR = allOrderDetailNR;
     }
 

@@ -103,6 +103,7 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Set<OrderDetails> allOrderDetails;
 
+    
     /**
      * Get information.
      * 
@@ -352,6 +353,14 @@ public class Product {
                 + depth + ", description=" + description + ", height=" + height + ", information=" + information
                 + ", name=" + name + ", nrAvailableItems=" + nrAvailableItems + ", price=" + price + ", productType="
                 + productType + ", roomType=" + roomType + ", version=" + version + ", width=" + width + "]";
+    }
+
+    public Set<OrderDetails> getAllOrderDetails() {
+        return allOrderDetails;
+    }
+
+    public void setAllOrderDetails(Set<OrderDetails> allOrderDetails) {
+        this.allOrderDetails = allOrderDetails;
     }
 
 }

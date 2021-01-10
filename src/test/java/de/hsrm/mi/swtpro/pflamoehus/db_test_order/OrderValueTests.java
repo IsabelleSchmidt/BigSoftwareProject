@@ -25,6 +25,7 @@ public class OrderValueTests {
     private Validator validator = factory.getValidator();
     private final LocalDate DELIVERY = LocalDate.now().plusDays(1);
     private final String EMAIL = "abdcgsdh@sbsb.de";
+    private final double PRICE = 10;
 
     @AfterAll
     public void close(){
@@ -39,6 +40,7 @@ public class OrderValueTests {
        
         order.setDeliveryDate(DELIVERY);
         order.setCustomerEmail(EMAIL);
+        order.setPriceTotal(PRICE);
         assertTrue(validator.validate(order).size() == 0);
 
         LocalDate delivery = LocalDate.now();
@@ -56,6 +58,7 @@ public class OrderValueTests {
         LocalDate delivery = LocalDate.parse("2020-02-15");
         order.setCustomerEmail(EMAIL);
         order.setDeliveryDate(delivery);
+        order.setPriceTotal(PRICE);
         assertTrue(validator.validate(order).size() == 1);
 
         order.setCustomerEmail("customerEmail");

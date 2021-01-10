@@ -31,48 +31,28 @@ public class OrderServiceImpl implements OrderService {
 
     static final Logger orderServiceLogger = org.slf4j.LoggerFactory.getLogger(OrderServiceImpl.class);
 
-    /**
-     * For editing a new order.
-     * 
-     * @param editOrder edited
-     * @return order
-     */
+ 
     @Override
-    public Order editOrder(Order editOrder) {
-        try {
-            editOrder = orderRepo.save(editOrder);
-        } catch (OptimisticLockException ole) {
-            throw new OrderServiceException("Failed to save edited order");
-        }
-
-        return editOrder;
-    }
-
-    /**
-     * @param newOrder the new order that should be saved into the database saves
-     *                 the new order into the order table and adds the new order
-     *                 into the corresponding user's order list
-     * @return the order that's saved in the OrderRepository
-     */
-    @Override
-    public Order saveNewOrder(Order newOrder) throws OrderServiceException, UserServiceException {
-        Order savedorder = null;
+    public Order editOrder(Order newOrder) throws OrderServiceException, UserServiceException{
+        Order savedorder = null; 
         User user;
-        try {
-            savedorder = orderRepo.save(newOrder);
-            if (savedorder.getUser() == null) {
-                user = userService.searchUserWithEmail(savedorder.getCustomerEmail());
-                savedorder.setUser(user);
-            } else {
-                user = savedorder.getUser();
+       try{
+            savedorder= orderRepo.save(newOrder);
+            
+          }catch(OptimisticLockException ole){
+           orderServiceLogger.error("Order could not be saved.");
+           throw new OrderServiceException("Order could not be saved.");
+           
+         }    
+            if(savedorder.getUser() == null){
+               user = userService.searchUserWithEmail(savedorder.getCustomerEmail());
+               savedorder.setUser(user);
+            }else{
+                user= savedorder.getUser();
             }
             user.getOrders().add(savedorder);
 
-        } catch (OptimisticLockException ole) {
-            orderServiceLogger.error("Order could not be saved.");
-            throw new OrderServiceException("Order could not be saved.");
-
-        }
+     
         return savedorder;
     }
 
@@ -85,7 +65,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findOrderByOrderNR(long orderNR) {
         Optional<Order> order = orderRepo.findByOrderNR(orderNR);
-        return order.isPresent() ? order.get() : null;
+        if(order.isEmpty()){
+          
+            throw new OrderServiceException("No order with the given ID was found.");
+        }
+      
+            return order.get(); 
     }
 
     /**
@@ -131,4 +116,11 @@ public class OrderServiceImpl implements OrderService {
         return orderRepo.findByCustomerEmail(email);
     }
 
+    @Override
+    public void deleteOrder(long orderNR) {
+       orderRepo.delete(findOrderByOrderNR(orderNR));
+    }
+
+ 
+    
 }

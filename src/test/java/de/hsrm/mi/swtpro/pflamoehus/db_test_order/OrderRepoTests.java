@@ -24,8 +24,9 @@ import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 @RunWith(SpringRunner.class)
 public class OrderRepoTests{
 
-    private final LocalDate DATE = LocalDate.of(2021, 06, 01);
+    private final LocalDate DATE = LocalDate.now().plusDays(10);
     private final String MAIL = "hans@gmx.de";
+    private final double TOTALPRICE = 3;
 
     @Autowired
     UserRepository userRepo;
@@ -44,6 +45,7 @@ public class OrderRepoTests{
         Order unmanaged = new Order();
         unmanaged.setDeliveryDate(DATE);
         unmanaged.setCustomerEmail(MAIL);
+        unmanaged.setPriceTotal(TOTALPRICE);
 
        Order managed = orderRepo.save(unmanaged);
        assertThat(managed.toString()).contains(DATE.toString());
@@ -64,6 +66,7 @@ public class OrderRepoTests{
 
             order.setDeliveryDate(date);
             order.setCustomerEmail(MAIL);
+            order.setPriceTotal(TOTALPRICE+i);
             allorders.add(order);
             orderRepo.save(order);
         }
@@ -85,6 +88,7 @@ public class OrderRepoTests{
             Order order = new Order();
             order.setDeliveryDate(LocalDate.of(2022, 04, i));
             order.setCustomerEmail(i+MAIL);
+            order.setPriceTotal(TOTALPRICE+i);
         }
 
         List<Order> allOrdersWithAscendingDate = orderRepo.findAllByOrderByDeliveryDateAsc();
@@ -111,6 +115,7 @@ public class OrderRepoTests{
         order.setUser(user);
         order.setCustomerEmail(MAIL);
         order.setDeliveryDate(DATE);
+        order.setPriceTotal(TOTALPRICE);
         orderRepo.save(order);
 
         assertThat(orderRepo.findByUser(user).size()>0);

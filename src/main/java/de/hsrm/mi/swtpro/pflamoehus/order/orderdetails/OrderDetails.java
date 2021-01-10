@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -31,7 +33,7 @@ public class OrderDetails {
     private long orderDetailsID;
 
     @Version
-    private long version;
+    private long version = 1;
 
     @ManyToOne
     @JsonIgnore
@@ -39,11 +41,16 @@ public class OrderDetails {
     private Order orderID;
 
     @ManyToOne
+    @Valid
     @JoinColumn(name = "statusID")
     private Status statusID;
 
     @ManyToOne(cascade = CascadeType.DETACH)
+    @Valid
     private Product product;
+
+    @Positive
+    private int productAmount;
 
     /**
      * Orderdetails to string.
@@ -109,6 +116,22 @@ public class OrderDetails {
      */
     public void setStatusID(Status statusID) {
         this.statusID = statusID;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public int getProductAmount() {
+        return productAmount;
+    }
+
+    public void setProductAmount(int productAmount) {
+        this.productAmount = productAmount;
     }
 
     

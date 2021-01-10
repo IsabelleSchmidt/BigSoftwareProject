@@ -13,7 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
+import javax.validation.Valid;
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Positive;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.validation.annotation.Validated;
 
@@ -40,10 +43,11 @@ public class Order {
 
     @Version
     @JsonIgnore
-    private long version;
+    private long version = 1;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JsonIgnore
+    @Valid
     private User user; 
 
     @ValidEmail
@@ -54,15 +58,19 @@ public class Order {
     private Status statusID;
 
     @OneToMany(mappedBy = "orderID")
-    private Set<OrderDetails> orderdetails = new HashSet<>();
+    private Set<@Valid OrderDetails> orderdetails = new HashSet<>();
 
     @FutureOrPresent
     private LocalDate deliveryDate;
+
+    @Positive
+    private double priceTotal;
 
 
    
     //private Status statusID;
 
+    
     /**
      * Get orderNr.
      * 
@@ -154,6 +162,22 @@ public class Order {
 
     public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
+    }
+
+    public Set<OrderDetails> getOrderdetails() {
+        return orderdetails;
+    }
+
+    public void setOrderdetails(Set<OrderDetails> orderdetails) {
+        this.orderdetails = orderdetails;
+    }
+
+    public double getPriceTotal() {
+        return priceTotal;
+    }
+
+    public void setPriceTotal(double priceTotal) {
+        this.priceTotal = priceTotal;
     }
 
 }
