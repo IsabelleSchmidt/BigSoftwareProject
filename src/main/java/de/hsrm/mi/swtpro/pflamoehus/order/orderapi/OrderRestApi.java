@@ -43,7 +43,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
  * OrderRestApi for communication between front- and backend.
  * 
  * @author Svenja Schenk
- * @version 1
+ * @version 3
  */
 @RestController
 @CrossOrigin
@@ -107,6 +107,14 @@ public class OrderRestApi {
     }
 
 
+    
+    /** 
+     * For accepting and saving a new order.
+     * 
+     * @param orderDTO  new order
+     * @param result    shows validation errors in the new order
+     * @return          orderMessage
+     */
     @PostMapping("/new")
     public ResponseEntity<Set<OrderMessage>> newOrder(@Valid @RequestBody OrderRequest orderDTO, BindingResult result){
 
@@ -208,6 +216,13 @@ public class OrderRestApi {
     }
 
 
+    
+    /** 
+     * Gets all orders with a certain date.
+     * 
+     * @param duedate date
+     * @return all orders
+     */
     @GetMapping("/all/{duedate}")
     public List<Order> getallOrdersWithDueDate(@PathVariable String duedate){
 
@@ -222,6 +237,14 @@ public class OrderRestApi {
       
     }
 
+    
+    /** 
+     * For editing a orderstatus.
+     * 
+     * @param orderNR order
+     * @param newStatus new Status
+     * @return boolean
+     */
     @PostMapping("/edit/orderstatus/{orderNR}/{newStatus}")
     public boolean changeOrderStatus(@PathVariable long orderNR, @PathVariable String newStatus){
 
@@ -246,6 +269,16 @@ public class OrderRestApi {
         return deliverydate;
     }
 
+    
+    /** 
+     * 
+     * @param orderDTO
+     * @param order
+     * @param incoming
+     * @return Set<OrderDetails>
+     * @throws ProductServiceException
+     * @throws OrderDetailsServiceException
+     */
     private Set<OrderDetails> createDetails(OrderRequest orderDTO, Order order, Status incoming) throws ProductServiceException, OrderDetailsServiceException{
         Set<OrderDetails> allDetails = new HashSet<>();
         Product product;

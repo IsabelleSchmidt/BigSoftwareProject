@@ -243,21 +243,15 @@ public class UserRestApi {
 				user.getAllAdresses().add(newAdress);
 			}
 
-			if (userOrderRequest.getBankcardOwner() != null) {
-				Bankcard newBankcard = new Bankcard();
-				newBankcard.setOwner(userOrderRequest.getBankcardOwner());
-				newBankcard.setBank(userOrderRequest.getBank());
-				newBankcard.setIban(bankcardSerivce.encodeIBAN(userOrderRequest.getIban()));
+			if (userOrderRequest.getBankCard() != null) {
+				Bankcard newBankcard = userOrderRequest.getBankCard();
 				bankcardSerivce.saveBankcard(newBankcard);
 				user.getBankcard().add(newBankcard);
 			}
 
-			if (userOrderRequest.getCreditcardnumber() != null) {
+			if (userOrderRequest.getCreditcard() != null) {
 				Creditcard newCreditcard = new Creditcard();
-				newCreditcard.setOwner(userOrderRequest.getCreditcardOwner());
-				newCreditcard.setDateOfExpiry(userOrderRequest.getDateOfExpiry());
-				newCreditcard.setCreditcardnumber(
-						creditcardService.encodeCardNumber(userOrderRequest.getCreditcardnumber()));
+				creditcardService.saveCreditcard(newCreditcard);
 				user.getCreditcard().add(newCreditcard);
 			}
 
