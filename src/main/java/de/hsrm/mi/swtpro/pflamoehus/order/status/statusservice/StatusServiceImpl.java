@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.OrderServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.OrderServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.Status;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.StatusRepository;
 
