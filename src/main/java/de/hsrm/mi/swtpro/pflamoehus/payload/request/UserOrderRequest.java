@@ -7,6 +7,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidCreditCardNumber;
 
@@ -32,7 +33,7 @@ public class UserOrderRequest {
     @Future
     private LocalDate dateOfExpiry;
 
-    private String token;
+    private JwtResponse token;
 
     public Adress getAdress() {
         return adress;
@@ -49,11 +50,11 @@ public class UserOrderRequest {
                 + ", dateOfExpiry=" + dateOfExpiry + ", iban=" + iban + ", token=" + token + "]";
     }
 
-    public String getToken() {
+    public JwtResponse getToken() {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(JwtResponse token) {
         this.token = token;
     }
 
