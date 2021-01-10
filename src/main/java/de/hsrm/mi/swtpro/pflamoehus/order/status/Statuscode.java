@@ -1,15 +1,48 @@
 package de.hsrm.mi.swtpro.pflamoehus.order.status;
 
+/*
+ * Statuscode is a enum, which defines the different types of stati, that orders can get.
+ * 
+ * @author Svenja Schenk
+ * @version 1
+ */
 public enum Statuscode {
    
-    INCOMING("INCOMING"), IN_PROGESS("IN PROGRESS"), PARTIALLY_READY("PARTIAL"), READY_FOR_SHIPPING("READY"), SHIPPED("SHIPPED"); 
+     /**
+     * type 'Incoming' 
+     * */
+    INCOMING("INCOMING"), 
+     /**
+     * type 'In Progress' 
+     * */
+    IN_PROGESS("IN PROGRESS"), 
+     /**
+     * type 'Partial' 
+     * */
+    PARTIALLY_READY("PARTIAL"), 
+     /**
+     * type 'Ready' 
+     * */
+    READY_FOR_SHIPPING("READY"), 
+     /**
+     * type 'Shipped' 
+     * */
+    SHIPPED("SHIPPED"); 
 
     private String value;
 
+    /**
+     * Constructor.
+     * 
+     * @param value given status
+     */
     Statuscode(String value){
         this.value = value;
-    }
+    }   
 
+    /**
+     * @return status as string
+     */
     @Override
     public String toString(){
         return this.value;

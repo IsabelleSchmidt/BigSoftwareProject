@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.authentication.payload.response;
+package de.hsrm.mi.swtpro.pflamoehus.payload.response;
 
 import java.util.List;
 

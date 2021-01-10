@@ -39,9 +39,15 @@ public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long
      * Find orderdetails by a certain product id.
      * 
      * @param product wanted orderdetails
-     * @return orderdetail
+     * @return orderdetails
      */
     List<OrderDetails> findByProduct(Product product);
 
+    /**
+     * Find order details by a certain status.
+     * 
+     * @param status wanted order details
+     * @return list of orderdetails
+     */
     List<OrderDetails> findByStatusID(Status status);
 }

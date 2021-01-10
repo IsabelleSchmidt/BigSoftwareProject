@@ -19,7 +19,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     /**
      * Find a order by its id.
      * 
-     * @param id wanted order
+     * @param orderNR wanted order
      * @return order
      */
     Optional<Order> findByOrderNR(long orderNR);

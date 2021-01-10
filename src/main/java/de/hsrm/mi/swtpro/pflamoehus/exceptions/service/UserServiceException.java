@@ -1,4 +1,7 @@
-package de.hsrm.mi.swtpro.pflamoehus.exceptions;
+package de.hsrm.mi.swtpro.pflamoehus.exceptions.service;
+
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.HttpStatus;
 
 /**
  * UserServiceException for errors in the UserService classes.
@@ -6,6 +9,7 @@ package de.hsrm.mi.swtpro.pflamoehus.exceptions;
  * @author Ann-Cathrin Fabian
  * @version 1
  */
+@ResponseStatus(HttpStatus.BAD_REQUEST)
 public class UserServiceException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;

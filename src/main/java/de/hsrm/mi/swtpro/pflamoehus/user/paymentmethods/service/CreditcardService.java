@@ -3,8 +3,6 @@ package de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
-
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 
 public interface CreditcardService {
@@ -16,5 +14,7 @@ public interface CreditcardService {
     Creditcard saveCreditcard (Creditcard card);
 
     void deleteCreditcard (long id);
+
+    String encodeCardNumber(String cardnumber);
 
 }

@@ -9,12 +9,19 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+/*
+ * ValidStatus
+ * Triggers a message when the given status is not valid.
+ * 
+ * @author Svenja Schenk
+ * @version 1
+ */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidStatusValidator.class)
 @Documented
 public @interface ValidStatus {
-     /**
+    /**
      * 
      * @return default message
      */

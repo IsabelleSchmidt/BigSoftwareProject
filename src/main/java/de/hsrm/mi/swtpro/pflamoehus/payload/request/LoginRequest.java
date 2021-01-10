@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.authentication.payload.request;
+package de.hsrm.mi.swtpro.pflamoehus.payload.request;
 
 import javax.validation.constraints.NotBlank;
 

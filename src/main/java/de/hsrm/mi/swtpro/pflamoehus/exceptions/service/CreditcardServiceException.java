@@ -1,5 +1,15 @@
-package de.hsrm.mi.swtpro.pflamoehus.exceptions;
+package de.hsrm.mi.swtpro.pflamoehus.exceptions.service;
 
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.HttpStatus;
+
+/**
+ * CredticardServiceException for errors in the CreditcardService classes.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 1
+ */
+@ResponseStatus(HttpStatus.BAD_REQUEST)
 public class CreditcardServiceException extends RuntimeException {
     
     /**

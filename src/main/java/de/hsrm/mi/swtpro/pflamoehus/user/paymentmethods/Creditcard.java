@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidCreditCardNumber;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -44,7 +43,6 @@ public class Creditcard {
 
     @NotEmpty(message="Die Kreditkartennummer muss angegeben werden.")
     @JsonProperty(access = Access.WRITE_ONLY)
-    @ValidCreditCardNumber
     private String creditcardnumber;
 
     @NotNull(message="Das Ablaufdatum der Karte muss angebeben werden.")

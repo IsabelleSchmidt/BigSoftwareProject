@@ -7,6 +7,13 @@ import de.hsrm.mi.swtpro.pflamoehus.order.status.Statuscode;
 
 
 
+/*
+ * ValidStatusValidator
+ * The status has to be part of the statuscode enum.
+ * 
+ * @author Svenja Schenk
+ * @version 1
+ */
 public class ValidStatusValidator implements ConstraintValidator<ValidStatus,String > {
 
    

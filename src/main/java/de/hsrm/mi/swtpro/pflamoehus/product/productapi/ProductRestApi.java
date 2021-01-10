@@ -22,7 +22,7 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.ProductServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;

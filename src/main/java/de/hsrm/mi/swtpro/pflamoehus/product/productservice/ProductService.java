@@ -1,7 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.product.productservice;
 
 import java.util.List;
-import java.util.Optional;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
 /*

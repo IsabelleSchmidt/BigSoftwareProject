@@ -27,17 +27,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.request.LoginRequest;
-import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.request.SignUpRequest;
-import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.request.UserOrderRequest;
-import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.response.JwtResponse;
-import de.hsrm.mi.swtpro.pflamoehus.authentication.payload.response.MessageResponse;
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.AdressServiceException;
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.BankcardServiceException;
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.CreditcardServiceException;
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserApiException;
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserServiceException;
-import de.hsrm.mi.swtpro.pflamoehus.user.roles.RolesRepository;
+import de.hsrm.mi.swtpro.pflamoehus.payload.request.LoginRequest;
+import de.hsrm.mi.swtpro.pflamoehus.payload.request.SignUpRequest;
+import de.hsrm.mi.swtpro.pflamoehus.payload.request.UserOrderRequest;
+import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
+import de.hsrm.mi.swtpro.pflamoehus.payload.response.MessageResponse;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.AdressServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.BankcardServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.CreditcardServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.api.UserApiException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.UserServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.*;
@@ -45,10 +44,10 @@ import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.service.*;
 import de.hsrm.mi.swtpro.pflamoehus.user.roles.Roles;
 import de.hsrm.mi.swtpro.pflamoehus.user.roles.ERoles;
-import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.service.*;
+import de.hsrm.mi.swtpro.pflamoehus.user.roles.service.RoleService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,12 +67,6 @@ public class UserRestApi {
 	AuthenticationManager authenticationManager;
 
 	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	RolesRepository rolesRepository;
-
-	@Autowired
 	AdressService adressSerivce;
 
 	@Autowired
@@ -87,6 +80,9 @@ public class UserRestApi {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	RoleService roleService;
 
 	@Autowired
 	JwtUtils jwtUtils;
@@ -117,6 +113,8 @@ public class UserRestApi {
 	}
 
 	/**
+	 * PostMapping for registration.
+	 * 
 	 * @param signUpRequest given values of the user that wants to be registerd
 	 * @param result        for controlling if the given SignUp request is valid
 	 * @return ResponseEntity
@@ -125,7 +123,7 @@ public class UserRestApi {
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest, BindingResult result) {
 		MessageResponse mr = new MessageResponse();
 		List<MessageResponse> mrs = new ArrayList<>();
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+		if (userService.existsByEmail(signUpRequest.getEmail())) {
 			mr.setMessage("Email ist already taken.");
 			mr.setField("email");
 			mrs.add(mr);
@@ -156,54 +154,55 @@ public class UserRestApi {
 		Set<Roles> roles = new HashSet<>();
 
 		if (strRoles == null) {
-			Roles userRole = rolesRepository.findByName(ERoles.USER)
-
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+			Roles userRole = roleService.findByName(ERoles.USER);
 			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
 					case "admin":
 
-						Roles adminRole = rolesRepository.findByName(ERoles.ADMIN)
-								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						Roles adminRole = roleService.findByName(ERoles.ADMIN);
 						roles.add(adminRole);
 
 						break;
 					case "staff":
-						Roles modRole = rolesRepository.findByName(ERoles.STAFF)
-								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						Roles modRole = roleService.findByName(ERoles.STAFF);
 						roles.add(modRole);
 
 						break;
 					case "service":
-						Roles serviceRole = rolesRepository.findByName(ERoles.SERVICE)
-								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						Roles serviceRole = roleService.findByName(ERoles.SERVICE);
 						roles.add(serviceRole);
 
 						break;
 					case "warehouse":
-						Roles warehouseRole = rolesRepository.findByName(ERoles.WAREHOUSE)
-								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						Roles warehouseRole = roleService.findByName(ERoles.WAREHOUSE);
 						roles.add(warehouseRole);
 
 						break;
 					default:
-						Roles userRole = rolesRepository.findByName(ERoles.USER)
-								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						Roles userRole = roleService.findByName(ERoles.USER);
 						roles.add(userRole);
 				}
 			});
 		}
 		user.setRoles(roles);
-		userRepository.save(user);
+		userService.registerUser(user);
 
 		mr.setMessage("User registered successfully!");
 		return ResponseEntity.ok(mr);
 
 	}
 
-	@PostMapping("/addInfos")
+	/**
+	 * PostMapping for the data the user has to give while he is ordering.
+	 * 
+	 * @param userOrderRequest includes a token, paymentmethod and adress
+	 * @param result           for showing mistakes in the formular
+	 * @return response
+	 * @throws AuthenticationException if the user is not known in the database
+	 */
+	@PostMapping("/newOrder/user")
 	public ResponseEntity<?> addInfosToUser(@Valid @RequestBody UserOrderRequest userOrderRequest, BindingResult result)
 			throws AuthenticationException {
 
@@ -213,38 +212,43 @@ public class UserRestApi {
 		if (result.hasErrors()) {
 
 			for (FieldError error : result.getFieldErrors()) {
-				mr.setMessage(error.getDefaultMessage());
-				mr.setField(error.getField());
-				mrs.add(mr);
-				LOGGER2.info("FEHLER: " + mr);
+				MessageResponse mrp = new MessageResponse();
+				mrp.setMessage(error.getDefaultMessage());
+				mrp.setField(error.getField());
+				mrs.add(mrp);
+				LOGGER2.info("FEHLER: " + mrp);
 			}
 
 			return new ResponseEntity<>(mrs, HttpStatus.OK);
 		}
-		// TODO: eventuell Validation-Methoden
-		Adress newAdress = userOrderRequest.getAdress();
-		Bankcard newBankcard = userOrderRequest.getBankcard();
-		Creditcard newCreditcard = userOrderRequest.getCreditcard();
 
-		String jwtToken = userOrderRequest.getToken();
+		String jwtToken = userOrderRequest.getToken().toString();
 		String email = jwtUtils.getUserNameFromJwtToken(jwtToken);
 
 		try {
-
 			User user = userService.searchUserWithEmail(email);
 
-			if (newAdress != null) {
+			if (userOrderRequest.getAdress() != null) {
+				Adress newAdress = userOrderRequest.getAdress();
 				adressSerivce.saveAdress(newAdress);
 				user.getAllAdresses().add(newAdress);
 			}
 
-			if (newBankcard != null) {
+			if (userOrderRequest.getBankcard_owner() != "") {
+				Bankcard newBankcard = new Bankcard();
+				newBankcard.setOwner(userOrderRequest.getBankcard_owner());
+				newBankcard.setBank(userOrderRequest.getBank());
+				newBankcard.setIban(bankcardSerivce.encodeIBAN(userOrderRequest.getIban()));
 				bankcardSerivce.saveBankcard(newBankcard);
 				user.getBankcard().add(newBankcard);
 			}
 
-			if (newCreditcard != null) {
-				creditcardService.saveCreditcard(newCreditcard);
+			if (userOrderRequest.getCreditcard_owner() != "") {
+				Creditcard newCreditcard = new Creditcard();
+				newCreditcard.setOwner(userOrderRequest.getCreditcard_owner());
+				newCreditcard.setDateOfExpiry(userOrderRequest.getDateOfExpiry());
+				newCreditcard.setCreditcardnumber(
+						creditcardService.encodeCardNumber(userOrderRequest.getCreditcardnumber()));
 				user.getCreditcard().add(newCreditcard);
 			}
 
@@ -263,7 +267,6 @@ public class UserRestApi {
 		} catch (UserServiceException use) {
 			throw new AuthenticationException();
 		}
-		mr.setMessage("Neue Daten erfolgreich hinzugefügt.");
 		return ResponseEntity.ok(mr);
 	}
 

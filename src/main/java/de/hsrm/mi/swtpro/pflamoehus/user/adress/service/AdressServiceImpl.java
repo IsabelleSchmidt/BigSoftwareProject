@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.AdressServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.AdressServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.AdressRepository;
 

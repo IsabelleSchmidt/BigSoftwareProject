@@ -32,13 +32,12 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
 
 /*
  * User-Entity for its database.
  * 
- * @author Ann-Cathrin Fabian
- * @version 3
+ * @author Ann-Cathrin Fabian, Svenja Schenk
+ * @version 4
  */
 @Entity
 @Validated
@@ -71,7 +70,6 @@ public class User {
     private LocalDate birthdate;
 
     @NotEmpty(message = "Es muss ein Passwort angegeben werden.")
-    @ValidPassword
     @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
 
