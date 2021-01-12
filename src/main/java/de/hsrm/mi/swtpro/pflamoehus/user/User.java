@@ -94,9 +94,7 @@ public class User {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Roles> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private Set<Order> orders = new HashSet<>();
+    //TODO: fetchtypes zu LAZY?
 
     /**
      * Get roles.
@@ -343,24 +341,5 @@ public class User {
                 + ", userID=" + userID + ", version=" + version + "]";
     }
 
-    
-    /** 
-     * Get orders.
-     * 
-     * @return Order
-     */
-    public Set<Order> getOrders() {
-        return orders;
-    }
-
-    
-    /** 
-     * Set orders.
-     *  
-     * @param orders to be set
-     */
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
-    }
 
 }

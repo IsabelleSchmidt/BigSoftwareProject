@@ -20,10 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
 import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.*;
@@ -99,9 +96,7 @@ public class Product {
     private String information;
 
     //Unidirectional Relationship, owning side: OrderDetails
-    @JsonIgnore
-    @OneToMany(mappedBy = "product")
-    private Set<OrderDetails> allOrderDetails;
+  
 
     
     /**
@@ -355,24 +350,6 @@ public class Product {
                 + productType + ", roomType=" + roomType + ", version=" + version + ", width=" + width + "]";
     }
 
-    
-    /** 
-     * Get all order details.
-     * 
-     * @return all order details
-     */
-    public Set<OrderDetails> getAllOrderDetails() {
-        return allOrderDetails;
-    }
-
-    
-    /** 
-     * Set all order details.
-     * 
-     * @param allOrderDetails to be set
-     */
-    public void setAllOrderDetails(Set<OrderDetails> allOrderDetails) {
-        this.allOrderDetails = allOrderDetails;
-    }
+  
 
 }
