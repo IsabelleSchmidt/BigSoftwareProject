@@ -26,9 +26,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderRepository orderRepo;
 
-    @Autowired
-    UserService userService;
-
     static final Logger orderServiceLogger = org.slf4j.LoggerFactory.getLogger(OrderServiceImpl.class);
 
     
@@ -41,7 +38,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order editOrder(Order newOrder) throws OrderServiceException, UserServiceException {
         Order savedorder = null;
-        User user;
         try {
             savedorder = orderRepo.save(newOrder);
 
@@ -50,13 +46,6 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderServiceException("Order could not be saved.");
 
         }
-        if (savedorder.getUser() == null) {
-            user = userService.searchUserWithEmail(savedorder.getCustomerEmail());
-            savedorder.setUser(user);
-        } else {
-            user = savedorder.getUser();
-        }
-        user.getOrders().add(savedorder);
 
         return savedorder;
     }
