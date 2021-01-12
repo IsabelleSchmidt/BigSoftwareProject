@@ -324,7 +324,7 @@ public class OrderRestApi {
 
             // Set bidirectional relationships and reduce number of available products
             product.getAllOrderDetails().add(details);
-            product.setNrAvailableItems(product.getNrAvailableItems() - productdto.getAmount());
+            product.setAvailable(product.getAvailable() - productdto.getAmount());
 
         }
 

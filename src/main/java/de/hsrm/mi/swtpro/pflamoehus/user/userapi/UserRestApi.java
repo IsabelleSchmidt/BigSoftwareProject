@@ -133,10 +133,11 @@ public class UserRestApi {
 		if (result.hasErrors()) {
 
 			for (FieldError error : result.getFieldErrors()) {
-				mr.setMessage(error.getDefaultMessage());
-				mr.setField(error.getField());
-				mrs.add(mr);
-				LOGGER2.info("ERROR: " + mr);
+				MessageResponse mrp = new MessageResponse();
+				mrp.setMessage(error.getDefaultMessage());
+				mrp.setField(error.getField());
+				mrs.add(mrp);
+				LOGGER2.info("FEHLER: " + mrp);
 			}
 
 			return new ResponseEntity<>(mrs, HttpStatus.OK);
@@ -191,7 +192,6 @@ public class UserRestApi {
 		user.setRoles(roles);
 		userService.registerUser(user);
 
-		mr.setMessage("User registered successfully!");
 		return ResponseEntity.ok(mr);
 
 	}

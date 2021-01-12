@@ -88,7 +88,7 @@ public class Product {
 
     @Column(name = "available")
     @PositiveOrZero
-    private int nrAvailableItems = 0;
+    private int available = 0;
 
     @NotNull
     @Size(min = 10, max = 180)
@@ -320,17 +320,17 @@ public class Product {
      * 
      * @return available items
      */
-    public int getNrAvailableItems() {
-        return nrAvailableItems;
+    public int getAvailable() {
+        return available;
     }
 
     /**
      * Set number of available items.
      * 
-     * @param nrAvailableItems number of available items that has to be set
+     * @param available number of available items that has to be set
      */
-    public void setNrAvailableItems(int nrAvailableItems) {
-        this.nrAvailableItems = nrAvailableItems;
+    public void setAvailable(int available) {
+        this.available = available;
     }
 
     /**
@@ -351,7 +351,7 @@ public class Product {
     public String toString() {
         return "Product [allPictures=" + allPictures + ", allTags=" + allTags + ", articlenr=" + articlenr + ", depth="
                 + depth + ", description=" + description + ", height=" + height + ", information=" + information
-                + ", name=" + name + ", nrAvailableItems=" + nrAvailableItems + ", price=" + price + ", productType="
+                + ", name=" + name + ", available=" + available + ", price=" + price + ", productType="
                 + productType + ", roomType=" + roomType + ", version=" + version + ", width=" + width + "]";
     }
 

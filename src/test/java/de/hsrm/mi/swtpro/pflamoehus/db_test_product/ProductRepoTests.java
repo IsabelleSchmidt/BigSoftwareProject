@@ -62,7 +62,7 @@ class ProductRepoTests {
         unmanaged.setDepth(DEPTH);
         unmanaged.setHeight(HEIGHT);
         unmanaged.setWidth(WIDHT);
-        unmanaged.setNrAvailableItems(AVIABLEPRODUCTS);
+        unmanaged.setAvailable(AVIABLEPRODUCTS);
         unmanaged.setProductType(PRODUCTTYPE);
         unmanaged.setRoomType(ROOMTYPE);
         unmanaged.setPrice(PRICE);
@@ -84,7 +84,7 @@ class ProductRepoTests {
         product1.setDepth(DEPTH);
         product1.setHeight(HEIGHT);
         product1.setWidth(WIDHT);
-        product1.setNrAvailableItems(AVIABLEPRODUCTS);
+        product1.setAvailable(AVIABLEPRODUCTS);
         product1.setProductType(PRODUCTTYPE);
         product1.setRoomType(ROOMTYPE);
         product1.setPrice(PRICE);
@@ -99,7 +99,7 @@ class ProductRepoTests {
         product2.setDepth(DEPTH);
         product2.setHeight(HEIGHT);
         product2.setWidth(WIDHT);
-        product2.setNrAvailableItems(AVIABLEPRODUCTS);
+        product2.setAvailable(AVIABLEPRODUCTS);
         product2.setProductType(PRODUCTTYPE);
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(PRICE);
@@ -125,7 +125,7 @@ class ProductRepoTests {
             product1.setDepth(DEPTH + i);
             product1.setHeight(HEIGHT + i);
             product1.setWidth(WIDHT + i);
-            product1.setNrAvailableItems(AVIABLEPRODUCTS + i);
+            product1.setAvailable(AVIABLEPRODUCTS + i);
             product1.setProductType(PRODUCTTYPE);
             product1.setRoomType(ROOMTYPE);
             product1.setPrice(PRICE + i);
@@ -152,7 +152,7 @@ class ProductRepoTests {
         product1.setDepth(DEPTH);
         product1.setHeight(HEIGHT);
         product1.setWidth(WIDHT);
-        product1.setNrAvailableItems(AVIABLEPRODUCTS);
+        product1.setAvailable(AVIABLEPRODUCTS);
         product1.setProductType(PRODUCTTYPE);
         product1.setRoomType(ROOMTYPE);
         product1.setPrice(PRICE);
@@ -167,7 +167,7 @@ class ProductRepoTests {
         product2.setDepth(DEPTH);
         product2.setHeight(HEIGHT);
         product2.setWidth(WIDHT);
-        product2.setNrAvailableItems(AVIABLEPRODUCTS);
+        product2.setAvailable(AVIABLEPRODUCTS);
         product2.setProductType(PRODUCTTYPE);
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(PRICE);
@@ -191,7 +191,7 @@ class ProductRepoTests {
         product1.setDepth(DEPTH);
         product1.setHeight(HEIGHT);
         product1.setWidth(WIDHT);
-        product1.setNrAvailableItems(AVIABLEPRODUCTS);
+        product1.setAvailable(AVIABLEPRODUCTS);
         product1.setProductType(PRODUCTTYPE);
         product1.setRoomType(ROOMTYPE);
         product1.setPrice(PRICE);
@@ -206,7 +206,7 @@ class ProductRepoTests {
         product2.setDepth(DEPTH);
         product2.setHeight(HEIGHT);
         product2.setWidth(WIDHT);
-        product2.setNrAvailableItems(AVIABLEPRODUCTS);
+        product2.setAvailable(AVIABLEPRODUCTS);
         product2.setProductType("Pflanze");
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(123.4);
