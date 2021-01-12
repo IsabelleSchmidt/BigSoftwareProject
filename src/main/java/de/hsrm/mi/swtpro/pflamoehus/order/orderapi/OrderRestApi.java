@@ -250,7 +250,7 @@ public class OrderRestApi {
                 allmessages.add(new OrderMessage(order.getOrderNR()));   
             }              
            
-
+        LOGGER.info(allmessages.toString());
         return ResponseEntity.ok().body(allmessages);
     }
 

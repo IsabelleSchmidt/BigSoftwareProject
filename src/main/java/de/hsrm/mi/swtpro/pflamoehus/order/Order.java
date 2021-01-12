@@ -48,7 +48,6 @@ public class Order {
     @Valid
     private User user;
 
-    @ValidEmail
     private String customerEmail;
 
     @ManyToOne(cascade = CascadeType.DETACH)

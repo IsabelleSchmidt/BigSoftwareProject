@@ -2,6 +2,7 @@ package de.hsrm.mi.swtpro.pflamoehus.payload.request;
 
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
@@ -24,6 +25,7 @@ public class UserOrderRequest {
     @Valid
     private Bankcard bankCard;
 
+    @NotNull
     private JwtResponse token;
 
     

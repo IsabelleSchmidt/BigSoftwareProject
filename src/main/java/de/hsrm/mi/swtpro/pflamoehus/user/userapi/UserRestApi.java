@@ -121,6 +121,7 @@ public class UserRestApi {
 	 */
 	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest, BindingResult result) {
+		LOGGER2.info("REGISTRIERE.");
 		MessageResponse mr = new MessageResponse();
 		List<MessageResponse> mrs = new ArrayList<>();
 		if (userService.existsByEmail(signUpRequest.getEmail())) {
@@ -138,6 +139,7 @@ public class UserRestApi {
 				mrp.setField(error.getField());
 				mrs.add(mrp);
 				LOGGER2.info("FEHLER: " + mrp);
+				
 			}
 
 			return new ResponseEntity<>(mrs, HttpStatus.OK);

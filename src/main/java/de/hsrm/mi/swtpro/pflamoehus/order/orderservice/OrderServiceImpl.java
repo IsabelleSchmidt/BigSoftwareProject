@@ -12,7 +12,6 @@ import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.UserServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.order.Order;
 import de.hsrm.mi.swtpro.pflamoehus.order.OrderRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
-import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 
 /*
  * OrderServiceImpl for implementing the interface 'OrderService'.

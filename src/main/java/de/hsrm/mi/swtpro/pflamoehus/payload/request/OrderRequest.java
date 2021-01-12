@@ -28,7 +28,7 @@ public class OrderRequest {
      * 
      * @author Svenja Schenk
      */
-    public class ProductDTO{
+    public static class ProductDTO{
 
         @Positive(message = "The articlenr is incorrect. It needs to be positive.")
         private long articleNR;
@@ -36,6 +36,9 @@ public class OrderRequest {
         @Positive(message = "The amount of products to buy cannot be zero or less.")
         private int amount; 
         
+        public ProductDTO(){
+            
+        }
         /**
          * Get articlenr.
          * 
