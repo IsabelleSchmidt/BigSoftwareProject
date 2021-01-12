@@ -61,8 +61,6 @@ public class OrderValueTests {
         order.setPriceTotal(PRICE);
         assertTrue(validator.validate(order).size() == 1);
 
-        order.setCustomerEmail("customerEmail");
-        assertTrue(validator.validate(order).size()==2);
         
     }
 
