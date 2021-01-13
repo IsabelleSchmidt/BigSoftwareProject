@@ -4,6 +4,8 @@ package de.hsrm.mi.swtpro.pflamoehus.payload.request;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.validation.annotation.Validated;
+
 import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
@@ -14,13 +16,14 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
  * @author Ann-Cathrin Fabian
  * @version 2
  */
+@Validated
 public class UserOrderRequest {
     //TODO: überall gucken ob liste oder hashset
     @Valid
-    private Adress adress;
+    private Creditcard creditcard;
 
     @Valid
-    private Creditcard creditCard;
+    private Adress adress;
 
     @Valid
     private Bankcard bankCard;
@@ -76,7 +79,7 @@ public class UserOrderRequest {
      * @return Creditcard
      */
     public Creditcard getCreditcard() {
-        return creditCard;
+        return creditcard;
     }
 
     
@@ -86,7 +89,7 @@ public class UserOrderRequest {
      * @param creditcard to be set
      */
     public void setCreditcard(Creditcard creditcard) {
-        this.creditCard = creditcard;
+        this.creditcard = creditcard;
     }
 
     
@@ -117,7 +120,7 @@ public class UserOrderRequest {
      */
     @Override
     public String toString() {
-        return "UserOrderRequest [adress=" + adress + ", bankCard=" + bankCard + ", creditcard=" + creditCard
+        return "UserOrderRequest [adress=" + adress + ", bankCard=" + bankCard + ", creditcard=" + creditcard
                 + ", token=" + token + "]";
     }
 
