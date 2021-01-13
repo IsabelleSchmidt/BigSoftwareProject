@@ -38,7 +38,7 @@ public class CreditcardValueTests {
 
         Creditcard correct = new Creditcard();
 
-        correct.setOwner(OWNER);
+        correct.setCowner(OWNER);
         correct.setCreditcardnumber(CREDITCARDNUMBER);
         correct.setDateOfExpiry(EXPIRY);
 
@@ -51,11 +51,12 @@ public class CreditcardValueTests {
     public void create_incorrect_card(){
 
         Creditcard incorrect = new Creditcard();
-        incorrect.setOwner(OWNER);
+        incorrect.setCowner(OWNER);
+        incorrect.setCreditcardnumber(CREDITCARDNUMBER);
         incorrect.setDateOfExpiry(EXPIRY);
         incorrect.setDateOfExpiry(WRONG_EXPIRY);
-        assertThat(validator.validate(incorrect).size()).isEqualTo(2);
-        incorrect.setOwner(WRONG_OWNER);
+        assertThat(validator.validate(incorrect).size()).isEqualTo(1);
+        incorrect.setCowner(WRONG_OWNER);
         assertThat(validator.validate(incorrect).size()).isEqualTo(3);
 
 

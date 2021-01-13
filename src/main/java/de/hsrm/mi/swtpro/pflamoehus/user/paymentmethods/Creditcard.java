@@ -12,11 +12,17 @@ import javax.persistence.Version;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
+import org.springframework.validation.annotation.Validated;
+
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
+import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidCreditCardNumber;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,6 +33,7 @@ import java.util.List;
  * @version 1
  */
 @Entity
+@Validated
 public class Creditcard {
 
     @Id
@@ -38,11 +45,13 @@ public class Creditcard {
     @JsonIgnore
     private long version;
 
-    @NotEmpty
-    private String owner;
+    @NotEmpty(message="Der Besitzer der Karte muss angebeben werden.")
+    @Size(min = 3, message="Der angegebene Besitzer ist ungültig.")
+    private String cowner;
 
     @NotEmpty(message="Die Kreditkartennummer muss angegeben werden.")
     @JsonProperty(access = Access.WRITE_ONLY)
+    @ValidCreditCardNumber
     private String creditcardnumber;
 
     @NotNull(message="Das Ablaufdatum der Karte muss angebeben werden.")
@@ -77,8 +86,8 @@ public class Creditcard {
      * 
      * @return owner
      */
-    public String getOwner() {
-        return this.owner;
+    public String getCowner() {
+        return this.cowner;
     }
 
     /**
@@ -86,8 +95,8 @@ public class Creditcard {
      * 
      * @param owner owner that has to be set
      */
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setCowner(String owner) {
+        this.cowner = owner;
     }
 
     /**
@@ -169,7 +178,7 @@ public class Creditcard {
     @Override
     public String toString() {
         return "Creditcard [creditcardnumber=" + creditcardnumber + ", dateOfExpiry=" + dateOfExpiry + ", id=" + id
-                + ", owner=" + owner + ", version=" + version + "]";
+                + ", owner=" + cowner + ", version=" + version + "]";
     }
     
 

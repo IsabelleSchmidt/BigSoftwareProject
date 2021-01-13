@@ -45,7 +45,7 @@ public class CreditcardRepositoryTests {
         Creditcard unmanaged = new Creditcard();
         unmanaged.setCreditcardnumber(CREDITCARDNUMBER);
         unmanaged.setDateOfExpiry(EXPIRY);
-        unmanaged.setOwner(OWNER);
+        unmanaged.setCowner(OWNER);
 
         creditRepo.deleteAll();
         final Creditcard managed = creditRepo.save(unmanaged);
@@ -64,7 +64,7 @@ public class CreditcardRepositoryTests {
         for(int i = 0; i<COUNT;i++){
             Creditcard card = new Creditcard();
             card.setCreditcardnumber(CREDITCARDNUMBER);
-            card.setOwner(OWNER+i);
+            card.setCowner(OWNER+i);
             card.setDateOfExpiry(EXPIRY);
             allcards.add(card);
             creditRepo.save(card);
@@ -86,13 +86,13 @@ public class CreditcardRepositoryTests {
         Creditcard unmanaged = new Creditcard();
         unmanaged.setCreditcardnumber(CREDITCARDNUMBER);
         unmanaged.setDateOfExpiry(EXPIRY);
-        unmanaged.setOwner(OWNER);
+        unmanaged.setCowner(OWNER);
 
         creditRepo.save(unmanaged);
        Creditcard found = creditRepo.findById(unmanaged.getId()).get();
         assertThat(found.toString())
         .contains(Long.toString(found.getId()))
-        .contains(unmanaged.getOwner());
+        .contains(unmanaged.getCowner());
 
         assertThat(creditRepo.findByDateOfExpiry(unmanaged.getDateOfExpiry()).size()).isEqualTo(1);
 

@@ -221,12 +221,6 @@ public class UserRestApi {
 				mrs.add(mrp);
 				LOGGER2.info("ERROR: " + mrp);
 			}
-			if (mrs.toString().contains("creditcardnumber") || mrs.toString().contains("iban")) {
-
-				mrs.removeIf(s -> s.getField().contains("creditcardnumber"));
-				mrs.removeIf(s -> s.getField().contains("iban"));
-
-			}
 			if (mrs.size() > 0) {
 				return new ResponseEntity<>(mrs, HttpStatus.OK);
 			}

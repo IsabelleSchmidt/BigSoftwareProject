@@ -102,16 +102,7 @@ public class UserServiceImpl implements UserService {
         if (found.isPresent()) {
             throw new EmailAlreadyInUseException();
         }
-
-        try {
-
-            user.setPassword(encodePassword(user.getPassword()));
-
-        } catch (OptimisticLockException ole) {
-
-            throw new UserServiceException("User could not be saved into the database.");
-
-        }
+        
         user = userRepository.save(user);
         userServiceLogger.info("User was saved into the repository.");
         return user;
