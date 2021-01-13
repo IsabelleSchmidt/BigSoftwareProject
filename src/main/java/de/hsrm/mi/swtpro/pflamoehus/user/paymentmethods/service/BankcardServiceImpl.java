@@ -23,6 +23,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
  * @version 1
  */
 @Service
+@Transactional
 public class BankcardServiceImpl implements BankcardService {
 
     @Autowired

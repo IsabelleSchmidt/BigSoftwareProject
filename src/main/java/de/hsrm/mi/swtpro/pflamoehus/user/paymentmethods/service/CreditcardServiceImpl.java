@@ -25,6 +25,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
  * @version 1
  */
 @Service
+@Transactional
 public class CreditcardServiceImpl implements CreditcardService {
 
     private static final Logger ORDERDETAILSSERVICELOGGER = LoggerFactory.getLogger(CreditcardServiceImpl.class);
