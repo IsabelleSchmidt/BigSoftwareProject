@@ -82,7 +82,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
                 .antMatchers("/profile").hasRole("USER")
-                .anyRequest().permitAll();
+                .anyRequest().permitAll()
+
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/orderform")
+                .permitAll();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
     /**
@@ -133,7 +139,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             }
             logger.info("USERRRRRRPASSWORT:" + user.get().getPassword());
             return org.springframework.security.core.userdetails.User.withUsername(email)
-                    .password(getPasswordEncoder().encode(user.get().getPassword())).roles("USER").build();
+                    .password(user.get().getPassword()).roles("USER").build();
         }
     }
 

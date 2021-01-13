@@ -54,10 +54,10 @@ public class JwtUtils {
      * @param authentication represents the token for an authentication request
      * @return String
      */
-    public String generateJwtToken(String email){
+    public String generateJwtToken(Authentication email){
 
     
-        UserDetails userPrincipal = uds.loadUserByUsername(email);
+        UserDetails userPrincipal = (UserDetails) email.getPrincipal();
 
         return Jwts.builder()
             .setSubject((userPrincipal.getUsername()))
