@@ -131,6 +131,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 logger.info("JA IST LEER.");
                 throw new UsernameNotFoundException(email);
             }
+            logger.info("USERRRRRRPASSWORT:" + user.get().getPassword());
             return org.springframework.security.core.userdetails.User.withUsername(email)
                     .password(getPasswordEncoder().encode(user.get().getPassword())).roles("USER").build();
         }
