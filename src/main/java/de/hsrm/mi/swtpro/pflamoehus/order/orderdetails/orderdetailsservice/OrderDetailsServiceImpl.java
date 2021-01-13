@@ -40,6 +40,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
      * @return OrderDetails
      */
     @Override
+    @Transactional
     public OrderDetails editOrderDetail(OrderDetails orderDetail) {
 
         try {

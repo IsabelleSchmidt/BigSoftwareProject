@@ -94,7 +94,11 @@ public class User {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Roles> roles = new HashSet<>();
 
-    //TODO: fetchtypes zu LAZY?
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH, mappedBy = "user")
+    @JsonIgnore
+    private Set<Order> allOrders = new HashSet<>();
+    
+    //TODO: fetchtypes zu LAZY
 
     /**
      * Get roles.
@@ -339,6 +343,14 @@ public class User {
                 + ", creditcard=" + creditcard + ", email=" + email + ", firstName=" + firstName + ", gender=" + gender
                 + ", lastName=" + lastName + ", orders=" + ", password=" + password + ", roles=" + roles
                 + ", userID=" + userID + ", version=" + version + "]";
+    }
+
+    public Set<Order> getAllOrders() {
+        return allOrders;
+    }
+
+    public void setAllOrders(Set<Order> allOrders) {
+        this.allOrders = allOrders;
     }
 
 

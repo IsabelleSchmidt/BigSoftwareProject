@@ -1,12 +1,21 @@
 package de.hsrm.mi.swtpro.pflamoehus.order.status;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.validation.annotation.Validated;
+
+import de.hsrm.mi.swtpro.pflamoehus.order.Order;
+import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.validation.order_db.ValidStatus;
 
 /*
@@ -30,6 +39,12 @@ public class Status {
     @ValidStatus
     @Column(unique = true)
     private String statuscode;
+
+    @OneToMany(mappedBy = "statusID", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    private Set<Order> allOrders = new HashSet<>();
+
+    @OneToMany(mappedBy = "statusID", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    private Set<OrderDetails> allOrdersDetails = new HashSet<>();
 
     /**
      * Get statusId.
@@ -71,5 +86,20 @@ public class Status {
                 + ", statuscode=" + statuscode + ", version=" + version + "]";
     }
 
-    // TODO: in allen Entities checken ob wir ein Set oder eine Liste brauchen
+    public Set<Order> getAllOrders() {
+        return allOrders;
+    }
+
+    public void setAllOrders(Set<Order> allOrders) {
+        this.allOrders = allOrders;
+    }
+
+    public Set<OrderDetails> getAllOrdersDetails() {
+        return allOrdersDetails;
+    }
+
+    public void setAllOrdersDetails(Set<OrderDetails> allOrdersDetails) {
+        this.allOrdersDetails = allOrdersDetails;
+    }
+
 }
