@@ -2,11 +2,15 @@ package de.hsrm.mi.swtpro.pflamoehus.security.jwt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+import de.hsrm.mi.swtpro.pflamoehus.security.SecurityConfig.UserDetailServiceImpl;
+import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -35,6 +39,12 @@ public class JwtUtils {
     @Value(SECRET)  
     private String jwtSecret;
 
+    @Autowired
+    UserService us;
+
+    @Autowired
+    UserDetailServiceImpl uds;
+
     // @Value(EXPIRATION_TIME)
     // private int jwtExpirationMs;
 
@@ -44,9 +54,10 @@ public class JwtUtils {
      * @param authentication represents the token for an authentication request
      * @return String
      */
-    public String generateJwtToken(Authentication authentication){
+    public String generateJwtToken(String email){
 
-        UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+    
+        UserDetails userPrincipal = uds.loadUserByUsername(email);
 
         return Jwts.builder()
             .setSubject((userPrincipal.getUsername()))

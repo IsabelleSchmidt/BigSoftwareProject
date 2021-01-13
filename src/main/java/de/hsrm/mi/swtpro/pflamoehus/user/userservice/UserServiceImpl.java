@@ -102,8 +102,18 @@ public class UserServiceImpl implements UserService {
         if (found.isPresent()) {
             throw new EmailAlreadyInUseException();
         }
-        
+
+        try{
+            user.setPassword(encodePassword(user.getPassword()));
+        }catch(OptimisticLockException ole){
+            throw new UserServiceException("Passwort konnte nicht geändert werden");
+        }
+
+
         user = userRepository.save(user);
+        userServiceLogger.info("PASSWORT VON USER IN DB:" + user.getPassword());
+        
+        
         userServiceLogger.info("User was saved into the repository.");
         return user;
 

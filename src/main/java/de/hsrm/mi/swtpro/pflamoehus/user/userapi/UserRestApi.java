@@ -37,6 +37,7 @@ import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.BankcardServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.CreditcardServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.api.UserApiException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.UserServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.security.SecurityConfig.UserDetailServiceImpl;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.*;
@@ -87,6 +88,9 @@ public class UserRestApi {
 	@Autowired
 	JwtUtils jwtUtils;
 
+	@Autowired
+	UserDetailServiceImpl uds;
+
 	private static final Logger LOGGER2 = LoggerFactory.getLogger(UserRestApi.class);
 
 	/**
@@ -98,17 +102,37 @@ public class UserRestApi {
 	 */
 	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result) {
+		// LOGGER2.info("PASSWORT LOGIN VERSCHL: " +
+		// encoder.encode(loginRequest.getPassword()));
+		// Authentication authentication = authenticationManager.authenticate(
+		// new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
+		// loginRequest.getPassword()));
+		// LOGGER2.info("AUTHENTICATION:" + authentication);
+		// SecurityContextHolder.getContext().setAuthentication(authentication);
+		LOGGER2.info("ES WIRD EINGELOGGT");
+		try{
+			User user = userService.searchUserWithEmail(loginRequest.getEmail());
+			LOGGER2.info("PASSWORT AUS DATENBANK: " + user.getPassword());
+			if (encoder.matches(loginRequest.getPassword(), user.getPassword())) {
+				LOGGER2.info("Passwort stimmt");
+				String jwt = jwtUtils.generateJwtToken(loginRequest.getEmail());
+	
+				UserDetails userDetails = uds.loadUserByUsername(loginRequest.getEmail());
+				LOGGER2.info("USERDETAILS: " + userDetails.toString());
+				List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+						.collect(Collectors.toList());
+				JwtResponse response = new JwtResponse(jwt, userDetails.getUsername(), roles);
+				LOGGER2.info("DAS IST DER TOKEN: " + response);
+				return ResponseEntity.ok(response);
+			}
 
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = jwtUtils.generateJwtToken(authentication);
+		}catch(UserServiceException use){
+			LOGGER2.error("EXCEPTION HIER HIER HIER");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Password or Email wrong.");
+		}
+		LOGGER2.error("EXCEPTION AUßERHALB HIER HIER HIER");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Password or Email wrong.");
 
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
-				.collect(Collectors.toList());
-		JwtResponse response = new JwtResponse(jwt, userDetails.getUsername(), roles);
-		return ResponseEntity.ok(response);
 
 	}
 
@@ -139,7 +163,7 @@ public class UserRestApi {
 				mrp.setField(error.getField());
 				mrs.add(mrp);
 				LOGGER2.info("FEHLER: " + mrp);
-				
+
 			}
 
 			return new ResponseEntity<>(mrs, HttpStatus.OK);
@@ -153,6 +177,8 @@ public class UserRestApi {
 		user.setBirthdate(signUpRequest.getBirthdate());
 		user.setGender(signUpRequest.getGender());
 		user.setPassword(signUpRequest.getPassword());
+
+		LOGGER2.info("PASSWORT REGISTER VERSCHL: " + encoder.encode(signUpRequest.getPassword()));
 
 		List<String> strRoles = signUpRequest.getRole();
 		Set<Roles> roles = new HashSet<>();
