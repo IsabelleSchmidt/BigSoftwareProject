@@ -181,8 +181,33 @@ public class OrderRestApi {
                     user = userService.searchUserWithEmail(email); 
                     //Create matching OrderDetails for every productdto within the orderdto
     
+                    //fill order with info
+                    order.setStatus(incoming);
+                    order.setCustomerEmail(email);
+                    order.setUser(user);
+                    order.setPriceTotal(orderDTO.getPriceTotal());
 
-                } catch(StatusServiceException sse){
+                    //Deliverydate is the date of the incoming order + 3 business days
+                    order.setDeliveryDate(calcDeliveryDate());
+
+                    //save filled order into the database
+                    order = orderService.editOrder(order);
+              
+                    //create all OrderDetails with needed info
+                    allDetails = createDetails(orderDTO,order,incoming);
+              
+                    //add order to the user and status, bidirectional relationships
+                    incoming.getAllOrders().add(order);
+                    user.getAllOrders().add(order);
+
+                    //add orderdetails to order and status
+                    order.setOrderdetails(allDetails);
+                    incoming.setAllOrdersDetails(allDetails);
+
+                    //add ordernr to the OrderMessage
+                    allmessages.add(new OrderMessage(order.getOrderNR()));  
+            
+            } catch(StatusServiceException sse){
                     LOGGER.error(sse.getMessage());
                     allmessages.add(new OrderMessage("status",sse.getMessage()));
                     return ResponseEntity.ok().body(allmessages);
@@ -192,39 +217,7 @@ public class OrderRestApi {
                     allmessages.add(new OrderMessage("user",use.getMessage()));
                     return ResponseEntity.ok().body(allmessages);
 
-                }
-
-                //Status of a new order is INCOMING
-                order.setStatus(incoming);
-
-                //add user, pricetotal and email to the order table
-                order.setCustomerEmail(email);
-                order.setUser(user);
-                order.setPriceTotal(orderDTO.getPriceTotal());
-
-                //Deliverydate is the date of the incoming order + 3 business days
-                order.setDeliveryDate(calcDeliveryDate());
-
-                //save filled order into the database
-                try{
-                    order = orderService.editOrder(order);
-                }catch(OrderServiceException ose){
-                    allmessages.add(new OrderMessage("order",ose.getMessage()));
-                    LOGGER.error(ose.getMessage());
-                    return ResponseEntity.ok().body(allmessages);
-
-                }catch(UserServiceException use){
-                    allmessages.add(new OrderMessage("user", use.getMessage()));
-                    LOGGER.error(use.getMessage());
-                    return ResponseEntity.ok().body(allmessages);
-                }
-                
-               
-
-                //create all OrderDetails with needed info
-                try{
-                    allDetails = createDetails(orderDTO,order,incoming);
-                }     catch(ProductServiceException pse){
+                } catch(ProductServiceException pse){
                     LOGGER.error(pse.getMessage());
                     allmessages.add(new OrderMessage("product",pse.getMessage()));
                     return ResponseEntity.ok().body(allmessages);
@@ -238,16 +231,13 @@ public class OrderRestApi {
                     LOGGER.error(odse.getMessage());
                     allmessages.add(new OrderMessage("orderdetails", odse.getMessage()));
                     return ResponseEntity.ok().body(allmessages);
+                     
+                }catch(OrderServiceException ose){
+                    allmessages.add(new OrderMessage("order",ose.getMessage()));
+                    LOGGER.error(ose.getMessage());
+                    return ResponseEntity.ok().body(allmessages);
+
                 }
-
-                 //add order to the user and status, bidirectional relationships
-                //incoming.getAllOrderNR().add(order);
-               // user.getOrders().add(order);
-
-                //add orderdetails to order and status
-                order.setOrderdetails(allDetails);
-                //incoming.setAllOrderDetailNR(allDetails);
-                allmessages.add(new OrderMessage(order.getOrderNR()));   
             }              
            
         LOGGER.info(allmessages.toString());
@@ -340,7 +330,7 @@ public class OrderRestApi {
             allDetails.add(detail);
 
             //Set bidirectional relationships and reduce number of available products 
-           // product.getAllOrderDetails().add(detail);
+            product.getAllOrderDetails().add(detail);
             product.setAvailable(product.getAvailable()-productdto.getAmount());
 
         }
