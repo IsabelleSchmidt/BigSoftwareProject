@@ -11,7 +11,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -100,7 +101,7 @@ public class UserRestApi {
 	 * @param loginRequest login values
 	 * @return ResponseEntity
 	 */
-	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -272,6 +273,19 @@ public class UserRestApi {
 			throw new AuthenticationException();
 		}
 		return ResponseEntity.ok(mr);
+	}
+
+	@GetMapping("/email/{email}")
+	public User getUserWithMail(@PathVariable String email){
+		User user;
+		try{
+			user = userService.searchUserWithEmail(email);
+		}catch(UserServiceException use){
+			LOGGER2.info(use.getMessage());
+			return null;
+		}
+		return user;
+		
 	}
 
 }

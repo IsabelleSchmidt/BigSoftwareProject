@@ -71,6 +71,7 @@ public class User {
 
     @NotEmpty(message = "Es muss ein Passwort angegeben werden.")
     @JsonProperty(access = Access.WRITE_ONLY)
+    @JsonIgnore
     private String password;
 
     @Valid
