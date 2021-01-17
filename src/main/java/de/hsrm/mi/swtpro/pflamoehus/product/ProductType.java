@@ -11,11 +11,11 @@ public enum ProductType {
     /**
      * type 'Stuhl' 
      * */
-    CHAIR("Stuhl"),
+    CHAIR("Chair"),
     /**
      * type 'Pflanze' 
      * */
-    PLANT("Pflanze"), 
+    PLANT("Plant"), 
     /**
      * type 'Tisch' 
      * */
@@ -23,19 +23,19 @@ public enum ProductType {
     /**
      * type 'Bett' 
      * */
-    BED("Bett"), 
+    BED("Bed"), 
     /**
      * type 'Dekoration' 
      * */
-    DECORATION("Dekoration"),
+    DECORATION("Decoration"),
     /**
      * type 'Schrank/Kommode' 
      * */ 
-    CLOSET("Schrank/Kommode"),
+    CLOSET("Closet"),
     /**
      * type 'Sofa/Couch' 
      * */
-    COUCH("Sofa/Couch");
+    COUCH("Couch");
 
     private String type;
 

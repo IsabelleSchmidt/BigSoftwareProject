@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
+
 /*
  * ValidPictureValidator
  * Compares a given picture with a pattern. The path has to at least end with .jpg or .png.
@@ -13,7 +15,7 @@ import javax.validation.ConstraintValidatorContext;
  * @author Svenja Schenk
  * @version 2
  */
- public class ValidPictureValidator implements ConstraintValidator<ValidPicture, String> {
+ public class ValidPictureValidator implements ConstraintValidator<ValidPicture, Picture> {
 
     /**
      * @param value given picture
@@ -21,11 +23,14 @@ import javax.validation.ConstraintValidatorContext;
      * @return valid or not
      */
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
+    //TODO: muss eigentlich set sein
+    public boolean isValid(Picture value, ConstraintValidatorContext context) {
 
         Pattern picturePattern = Pattern
                 .compile("^(\\\\(\\w|\\\\|\\d|\\.)+\\.((jpe?g)|(png)))|(\\/(\\w|\\/|\\d|\\.)+\\.((jpe?g)|(png)))");
-        Matcher matcher = picturePattern.matcher(value);
+        Matcher matcher = picturePattern.matcher(value.getPath());
+
+
         return matcher.matches();
     }
 

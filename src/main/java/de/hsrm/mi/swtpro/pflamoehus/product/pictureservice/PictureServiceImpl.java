@@ -5,9 +5,14 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.persistence.OptimisticLockException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.PictureServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
@@ -23,6 +28,8 @@ public class PictureServiceImpl implements PictureService {
 
     @Autowired
     PictureRepository pictureRepository;
+    Logger pictureServiceLogger = LoggerFactory.getLogger(PictureServiceImpl.class);
+
 
     /**
      * Returns all pictures found in the database.
@@ -70,6 +77,23 @@ public class PictureServiceImpl implements PictureService {
     public List<Picture> findAllWithPath(String path) {
         Predicate<Picture> byRelPath = picture -> picture.getPath().contains(path);
         return findAll().stream().filter(byRelPath).collect(Collectors.toList());
+    }
+
+    /**
+     * To edit and save a given (new) picture.
+     * 
+     * @param editedPicture given picture that has to be saved
+     * @return picture
+     */
+    @Override
+    public Picture editPicture(Picture editedPicture) {
+        try {
+            editedPicture = pictureRepository.save(editedPicture);
+        } catch (OptimisticLockException oLE) {
+            pictureServiceLogger.error("Pictures can only be edited by one person at a time.");
+            throw new PictureServiceException();
+        }
+        return editedPicture;
     }
 
 }

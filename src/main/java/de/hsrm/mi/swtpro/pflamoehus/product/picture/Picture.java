@@ -47,9 +47,30 @@ public class Picture {
     private Product product;
 
     @NotEmpty
-    @ValidPicture
+    // @ValidPicture
     @Column(unique = true)
     private String path;
+
+    
+    // private long size;
+
+    // /**
+    //  * Get size.
+    //  * 
+    //  * @return size
+    //  */
+    // public long getSize(){
+    //     return size;
+    // }
+
+    // /**
+    //  * Set size.
+    //  * 
+    //  * @param size -> size that has to be set
+    //  */
+    // public void setSize(long size){
+    //     this.size = size;
+    // }
 
     /**
      * Get product.

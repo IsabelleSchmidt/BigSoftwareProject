@@ -3,16 +3,20 @@ package de.hsrm.mi.swtpro.pflamoehus.productapi;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,20 +24,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.model.IModel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,6 +48,7 @@ import java.io.IOException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
+import de.hsrm.mi.swtpro.pflamoehus.product.pictureservice.PictureService;
 import de.hsrm.mi.swtpro.pflamoehus.productservice.ProductService;
 
 /*
@@ -56,6 +64,9 @@ public class ProductRestApi {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    PictureService pictureService;
 
     Logger productRestApiLogger = LoggerFactory.getLogger(ProductRestApi.class);
 
@@ -172,49 +183,77 @@ public class ProductRestApi {
 
     @PostMapping(value = "/product/{articleNr}/newpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public boolean postPicturedata(@PathVariable Long articleNr,
-            @RequestPart(name = "picture", required = true) MultipartFile picture) {
+            @RequestPart(name = "picture", required = true) MultipartFile[] pictures) {
 
         Product newProduct;
-        FileOutputStream fileOutStream;
 
         try {
             // Produkt suchen
             productRestApiLogger.info("Suche Artikel mit Nummer" + articleNr);
             newProduct = productService.searchProductwithArticleNr(articleNr);
+            
+            for(var picture:pictures){
+                productRestApiLogger.info("bekommen wir" + picture.toString());
+                saveImage(articleNr,picture);
+            }
+
         } catch (ProductServiceException pse) {
             productRestApiLogger.error(pse.getMessage());
             return false;
         }
 
-        // TODO: wie kriege ich einzelne Bilder raus wenn es mehrere sind?
+        return true;
+    }
+
+    private boolean saveImage(long articleNr, MultipartFile picture) {
         try {
             // Bild speichern
-            productRestApiLogger.info("Bilderrrr: " + picture.getOriginalFilename());
-            String pfad = "/" + newProduct.getProductType().toLowerCase() + "s/"+newProduct.getName()+".jpg"; // +newProduct.getName()+".jpg"
-            productRestApiLogger.info("Path" + pfad);
+            productRestApiLogger.info("Bild: " + picture.getOriginalFilename());
             
-            byte[] bytes = picture.getBytes();
-            Path path = Paths.get(pfad);
-            Files.write(path, bytes);
+            String home = System.getProperty("user.home");
+            String dir = "upload";
+            String productType = productService.searchProductwithArticleNr(articleNr).getProductType().toLowerCase()+"s";
+            String filename = picture.getOriginalFilename();
 
-            // File file = new File(path);
-            // fileOutStream = new FileOutputStream(file);
-            // productRestApiLogger.info("OutPutStream: "+fileOutStream);
-            // fileOutStream.write(picture.getBytes());
-            // fileOutStream.close();
-            // Picture newPicture = new Picture();
-            // newPicture.setPath(path);
+            InputStream inputStream = picture.getInputStream();
+            
+            Path path = Paths.get(home,dir,productType);
+            Path pathPicture = Paths.get(home,dir,productType,filename);
+
+            
+            if(Files.exists(path)){
+                if(!Files.exists(pathPicture)){
+                    productRestApiLogger.info("Ordner existiert Bild nicht");
+                    Files.copy(inputStream, pathPicture);
+                }
+            }else{
+                productRestApiLogger.info("Ordner existiert nicht. Neues Verzeinis");
+                new File(path.toString()).mkdir();
+                Files.copy(inputStream, pathPicture);
+            }
+
+            Picture newPicture = new Picture();
+            newPicture.setPath(home+"/"+dir+"/"+filename);
+            newPicture.setProduct(getProductWithID(articleNr));
+            // newPicture.setSize(picture.getSize());
+            pictureService.editPicture(newPicture);
 
        }catch(FileNotFoundException fnoe){
-          productRestApiLogger.error(fnoe.getMessage());
+          productRestApiLogger.error("File not Found "+fnoe.getMessage());
           return false;
        }catch(IOException ioe){
-          productRestApiLogger.error(ioe.getMessage());
+          productRestApiLogger.error("IO "+ioe.getMessage());
           return false;
        }
         return true;
     }
 
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public String handleFileUploadError(RedirectAttributes ra){
+        return null;
+        
+    }
 
 
 }

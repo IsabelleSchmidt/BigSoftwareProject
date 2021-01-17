@@ -11,32 +11,40 @@ public enum RoomType {
     /**
      * type 'Bad' 
      * */
-    BATHROOM("Bad"), 
+    BATHROOM("Bathroom"), 
     /**
      * type 'Schlafzimmer' 
      * */
-    BEDROOM("Schlafzimmer"), 
+    BEDROOM("Bedroom"), 
     /**
      * type 'Küche/Wohnküche' 
      * */
-    KITCHEN("Küche/Wohnküche"), 
+    KITCHEN("Kitchen"), 
     /**
      * type 'Kinderzimmer' 
      * */
-    CHILDREN("Kinderzimmer"),
+    CHILDREN("Children"),
     /**
      * type 'Arbeitszimmer' 
      * */
-    BUREAU("Arbeitszimmer"), 
+    BUREAU("Bureau"), 
     /**
      * type 'Wohnzimmer' 
      * */
-    LIVINGROOM("Wohnzimmer"),
+    LIVINGROOM("Livingroom"),
    
     /**
      * type 'Esszimmer'
      */
-    EATINGROOM("Esszimmer");
+    EATINGROOM("Eatingroom"),
+    
+    /**
+     * type 'NULL'
+     */
+    NULL("null");
+
+
+
 
     
     private String type;
