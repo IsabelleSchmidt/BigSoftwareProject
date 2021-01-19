@@ -217,6 +217,7 @@ public class UserRestApi {
 		MessageResponse mr = new MessageResponse();
 		List<MessageResponse> mrs = new ArrayList<>();
 
+		LOGGER2.info("BESTELLUNG HIER HIER HIER HIER HIER HIER");
 		if (result.hasErrors()) {
 
 			for (FieldError error : result.getFieldErrors()) {
@@ -226,9 +227,21 @@ public class UserRestApi {
 				mrs.add(mrp);
 				LOGGER2.info("ERROR: " + mrp);
 			}
+			if(mrs.toString().contains("cowner") && mrs.toString().contains("creditcardnumber") && !(mrs.toString().contains("owner") && mrs.toString().contains("iban") && mrs.toString().contains("bank"))){
+				List<MessageResponse> delete = mrs.stream()
+					// .filter(s -> s.getField().equals("cowner"))
+					// .filter(s -> s.getField().equals("creditcardnumber"))
+					// .filter(s -> s.getField().equals("dateOfExpiry"))
+					.filter(s->  "creditcard.cowner creditcard.creditcardnumber creditcard.dateOfExpiry".contains(s.getField()))
+					.collect(Collectors.toList());
+
+				mrs.removeAll(delete);
+				LOGGER2.info("ERRROOOOROROROROROOOOOR MESSAGES: " + mrs);
+			}
 			if (mrs.size() > 0) {
 				return new ResponseEntity<>(mrs, HttpStatus.OK);
 			}
+			
 
 		}
 
@@ -237,6 +250,7 @@ public class UserRestApi {
 
 		try {
 			User user = userService.searchUserWithEmail(email);
+			LOGGER2.info("USER BESTELLUNG: " + user);
 
 			if (userOrderRequest.getAdress() != null) {
 				Adress newAdress = userOrderRequest.getAdress();
@@ -244,13 +258,13 @@ public class UserRestApi {
 				user.getAllAdresses().add(newAdress);
 			}
 
-			if (userOrderRequest.getBankCard() != null) {
+			if (userOrderRequest.getBankCard().getIban() != "") {
 				Bankcard newBankcard = userOrderRequest.getBankCard();
 				bankcardSerivce.saveBankcard(newBankcard);
 				user.getBankcard().add(newBankcard);
 			}
 
-			if (userOrderRequest.getCreditcard() != null) {
+			if (userOrderRequest.getCreditcard().getCreditcardnumber() != "") {
 				Creditcard newCreditcard = new Creditcard();
 				creditcardService.saveCreditcard(newCreditcard);
 				user.getCreditcard().add(newCreditcard);
@@ -271,6 +285,8 @@ public class UserRestApi {
 		} catch (UserServiceException use) {
 			throw new AuthenticationException();
 		}
+
+		LOGGER2.info("ALLE ADRESSEN: " + adressSerivce.findAll());
 		return ResponseEntity.ok(mr);
 	}
 

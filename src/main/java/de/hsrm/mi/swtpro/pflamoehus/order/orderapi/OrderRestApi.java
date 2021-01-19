@@ -27,6 +27,7 @@ import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.ProductServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.StatusServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.UserServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.order.Order;
+import de.hsrm.mi.swtpro.pflamoehus.order.OrderRepository;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.orderdetailsservice.OrderDetailsService;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderservice.OrderService;
@@ -68,6 +69,9 @@ public class OrderRestApi {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    OrderRepository orderRepo;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderRestApi.class);
 
@@ -249,7 +253,6 @@ public class OrderRestApi {
                 //incoming.setAllOrderDetailNR(allDetails);
                 allmessages.add(new OrderMessage(order.getOrderNR()));   
             }              
-           
         LOGGER.info(allmessages.toString());
         return ResponseEntity.ok().body(allmessages);
     }

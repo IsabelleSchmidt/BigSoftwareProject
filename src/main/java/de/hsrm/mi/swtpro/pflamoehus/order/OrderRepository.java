@@ -16,6 +16,8 @@ import de.hsrm.mi.swtpro.pflamoehus.user.User;
  */
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
+    List<Order> findAll();
+
     /**
      * Find a order by its id.
      * 

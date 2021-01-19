@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
     public User searchUserWithEmail(String email) throws UserServiceException {
 
         Optional<User> user = userRepository.findByEmail(email);
+        userServiceLogger.info("USER AUS REPO: " + user);
         if (user.isEmpty()) {
             throw new UserServiceException("User with this mail wasn't found in the database");
         }

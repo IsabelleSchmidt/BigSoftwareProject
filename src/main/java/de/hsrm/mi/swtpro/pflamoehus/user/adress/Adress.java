@@ -51,7 +51,7 @@ public class Adress {
     @Pattern(regexp = "\\p{L}{2,}", message="Der Wohnort ist ungültig.")
     private String city;
 
-    @ManyToMany(mappedBy = "allAdresses", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "allAdresses", fetch = FetchType.EAGER)
     private List<User> user;
 
     /**
