@@ -85,7 +85,7 @@ public class OrderRequest {
     @Size(min = 1, message = "You need to buy at least one product per order.")
     private List<@Valid ProductDTO> allProductsOrdered= new ArrayList<>();
 
-    @NotNull(message = "Please add a user to the order.")
+    @NotNull(message = "Please login to order.")
     @Valid
     private JwtResponse jwtToken; //used to identify user
 

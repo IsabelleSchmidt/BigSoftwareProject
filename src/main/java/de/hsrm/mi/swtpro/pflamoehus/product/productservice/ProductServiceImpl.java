@@ -2,6 +2,8 @@ package de.hsrm.mi.swtpro.pflamoehus.product.productservice;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.OptimisticLockException;
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
  * @version 1
  */
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
     @Autowired

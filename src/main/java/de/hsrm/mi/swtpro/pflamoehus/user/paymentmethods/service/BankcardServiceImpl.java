@@ -3,6 +3,7 @@ package de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.service;
 import java.util.Optional;
 
 import javax.persistence.OptimisticLockException;
+import javax.transaction.Transactional;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
  * @version 1
  */
 @Service
+@Transactional
 public class BankcardServiceImpl implements BankcardService {
 
     @Autowired
@@ -43,6 +45,7 @@ public class BankcardServiceImpl implements BankcardService {
      * @return Bankcard
      */
     @Override
+    @Transactional
     public Optional<Bankcard> findById(long id) {
         return bankcardRepo.findById(id);
     }
@@ -55,6 +58,7 @@ public class BankcardServiceImpl implements BankcardService {
      * @return Bankcard
      */
     @Override
+    @Transactional
     public Bankcard saveBankcard(Bankcard card) {
         try{
             card = bankcardRepo.save(card);

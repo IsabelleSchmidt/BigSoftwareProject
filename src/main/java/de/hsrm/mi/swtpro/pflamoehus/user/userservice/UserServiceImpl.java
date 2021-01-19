@@ -3,6 +3,7 @@ package de.hsrm.mi.swtpro.pflamoehus.user.userservice;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.OptimisticLockException;
+import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
  * @version 4
  */
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.Digits;
@@ -21,6 +22,10 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.springframework.boot.SpringApplication;
+
+import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
 import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.*;
@@ -36,6 +41,7 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.*;
 @Table(name = "Product")
 public class Product {
 
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long articlenr;
@@ -96,8 +102,9 @@ public class Product {
     private String information;
 
     //Unidirectional Relationship, owning side: OrderDetails
-  
-
+    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JsonIgnore
+    private Set<OrderDetails> allOrderDetails = new HashSet<>();
     
     /**
      * Get information.
@@ -348,6 +355,14 @@ public class Product {
                 + depth + ", description=" + description + ", height=" + height + ", information=" + information
                 + ", name=" + name + ", available=" + available + ", price=" + price + ", productType="
                 + productType + ", roomType=" + roomType + ", version=" + version + ", width=" + width + "]";
+    }
+
+    public Set<OrderDetails> getAllOrderDetails() {
+        return allOrderDetails;
+    }
+
+    public void setAllOrderDetails(Set<OrderDetails> allOrderDetails) {
+        this.allOrderDetails = allOrderDetails;
     }
 
   

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.OptimisticLockException;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
  * @version 1
  */
 @Service
+@Transactional
 public class CreditcardServiceImpl implements CreditcardService {
 
     private static final Logger ORDERDETAILSSERVICELOGGER = LoggerFactory.getLogger(CreditcardServiceImpl.class);
@@ -57,6 +59,7 @@ public class CreditcardServiceImpl implements CreditcardService {
      * @return creditcard
      */
     @Override
+    @Transactional
     public Optional<Creditcard> findById(long id) {
         return creditcardRepo.findById(id);
     }
