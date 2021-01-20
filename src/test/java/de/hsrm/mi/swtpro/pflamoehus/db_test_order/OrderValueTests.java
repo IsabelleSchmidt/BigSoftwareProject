@@ -42,11 +42,11 @@ public class OrderValueTests {
         order.setDeliveryDate(DELIVERY);
         order.setCustomerEmail(EMAIL);
         order.setPriceTotal(PRICE);
-        assertEquals(validator.validate(order).size(), 0);
+        assertEquals(0,validator.validate(order).size());
 
         LocalDate delivery = LocalDate.now();
         order.setDeliveryDate(delivery);
-        assertEquals(validator.validate(order).size(), 0);
+        assertEquals(0, validator.validate(order).size());
 
          
     }
@@ -60,7 +60,7 @@ public class OrderValueTests {
         order.setCustomerEmail(EMAIL);
         order.setDeliveryDate(delivery);
         order.setPriceTotal(PRICE);
-        assertEquals(validator.validate(order).size(), 1);
+        assertEquals(1, validator.validate(order).size());
 
         
     }

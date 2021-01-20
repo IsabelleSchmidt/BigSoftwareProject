@@ -50,6 +50,7 @@ public class Adress {
     private String city;
 
     @ManyToMany(mappedBy = "allAdresses", fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<User> user = new HashSet<>();
 
     /**
@@ -190,7 +191,7 @@ public class Adress {
     @Override
     public String toString() {
         return "Adress [adressID=" + adressID + ", city=" + city + ", houseNumber=" + houseNumber + ", postCode="
-                + postCode + ", streetName=" + streetName + ", user=" + user + ", version=" + version + "]";
+                + postCode + ", streetName=" + streetName  + ", version=" + version + "]";
     }
 
 }

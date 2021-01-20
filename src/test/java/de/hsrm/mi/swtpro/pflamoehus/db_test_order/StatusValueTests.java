@@ -35,7 +35,7 @@ public class StatusValueTests {
 
         for(Statuscode aktcode :    Statuscode.values()){
             status.setStatuscode(aktcode.toString());
-            assertEquals(validator.validate(status).size(),0);
+            assertEquals(0,validator.validate(status).size());
         }   
          
     }
@@ -52,12 +52,12 @@ public class StatusValueTests {
 
         for(Statuscode aktcode :    Statuscode.values()){
             status.setStatuscode(aktcode.toString().toLowerCase());
-            assertEquals(validator.validate(status).size(),1, "Statuscode in klein muss als falsch validiert werden");
+            assertEquals(1,validator.validate(status).size(), "Statuscode in klein muss als falsch validiert werden");
         }   
 
       
         status.setStatuscode("");
-        assertEquals(validator.validate(status).size(), 1, "Statuscode '' muss als falsch validiert werden");
+        assertEquals(1, validator.validate(status).size(), "Statuscode '' muss als falsch validiert werden");
         
     }
 }

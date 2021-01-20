@@ -175,7 +175,7 @@ public class Bankcard {
      */
     @Override
     public String toString() {
-        return "Bankcard [bank=" + bank + ", iban=" + iban + ", id=" + id + ", owner=" + owner + ", user=" + user
+        return "Bankcard [bank=" + bank + ", iban=" + iban + ", id=" + id + ", owner=" + owner
                 + ", version=" + version + "]";
     }
 

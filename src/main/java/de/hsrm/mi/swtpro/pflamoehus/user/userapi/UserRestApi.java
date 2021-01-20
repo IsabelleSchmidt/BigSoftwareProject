@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.naming.AuthenticationException;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -207,6 +208,7 @@ public class UserRestApi {
 	 * @return response
 	 * @throws AuthenticationException if the user is not known in the database
 	 */
+	@Transactional
 	@PostMapping("/newOrder/user")
 	public ResponseEntity<List<MessageResponse>> addInfosToUser(@Valid @RequestBody UserOrderRequest userOrderRequest,
 			BindingResult result) throws AuthenticationException {
@@ -239,30 +241,33 @@ public class UserRestApi {
 
 		JwtResponse jwtToken = userOrderRequest.getToken();
 		String email = jwtToken.getEmail();
-
 		try {
 			User user = userService.searchUserWithEmail(email);
 
 			if (userOrderRequest.getAdress() != null) {
+
 				Adress newAdress = userOrderRequest.getAdress();
 				newAdress = adressSerivce.saveAdress(newAdress);
 				user.getAllAdresses().add(newAdress);
+				LOGGER2.info("USER BEARBEITET SPEICHERN");
+				userService.editUser(user);
 				
 			}
 
-			if (userOrderRequest.getBankCard().getIban().equals("")) {
+			if (!userOrderRequest.getBankCard().getIban().equals("")) {
 				Bankcard newBankcard = userOrderRequest.getBankCard();
 				newBankcard = bankcardSerivce.saveBankcard(newBankcard);
 				user.getBankcard().add(newBankcard);
+				userService.editUser(user);
 			}
 
-			if (userOrderRequest.getCreditcard().getCreditcardnumber().equals("")) {
+			if (!userOrderRequest.getCreditcard().getCreditcardnumber().equals("")) {
+				LOGGER2.info("KREDITKARTE SPEICHERN.");
 				Creditcard newCreditcard = new Creditcard();
 				newCreditcard = creditcardService.saveCreditcard(newCreditcard);
 				user.getCreditcard().add(newCreditcard);
+				userService.editUser(user);
 			}
-
-			LOGGER2.info("USER NACH GEUPDATETEN INFOS: " + user);
 
 		} catch (AdressServiceException ase) {
 			LOGGER2.error("Adress could not be saved.");
@@ -292,6 +297,7 @@ public class UserRestApi {
 			LOGGER2.info(use.getMessage());
 			return null;
 		}
+		LOGGER2.info("User anhand der Email Adresse: " + user);
 		return user;
 
 	}

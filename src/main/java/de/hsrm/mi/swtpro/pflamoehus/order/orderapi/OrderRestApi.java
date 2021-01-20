@@ -243,7 +243,6 @@ public class OrderRestApi {
 
                 }
             }              
-        LOGGER.info(allmessages.toString());
         return ResponseEntity.ok().body(allmessages);
     }
 
@@ -262,8 +261,8 @@ public class OrderRestApi {
              return orderService.findAllOrdersOnDate(date);
         }else{
             //When the date is invalid, return null, if no order is found the list is empty
-            List<Order> empty = new ArrayList<>();
-            return empty;
+            
+            return new ArrayList<>();
         }
 
     }

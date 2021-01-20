@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
      * @return order
      */
     @Override
-    public Order editOrder(Order newOrder) throws OrderServiceException, UserServiceException {
+    public Order editOrder(Order newOrder) {
         Order savedorder = null;
         try {
             savedorder = orderRepo.save(newOrder);

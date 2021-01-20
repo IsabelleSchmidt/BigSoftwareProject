@@ -86,11 +86,11 @@ public class JwtUtils {
             Jwts.parserBuilder().setSigningKey(jwtSecret).build().parseClaimsJws(authToken);
             return true;
         }catch(MalformedJwtException e){
-            logger.error("Invalid JWT token: {0}", e.getMessage());
+            logger.error("Invalid JWT token: %s", e.getMessage());
         }catch(UnsupportedJwtException e){
-            logger.error("JWT token is unsupported: {0} ", e.getMessage());
+            logger.error("JWT token is unsupported: %s ", e.getMessage());
         }catch(IllegalArgumentException e){
-            logger.error("JWT claims string is empty: {0}", e.getMessage());
+            logger.error("JWT claims string is empty: %s", e.getMessage());
         }
 
         return false;

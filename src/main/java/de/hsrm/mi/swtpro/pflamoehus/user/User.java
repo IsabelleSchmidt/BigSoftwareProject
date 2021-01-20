@@ -74,7 +74,6 @@ public class User {
     @JsonIgnore
     private String password;
 
-    @Valid
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name = "User_Adresses", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "adressID"))
     private Set<Adress> allAdresses = new HashSet<>();
