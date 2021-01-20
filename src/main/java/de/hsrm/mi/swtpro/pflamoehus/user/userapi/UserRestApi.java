@@ -240,6 +240,7 @@ public class UserRestApi {
 				LOGGER2.info("ERRROOOOROROROROROOOOOR MESSAGES: " + mrs);
 			}
 			if (mrs.size() > 0) {
+				LOGGER2.info("ICH GEH HIER REIN.");
 				return new ResponseEntity<>(mrs, HttpStatus.OK);
 			}
 			
@@ -255,21 +256,24 @@ public class UserRestApi {
 
 			if (userOrderRequest.getAdress() != null) {
 				Adress newAdress = userOrderRequest.getAdress();
-				adressSerivce.saveAdress(newAdress);
+				newAdress = adressSerivce.saveAdress(newAdress);
 				user.getAllAdresses().add(newAdress);
+				
 			}
 
 			if (userOrderRequest.getBankCard().getIban() != "") {
 				Bankcard newBankcard = userOrderRequest.getBankCard();
-				bankcardSerivce.saveBankcard(newBankcard);
+				newBankcard = bankcardSerivce.saveBankcard(newBankcard);
 				user.getBankcard().add(newBankcard);
 			}
 
 			if (userOrderRequest.getCreditcard().getCreditcardnumber() != "") {
 				Creditcard newCreditcard = new Creditcard();
-				creditcardService.saveCreditcard(newCreditcard);
+				newCreditcard = creditcardService.saveCreditcard(newCreditcard);
 				user.getCreditcard().add(newCreditcard);
 			}
+
+			LOGGER2.info("USER NACH GEUPDATETEN INFOS: " + user);
 
 		} catch (AdressServiceException ase) {
 			LOGGER2.error("Adress couldn't be saved.");

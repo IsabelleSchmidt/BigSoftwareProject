@@ -19,6 +19,8 @@ public interface UserService {
      */
     List<User> allUsers();
 
+    User editUser(User user);
+
     /**
      * Searches the user with the given email adress.
      * 

@@ -142,6 +142,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsByEmail(email);
     }
 
+    @Override
+    public User editUser(User user) {
+        try {
+            user = userRepository.save(user);
+        } catch (OptimisticLockException oLE) {
+            throw new UserServiceException();
+        }
+        return user;
+
+    }
+
     
 
 }
