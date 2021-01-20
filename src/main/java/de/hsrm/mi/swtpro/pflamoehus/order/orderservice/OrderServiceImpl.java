@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.OrderServiceException;
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.UserServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.order.Order;
 import de.hsrm.mi.swtpro.pflamoehus.order.OrderRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
