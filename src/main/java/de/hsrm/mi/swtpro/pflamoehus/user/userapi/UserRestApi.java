@@ -230,6 +230,7 @@ public class UserRestApi {
 
 				mrs.removeAll(delete);
 			}
+
 			if (!mrs.isEmpty()) {
 				return new ResponseEntity<>(mrs, HttpStatus.OK);
 			}
@@ -244,21 +245,24 @@ public class UserRestApi {
 
 			if (userOrderRequest.getAdress() != null) {
 				Adress newAdress = userOrderRequest.getAdress();
-				adressSerivce.saveAdress(newAdress);
+				newAdress = adressSerivce.saveAdress(newAdress);
 				user.getAllAdresses().add(newAdress);
+				
 			}
 
 			if (userOrderRequest.getBankCard().getIban().equals("")) {
 				Bankcard newBankcard = userOrderRequest.getBankCard();
-				bankcardSerivce.saveBankcard(newBankcard);
+				newBankcard = bankcardSerivce.saveBankcard(newBankcard);
 				user.getBankcard().add(newBankcard);
 			}
 
 			if (userOrderRequest.getCreditcard().getCreditcardnumber().equals("")) {
 				Creditcard newCreditcard = new Creditcard();
-				creditcardService.saveCreditcard(newCreditcard);
+				newCreditcard = creditcardService.saveCreditcard(newCreditcard);
 				user.getCreditcard().add(newCreditcard);
 			}
+
+			LOGGER2.info("USER NACH GEUPDATETEN INFOS: " + user);
 
 		} catch (AdressServiceException ase) {
 			LOGGER2.error("Adress could not be saved.");
