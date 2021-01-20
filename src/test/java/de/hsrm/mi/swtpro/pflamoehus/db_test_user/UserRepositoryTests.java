@@ -85,7 +85,7 @@ class UserRepositoryTests {
         final User managed = userRepo.save(unmanaged);
         assertThat(managed).isEqualTo(unmanaged);
 
-        assertEquals(userRepo.count()==1, "REPO: " + repo);
+        assertEquals(userRepo.count(), 1, "REPO: " + repo);
 
     }
 
