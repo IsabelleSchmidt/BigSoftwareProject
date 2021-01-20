@@ -1,4 +1,4 @@
-package de.hsrm.mi.swtpro.pflamoehus.user.roles.service;
+package de.hsrm.mi.swtpro.pflamoehus.user.roles.rolesservice;
 
 import java.util.Optional;
 

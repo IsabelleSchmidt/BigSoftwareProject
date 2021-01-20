@@ -77,7 +77,7 @@ public class User {
     @Valid
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name = "User_Adresses", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "adressID"))
-    private Set<Adress> allAdresses;
+    private Set<Adress> allAdresses = new HashSet<>();
 
     @NotEmpty(message = "Das Geschlecht muss angegeben werden.")
     @ValidGender
@@ -85,11 +85,11 @@ public class User {
 
     @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<Bankcard> bankcard;
+    private Set<Bankcard> bankcard = new HashSet<>();
 
     @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<Creditcard> creditcard;
+    private Set<Creditcard> creditcard = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

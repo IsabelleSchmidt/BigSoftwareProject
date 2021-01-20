@@ -13,18 +13,15 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 import org.springframework.validation.annotation.Validated;
-
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidCreditCardNumber;
-
 import java.time.LocalDate;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /*
  * Creditcard entity for its database.
@@ -61,7 +58,7 @@ public class Creditcard {
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     @JoinTable(name = "User_Creditcards", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "userID"))
-    private List<User> user;
+    private Set<User> user = new HashSet<>();
 
     /**
      * Get id.
@@ -140,7 +137,7 @@ public class Creditcard {
      * 
      * @return list of users
      */
-    public List<User> getUser() {
+    public Set<User> getUser() {
         return user;
     }
 
@@ -149,7 +146,7 @@ public class Creditcard {
      * 
      * @param user list of users that has to be set
      */
-    public void setUser(List<User> user) {
+    public void setUser(Set<User> user) {
         this.user = user;
     }
 

@@ -1,9 +1,10 @@
-package de.hsrm.mi.swtpro.pflamoehus.user.adress.service;
+package de.hsrm.mi.swtpro.pflamoehus.user.adress.adressservice;
 
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.OptimisticLockException;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.AdressRepository;
 
 @Service
+@Transactional
 public class AdressServiceImpl implements AdressService {
 
     @Autowired

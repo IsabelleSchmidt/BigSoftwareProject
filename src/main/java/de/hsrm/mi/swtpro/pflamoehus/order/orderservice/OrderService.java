@@ -28,7 +28,7 @@ public interface OrderService {
      * @param OrderNR id
      * @return order
      */
-    Order findOrderByOrderNR(long OrderNR);
+    Order findOrderByOrderNR(long orderNR);
 
     /**
      * Find all orders from a certain user.

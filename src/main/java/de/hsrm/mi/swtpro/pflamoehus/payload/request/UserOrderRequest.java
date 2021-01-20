@@ -18,7 +18,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
  */
 @Validated
 public class UserOrderRequest {
-    //TODO: überall gucken ob liste oder hashset
+ 
     @Valid
     private Creditcard creditcard;
 
