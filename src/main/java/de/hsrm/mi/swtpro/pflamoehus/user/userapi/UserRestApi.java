@@ -249,24 +249,24 @@ public class UserRestApi {
 				Adress newAdress = userOrderRequest.getAdress();
 				newAdress = adressSerivce.saveAdress(newAdress);
 				user.getAllAdresses().add(newAdress);
-				LOGGER2.info("USER BEARBEITET SPEICHERN");
-				userService.editUser(user);
+				user=userService.editUser(user);
 				
 			}
 
 			if (!userOrderRequest.getBankCard().getIban().equals("")) {
 				Bankcard newBankcard = userOrderRequest.getBankCard();
+				newBankcard.getUser().add(user);
 				newBankcard = bankcardSerivce.saveBankcard(newBankcard);
 				user.getBankcard().add(newBankcard);
-				userService.editUser(user);
+				user = userService.editUser(user);
 			}
 
 			if (!userOrderRequest.getCreditcard().getCreditcardnumber().equals("")) {
-				LOGGER2.info("KREDITKARTE SPEICHERN.");
 				Creditcard newCreditcard = new Creditcard();
+				newCreditcard.getUser().add(user);
 				newCreditcard = creditcardService.saveCreditcard(newCreditcard);
 				user.getCreditcard().add(newCreditcard);
-				userService.editUser(user);
+				user = userService.editUser(user);
 			}
 
 		} catch (AdressServiceException ase) {

@@ -96,8 +96,7 @@ public class ProductRestApi {
 
         } catch (ProductServiceException pae) {
             productRestApiLogger.error("Failed to get the pictures.");
-            Set<Picture> empty = new HashSet<>();
-            return empty;
+            return new HashSet<>();
         }
         return found.getAllPictures();
     }
