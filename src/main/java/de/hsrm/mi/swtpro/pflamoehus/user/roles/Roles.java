@@ -1,7 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.roles;
 
-import java.util.List;
-
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -37,7 +37,7 @@ public class Roles {
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<User> user;
+    private Set<User> user = new HashSet<>();
 
     
     /** 
@@ -95,7 +95,7 @@ public class Roles {
      * 
      * @return list of users
      */
-    public List<User> getUser() {
+    public Set<User> getUser() {
         return user;
     }
 
@@ -104,7 +104,7 @@ public class Roles {
      * 
      * @param user users that have to be set
      */
-    public void setUser(List<User> user) {
+    public void setUser(Set<User> user) {
         this.user = user;
     }
 

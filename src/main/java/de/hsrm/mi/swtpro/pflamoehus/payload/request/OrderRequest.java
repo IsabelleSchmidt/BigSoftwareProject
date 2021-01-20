@@ -21,7 +21,7 @@ import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
  */
 @Validated
 public class OrderRequest {
-    //TODO: über sinn aller setter und getter nachdenken
+
 
     /**
      * Mask for a product included in a order

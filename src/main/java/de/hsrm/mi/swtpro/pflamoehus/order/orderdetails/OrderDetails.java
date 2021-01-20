@@ -9,11 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.springframework.validation.annotation.Validated;
-
 import de.hsrm.mi.swtpro.pflamoehus.order.Order;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.Status;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;

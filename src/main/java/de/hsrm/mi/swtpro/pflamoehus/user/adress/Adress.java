@@ -1,7 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.adress;
 
-import java.util.List;
-
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,9 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
 /*
@@ -52,7 +50,7 @@ public class Adress {
     private String city;
 
     @ManyToMany(mappedBy = "allAdresses", fetch = FetchType.EAGER)
-    private List<User> user;
+    private Set<User> user = new HashSet<>();
 
     /**
      * Get id.
@@ -149,7 +147,7 @@ public class Adress {
      * 
      * @return list of users
      */
-    public List<User> getUser() {
+    public Set<User> getUser() {
         return user;
     }
 
@@ -158,7 +156,7 @@ public class Adress {
      * 
      * @param user users that have to be set
      */
-    public void setUser(List<User> user) {
+    public void setUser(Set<User> user) {
         this.user = user;
     }
 

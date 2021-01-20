@@ -5,10 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.naming.AuthenticationException;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.LoginRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.SignUpRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.UserOrderRequest;
@@ -43,13 +40,13 @@ import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.*;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
-import de.hsrm.mi.swtpro.pflamoehus.user.adress.service.*;
+import de.hsrm.mi.swtpro.pflamoehus.user.adress.adressservice.*;
 import de.hsrm.mi.swtpro.pflamoehus.user.roles.Roles;
+import de.hsrm.mi.swtpro.pflamoehus.user.roles.rolesservice.RoleService;
 import de.hsrm.mi.swtpro.pflamoehus.user.roles.ERoles;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.service.*;
-import de.hsrm.mi.swtpro.pflamoehus.user.roles.service.RoleService;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.paymentservice.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

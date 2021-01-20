@@ -277,10 +277,26 @@ public class OrderRestApi {
      */
     @PostMapping("/edit/orderstatus/{orderNR}/{newStatus}")
     public boolean changeOrderStatus(@PathVariable long orderNR, @PathVariable String newStatus) {
+        Order order;
+        Status status;
+        
+        try{
+            order = orderService.findOrderByOrderNR(orderNR);
+            status = statusService.findStatusWithCode(newStatus);
+            order.setStatus(status);
 
-        // TODO: order aus altem status raus, in neuen Status rein, in order auch
-        // aendern
+            for(OrderDetails detail : order.getOrderdetails()){
+                detail.setStatusID(status);
+            }
 
+        }catch(OrderServiceException ose){
+            LOGGER.error(ose.getMessage());
+            return false;
+        }catch(StatusServiceException sse){
+            LOGGER.error(sse.getMessage());
+            return false;
+        }
+       
         return true;
     }
 
