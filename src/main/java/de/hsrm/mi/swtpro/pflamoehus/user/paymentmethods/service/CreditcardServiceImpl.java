@@ -92,7 +92,10 @@ public class CreditcardServiceImpl implements CreditcardService {
     @Override
     public void deleteCreditcard(long id) {
         Optional<Creditcard> cc = findById(id);
-        creditcardRepo.delete(cc.get());
+        if(cc.isPresent()){
+            creditcardRepo.delete(cc.get());
+        }
+        
 
     }
 

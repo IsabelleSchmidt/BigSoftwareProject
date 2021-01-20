@@ -103,7 +103,10 @@ public class AdressServiceImpl implements AdressService {
     @Override
     public void deleteAdress(long id) {
         Optional<Adress> a = findById(id);
-        adressRepo.delete(a.get());
+        if (a.isPresent()){
+            adressRepo.delete(a.get());
+        }
+        
     }
 
 }

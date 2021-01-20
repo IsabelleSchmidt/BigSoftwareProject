@@ -259,13 +259,13 @@ public class UserRestApi {
 				user.getAllAdresses().add(newAdress);
 			}
 
-			if (userOrderRequest.getBankCard().getIban() != "") {
+			if (userOrderRequest.getBankCard().getIban().equals("")) {
 				Bankcard newBankcard = userOrderRequest.getBankCard();
 				bankcardSerivce.saveBankcard(newBankcard);
 				user.getBankcard().add(newBankcard);
 			}
 
-			if (userOrderRequest.getCreditcard().getCreditcardnumber() != "") {
+			if (userOrderRequest.getCreditcard().getCreditcardnumber().equals("")) {
 				Creditcard newCreditcard = new Creditcard();
 				creditcardService.saveCreditcard(newCreditcard);
 				user.getCreditcard().add(newCreditcard);

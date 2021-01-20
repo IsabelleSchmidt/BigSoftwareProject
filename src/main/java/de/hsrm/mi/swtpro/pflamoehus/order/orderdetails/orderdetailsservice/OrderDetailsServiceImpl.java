@@ -120,7 +120,10 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     @Override
     public void deleteOrderDetail(long id) {
         Optional<OrderDetails> od = findByID(id);
-        orderDetailsRepo.delete(od.get());
+        if(od.isPresent()){
+            orderDetailsRepo.delete(od.get());
+        }
+        
     }
 
 }
