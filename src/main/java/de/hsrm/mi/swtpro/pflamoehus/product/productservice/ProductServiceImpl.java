@@ -75,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
      * @param id product-id that has to be deleted
      */
     @Override
-    public void deleteProduct(long id) throws ProductServiceException {
+    public void deleteProduct(long id) {
             productRepo.delete(searchProductwithArticleNr(id));
     }
 

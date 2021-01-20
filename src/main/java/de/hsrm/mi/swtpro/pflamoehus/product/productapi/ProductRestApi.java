@@ -1,5 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.product.productapi;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.validation.Valid;
@@ -65,7 +66,7 @@ public class ProductRestApi {
         try{
              product = productService.searchProductwithArticleNr(articleNr);
         }catch(ProductServiceException pse){
-            return null;
+            return product;
         }
        
         return product;
@@ -138,7 +139,8 @@ public class ProductRestApi {
 
         } catch (ProductServiceException pae) {
             productRestApiLogger.error("Failed to get the pictures.");
-            return null;
+            Set<Picture> empty = new HashSet<>();
+            return empty;
         }
         return found.getAllPictures();
     }

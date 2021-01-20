@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PasswordEncoder pe;
 
-    Logger userServiceLogger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     /**
      * Returns a list of all users written in the database.
@@ -49,10 +49,9 @@ public class UserServiceImpl implements UserService {
      * @return user
      */
     @Override
-    public User searchUserWithEmail(String email) throws UserServiceException {
+    public User searchUserWithEmail(String email) {
 
         Optional<User> user = userRepository.findByEmail(email);
-        userServiceLogger.info("USER AUS REPO: " + user);
         if (user.isEmpty()) {
             throw new UserServiceException("User with this mail wasn't found in the database");
         }
@@ -112,10 +111,8 @@ public class UserServiceImpl implements UserService {
 
 
         user = userRepository.save(user);
-        userServiceLogger.info("PASSWORT VON USER IN DB:" + user.getPassword());
         
-        
-        userServiceLogger.info("User was saved into the repository.");
+        LOGGER.info("User was saved into the repository.");
         return user;
 
     }

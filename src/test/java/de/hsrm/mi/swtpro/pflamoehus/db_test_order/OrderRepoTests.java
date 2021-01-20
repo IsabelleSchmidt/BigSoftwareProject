@@ -1,6 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.db_test_order;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public class OrderRepoTests{
             if(prev == null){
                 prev = akt;
             }else{
-                assertThat(akt.getDeliveryDate().isAfter(prev.getDeliveryDate()));
+                assertTrue(akt.getDeliveryDate().isAfter(prev.getDeliveryDate()));
                 prev = akt;
             }
         }
@@ -118,9 +119,9 @@ public class OrderRepoTests{
         order.setPriceTotal(TOTALPRICE);
         orderRepo.save(order);
 
-        assertThat(orderRepo.findByUser(user).size()>0);
+        assertTrue(orderRepo.findByUser(user).size()>0);
 
-        assertThat(orderRepo.findByCustomerEmail(MAIL).size()>0);
-        assertThat(orderRepo.findById(order.getOrderNR()).isPresent());
+        assertTrue(orderRepo.findByCustomerEmail(MAIL).size()>0);
+        assertTrue(orderRepo.findById(order.getOrderNR()).isPresent());
     }
 }

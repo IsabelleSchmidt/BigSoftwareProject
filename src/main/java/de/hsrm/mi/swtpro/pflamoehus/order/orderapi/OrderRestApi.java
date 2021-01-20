@@ -2,6 +2,7 @@ package de.hsrm.mi.swtpro.pflamoehus.order.orderapi;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -155,7 +156,6 @@ public class OrderRestApi {
      */
     @PostMapping("/new")
     public ResponseEntity<Set<OrderMessage>> newOrder(@Valid @RequestBody OrderRequest orderDTO, BindingResult result){
-       LOGGER.info("NEW ORDER: "+orderDTO.toString());
         
         Order order = new Order();
         Set<OrderMessage> allmessages = new HashSet<>();
@@ -262,7 +262,8 @@ public class OrderRestApi {
              return orderService.findAllOrdersOnDate(date);
         }else{
             //When the date is invalid, return null, if no order is found the list is empty
-            return null;
+            List<Order> empty = new ArrayList<>();
+            return empty;
         }
 
     }
@@ -309,8 +310,7 @@ public class OrderRestApi {
      * @throws ProductServiceException
      * @throws OrderDetailsServiceException
      */
-    private Set<OrderDetails> createDetails(OrderRequest orderDTO, Order order, Status incoming)
-            throws ProductServiceException, OrderDetailsServiceException {
+    private Set<OrderDetails> createDetails(OrderRequest orderDTO, Order order, Status incoming){
         
         Set<OrderDetails> allDetails = new HashSet<>();
         Product product;

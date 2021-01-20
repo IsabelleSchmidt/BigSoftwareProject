@@ -128,16 +128,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Override
         @Transactional
-        public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        public UserDetails loadUserByUsername(String email) {
             Optional<User> user = userRepository.findByEmail(email);
-
-            logger.info("HALLOOOOOOO ICH MACH DAS GRAD.");
 
             if (user.isEmpty()) {
                 logger.info("JA IST LEER.");
                 throw new UsernameNotFoundException(email);
             }
-            logger.info("USERRRRRRPASSWORT:" + user.get().getPassword());
             return org.springframework.security.core.userdetails.User.withUsername(email)
                     .password(user.get().getPassword()).roles("USER").build();
         }

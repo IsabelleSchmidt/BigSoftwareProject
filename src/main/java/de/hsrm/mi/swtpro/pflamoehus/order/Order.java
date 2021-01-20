@@ -62,8 +62,6 @@ public class Order {
     @Positive
     private double priceTotal;
 
-    // private Status statusID;
-
     /**
      * Get orderNr.
      * 

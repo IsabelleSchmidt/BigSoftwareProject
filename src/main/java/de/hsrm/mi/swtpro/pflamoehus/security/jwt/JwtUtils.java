@@ -44,9 +44,6 @@ public class JwtUtils {
     @Autowired
     UserDetailServiceImpl uds;
 
-    // @Value(EXPIRATION_TIME)
-    // private int jwtExpirationMs;
-
     /** 
      * Generates a JWT-token with the user and a secret key.
      * 
@@ -89,11 +86,11 @@ public class JwtUtils {
             Jwts.parserBuilder().setSigningKey(jwtSecret).build().parseClaimsJws(authToken);
             return true;
         }catch(MalformedJwtException e){
-            logger.error("Invalid JWT token: " + e.getMessage());
+            logger.error("Invalid JWT token: {0}", e.getMessage());
         }catch(UnsupportedJwtException e){
-            logger.error("JWT token is unsupported: " + e.getMessage());
+            logger.error("JWT token is unsupported: {0} ", e.getMessage());
         }catch(IllegalArgumentException e){
-            logger.error("JWT claims string is empty: " + e.getMessage());
+            logger.error("JWT claims string is empty: {0}", e.getMessage());
         }
 
         return false;

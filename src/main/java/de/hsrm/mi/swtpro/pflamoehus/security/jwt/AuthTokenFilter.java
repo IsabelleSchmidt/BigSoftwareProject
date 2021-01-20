@@ -7,8 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,8 +30,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailServiceImpl userDetailsService;
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
-
     
     /** 
      * What gets done in this method:
@@ -56,21 +52,15 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             String jwt = parseJwt(request);
             if(jwt != null && jwtUtils.validateJwtToken(jwt)){
                 String email = jwtUtils.getUserNameFromJwtToken(jwt);   //Parsing email from jwt
-                logger.info("USER FOUND IN JWT: " + email);
 
                 UserDetails ud = userDetailsService.loadUserByUsername(email);  //from email we get the UserDetails to create an Authentication object
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(ud, null, ud.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));  //set the UserDetails in SecurityContext
 
-                /*
-                * If we want to get UserDetails, we just use SecurityContext like this:
-                * UserDetails ud = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                */
-
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }catch(Exception e){
-            logger.error("Cannot set user authentication" + e);
+            logger.error("Cannot set user authentication {0}", e);
 
         }
 

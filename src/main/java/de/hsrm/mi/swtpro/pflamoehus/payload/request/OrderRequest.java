@@ -36,8 +36,9 @@ public class OrderRequest {
         @Positive(message = "The amount of products to buy cannot be zero or less.")
         private int amount; 
         
+        
         public ProductDTO(){
-            
+            //Empty constructor
         }
         /**
          * Get articlenr.

@@ -13,7 +13,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.hsrm.mi.swtpro.pflamoehus.order.Order;
 
@@ -41,11 +42,11 @@ public class OrderValueTests {
         order.setDeliveryDate(DELIVERY);
         order.setCustomerEmail(EMAIL);
         order.setPriceTotal(PRICE);
-        assertTrue(validator.validate(order).size() == 0);
+        assertEquals(validator.validate(order).size(), 0);
 
         LocalDate delivery = LocalDate.now();
         order.setDeliveryDate(delivery);
-        assertTrue(validator.validate(order).size() == 0);
+        assertEquals(validator.validate(order).size(), 0);
 
          
     }
@@ -59,7 +60,7 @@ public class OrderValueTests {
         order.setCustomerEmail(EMAIL);
         order.setDeliveryDate(delivery);
         order.setPriceTotal(PRICE);
-        assertTrue(validator.validate(order).size() == 1);
+        assertEquals(validator.validate(order).size(), 1);
 
         
     }

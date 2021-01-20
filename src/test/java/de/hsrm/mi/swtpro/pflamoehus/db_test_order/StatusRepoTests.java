@@ -13,12 +13,13 @@ import de.hsrm.mi.swtpro.pflamoehus.order.status.Statuscode;
 
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
 
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class StatusRepoTests {
+class StatusRepoTests {
 
     final String STATUSCODE = Statuscode.READY_FOR_SHIPPING.toString();
 
@@ -69,7 +70,7 @@ public class StatusRepoTests {
 
         assertThat(statusRepo.count()).isEqualTo(COUNT);
         Optional<Status> fund = statusRepo.findByStatuscode(Statuscode.READY_FOR_SHIPPING.toString());
-        assertThat(fund.isPresent());
+        assertTrue(fund.isPresent());
         assertThat(fund.get().getStatuscode()).isEqualTo(STATUSCODE);
 
         

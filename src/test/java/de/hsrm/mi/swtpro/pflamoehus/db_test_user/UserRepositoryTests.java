@@ -3,7 +3,7 @@ package de.hsrm.mi.swtpro.pflamoehus.db_test_user;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +85,7 @@ class UserRepositoryTests {
         final User managed = userRepo.save(unmanaged);
         assertThat(managed).isEqualTo(unmanaged);
 
-        assertTrue(userRepo.count()==1, "REPO: " + repo);
+        assertEquals(userRepo.count()==1, "REPO: " + repo);
 
     }
 

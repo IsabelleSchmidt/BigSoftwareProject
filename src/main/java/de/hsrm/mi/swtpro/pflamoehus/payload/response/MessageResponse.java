@@ -28,7 +28,7 @@ public class MessageResponse {
      */
     public void setField(String field) {
         this.field = field;
-    };
+    }
 
 	
     /** 

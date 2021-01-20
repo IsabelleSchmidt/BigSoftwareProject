@@ -102,10 +102,11 @@ public class UserRestApi {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/login")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result) {
+	public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
+			BindingResult result) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-				
+
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 
@@ -124,8 +125,8 @@ public class UserRestApi {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/register")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest, BindingResult result) {
-		LOGGER2.info("REGISTRIERE.");
+	public ResponseEntity<List<MessageResponse>> registerUser(@Valid @RequestBody SignUpRequest signUpRequest,
+			BindingResult result) {
 		MessageResponse mr = new MessageResponse();
 		List<MessageResponse> mrs = new ArrayList<>();
 		if (userService.existsByEmail(signUpRequest.getEmail())) {
@@ -142,7 +143,6 @@ public class UserRestApi {
 				mrp.setMessage(error.getDefaultMessage());
 				mrp.setField(error.getField());
 				mrs.add(mrp);
-				LOGGER2.info("FEHLER: " + mrp);
 
 			}
 
@@ -157,8 +157,6 @@ public class UserRestApi {
 		user.setBirthdate(signUpRequest.getBirthdate());
 		user.setGender(signUpRequest.getGender());
 		user.setPassword(signUpRequest.getPassword());
-
-		LOGGER2.info("PASSWORT REGISTER VERSCHL: " + encoder.encode(signUpRequest.getPassword()));
 
 		List<String> strRoles = signUpRequest.getRole();
 		Set<Roles> roles = new HashSet<>();
@@ -200,7 +198,7 @@ public class UserRestApi {
 		user.setRoles(roles);
 		userService.registerUser(user);
 
-		return ResponseEntity.ok(mr);
+		return ResponseEntity.ok(mrs);
 
 	}
 
@@ -213,12 +211,10 @@ public class UserRestApi {
 	 * @throws AuthenticationException if the user is not known in the database
 	 */
 	@PostMapping("/newOrder/user")
-	public ResponseEntity<?> addInfosToUser(@Valid @RequestBody UserOrderRequest userOrderRequest, BindingResult result)
-			throws AuthenticationException {
-		MessageResponse mr = new MessageResponse();
+	public ResponseEntity<List<MessageResponse>> addInfosToUser(@Valid @RequestBody UserOrderRequest userOrderRequest,
+			BindingResult result) throws AuthenticationException {
 		List<MessageResponse> mrs = new ArrayList<>();
 
-		LOGGER2.info("BESTELLUNG HIER HIER HIER HIER HIER HIER");
 		if (result.hasErrors()) {
 
 			for (FieldError error : result.getFieldErrors()) {
@@ -226,23 +222,20 @@ public class UserRestApi {
 				mrp.setMessage(error.getDefaultMessage());
 				mrp.setField(error.getField());
 				mrs.add(mrp);
-				LOGGER2.info("ERROR: " + mrp);
 			}
-			if(mrs.toString().contains("cowner") && mrs.toString().contains("creditcardnumber") && !(mrs.toString().contains("owner") && mrs.toString().contains("iban") && mrs.toString().contains("bank"))){
+			if (mrs.toString().contains("cowner") && mrs.toString().contains("creditcardnumber")
+					&& !(mrs.toString().contains("owner") && mrs.toString().contains("iban")
+							&& mrs.toString().contains("bank"))) {
 				List<MessageResponse> delete = mrs.stream()
-					// .filter(s -> s.getField().equals("cowner"))
-					// .filter(s -> s.getField().equals("creditcardnumber"))
-					// .filter(s -> s.getField().equals("dateOfExpiry"))
-					.filter(s->  "creditcard.cowner creditcard.creditcardnumber creditcard.dateOfExpiry".contains(s.getField()))
-					.collect(Collectors.toList());
+						.filter(s -> "creditcard.cowner creditcard.creditcardnumber creditcard.dateOfExpiry"
+								.contains(s.getField()))
+						.collect(Collectors.toList());
 
 				mrs.removeAll(delete);
-				LOGGER2.info("ERRROOOOROROROROROOOOOR MESSAGES: " + mrs);
 			}
-			if (mrs.size() > 0) {
+			if (!mrs.isEmpty()) {
 				return new ResponseEntity<>(mrs, HttpStatus.OK);
 			}
-			
 
 		}
 
@@ -251,7 +244,6 @@ public class UserRestApi {
 
 		try {
 			User user = userService.searchUserWithEmail(email);
-			LOGGER2.info("USER BESTELLUNG: " + user);
 
 			if (userOrderRequest.getAdress() != null) {
 				Adress newAdress = userOrderRequest.getAdress();
@@ -272,12 +264,12 @@ public class UserRestApi {
 			}
 
 		} catch (AdressServiceException ase) {
-			LOGGER2.error("Adress couldn't be saved.");
+			LOGGER2.error("Adress could not be saved.");
 			throw new UserApiException("Adress couldn't be saved.");
 
 		} catch (BankcardServiceException bse) {
 			LOGGER2.error("Bankcard couldn't be saved.");
-			throw new UserApiException("Adress couldn't be saved.");
+			throw new UserApiException("Bankcard couldn't be saved.");
 
 		} catch (CreditcardServiceException cse) {
 			LOGGER2.error("Creditcard couldn't be saved.");
@@ -287,21 +279,20 @@ public class UserRestApi {
 			throw new AuthenticationException();
 		}
 
-		LOGGER2.info("ALLE ADRESSEN: " + adressSerivce.findAll());
-		return ResponseEntity.ok(mr);
+		return ResponseEntity.ok(mrs);
 	}
 
 	@GetMapping("/email/{email}")
-	public User getUserWithMail(@PathVariable String email){
+	public User getUserWithMail(@PathVariable String email) {
 		User user;
-		try{
+		try {
 			user = userService.searchUserWithEmail(email);
-		}catch(UserServiceException use){
+		} catch (UserServiceException use) {
 			LOGGER2.info(use.getMessage());
 			return null;
 		}
 		return user;
-		
+
 	}
 
 }

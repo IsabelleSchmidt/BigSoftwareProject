@@ -8,10 +8,15 @@ package de.hsrm.mi.swtpro.pflamoehus.security;
  */
 public class SecurityContents {
 
+    private SecurityContents() {
+    }
+    
+
     /**
      * Secret key for the token
      */
     public static final String SECRET = "NcRfUjWnZr4u7x!A%D*G-KaPdSgVkYp2s5v8y/B?E(H+MbQeThWmZq4t6w9z$C&F";
+
     
     
 }
