@@ -78,7 +78,10 @@ public class BankcardServiceImpl implements BankcardService {
     @Override
     public void deleteBankcard(long id) {
         Optional<Bankcard> b = findById(id);
-        bankcardRepo.delete(b.get());
+        if(b.isPresent()){
+            bankcardRepo.delete(b.get());
+        }
+        
     }
 
      
