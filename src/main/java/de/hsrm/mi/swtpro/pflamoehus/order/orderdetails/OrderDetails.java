@@ -54,10 +54,11 @@ public class OrderDetails {
      * 
      * @return String
      */
+  
     @Override
     public String toString() {
-        return "OrderDetails [articleNR=" + ", orderDetailsID=" + orderDetailsID + ", orderID=" + orderID
-                + ", statusID=" + statusID + ", version=" + version + "]";
+        return "OrderDetails [orderDetailsID=" + orderDetailsID + ", orderID=" + orderID + ", product=" + product
+                + ", productAmount=" + productAmount + ", statusID=" + statusID + ", version=" + version + "]";
     }
 
     /**
@@ -149,5 +150,6 @@ public class OrderDetails {
     public void setProductAmount(int productAmount) {
         this.productAmount = productAmount;
     }
+
 
 }

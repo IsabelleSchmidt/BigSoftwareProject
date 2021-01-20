@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -155,6 +157,7 @@ public class OrderRestApi {
      * @return orderMessage
      */
     @PostMapping("/new")
+    @Transactional
     public ResponseEntity<Set<OrderMessage>> newOrder(@Valid @RequestBody OrderRequest orderDTO, BindingResult result){
         
         Order order = new Order();
@@ -275,6 +278,7 @@ public class OrderRestApi {
      * @return boolean
      */
     @PostMapping("/edit/orderstatus/{orderNR}/{newStatus}")
+    @Transactional
     public boolean changeOrderStatus(@PathVariable long orderNR, @PathVariable String newStatus) {
         Order order;
         Status status;
@@ -325,8 +329,9 @@ public class OrderRestApi {
      * @throws ProductServiceException
      * @throws OrderDetailsServiceException
      */
+    @Transactional
     private Set<OrderDetails> createDetails(OrderRequest orderDTO, Order order, Status incoming){
-        
+      
         Set<OrderDetails> allDetails = new HashSet<>();
         Product product;
 
@@ -350,6 +355,7 @@ public class OrderRestApi {
             //Set bidirectional relationships and reduce number of available products 
             product.getAllOrderDetails().add(detail);
             product.setAvailable(product.getAvailable()-productdto.getAmount());
+      
 
         }
 
