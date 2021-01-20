@@ -9,7 +9,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
-import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Creditcard;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 
 
 
@@ -25,7 +25,6 @@ public class CreditcardValueTests {
 
     final private String WRONG_OWNER ="";
     final private LocalDate WRONG_EXPIRY = LocalDate.of(2020,01,01);
-    final private String WRONG_NUMBER = "4 1111 1111 1111";
 
 
     @AfterAll
@@ -39,7 +38,7 @@ public class CreditcardValueTests {
 
         Creditcard correct = new Creditcard();
 
-        correct.setOwner(OWNER);
+        correct.setCowner(OWNER);
         correct.setCreditcardnumber(CREDITCARDNUMBER);
         correct.setDateOfExpiry(EXPIRY);
 
@@ -52,14 +51,12 @@ public class CreditcardValueTests {
     public void create_incorrect_card(){
 
         Creditcard incorrect = new Creditcard();
-        incorrect.setOwner(OWNER);
+        incorrect.setCowner(OWNER);
+        incorrect.setCreditcardnumber(CREDITCARDNUMBER);
         incorrect.setDateOfExpiry(EXPIRY);
-        incorrect.setCreditcardnumber(WRONG_NUMBER);
-        
-        assertThat(validator.validate(incorrect).size()).isEqualTo(1);
         incorrect.setDateOfExpiry(WRONG_EXPIRY);
-        assertThat(validator.validate(incorrect).size()).isEqualTo(2);
-        incorrect.setOwner(WRONG_OWNER);
+        assertThat(validator.validate(incorrect).size()).isEqualTo(1);
+        incorrect.setCowner(WRONG_OWNER);
         assertThat(validator.validate(incorrect).size()).isEqualTo(3);
 
 

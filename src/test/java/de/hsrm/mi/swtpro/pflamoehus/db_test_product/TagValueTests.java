@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
+import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 

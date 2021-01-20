@@ -3,6 +3,9 @@
 Delete from picture;
 delete from product;
 delete from tag;
+delete from user;
+delete from status;
+delete from roles;
      
 
 
@@ -230,3 +233,10 @@ INSERT INTO ROLES (ID, NAME) VALUES
 (2, 'STAFF'),
 (3, 'WAREHOUSE'),
 (4, 'SERVICE');
+
+INSERT INTO STATUS(STATUSID, STATUSCODE, VERSION) VALUES
+(1,'INCOMING',1),
+(2,'IN PROGRESS',1),
+(3,'PARTIAL',1),
+(4,'READY',1),
+(5,'SHIPPED',1);

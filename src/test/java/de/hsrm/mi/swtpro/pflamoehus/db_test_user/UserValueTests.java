@@ -29,7 +29,6 @@ public class UserValueTests {
     private final LocalDate WRONG_BIRTHDAY = LocalDate.of(2018, 3, 3);
     private final String EMAIL = "hansolaf@hs-rm.de";
     private final String WRONG_EMAIL = "3@2";
-    private final String WRONG_PASSWORD = "123";
     private final String WRONG_GENDER = "Male";
 
     private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -74,8 +73,6 @@ public class UserValueTests {
 
         assertFalse(validator.validate(user2).isEmpty(), "Geburtsdatum muss als falsch validiert sein.");
         user2.setBirthdate(BIRTHDAY);
-        user2.setPassword(WRONG_PASSWORD);
-        assertFalse(validator.validate(user2).isEmpty(), "Passwort muss als falsch validiert sein.");
         user2.setPassword(PASSWOrD);
         user2.setEmail(WRONG_EMAIL);
         assertFalse(validator.validate(user2).isEmpty(), "Mail muss als falsch validiert werden.");

@@ -1,5 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.db_test_user;
 
+
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,13 +17,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.dao.DataIntegrityViolationException;
-
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
-import de.hsrm.mi.swtpro.pflamoehus.adress.AdressRepository;
-import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.BankcardRepository;
-import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.CreditcardRepository;
-import de.hsrm.mi.swtpro.pflamoehus.roles.RolesRepository;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.BankcardRepository;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.CreditcardRepository;
+import de.hsrm.mi.swtpro.pflamoehus.user.roles.RolesRepository;
+import de.hsrm.mi.swtpro.pflamoehus.user.adress.AdressRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class UserRepositoryTests {
@@ -44,16 +44,20 @@ class UserRepositoryTests {
     private AdressRepository adressRepo;
     @Autowired
     private RolesRepository rolesRepo;
+   
+  
 
     private static final Logger logger = LoggerFactory.getLogger(UserRepositoryTests.class);
 
     @BeforeEach
     public void clear_repos() {
+        
         rolesRepo.deleteAll();
         creditRepo.deleteAll();
         bankRepo.deleteAll();
         adressRepo.deleteAll();
         userRepo.deleteAll();
+        
     }
 
     @Test

@@ -2,9 +2,7 @@ package de.hsrm.mi.swtpro.pflamoehus.user;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
@@ -15,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -24,28 +23,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-
-import de.hsrm.mi.swtpro.pflamoehus.roles.Roles;
-import de.hsrm.mi.swtpro.pflamoehus.adress.Adress;
-import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Bankcard;
-import de.hsrm.mi.swtpro.pflamoehus.paymentmethods.Creditcard;
+import org.springframework.validation.annotation.Validated;
+import de.hsrm.mi.swtpro.pflamoehus.user.roles.Roles;
+import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
+import de.hsrm.mi.swtpro.pflamoehus.order.Order;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
+import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
 
 /*
  * User-Entity for its database.
  * 
- * @author Ann-Cathrin Fabian
- * @version 3
+ * @author Ann-Cathrin Fabian, Svenja Schenk
+ * @version 4
  */
 @Entity
+@Validated
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private long userID;
 
     @Version
@@ -71,45 +70,47 @@ public class User {
     private LocalDate birthdate;
 
     @NotEmpty(message = "Es muss ein Passwort angegeben werden.")
-    @ValidPassword
     @JsonProperty(access = Access.WRITE_ONLY)
+    @JsonIgnore
     private String password;
 
     @Valid
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name = "User_Adresses", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "adressID"))
-    private List<Adress> allAdresses;
+    private Set<Adress> allAdresses;
 
     @NotEmpty(message = "Das Geschlecht muss angegeben werden.")
     @ValidGender
     private String gender;
 
-    @Valid
     @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Bankcard> bankcard;
+    private Set<Bankcard> bankcard;
 
-    @Valid
     @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Creditcard> creditcard;
+    private Set<Creditcard> creditcard;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Roles> roles = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH, mappedBy = "user")
+    @JsonIgnore
+    private Set<Order> allOrders = new HashSet<>();
     
-    /** 
+    //TODO: fetchtypes zu LAZY
+
+    /**
      * Get roles.
      * 
-     * @return List<Roles>
+     * @return roles
      */
     public Set<Roles> getRoles() {
         return this.roles;
     }
 
-    
-    /** 
+    /**
      * Set roles.
      * 
      * @param roles roles that should be set.
@@ -118,36 +119,35 @@ public class User {
         this.roles = roles;
     }
 
-    
-    /** 
+    /**
      * Add role.
      * 
      * @param role role that should be added
      */
-    public void addRole(Roles role){
-        if(!roles.contains(role)){
+    public void addRole(Roles role) {
+        if (!roles.contains(role)) {
             roles.add(role);
         }
     }
 
-    
-    /** 
+    /**
      * Remove role.
      * 
      * @param role that should get removed
      */
-    public void removeRole(Roles role){
-        if(role != null){
+    public void removeRole(Roles role) {
+        if (role != null) {
             roles.remove(role);
         }
     }
+
     /**
      * Get creditcards.
      * 
      * @return list of creditscards
      */
 
-    public List<Creditcard> getCreditcard() {
+    public Set<Creditcard> getCreditcard() {
         return this.creditcard;
     }
 
@@ -156,33 +156,12 @@ public class User {
      * 
      * @param creditcard creditcards that have to be set
      */
-    public void setCreditcard(List<Creditcard> creditcard) {
+    public void setCreditcard(Set<Creditcard> creditcard) {
         this.creditcard = creditcard;
     }
 
-    /**
-     * Adds a new creditcard to the list of a user.
-     * 
-     * @param newCreditcard creditcard that should be added
-     */
-    public void addCreditcard(Creditcard newCreditcard) {
-        if (!creditcard.contains(newCreditcard)) {
-            creditcard.add(newCreditcard);
-        }
 
-    }
 
-    /**
-     * Removes a given creditcard from the list of a user.
-     * 
-     * @param deleteCard card that should get removed
-     */
-    public void removeCreditCard(Creditcard deleteCard) {
-        if (deleteCard != null) {
-            creditcard.remove(deleteCard);
-        }
-
-    }
 
     /**
      * Get bankcards.
@@ -190,7 +169,7 @@ public class User {
      * @return list of bankcards
      */
 
-    public List<Bankcard> getBankcard() {
+    public Set<Bankcard> getBankcard() {
         return this.bankcard;
     }
 
@@ -198,33 +177,13 @@ public class User {
      * Set bankcards.
      * 
      * @param bankcard bankcards that have to be set
+     * 
      */
-    public void setBankcard(List<Bankcard> bankcard) {
+    public void setBankcard(Set<Bankcard> bankcard) {
         this.bankcard = bankcard;
     }
 
-    /**
-     * Adds a new bankcard to the list of a user.
-     * 
-     * @param newBankcard bankcard that sould be added
-     */
-    public void addBankcard(Bankcard newBankcard) {
-        if (!bankcard.contains(newBankcard)) {
-            bankcard.add(newBankcard);
-        }
-    }
 
-    /**
-     * Removes a given bankcard from the list of a user.
-     * 
-     * @param deleteBankcard bankcard that should get deleted
-     */
-    public void removeBankcard(Bankcard deleteBankcard) {
-        if (deleteBankcard != null) {
-            bankcard.remove(deleteBankcard);
-        }
-
-    }
 
     /**
      * Get gender.
@@ -249,7 +208,7 @@ public class User {
      * 
      * @return list of adresses
      */
-    public List<Adress> getAdress() {
+    public Set<Adress> getAllAdresses() {
         return this.allAdresses;
     }
 
@@ -258,32 +217,11 @@ public class User {
      * 
      * @param allAdresses list of adresses that has to be set
      */
-    public void setAdress(List<Adress> allAdresses) {
+    public void setAllAdresses(Set<Adress> allAdresses) {
         this.allAdresses = allAdresses;
     }
 
-    /**
-     * Add a new adress to the list of all adresses owned by one user.
-     * 
-     * @param adress adress that has to be added to the adress list
-     */
-    public void addAdress(Adress adress) {
-        if (!allAdresses.contains(adress)) {
-            allAdresses.add(adress);
-        }
-    }
 
-    /**
-     * Removes a adress from the list of all adresses owned by one user.
-     * 
-     * @param adress adress that has to be removed from the adress list
-     */
-    public void removeAdress(Adress adress) {
-        if (adress != null) {
-            allAdresses.remove(adress);
-        }
-
-    }
 
     /**
      * Get birthdate.
@@ -393,16 +331,28 @@ public class User {
         this.email = email;
     }
 
+    
+
     /**
-     * To create a user as a string.
+     * User to string.
      * 
-     * @return string
+     * @return String
      */
     @Override
     public String toString() {
-        return "User {bankcard:" + bankcard + ", birthdate:" + birthdate + ", creditcard=" + creditcard + ", email:"
-                + email + ", firstName:" + firstName + ", gender:" + gender + ", id:" + userID + ", lastName:"
-                + lastName + ", passwort:" + password + ", version:" + version + ", roles:" + roles + "}";
+        return "User [allAdresses=" + allAdresses + ", bankcard=" + bankcard + ", birthdate=" + birthdate
+                + ", creditcard=" + creditcard + ", email=" + email + ", firstName=" + firstName + ", gender=" + gender
+                + ", lastName=" + lastName + ", orders=" + ", password=" + password + ", roles=" + roles
+                + ", userID=" + userID + ", version=" + version + "]";
     }
+
+    public Set<Order> getAllOrders() {
+        return allOrders;
+    }
+
+    public void setAllOrders(Set<Order> allOrders) {
+        this.allOrders = allOrders;
+    }
+
 
 }

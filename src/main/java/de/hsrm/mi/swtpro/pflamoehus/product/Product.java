@@ -20,11 +20,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
+import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
-import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
+import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
 import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.*;
 
 /*
@@ -38,6 +39,7 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.*;
 @Table(name = "Product")
 public class Product {
 
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long articlenr;
@@ -97,6 +99,11 @@ public class Product {
     @Size(min = 10, max = 180)
     private String information;
 
+    //Unidirectional Relationship, owning side: OrderDetails
+    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JsonIgnore
+    private Set<OrderDetails> allOrderDetails = new HashSet<>();
+    
     /**
      * Get information.
      * 
@@ -214,28 +221,7 @@ public class Product {
         return allPictures;
     }
 
-    /**
-     * Add a picture to the list allPictures.
-     * 
-     * @param picture picture that has to be added
-     */
-    public void addPicture(Picture picture) {
-        if(!allPictures.contains(picture)){
-            allPictures.add(picture);
-        }
-        
-    }
-
-    /**
-     * Remove a picture from the list of all pictures.
-     * 
-     * @param picture picture that should be deleted
-     */
-    public void removePicture(Picture picture){
-        if (allPictures != null){
-            allPictures.remove(picture);
-        }
-    }
+   
 
     /**
      * Set allPicutres.
@@ -328,28 +314,7 @@ public class Product {
         this.allTags = allTags;
     }
 
-    /**
-     * Add tags to allTags.
-     * 
-     * @param tag tag that has to be added
-     */
-    public void addTag(Tag tag) {
-        if (!allTags.contains(tag)) {
-            allTags.add(tag);
-        }
-    }
-
-    /**
-     * Remove tag from allTags.
-     * 
-     * @param tag tag that has to be removed
-     */
-    public void removeTag(Tag tag){
-        if (!allTags.contains(tag)) {
-            allTags.remove(tag);
-        }
-    }
-
+  
     /**
      * Get number of available items.
      * 
@@ -367,8 +332,6 @@ public class Product {
     public void setAvailable(int available) {
         this.available = available;
     }
-
-    
 
     /**
      * Get version.
@@ -392,5 +355,15 @@ public class Product {
                 + productType + ", roomType=" + roomType + ", version=" + version + ", width=" + width + "]";
     }
    
+
+    public Set<OrderDetails> getAllOrderDetails() {
+        return allOrderDetails;
+    }
+
+    public void setAllOrderDetails(Set<OrderDetails> allOrderDetails) {
+        this.allOrderDetails = allOrderDetails;
+    }
+
+  
 
 }

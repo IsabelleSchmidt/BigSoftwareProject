@@ -7,14 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.ValidPicture;
 
@@ -112,7 +109,7 @@ public class Picture {
     @PreRemove
     public void delete() {
         if (product != null) {
-            product.removePicture(this);
+            product.getAllPictures().remove(this);
         }
 
     }
