@@ -6,6 +6,7 @@ delete from tag;
 delete from user;
 delete from status;
 delete from roles;
+delete from product_tags; 
      
 
 
@@ -202,7 +203,7 @@ INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
 -- 17 +/- SELECT COUNT(*) FROM PUBLIC.TAG;    
 INSERT INTO TAG(ID, VALUE, VERSION) VALUES
 (25, 'Keramik', 0),
-(27, 'Braun', 1),
+(27, 'braun', 1),
 (28, 'Abendessen', 1),
 (29, 'Holz', 1),
 (30, 'Schlafen', 1),
@@ -217,7 +218,70 @@ INSERT INTO TAG(ID, VALUE, VERSION) VALUES
 (39, 'rosa', 1),
 (40, 'bunt', 1),
 (41, 'blüte', 1),
-(42, 'bequem', 1); 
+(42, 'bequem', 1),
+(43, 'schwarz', 1),
+(44, 'grau', 1),
+(45, 'beige', 1),
+(46, 'grün', 1),
+(47, 'orange', 1),
+(48, 'lila', 1),
+(49, 'rot', 1),
+(50, 'blau', 1),
+(51, 'weiss', 1);
+
+INSERT INTO PRODUCT_TAGS(ARTICLENR, TAGID) VALUES
+(62, 44),
+(63, 46),
+(64, 46),
+(65, 46),
+(66, 39),
+(67, 46),
+(68, 46),
+(69, 46),
+(70, 39),
+(71, 27),
+(72, 44),
+(73, 51),
+(74, 44),
+(75, 39),
+(76, 44),
+(77, 43),
+(78, 51),
+(79, 51),
+(80, 45),
+(81, 45),
+(82, 51),
+(83, 50),
+(84, 44),
+(85, 44),
+(86, 44),
+(87, 45),
+(88, 44),
+(89, 44),
+(90, 44),
+(91, 27),
+(92, 27),
+(93, 27),
+(94, 27),
+(95, 27),
+(96, 27),
+(97, 27),
+(98, 27);
+INSERT INTO PRODUCT_TAGS(ARTICLENR, TAGID) VALUES
+(99, 27),
+(100, 27),
+(101, 43),
+(102, 46),
+(103, 43),
+(104, 43),
+(105, 51),
+(106, 27),
+(107, 27),
+(108, 27),
+(109, 27),
+(110, 27),
+(111, 27),
+(112, 43);
 
 INSERT INTO USER(USERID,BIRTHDATE, EMAIL,FIRSTNAME,LASTNAME,PASSWORD,VERSION) VALUES
 (7,'1999-09-20','123@hsrm.de','Jürgen','Zwockel','CoolesPasswort!1',1),
