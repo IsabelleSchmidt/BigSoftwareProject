@@ -33,6 +33,7 @@ public class Tag {
     private long id;
 
     @Version
+    @JsonIgnore
     private long version;
 
     @ManyToMany(mappedBy = "allTags", cascade = CascadeType.DETACH)
