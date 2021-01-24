@@ -33,7 +33,7 @@ public class Adress {
     private long version;
 
     @NotNull(message="Der Straßenname muss angegeben werden.")
-    @Pattern(regexp = "\\p{L}{2,}", message="Der Straßennamen ist ungültig.")
+    @Pattern(regexp = "\\p{L}{2,}", message="Der Straßenname ist ungültig.")
     private String streetName;
 
     

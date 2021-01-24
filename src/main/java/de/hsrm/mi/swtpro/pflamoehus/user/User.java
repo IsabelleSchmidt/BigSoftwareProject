@@ -96,8 +96,6 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH, mappedBy = "user")
     @JsonIgnore
     private Set<Order> allOrders = new HashSet<>();
-    
-    //TODO: fetchtypes zu LAZY
 
     /**
      * Get roles.

@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
         try{
             user.setPassword(encodePassword(user.getPassword()));
         }catch(OptimisticLockException ole){
-            throw new UserServiceException("Passwort konnte nicht geändert werden");
+            throw new UserServiceException("Password couldn't be changed.");
         }
 
 
@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
      * @param user     user from database or a new user
      */
     private String encodePassword(String password) {
-
+        LOGGER.info("ENCODETES PASSWORT: " + pe.encode(password));
         return pe.encode(password);
     }
 
