@@ -125,6 +125,22 @@ public class OrderRestApi {
         public void setOrderid(long orderid) {
             this.orderid = orderid;
         }
+        
+        public String getField() {
+			return field;
+		}
+
+		public void setField(String field) {
+			this.field = field;
+		}
+
+		public String getMessage() {
+			return message;
+		}
+
+		public void setMessage(String message) {
+			this.message = message;
+		}
 
      
 
@@ -245,7 +261,8 @@ public class OrderRestApi {
                     return ResponseEntity.ok().body(allmessages);
 
                 }
-            }              
+            }
+          
         return ResponseEntity.ok().body(allmessages);
     }
 
@@ -334,16 +351,21 @@ public class OrderRestApi {
       
         Set<OrderDetails> allDetails = new HashSet<>();
         Product product;
+        String exceptionmessage = "";
+        boolean order_ok = true;
 
         for (OrderRequest.ProductDTO productdto : orderDTO.getAllProductsOrdered()) {
             OrderDetails detail = new OrderDetails();
 
+
             // find corresponding product in database using productDTO articleNR
             product = productService.searchProductwithArticleNr(productdto.getArticleNR());
             if(productdto.getAmount() > product.getAvailable()){
-                throw new ItemNotAvailableException(product.getArticlenr()+" -- Es sind nur noch : -- " +product.getAvailable()+" verfügbar.");
+                order_ok = false;
+                exceptionmessage += "Bei Produktnummer--" + product.getArticlenr()+"--sind leider nur noch :--" +product.getAvailable()+"--Artikel verfügbar (Bitte anpassen).//";
             }
-
+            
+            if (order_ok) {
             //Set mandatory attributes of an OrderDetail
             detail.setProduct(product);
             detail.setProductAmount(productdto.getAmount());
@@ -355,8 +377,11 @@ public class OrderRestApi {
             //Set bidirectional relationships and reduce number of available products 
             product.getAllOrderDetails().add(detail);
             product.setAvailable(product.getAvailable()-productdto.getAmount());
-      
+            }
 
+        }
+        if (!order_ok) {
+            throw new ItemNotAvailableException(exceptionmessage);
         }
 
         return allDetails;
