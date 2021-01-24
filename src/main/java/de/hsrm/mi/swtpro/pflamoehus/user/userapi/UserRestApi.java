@@ -288,13 +288,15 @@ public class UserRestApi {
 		return ResponseEntity.ok(mrs);
 	}
 
-	@GetMapping("/email/{email}")
-	public User getUserWithMail(@PathVariable String email) {
+	@PostMapping("/getAdress")
+	public User getUserWithMail(@RequestBody JwtResponse jwttoken) {
+		String email = jwttoken.getEmail();
 		User user;
+		LOGGER2.info("BIN IN DER GET METHODE. Mit der Email: " + email);
 		try {
 			user = userService.searchUserWithEmail(email);
 		} catch (UserServiceException use) {
-			LOGGER2.info(use.getMessage());
+			LOGGER2.error(use.getMessage());
 			return null;
 		}
 		LOGGER2.info("User anhand der Email Adresse: " + user);
