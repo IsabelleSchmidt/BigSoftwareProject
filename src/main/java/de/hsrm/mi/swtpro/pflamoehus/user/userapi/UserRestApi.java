@@ -20,8 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -100,6 +98,7 @@ public class UserRestApi {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/login")
+	@Transactional
 	public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
 			BindingResult result) {
 		Authentication authentication = authenticationManager.authenticate(
@@ -123,6 +122,7 @@ public class UserRestApi {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/register")
+	@Transactional
 	public ResponseEntity<List<MessageResponse>> registerUser(@Valid @RequestBody SignUpRequest signUpRequest,
 			BindingResult result) {
 		MessageResponse mr = new MessageResponse();
@@ -249,8 +249,8 @@ public class UserRestApi {
 				Adress newAdress = userOrderRequest.getAdress();
 				newAdress = adressSerivce.saveAdress(newAdress);
 				user.getAllAdresses().add(newAdress);
-				user=userService.editUser(user);
-				
+				user = userService.editUser(user);
+
 			}
 
 			if (!userOrderRequest.getBankCard().getIban().equals("")) {
@@ -289,8 +289,10 @@ public class UserRestApi {
 	}
 
 	@PostMapping("/getAdress")
+	@Transactional
 	public User getUserWithMail(@RequestBody JwtResponse jwttoken) {
 		String email = jwttoken.getEmail();
+
 		User user;
 		LOGGER2.info("BIN IN DER GET METHODE. Mit der Email: " + email);
 		try {

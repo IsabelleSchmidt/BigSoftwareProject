@@ -1,16 +1,13 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.paymentservice;
 
 import java.util.Optional;
-
 import javax.persistence.OptimisticLockException;
 import javax.transaction.Transactional;
-
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.BankcardServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.BankcardRepository;
@@ -23,7 +20,6 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
  * @version 1
  */
 @Service
-@Transactional
 public class BankcardServiceImpl implements BankcardService {
 
     @Autowired
@@ -45,7 +41,6 @@ public class BankcardServiceImpl implements BankcardService {
      * @return Bankcard
      */
     @Override
-    @Transactional
     public Optional<Bankcard> findById(long id) {
         return bankcardRepo.findById(id);
     }
@@ -76,6 +71,7 @@ public class BankcardServiceImpl implements BankcardService {
      * @param id bankcard, that should get deleted
      */
     @Override
+    @Transactional
     public void deleteBankcard(long id) {
         Optional<Bankcard> b = findById(id);
         if(b.isPresent()){

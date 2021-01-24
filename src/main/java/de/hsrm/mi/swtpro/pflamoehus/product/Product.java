@@ -83,7 +83,6 @@ public class Product {
     private double depth = 0.0;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-    //@JsonIgnore
     @JoinTable(name = "Product_Tags", joinColumns = @JoinColumn(name = "articlenr"), inverseJoinColumns = @JoinColumn(name = "tagID"))
     private Set<Tag> allTags = new HashSet<>();
 
@@ -100,8 +99,7 @@ public class Product {
     private String information;
 
 
-    //Unidirectional Relationship, owning side: OrderDetails
-    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.DETACH)
     @JsonIgnore
     private Set<OrderDetails> allOrderDetails = new HashSet<>();
     

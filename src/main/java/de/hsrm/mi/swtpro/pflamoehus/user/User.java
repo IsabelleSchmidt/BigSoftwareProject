@@ -20,8 +20,6 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.validation.annotation.Validated;
 import de.hsrm.mi.swtpro.pflamoehus.user.roles.Roles;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
@@ -73,7 +71,7 @@ public class User {
     @JsonIgnore
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @ManyToMany(cascade = CascadeType.DETACH)
     @JoinTable(name = "User_Adresses", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "adressID"))
     private Set<Adress> allAdresses = new HashSet<>();
 
@@ -82,18 +80,16 @@ public class User {
     private String gender;
 
     @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
-    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Bankcard> bankcard = new HashSet<>();
 
     @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
-    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Creditcard> creditcard = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Roles> roles = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "user")
     @JsonIgnore
     private Set<Order> allOrders = new HashSet<>();
 

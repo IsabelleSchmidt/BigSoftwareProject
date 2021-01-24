@@ -40,10 +40,10 @@ public class Status {
     @Column(unique = true)
     private String statuscode;
 
-    @OneToMany(mappedBy = "statusID", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "statusID", cascade = CascadeType.DETACH)
     private Set<Order> allOrders = new HashSet<>();
 
-    @OneToMany(mappedBy = "statusID", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "statusID", cascade = CascadeType.DETACH)
     private Set<OrderDetails> allOrdersDetails = new HashSet<>();
 
     /**

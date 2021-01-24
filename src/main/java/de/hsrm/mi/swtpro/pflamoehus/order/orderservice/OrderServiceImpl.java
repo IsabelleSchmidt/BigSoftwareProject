@@ -20,7 +20,6 @@ import de.hsrm.mi.swtpro.pflamoehus.user.User;
  * @version 1
  */
 @Service
-@Transactional
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
@@ -36,6 +35,7 @@ public class OrderServiceImpl implements OrderService {
      * @return order
      */
     @Override
+    @Transactional
     public Order editOrder(Order newOrder) {
         Order savedorder = null;
         try {
