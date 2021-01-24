@@ -52,11 +52,12 @@ class UserRepositoryTests {
     @BeforeEach
     public void clear_repos() {
         
-        rolesRepo.deleteAll();
+        
         creditRepo.deleteAll();
         bankRepo.deleteAll();
         adressRepo.deleteAll();
         userRepo.deleteAll();
+        rolesRepo.deleteAll();
         
     }
 

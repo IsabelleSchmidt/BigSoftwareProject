@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.roles.ERoles;
 import de.hsrm.mi.swtpro.pflamoehus.user.roles.Roles;
 import de.hsrm.mi.swtpro.pflamoehus.user.roles.RolesRepository;
@@ -31,6 +32,9 @@ public class RolesRepositoryTests {
     @Autowired
     private RolesRepository rolesRepo;
 
+    @Autowired
+    private UserRepository userRepo;
+
     private final ERoles role = ERoles.USER;
     
     @Test
@@ -42,6 +46,7 @@ public class RolesRepositoryTests {
     @Test
     @DisplayName("Persist roles entity (empty table)")
     public void product_persist() {
+        userRepo.deleteAll();
         rolesRepo.deleteAll();
 
         final Roles unmanaged = new Roles();
@@ -57,7 +62,7 @@ public class RolesRepositoryTests {
     @Test
     @DisplayName("Save and delete roles from repository")
     public void save_and_delete_adress() {
-
+        userRepo.deleteAll();
         rolesRepo.deleteAll();
 
         Roles role1 = new Roles();
@@ -72,7 +77,7 @@ public class RolesRepositoryTests {
     @Test
     @DisplayName("ProductRepository findByName")
     public void findByName() {
-
+        userRepo.deleteAll();
         rolesRepo.deleteAll();
 
         final Roles role1 = new Roles();
