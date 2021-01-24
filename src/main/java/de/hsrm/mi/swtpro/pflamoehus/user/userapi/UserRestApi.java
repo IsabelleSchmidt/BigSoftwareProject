@@ -294,14 +294,12 @@ public class UserRestApi {
 		String email = jwttoken.getEmail();
 
 		User user;
-		LOGGER2.info("BIN IN DER GET METHODE. Mit der Email: " + email);
 		try {
 			user = userService.searchUserWithEmail(email);
 		} catch (UserServiceException use) {
 			LOGGER2.error(use.getMessage());
 			return null;
 		}
-		LOGGER2.info("User anhand der Email Adresse: " + user);
 		return user;
 
 	}
