@@ -1,6 +1,7 @@
 ;       
 
 delete from product_tags;   
+delete from user_roles;
 Delete from picture;
 delete from product;
 delete from tag;
@@ -280,13 +281,19 @@ INSERT INTO PRODUCT_TAGS(ARTICLENR, TAGID) VALUES
 (111, 27),
 (112, 43);
 
+INSERT INTO STATUS(STATUSID, STATUSCODE, VERSION) VALUES
+(1,'INCOMING',1),
+(2,'IN PROGRESS',1),
+(3,'PARTIAL',1),
+(4,'READY',1),
+(5,'SHIPPED',1);
+
 INSERT INTO USER(USERID,BIRTHDATE, EMAIL,FIRSTNAME,LASTNAME,PASSWORD,VERSION) VALUES
-(7,'1999-09-20','123@hsrm.de','Jürgen','Zwockel','CoolesPasswort!1',1),
-(1,'1976-02-28', 'joghurta@nl.de','Joghurta','Yogurette','ILikeJoghurt123.',1),
-(2,'1988-06-17','glo@go.mir.de','Glogomir','hotzenplotz','AAAAAAAHhhhhh88,',1),
-(3,'200-10-10','Anette2000@hotmail.de','Anette','Schmitt', '12345aA!',1),
-(4,'1968-11-01','Peter66@gmail.com','Peter','Bäcker','-Peter666Satan-',1),
-(5,'1717-01-07','eisbergsalat@dressing.de','Bananenbrot','schmecktgut','Hahahah12323...',1);
+(7,'1999-09-20','user@pflamoehus.de','User','Pflamoehus','{bcrypt}$2a$10$7fdt/if1v6nJK30MExIHaeTzZ3FvkuTDikFgVxr4YW5XReorwb.HG',1),  -- UserPflamoehus1!
+(1,'1976-02-28', 'admin@pflamoehus.de','Admin','Pflamoehus','{bcrypt}$2a$10$aqAc7g5hfVwmZHWYE4Dw/uWUcqMuiYseKNnAIEd71PRWeWf1TYgNi',1), -- AdminPflamoehus1!
+(2,'1988-06-17','staff@pflamoehus.de','Staff','Pflamoehus','{bcrypt}$2a$10$hf4tGs2s3mPodqpOmSnBNehJ3dm9f1GBaq9lLhdBP7nEM5d89q51e',1), -- StaffPflamoehus1!
+(3,'2000-10-10','warehouse@pflamoehus.de','Warehouse','Pflamoehus', '{bcrypt}$2a$10$tI1brWPJyD0pDgexwwBkKuWmlmn4H6UFgKvhvtsMjnWLIllWgUcjS',1), -- WarehousePfalmoehus1!
+(4,'1968-11-01','service@pflamoehus.de','Service','Pflamoehus','{bcrypt}$2a$10$C.nSMnLuE8INPF0z8Va92eLHEtu9fRWVwA3LKnXXoC.IQQbND/D3S',1); -- ServicePflamoehus1!
 
 INSERT INTO ROLES (ID, NAME) VALUES
 (5, 'USER'),
@@ -295,9 +302,13 @@ INSERT INTO ROLES (ID, NAME) VALUES
 (3, 'WAREHOUSE'),
 (4, 'SERVICE');
 
-INSERT INTO STATUS(STATUSID, STATUSCODE, VERSION) VALUES
-(1,'INCOMING',1),
-(2,'IN PROGRESS',1),
-(3,'PARTIAL',1),
-(4,'READY',1),
-(5,'SHIPPED',1);
+INSERT INTO USER_ROLES(USER_ID, ROLE_ID) VALUES
+(7,5),
+(1,1),
+(1,5),
+(2,2),
+(2,5),
+(3,3),
+(3,5),
+(4,4),
+(4,5);
