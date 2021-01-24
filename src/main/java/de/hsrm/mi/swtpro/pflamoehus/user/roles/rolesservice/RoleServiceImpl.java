@@ -50,7 +50,7 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public Roles saveRole(Roles role) {
-        return null;
+        return roleRepo.save(role);
     }
 
 }

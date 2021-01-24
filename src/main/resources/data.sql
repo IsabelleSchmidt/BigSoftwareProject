@@ -1,12 +1,12 @@
-;             
-  
+;   
+
+delete from product_tags;   
 Delete from picture;
 delete from product;
 delete from tag;
-delete from user;
 delete from status;
 delete from roles;
-delete from product_tags; 
+delete from user;
      
 
 

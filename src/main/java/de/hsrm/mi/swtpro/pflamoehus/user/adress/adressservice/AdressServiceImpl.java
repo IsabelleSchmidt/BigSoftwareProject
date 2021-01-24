@@ -2,7 +2,6 @@ package de.hsrm.mi.swtpro.pflamoehus.user.adress.adressservice;
 
 import java.util.List;
 import java.util.Optional;
-
 import javax.persistence.OptimisticLockException;
 import javax.transaction.Transactional;
 
@@ -10,19 +9,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.AdressServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.AdressRepository;
 
 @Service
-@Transactional
 public class AdressServiceImpl implements AdressService {
 
     @Autowired
     AdressRepository adressRepo;
 
-    private static final Logger ADRESSSERVICE_LOGGER = LoggerFactory.getLogger(AdressServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdressServiceImpl.class);
 
     
     /** 
@@ -79,7 +76,7 @@ public class AdressServiceImpl implements AdressService {
         try{
             adress = adressRepo.save(adress);
         }catch(OptimisticLockException oLE){
-            ADRESSSERVICE_LOGGER.error("Adress can only be edited by one person at a time.");
+            LOGGER.error("Adress can only be edited by one person at a time.");
             throw new AdressServiceException();
         }
         return adress;
@@ -103,6 +100,7 @@ public class AdressServiceImpl implements AdressService {
      * @param id to be deleted
      */
     @Override
+    @Transactional
     public void deleteAdress(long id) {
         Optional<Adress> a = findById(id);
         if (a.isPresent()){

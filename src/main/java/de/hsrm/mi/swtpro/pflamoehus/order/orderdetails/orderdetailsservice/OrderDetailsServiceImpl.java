@@ -22,7 +22,6 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
  * @version 1
  */
 @Service
-@Transactional
 public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     @Autowired

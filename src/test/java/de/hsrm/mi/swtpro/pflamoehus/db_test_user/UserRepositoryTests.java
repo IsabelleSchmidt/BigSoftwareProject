@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -121,6 +124,7 @@ class UserRepositoryTests {
     }
 
     @Test
+    @Transactional
     @DisplayName("UserRepo findByEmail und findById")
     void userRepo_findBy() {
         final int COUNT = 5;

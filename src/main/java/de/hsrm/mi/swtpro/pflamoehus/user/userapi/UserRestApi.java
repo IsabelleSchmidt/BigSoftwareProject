@@ -100,6 +100,7 @@ public class UserRestApi {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/login")
+	@Transactional
 	public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
 			BindingResult result) {
 		Authentication authentication = authenticationManager.authenticate(
@@ -123,6 +124,7 @@ public class UserRestApi {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/register")
+	@Transactional
 	public ResponseEntity<List<MessageResponse>> registerUser(@Valid @RequestBody SignUpRequest signUpRequest,
 			BindingResult result) {
 		MessageResponse mr = new MessageResponse();
@@ -289,6 +291,7 @@ public class UserRestApi {
 	}
 
 	@GetMapping("/email/{email}")
+	@Transactional
 	public User getUserWithMail(@PathVariable String email) {
 		User user;
 		try {
