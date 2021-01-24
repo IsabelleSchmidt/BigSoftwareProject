@@ -1,15 +1,12 @@
-;             
-  
+;       
+
+delete from product_tags;   
 Delete from picture;
 delete from product;
 delete from tag;
 delete from user;
 delete from status;
 delete from roles;
-delete from product_tags; 
-     
-
-
     
 -- 51 +/- SELECT COUNT(*) FROM PUBLIC.PRODUCT;
 INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AVAILABLE, PRICE, PRODUCTTYPE, ROOM, VERSION, WIDTH) VALUES
