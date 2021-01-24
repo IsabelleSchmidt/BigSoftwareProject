@@ -47,7 +47,7 @@ public class StatusValueTests {
 
         for(Statuscode aktcode :    Statuscode.values()){
             status.setStatuscode(aktcode.toString()+"s");
-            assertEquals(validator.validate(status).size(),1, "Statuscode mit s hintendran muss als falsch validiert werden");
+            assertEquals(1,validator.validate(status).size(), "Statuscode mit s hintendran muss als falsch validiert werden");
         }   
 
         for(Statuscode aktcode :    Statuscode.values()){

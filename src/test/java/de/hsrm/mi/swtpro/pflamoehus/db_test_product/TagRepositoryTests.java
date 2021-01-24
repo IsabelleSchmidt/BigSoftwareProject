@@ -16,6 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.dao.DataIntegrityViolationException;
+
+import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
+import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
 import de.hsrm.mi.swtpro.pflamoehus.product.tags.TagRepository;
 
@@ -28,6 +31,12 @@ class TagRepositoryTests {
 
     @Autowired
     private TagRepository tagRepo;
+
+    @Autowired
+    private ProductRepository productRepo;
+
+    @Autowired
+    private PictureRepository pictureRepo;
 
 
     private final String VALUE = "Keramik";
@@ -42,6 +51,8 @@ class TagRepositoryTests {
     @DisplayName("persist Tag")
     void persist_tag() {
 
+        pictureRepo.deleteAll();
+        productRepo.deleteAll();
         tagRepo.deleteAll();
 
         Tag unmanaged = new Tag();
@@ -57,6 +68,8 @@ class TagRepositoryTests {
     @DisplayName("Save and delete tags from repository")
     void save_and_delete_tag() {
 
+        pictureRepo.deleteAll();
+        productRepo.deleteAll();
         tagRepo.deleteAll();
 
         List<Tag> allTags = new ArrayList<Tag>();
@@ -80,6 +93,8 @@ class TagRepositoryTests {
     @DisplayName("TagRepository findBy.. ")
     void repo_findBy() {
 
+        pictureRepo.deleteAll();
+        productRepo.deleteAll();
         tagRepo.deleteAll();
 
         Tag tag1 = new Tag();
@@ -105,6 +120,8 @@ class TagRepositoryTests {
     @DisplayName("create two tags with the same value")
     void check_unique_values() {
 
+        pictureRepo.deleteAll();
+        productRepo.deleteAll();
         tagRepo.deleteAll();
 
         Tag tag1 = new Tag();
@@ -117,7 +134,6 @@ class TagRepositoryTests {
 
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
             tagRepo.save(tag2);
-            //assertThat(managed2).isEqualTo(tag2);
         });
 
         assertThat(tagRepo.count()).isEqualTo(1);
