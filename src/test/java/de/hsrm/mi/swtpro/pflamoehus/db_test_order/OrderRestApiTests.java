@@ -118,7 +118,7 @@ public class OrderRestApiTests {
 
    
     private final String PASSWORD_EXISTING = "UserPflamoehus1!";
-    private final String EMAIL_EXISTING = "123@hsrm.de";
+    private final String EMAIL_EXISTING = "user@pflamoehus.de";
    
 
 

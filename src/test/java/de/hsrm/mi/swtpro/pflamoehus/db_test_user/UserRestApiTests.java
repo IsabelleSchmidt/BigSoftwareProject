@@ -52,7 +52,7 @@ public class UserRestApiTests {
     private final String BIRTHDAY_NEW = "1999-01-01";
     private final String EMAIL_NEW = "hansolaf@hs-rm.de";
     private final String PASSWORD_EXISTING = "UserPflamoehus1!";
-    private final String EMAIL_EXISTING = "123@hsrm.de";
+    private final String EMAIL_EXISTING = "user@pflamoehus.de";
 
     @Autowired
 	AuthenticationManager authenticationManager;
