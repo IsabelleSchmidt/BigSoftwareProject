@@ -6,6 +6,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -56,13 +58,13 @@ public class Product {
     private String name;
 
     @NotNull
-    @ValidProductType
+    @Enumerated(EnumType.STRING)
     @Column(name = "producttype")
-    private String productType;
+    private ProductType productType;
 
-    @ValidRoomType
+    @Enumerated(EnumType.STRING)
     @Column(name = "room")
-    private String roomType;
+    private RoomType roomType;
 
     @NotNull
     @Positive
@@ -165,7 +167,7 @@ public class Product {
      * 
      * @return producttype
      */
-    public String getProductType() {
+    public ProductType getProductType() {
         return productType;
     }
 
@@ -174,7 +176,7 @@ public class Product {
      * 
      * @param productType producttype that has to be set
      */
-    public void setProductType(String productType) {
+    public void setProductType(ProductType productType) {
         this.productType = productType;
     }
 
@@ -183,7 +185,7 @@ public class Product {
      * 
      * @return roomtype
      */
-    public String getRoomType() {
+    public RoomType getRoomType() {
         return roomType;
     }
 
@@ -192,7 +194,7 @@ public class Product {
      * 
      * @param roomType roomtype that has to be set
      */
-    public void setRoomType(String roomType) {
+    public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }
 
@@ -344,6 +346,16 @@ public class Product {
         return version;
     }
 
+   
+  
+    public Set<OrderDetails> getAllOrderDetails() {
+        return allOrderDetails;
+    }
+
+    public void setAllOrderDetails(Set<OrderDetails> allOrderDetails) {
+        this.allOrderDetails = allOrderDetails;
+    }
+
     /**
      * To generate a product as a string.
      * 
@@ -351,18 +363,11 @@ public class Product {
      */
     @Override
     public String toString() {
-        return "Product [allPictures=" + allPictures + ", allTags=" + allTags + ", articlenr=" + articlenr + ", depth="
-                + depth + ", description=" + description + ", height=" + height + ", information=" + information
-                + ", name=" + name + ", available=" + available + ", price=" + price + ", productType="
-                + productType + ", roomType=" + roomType + ", version=" + version + ", width=" + width + "]";
-    }
-
-    public Set<OrderDetails> getAllOrderDetails() {
-        return allOrderDetails;
-    }
-
-    public void setAllOrderDetails(Set<OrderDetails> allOrderDetails) {
-        this.allOrderDetails = allOrderDetails;
+        return "Product [allOrderDetails=" + allOrderDetails + ", allPictures=" + allPictures + ", allTags=" + allTags
+                + ", articlenr=" + articlenr + ", available=" + available + ", depth=" + depth + ", description="
+                + description + ", height=" + height + ", information=" + information + ", name=" + name + ", price="
+                + price + ", productType=" + productType + ", roomType=" + roomType + ", version=" + version
+                + ", width=" + width + "]";
     }
 
   

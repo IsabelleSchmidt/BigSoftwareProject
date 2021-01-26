@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.StatusServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.Status;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.StatusRepository;
+import de.hsrm.mi.swtpro.pflamoehus.order.status.Statuscode;
 
 /*
  * StatusServiceImpl for implementing the interface 'StatusService'.
@@ -30,7 +31,7 @@ public class StatusServiceImpl implements StatusService {
      */
     @Override
     @Transactional
-    public Status findStatusWithCode(String code) {
+    public Status findStatusWithCode(Statuscode code) {
         Optional<Status> status = statusRepo.findByStatuscode(code);
 
         if (status.isEmpty()) {

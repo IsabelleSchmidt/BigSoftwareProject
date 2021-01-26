@@ -38,7 +38,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @param type wanted producttype
      * @return list of products
      */
-    List<Product> findByProductType(String type);
+    List<Product> findByProductType(ProductType type);
 
     /**
      * Find products by their roomtype.
@@ -46,7 +46,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @param roomtype wanted roomtype
      * @return list of products
      */
-    List<Product> findByRoomType(String roomtype);
+    List<Product> findByRoomType(RoomType roomtype);
 
     /**
      * Find products by their price.

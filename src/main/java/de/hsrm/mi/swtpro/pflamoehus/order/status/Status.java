@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -36,9 +38,9 @@ public class Status {
     @JsonIgnore
     private long version = 1;
  
-    @ValidStatus
+    @Enumerated(EnumType.STRING)
     @Column(unique = true)
-    private String statuscode;
+    private Statuscode statuscode;
 
     @OneToMany(mappedBy = "statusID", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private Set<Order> allOrders = new HashSet<>();
@@ -61,7 +63,7 @@ public class Status {
      * 
      * @return String
      */
-    public String getStatuscode() {
+    public Statuscode getStatuscode() {
         return statuscode;
     }
 
@@ -70,7 +72,7 @@ public class Status {
      * 
      * @param statuscode to be set
      */
-    public void setStatuscode(String statuscode) {
+    public void setStatuscode(Statuscode statuscode) {
         this.statuscode = statuscode;
     }
 

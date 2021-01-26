@@ -178,7 +178,7 @@ public class OrderRestApi {
 
                 try{
                     //find incoming status in the database, every new order gets this status   
-                    incoming = statusService.findStatusWithCode(Statuscode.INCOMING.toString()); 
+                    incoming = statusService.findStatusWithCode(Statuscode.INCOMING); 
                     //Extract email out of JwtToken 
                     email = orderDTO.getJwtToken().getEmail();
                     //find user with that email in the database

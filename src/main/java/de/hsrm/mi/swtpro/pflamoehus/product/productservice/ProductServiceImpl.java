@@ -89,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<Product> findAllProductsWithProductType(ProductType type) {
-        return productRepo.findByProductType(type.toString());
+        return productRepo.findByProductType(type);
     }
 
 }

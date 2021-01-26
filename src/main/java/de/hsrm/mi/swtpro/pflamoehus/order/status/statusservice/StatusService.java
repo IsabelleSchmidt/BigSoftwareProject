@@ -1,6 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.order.status.statusservice;
 
 import de.hsrm.mi.swtpro.pflamoehus.order.status.Status;
+import de.hsrm.mi.swtpro.pflamoehus.order.status.Statuscode;
 
 /*
  * StatusService for different operations to apply on status.
@@ -16,6 +17,6 @@ public interface StatusService {
      * @param code to be found
      * @return status
      */
-    public Status findStatusWithCode(String code);
+    public Status findStatusWithCode(Statuscode code);
 
 }
