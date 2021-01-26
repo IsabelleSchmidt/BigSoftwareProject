@@ -6,6 +6,8 @@ delete from tag;
 delete from user;
 delete from status;
 delete from roles;
+delete from orderdetails;
+delete from ordertable;
      
 
 
@@ -220,7 +222,7 @@ INSERT INTO TAG(ID, VALUE, VERSION) VALUES
 (42, 'bequem', 1); 
 
 INSERT INTO USER(USERID,BIRTHDATE, EMAIL,FIRSTNAME,LASTNAME,PASSWORD,VERSION) VALUES
-(7,'1999-09-20','123@hsrm.de','Jürgen','Zwockel','CoolesPasswort!1',1),
+(6,'1999-09-20','123@hsrm.de','Jürgen','Zwockel','{bcrypt}$2a$10$7fdt/if1v6nJK30MExIHaeTzZ3FvkuTDikFgVxr4YW5XReorwb.HG',1), --UserPflamoehus1!
 (1,'1976-02-28', 'joghurta@nl.de','Joghurta','Yogurette','ILikeJoghurt123.',1),
 (2,'1988-06-17','glo@go.mir.de','Glogomir','hotzenplotz','AAAAAAAHhhhhh88,',1),
 (3,'200-10-10','Anette2000@hotmail.de','Anette','Schmitt', '12345aA!',1),
@@ -240,3 +242,6 @@ INSERT INTO STATUS(STATUSID, STATUSCODE, VERSION) VALUES
 (3,'PARTIALLYREADY',1),
 (4,'READYFORSHIPPING',1),
 (5,'SHIPPED',1);
+                                        
+INSERT INTO ORDERTABLE(ORDERNR, VERSION, CUSTOMER_EMAIL, PRICE_TOTAL, DELIVERY_DATE) VALUES
+(1,1,'123@hsrm.de',200,'2021-05-20');

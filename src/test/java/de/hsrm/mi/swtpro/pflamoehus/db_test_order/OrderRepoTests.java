@@ -42,6 +42,7 @@ public class OrderRepoTests{
     @Test
     @DisplayName("Save new Orders into empty table")
     public void persist_empty(){
+        orderRepo.deleteAll();
         Order unmanaged = new Order();
         unmanaged.setDeliveryDate(DATE);
         unmanaged.setCustomerEmail(MAIL);

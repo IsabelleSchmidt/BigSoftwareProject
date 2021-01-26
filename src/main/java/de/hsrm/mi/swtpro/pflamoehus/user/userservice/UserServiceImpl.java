@@ -21,7 +21,6 @@ import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
  * @version 4
  */
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -80,6 +79,7 @@ public class UserServiceImpl implements UserService {
      * @param id user id that should get deleted
      */
     @Override
+    @Transactional
     public void deleteUser(long id) { // gut so
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
@@ -97,7 +97,9 @@ public class UserServiceImpl implements UserService {
      * @return user
      */
     @Override
+    @Transactional
     public User registerUser(User user) {
+       
         Optional<User> found = userRepository.findByEmail(user.getEmail());
 
         if (found.isPresent()) {
@@ -105,11 +107,11 @@ public class UserServiceImpl implements UserService {
         }
 
         try{
+          
             user.setPassword(encodePassword(user.getPassword()));
         }catch(OptimisticLockException ole){
             throw new UserServiceException("Passwort konnte nicht geändert werden");
         }
-
 
         user = userRepository.save(user);
         userServiceLogger.info("PASSWORT VON USER IN DB:" + user.getPassword());

@@ -25,7 +25,6 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
  * @version 1
  */
 @Service
-@Transactional
 public class CreditcardServiceImpl implements CreditcardService {
 
     private static final Logger ORDERDETAILSSERVICELOGGER = LoggerFactory.getLogger(CreditcardServiceImpl.class);
@@ -90,6 +89,7 @@ public class CreditcardServiceImpl implements CreditcardService {
      * @param id creditcard to be deleted
      */
     @Override
+    @Transactional
     public void deleteCreditcard(long id) {
         Optional<Creditcard> cc = findById(id);
         creditcardRepo.delete(cc.get());

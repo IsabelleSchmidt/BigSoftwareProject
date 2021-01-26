@@ -209,7 +209,7 @@ class ProductRepoTests {
         product2.setHeight(HEIGHT);
         product2.setWidth(WIDHT);
         product2.setAvailable(AVIABLEPRODUCTS);
-        product2.setProductType(PRODUCTTYPE.PLANT);
+        product2.setProductType(ProductType.PLANT);
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(123.4);
         product2.setDescription(DESCRIPTION);

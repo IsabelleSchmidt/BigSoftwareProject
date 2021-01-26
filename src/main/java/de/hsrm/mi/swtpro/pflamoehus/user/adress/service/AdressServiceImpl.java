@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.OptimisticLockException;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,6 +102,7 @@ public class AdressServiceImpl implements AdressService {
      * @param id to be deleted
      */
     @Override
+    @Transactional
     public void deleteAdress(long id) {
         Optional<Adress> a = findById(id);
         adressRepo.delete(a.get());

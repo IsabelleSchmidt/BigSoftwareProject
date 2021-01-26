@@ -163,9 +163,9 @@ public class ProductRestApi {
             fileOutStream.close();
 
        }catch(FileNotFoundException fnoe){
-           //TODO: exceptionhandling
+   
        }catch(IOException ioe){
-           //TODO: exceptionhandling
+    
        }
        
         return false;

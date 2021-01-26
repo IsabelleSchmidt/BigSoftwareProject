@@ -5,10 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.naming.AuthenticationException;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.LoginRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.SignUpRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.UserOrderRequest;
@@ -102,6 +100,7 @@ public class UserRestApi {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/login")
+	@Transactional
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -124,6 +123,7 @@ public class UserRestApi {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/register")
+	@Transactional
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest, BindingResult result) {
 		LOGGER2.info("REGISTRIERE.");
 		MessageResponse mr = new MessageResponse();
@@ -213,6 +213,7 @@ public class UserRestApi {
 	 * @throws AuthenticationException if the user is not known in the database
 	 */
 	@PostMapping("/newOrder/user")
+	@Transactional
 	public ResponseEntity<?> addInfosToUser(@Valid @RequestBody UserOrderRequest userOrderRequest, BindingResult result)
 			throws AuthenticationException {
 		MessageResponse mr = new MessageResponse();
@@ -230,9 +231,6 @@ public class UserRestApi {
 			}
 			if(mrs.toString().contains("cowner") && mrs.toString().contains("creditcardnumber") && !(mrs.toString().contains("owner") && mrs.toString().contains("iban") && mrs.toString().contains("bank"))){
 				List<MessageResponse> delete = mrs.stream()
-					// .filter(s -> s.getField().equals("cowner"))
-					// .filter(s -> s.getField().equals("creditcardnumber"))
-					// .filter(s -> s.getField().equals("dateOfExpiry"))
 					.filter(s->  "creditcard.cowner creditcard.creditcardnumber creditcard.dateOfExpiry".contains(s.getField()))
 					.collect(Collectors.toList());
 
@@ -296,6 +294,7 @@ public class UserRestApi {
 	}
 
 	@GetMapping("/email/{email}")
+	@Transactional
 	public User getUserWithMail(@PathVariable String email){
 		User user;
 		try{

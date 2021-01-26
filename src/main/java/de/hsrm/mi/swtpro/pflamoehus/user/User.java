@@ -99,7 +99,6 @@ public class User {
     @JsonIgnore
     private Set<Order> allOrders = new HashSet<>();
     
-    //TODO: fetchtypes zu LAZY
 
     /**
      * Get roles.

@@ -1,12 +1,8 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.roles.service;
 
 import java.util.Optional;
-
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.RoleServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.user.roles.ERoles;
 import de.hsrm.mi.swtpro.pflamoehus.user.roles.Roles;
@@ -19,7 +15,6 @@ import de.hsrm.mi.swtpro.pflamoehus.user.roles.RolesRepository;
  * @version 1
  */
 @Service
-@Transactional
 public class RoleServiceImpl implements RoleService {
 
     @Autowired

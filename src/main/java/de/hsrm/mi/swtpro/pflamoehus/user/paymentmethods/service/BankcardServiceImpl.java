@@ -23,7 +23,6 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
  * @version 1
  */
 @Service
-@Transactional
 public class BankcardServiceImpl implements BankcardService {
 
     @Autowired
@@ -45,7 +44,6 @@ public class BankcardServiceImpl implements BankcardService {
      * @return Bankcard
      */
     @Override
-    @Transactional
     public Optional<Bankcard> findById(long id) {
         return bankcardRepo.findById(id);
     }
@@ -76,6 +74,7 @@ public class BankcardServiceImpl implements BankcardService {
      * @param id bankcard, that should get deleted
      */
     @Override
+    @Transactional
     public void deleteBankcard(long id) {
         Optional<Bankcard> b = findById(id);
         bankcardRepo.delete(b.get());
@@ -90,6 +89,7 @@ public class BankcardServiceImpl implements BankcardService {
      * @param iban to be encoded
      */
     @Override
+    @Transactional
     public String encodeIBAN(String iban) {
 
         iban = pe.encode(iban);

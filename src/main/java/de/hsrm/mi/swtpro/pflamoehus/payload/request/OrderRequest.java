@@ -21,7 +21,6 @@ import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
  */
 @Validated
 public class OrderRequest {
-    //TODO: über sinn aller setter und getter nachdenken
 
     /**
      * Mask for a product included in a order
@@ -38,6 +37,12 @@ public class OrderRequest {
         
         public ProductDTO(){
             
+        }
+
+        public ProductDTO(int amount, long articleNR){
+            this();
+            this.amount = amount;
+            this.articleNR = articleNR;
         }
         /**
          * Get articlenr.

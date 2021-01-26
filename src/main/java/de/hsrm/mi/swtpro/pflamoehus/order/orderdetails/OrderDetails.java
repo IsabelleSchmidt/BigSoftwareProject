@@ -24,7 +24,7 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
  * @author Svenja Schenk
  * @version 1
  */
-@Entity
+@Entity(name="orderdetails")
 @Validated
 public class OrderDetails {
 

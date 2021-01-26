@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,6 +125,23 @@ public class OrderRestApi {
             this.orderid = orderid;
         }
 
+        public String getField() {
+            return field;
+        }
+
+        public void setField(String field) {
+            this.field = field;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        
      
 
     }
@@ -146,6 +165,7 @@ public class OrderRestApi {
 
     }
 
+  
     /**
      * For accepting and saving a new order.
      * 
@@ -154,6 +174,7 @@ public class OrderRestApi {
      * @return orderMessage
      */
     @PostMapping("/new")
+    @Transactional
     public ResponseEntity<Set<OrderMessage>> newOrder(@Valid @RequestBody OrderRequest orderDTO, BindingResult result){
        LOGGER.info("NEW ORDER: "+orderDTO.toString());
         
@@ -275,9 +296,10 @@ public class OrderRestApi {
      * @return boolean
      */
     @PostMapping("/edit/orderstatus/{orderNR}/{newStatus}")
-    public boolean changeOrderStatus(@PathVariable long orderNR, @PathVariable String newStatus) {
+    public boolean changeOrderStatus(@PathVariable long orderNR, @PathVariable Statuscode newStatus) {
 
         // TODO: order aus altem status raus, in neuen Status rein, in order auch
+        //TODO: alle logger LOGGER nennen
         // aendern
 
         return true;
@@ -309,6 +331,7 @@ public class OrderRestApi {
      * @throws ProductServiceException
      * @throws OrderDetailsServiceException
      */
+    @Transactional
     private Set<OrderDetails> createDetails(OrderRequest orderDTO, Order order, Status incoming)
             throws ProductServiceException, OrderDetailsServiceException {
         
@@ -334,10 +357,14 @@ public class OrderRestApi {
 
             //Set bidirectional relationships and reduce number of available products 
             product.getAllOrderDetails().add(detail);
+            LOGGER.info("Gekauft: "+ productdto.getAmount() + "" +product.getAvailable());
             product.setAvailable(product.getAvailable()-productdto.getAmount());
+            LOGGER.info("GESPEICHERTE PRODUKTE: "+product.getAvailable());
 
         }
 
         return allDetails;
     }
 }
+
+//TODO: datasql nur einmal initialisieren und dann in mem modus

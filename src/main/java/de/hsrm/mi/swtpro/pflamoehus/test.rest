@@ -37,3 +37,5 @@ Content-Type: application/json
 DELETE http://localhost:9090/api/product/114
 
 ###
+
+DELETE http://localhost:9090/api/order/delete/1
