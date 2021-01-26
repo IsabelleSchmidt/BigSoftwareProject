@@ -3,7 +3,6 @@ package de.hsrm.mi.swtpro.pflamoehus.order;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +15,8 @@ import javax.persistence.Version;
 import javax.validation.Valid;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Positive;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.validation.annotation.Validated;
-
 import de.hsrm.mi.swtpro.pflamoehus.order.status.Status;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
@@ -30,7 +27,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.User;
  * @author Ann-Cathrin Fabian
  * @version 1
  */
-@Entity(name = "OrderTable")
+@Entity(name = "Ordertable")
 @Validated
 public class Order {
 

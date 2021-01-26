@@ -28,6 +28,8 @@ public enum RoomType {
      * type 'Arbeitszimmer' 
      * */
     BUREAU("Arbeitszimmer"), 
+
+    DININGROOM("Esszimmer"),
     /**
      * type 'Wohnzimmer' 
      * */

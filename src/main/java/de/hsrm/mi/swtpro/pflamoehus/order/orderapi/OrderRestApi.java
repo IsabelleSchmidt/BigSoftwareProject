@@ -126,22 +126,24 @@ public class OrderRestApi {
             this.orderid = orderid;
         }
         
+
         public String getField() {
-			return field;
-		}
+            return field;
+        }
 
-		public void setField(String field) {
-			this.field = field;
-		}
+        public void setField(String field) {
+            this.field = field;
+        }
 
-		public String getMessage() {
-			return message;
-		}
+        public String getMessage() {
+            return message;
+        }
 
-		public void setMessage(String message) {
-			this.message = message;
-		}
+        public void setMessage(String message) {
+            this.message = message;
+        }
 
+        
      
 
     }
@@ -165,6 +167,7 @@ public class OrderRestApi {
 
     }
 
+  
     /**
      * For accepting and saving a new order.
      * 
@@ -197,7 +200,7 @@ public class OrderRestApi {
 
                 try{
                     //find incoming status in the database, every new order gets this status   
-                    incoming = statusService.findStatusWithCode(Statuscode.INCOMING.toString()); 
+                    incoming = statusService.findStatusWithCode(Statuscode.INCOMING); 
                     //Extract email out of JwtToken 
                     email = orderDTO.getJwtToken().getEmail();
                     //find user with that email in the database
@@ -298,11 +301,18 @@ public class OrderRestApi {
     @Transactional
     public boolean changeOrderStatus(@PathVariable long orderNR, @PathVariable String newStatus) {
         Order order;
-        Status status;
+        Status status = null;
+       
+        
         
         try{
             order = orderService.findOrderByOrderNR(orderNR);
-            status = statusService.findStatusWithCode(newStatus);
+            status = order.getStatus();
+            for(Statuscode code : Statuscode.values()){
+                if(code.toString().equals(newStatus)){
+                    status = statusService.findStatusWithCode(code);
+                }
+            }
             order.setStatus(status);
 
             for(OrderDetails detail : order.getOrderdetails()){
@@ -376,8 +386,10 @@ public class OrderRestApi {
 
             //Set bidirectional relationships and reduce number of available products 
             product.getAllOrderDetails().add(detail);
+            LOGGER.info("Gekauft: "+ productdto.getAmount() + "" +product.getAvailable());
             product.setAvailable(product.getAvailable()-productdto.getAmount());
             }
+            LOGGER.info("GESPEICHERTE PRODUKTE: "+product.getAvailable());
 
         }
         if (!order_ok) {
@@ -387,3 +399,5 @@ public class OrderRestApi {
         return allDetails;
     }
 }
+
+//TODO: datasql nur einmal initialisieren und dann in mem modus

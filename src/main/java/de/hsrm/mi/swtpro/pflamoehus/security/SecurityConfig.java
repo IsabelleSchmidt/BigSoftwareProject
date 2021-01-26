@@ -23,7 +23,6 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
-
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.AuthEntryPointJwt;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.AuthTokenFilter;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;

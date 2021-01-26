@@ -21,7 +21,7 @@ import java.util.Optional;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class StatusRepoTests {
 
-    final String STATUSCODE = Statuscode.READY_FOR_SHIPPING.toString();
+    final Statuscode STATUSCODE = Statuscode.READYFORSHIPPING;
 
     @Autowired
     private OrderDetailsRepository orderDetailsRepository;
@@ -63,14 +63,14 @@ class StatusRepoTests {
         status.setStatuscode(STATUSCODE);
 
         final Status status1 = new Status();
-        status1.setStatuscode(Statuscode.IN_PROGESS.toString());
+        status1.setStatuscode(Statuscode.INPROGRESS);
 
         statusRepo.save(status);
         statusRepo.save(status1);
 
         assertThat(statusRepo.count()).isEqualTo(COUNT);
-        Optional<Status> fund = statusRepo.findByStatuscode(Statuscode.READY_FOR_SHIPPING.toString());
-        assertTrue(fund.isPresent());
+        Optional<Status> fund = statusRepo.findByStatuscode(Statuscode.READYFORSHIPPING);
+        assertThat(fund.isPresent());
         assertThat(fund.get().getStatuscode()).isEqualTo(STATUSCODE);
 
         

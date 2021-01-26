@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import de.hsrm.mi.swtpro.pflamoehus.security.SecurityConfig.UserDetailServiceImpl;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 import io.jsonwebtoken.Jwts;
@@ -15,9 +14,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
-
 import static de.hsrm.mi.swtpro.pflamoehus.security.SecurityContents.SECRET;
-
 import java.util.Date;
 
 

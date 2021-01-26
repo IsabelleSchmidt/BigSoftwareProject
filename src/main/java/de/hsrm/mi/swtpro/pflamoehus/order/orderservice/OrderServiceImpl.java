@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.OrderServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.order.Order;
 import de.hsrm.mi.swtpro.pflamoehus.order.OrderRepository;
+import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
+import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.orderdetailsservice.OrderDetailsService;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
 /*
@@ -24,6 +26,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderRepository orderRepo;
+
+    @Autowired OrderDetailsService orderDetailsService;
 
     static final Logger orderServiceLogger = org.slf4j.LoggerFactory.getLogger(OrderServiceImpl.class);
 
@@ -116,8 +120,13 @@ public class OrderServiceImpl implements OrderService {
      * @param orderNR to be deleted
      */
     @Override
+    @Transactional
     public void deleteOrder(long orderNR) {
-        orderRepo.delete(findOrderByOrderNR(orderNR));
+        Order order = findOrderByOrderNR(orderNR);
+        for(OrderDetails detail : order.getOrderdetails()){
+            orderDetailsService.deleteOrderDetail(detail.getOrderDetailsID());
+        }
+        orderRepo.deleteById(orderNR);
     }
 
 }

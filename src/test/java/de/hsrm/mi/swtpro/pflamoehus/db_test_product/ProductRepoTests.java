@@ -16,14 +16,16 @@ import org.springframework.dao.DataIntegrityViolationException;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetailsRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
+import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
+import de.hsrm.mi.swtpro.pflamoehus.product.RoomType;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class ProductRepoTests {
 
     final String TESTNAME = "Herbert";
-    final String PRODUCTTYPE = "Sofa/Couch";
-    final String ROOMTYPE = "Bad";
+    final ProductType PRODUCTTYPE = ProductType.COUCH;
+    final RoomType ROOMTYPE = RoomType.BATHROOM;
     final double PRICE = 10.5;
     final double HEIGHT = 75.0;
     final double WIDHT = 210.5;
@@ -207,7 +209,7 @@ class ProductRepoTests {
         product2.setHeight(HEIGHT);
         product2.setWidth(WIDHT);
         product2.setAvailable(AVIABLEPRODUCTS);
-        product2.setProductType("Pflanze");
+        product2.setProductType(ProductType.PLANT);
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(123.4);
         product2.setDescription(DESCRIPTION);
@@ -216,7 +218,7 @@ class ProductRepoTests {
         final Product managed2 = productRepository.save(product2);
         assertThat(managed2).isEqualTo(product2);
 
-        List<Product> fund = productRepository.findByProductType("Sofa/Couch");
+        List<Product> fund = productRepository.findByProductType(ProductType.COUCH);
         assertThat(fund.size()).isEqualTo(1);
 
         List<Product> fund2 = productRepository.findByHeight(HEIGHT);

@@ -8,64 +8,66 @@ delete from tag;
 delete from status;
 delete from roles;
 delete from user;
+delete from orderdetails;
+delete from ordertable;
      
 
 
     
 -- 51 +/- SELECT COUNT(*) FROM PUBLIC.PRODUCT;
 INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AVAILABLE, PRICE, PRODUCTTYPE, ROOM, VERSION, WIDTH) VALUES
-(62, 55.0, 'Beschreibung', 75.0, 'Information', 'Herbert', 3, 10.50, 'Sofa/Couch', 'Bad', 0, 210.5),
-(63, 0.0, 'Beschreibung', 0.0, 'Information', 'Epipremnum Trebie', 3, 10.99, 'Pflanze', 'all', 1, 0.0),
-(64, 0.0, 'Beschreibung', 0.0, 'Information', 'Marante Leuconeura', 10, 15.99, 'Pflanze', 'all', 1, 0.0),
-(65, 0.0, 'Beschreibung', 0.0, 'Information', 'Monstera', 6, 29.99, 'Pflanze', 'all', 1, 0.0),
-(66, 0.0, 'Beschreibung', 0.0, 'Information', 'Philodendron Pink Princess', 2, 64.99, 'Pflanze', 'all', 1, 0.0),
-(67, 0.0, 'Beschreibung', 0.0, 'Information', 'Pilea Peperomioides', 17, 20.99, 'Pflanze', 'all', 1, 0.0),
-(68, 0.0, 'Beschreibung', 0.0, 'Information', 'Senecio Rowleyanus', 11, 15.99, 'Pflanze', 'all', 1, 0.0),
-(69, 0.0, 'Beschreibung', 0.0, 'Information', 'Xerosicyos Danguyi', 10, 5.99, 'Pflanze', 'all', 1, 0.0),
-(70, 34.0, 'Beschreibung', 55.0, 'Information', 'Stuhl Joerg', 25, 95.99, 'Stuhl', 'Esszimmer', 1, 40.0),
-(71, 16.0, 'Beschreibung', 33.0, 'Information', 'Stuhl Steven', 17, 64.99, 'Stuhl', 'Esszimmer', 1, 14.5),
-(72, 16.0, 'Beschreibung', 33.0, 'Information', 'Stuhl Bob', 16, 110.99, 'Stuhl', 'Esszimmer', 1, 14.5),
-(73, 34.0, 'Beschreibung', 55.0, 'Information', 'Stuhl Teddy', 6, 139.99, 'Stuhl', 'Esszimmer', 1, 40.0),
-(74, 16.0, 'Beschreibung', 33.0, 'Information', 'Stuhl Bulli', 80, 50.99, 'Stuhl', 'Esszimmer', 1, 14.5),
-(75, 34.0, 'Beschreibung', 55.0, 'Information', 'Stuhl Shelli', 10, 210.99, 'Stuhl', 'Esszimmer', 1, 40.0),
-(76, 16.0, 'Beschreibung', 33.0, 'Information', 'Stuhl Chris', 10, 5.99, 'Stuhl', 'Esszimmer', 1, 14.5),
-(77, 4.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Blacki', 35, 7.99, 'Dekoration', 'all', 1, 8.0),
-(78, 3.0, 'Beschreibung', 6.0, 'Information', 'Bilderrahmen Bloom', 25, 9.99, 'Dekoration', 'all', 1, 6.0),
-(79, 4.0, 'Beschreibung', 7.0, 'Information', 'Vase Abstrakt', 55, 9.99, 'Dekoration', 'all', 1, 3.5),
-(80, 4.0, 'Beschreibung', 8.0, 'Information', 'Vase Freedom', 60, 6.50, 'Dekoration', 'all', 1, 4.0),
-(81, 4.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Hands', 25, 11.99, 'Dekoration', 'all', 1, 4.0),
-(82, 4.0, 'Beschreibung', 8.0, 'Information', 'Bilderrahmen HandsII', 45, 7.99, 'Dekoration', 'all', 1, 4.0),
-(83, 0.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Spring', 67, 15.99, 'Dekoration', 'all', 1, 4.0),
-(84, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Herbert', 25, 1200.99, 'Sofa/Couch', 'Wohnzimmer', 1, 250.0),
-(85, 90.0, 'Beschreibung', 45.0, 'Information', 'Sofa Valentina', 45, 1550.99, 'Sofa/Couch', 'Wohnzimmer', 1, 250.0),
-(86, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Fluff', 90, 1671.99, 'Sofa/Couch', 'Wohnzimmer', 1, 450.0),
-(87, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Otto', 45, 1200.99, 'Sofa/Couch', 'Wohnzimmer', 1, 250.0),
-(88, 55.0, 'Beschreibung', 45.0, 'Information', 'Sofa Stella', 25, 1860.99, 'Sofa/Couch', 'Wohnzimmer', 1, 345.0),
-(89, 65.0, 'Beschreibung', 45.0, 'Information', 'Sofa Ulli', 55, 870.99, 'Sofa/Couch', 'Wohnzimmer', 1, 220.0),
-(90, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Bernd', 33, 1100.99, 'Sofa/Couch', 'Wohnzimmer', 1, 346.0),
-(91, 140.0, 'Beschreibung', 60.0, 'Information', 'Elfriede', 10, 175.5, 'Bett', 'Schlafzimmer', 1, 210.0),
-(92, 180.0, 'Beschreibung', 50.0, 'Information', 'Cozy', 170, 195.90, 'Bett', 'Schlafzimmer', 1, 220.0),
-(93, 210.0, 'Beschreibung', 80.0, 'Information', 'White', 5, 255.00, 'Bett', 'Schlafzimmer', 1, 210.0),
-(94, 140.0, 'Beschreibung', 60.0, 'Information', 'Luxury', 80, 1290.99, 'Bett', 'Schlafzimmer', 1, 210.0),
-(95, 140.0, 'Beschreibung', 60.0, 'Information', 'Bernhard', 77, 690.00, 'Bett', 'Schlafzimmer', 1, 210.0),
-(96, 140.5, 'Beschreibung', 60.0, 'Information', 'Wild Life', 17, 117.17, 'Bett', 'Schlafzimmer', 1, 215.9),
-(97, 170.0, 'Beschreibung', 55.89, 'Information', 'Rustikal', 10, 700.00, 'Bett', 'Schlafzimmer', 1, 220.1),
-(98, 120.0, 'Beschreibung', 40.0, 'Information', 'Allround', 3, 99.99, 'Bett', 'Schlafzimmer', 1, 180.0);      
+(62, 55.0, 'beschreibung', 75.0, 'information', 'Herbert', 3, 10.5, 'COUCH', 'BATHROOM', 0, 210.5),
+(63, 0.0, 'Beschreibung', 0.0, 'Information', 'Epipremnum Trebie', 3, 10.99, 'PLANT', NULL, 1, 0.0),
+(64, 0.0, 'Beschreibung', 0.0, 'Information', 'Marante Leuconeura', 10, 15.99, 'PLANT', NULL, 1, 0.0),
+(65, 0.0, 'Beschreibung', 0.0, 'Information', 'Monstera', 6, 29.99, 'PLANT', NULL, 1, 0.0),
+(66, 0.0, 'Beschreibung', 0.0, 'Information', 'Philodendron Pink Princess', 2, 64.99, 'PLANT', NULL, 1, 0.0),
+(67, 0.0, 'Beschreibung', 0.0, 'Information', 'Pilea Peperomioides', 17, 20.99, 'PLANT', NULL, 1, 0.0),
+(68, 0.0, 'Beschreibung', 0.0, 'Information', 'Senecio Rowleyanus', 11, 15.99, 'PLANT', NULL, 1, 0.0),
+(69, 0.0, 'Beschreibung', 0.0, 'Information', 'Xerosicyos Danguyi', 10, 5.99, 'PLANT', NULL, 1, 0.0),
+(70, 34.0, 'Beschreibung', 55.0, 'Information', 'CHAIR Joerg', 25, 95.99, 'CHAIR', 'DININGROOM', 1, 40.0),
+(71, 16.0, 'Beschreibung', 33.0, 'Information', 'CHAIR Steven', 17, 64.99, 'CHAIR', 'DININGROOM', 1, 14.5),
+(72, 16.0, 'Beschreibung', 33.0, 'Information', 'CHAIR Bob', 16, 110.99, 'CHAIR', 'DININGROOM', 1, 14.5),
+(73, 34.0, 'Beschreibung', 55.0, 'Information', 'CHAIR Teddy', 6, 139.99, 'CHAIR', 'DININGROOM', 1, 40.0),
+(74, 16.0, 'Beschreibung', 33.0, 'Information', 'CHAIR Bulli', 80, 50.99, 'CHAIR', 'DININGROOM', 1, 14.5),
+(75, 34.0, 'Beschreibung', 55.0, 'Information', 'CHAIR Shelli', 10, 210.99, 'CHAIR', 'DININGROOM', 1, 40.0),
+(76, 16.0, 'Beschreibung', 33.0, 'Information', 'CHAIR Chris', 10, 5.99, 'CHAIR', 'DININGROOM', 1, 14.5),
+(77, 4.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Blacki', 35, 7.99, 'DECORATION', NULL, 1, 8.0),
+(78, 3.0, 'Beschreibung', 6.0, 'Information', 'Bilderrahmen Bloom', 25, 9.99, 'DECORATION', NULL, 1, 6.0),
+(79, 4.0, 'Beschreibung', 7.0, 'Information', 'Vase Abstrakt', 55, 9.99, 'DECORATION', NULL, 1, 3.5),
+(80, 4.0, 'Beschreibung', 8.0, 'Information', 'Vase Freedom', 60, 6.5, 'DECORATION', NULL, 1, 4.0),
+(81, 4.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Hands', 25, 11.99, 'DECORATION', NULL, 1, 4.0),
+(82, 4.0, 'Beschreibung', 8.0, 'Information', 'Bilderrahmen HandsII', 45, 7.99, 'DECORATION', NULL, 1, 4.0),
+(83, 0.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Spring', 67, 15.99, 'DECORATION', NULL, 1, 4.0),
+(84, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Herbert', 25, 1200.99, 'COUCH', 'LIVINGROOM', 1, 250.0),
+(85, 90.0, 'Beschreibung', 45.0, 'Information', 'Sofa Valentina', 45, 1550.99, 'COUCH', 'LIVINGROOM', 1, 250.0),
+(86, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Fluff', 90, 1671.99, 'COUCH', 'LIVINGROOM', 1, 450.0),
+(87, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Otto', 45, 1200.99, 'COUCH', 'LIVINGROOM', 1, 250.0),
+(88, 55.0, 'Beschreibung', 45.0, 'Information', 'Sofa Stella', 25, 1860.99, 'COUCH', 'LIVINGROOM', 1, 345.0),
+(89, 65.0, 'Beschreibung', 45.0, 'Information', 'Sofa Ulli', 55, 870.99, 'COUCH', 'LIVINGROOM', 1, 220.0),
+(90, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Bernd', 33, 1100.99, 'COUCH', 'LIVINGROOM', 1, 346.0),
+(91, 140.0, 'Beschreibung', 60.0, 'Information', 'Elfriede', 10, 175.5, 'BED', 'BEDROOM', 1, 210.0),
+(92, 180.0, 'Beschreibung', 50.0, 'Information', 'Cozy', 170, 195.9, 'BED', 'BEDROOM', 1, 220.0),
+(93, 210.0, 'Beschreibung', 80.0, 'Information', 'White', 5, 255.0, 'BED', 'BEDROOM', 1, 210.0),
+(94, 140.0, 'Beschreibung', 60.0, 'Information', 'Luxury', 80, 1290.99, 'BED', 'BEDROOM', 1, 210.0),
+(95, 140.0, 'Beschreibung', 60.0, 'Information', 'Bernhard', 77, 690.0, 'BED', 'BEDROOM', 1, 210.0),
+(96, 140.5, 'Beschreibung', 60.0, 'Information', 'Wild Life', 17, 117.17, 'BED', 'BEDROOM', 1, 215.9),
+(97, 170.0, 'Beschreibung', 55.89, 'Information', 'Rustikal', 10, 700.0, 'BED', 'BEDROOM', 1, 220.1),
+(98, 120.0, 'Beschreibung', 40.0, 'Information', 'Allround', 3, 99.99, 'BED', 'BEDROOM', 1, 180.0);      
 INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AVAILABLE, PRICE, PRODUCTTYPE, ROOM, VERSION, WIDTH) VALUES
-(99, 70.0, 'Beschreibung', 196.5, 'Information', 'Millenial', 13, 999.99, 'Schrank/Kommode', 'Schlafzimmer', 1, 176.5),
-(100, 60.3, 'Beschreibung', 96.5, 'Information', 'Bjoern', 1312, 245.95, 'Schrank/Kommode', 'Schlafzimmer', 1, 120.5),
-(101, 70.0, 'Beschreibung', 196.5, 'Information', 'Minimal', 33, 2995.90, 'Schrank/Kommode', 'Schlafzimmer', 1, 176.5),
-(102, 50.0, 'Beschreibung', 110.0, 'Information', 'Mint', 117, 500.00, 'Schrank/Kommode', 'Schlafzimmer', 1, 120.0),
-(103, 45.0, 'Beschreibung', 200.0, 'Information', 'Schwerlastregal', 1300, 1900.99, 'Schrank/Kommode', 'Schlafzimmer', 1, 210.3),
-(104, 83.5, 'Beschreibung', 213.6, 'Information', 'Justus Business', 5, 9999.99, 'Schrank/Kommode', 'Schlafzimmer', 1, 180.0),
-(105, 50.0, 'Beschreibung', 110.0, 'Information', 'Bestimmt nicht MALM', 11, 110.99, 'Schrank/Kommode', 'Schlafzimmer', 1, 120.0),
-(106, 80.0, 'Beschreibung', 90.0, 'Information', 'Rund', 111, 110.99, 'Tisch', 'Wohnzimmer', 1, 80.0),
-(107, 80.0, 'Beschreibung', 93.0, 'Information', 'Vollholz', 550, 15010.95, 'Tisch', 'Wohnzimmer', 1, 235.5),
-(108, 95.0, 'Beschreibung', 90.0, 'Information', 'Kaeren', 3, 110.99, 'Tisch', 'Wohnzimmer', 1, 180.0),
-(109, 95.0, 'Beschreibung', 90.0, 'Information', 'Lifestail', 25, 110.99, 'Tisch', 'Wohnzimmer', 1, 180.0),
-(110, 89.9, 'Beschreibung', 96.0, 'Information', 'Alfrede', 89, 110.99, 'Tisch', 'Wohnzimmer', 1, 112.8),
-(111, 95.0, 'Beschreibung', 90.0, 'Information', 'Modern chic', 2, 110.99, 'Tisch', 'Wohnzimmer', 1, 180.0),
-(112, 80.0, 'Beschreibung', 90.0, 'Information', 'Classic', 99, 110.99, 'Tisch', 'Wohnzimmer', 1, 80.0);         
+(99, 70.0, 'Beschreibung', 196.5, 'Information', 'Millenial', 13, 999.99, 'CLOSET', 'BEDROOM', 1, 176.5),
+(100, 60.3, 'Beschreibung', 96.5, 'Information', 'Bjoern', 1312, 245.95, 'CLOSET', 'BEDROOM', 1, 120.5),
+(101, 70.0, 'Beschreibung', 196.5, 'Information', 'Minimal', 33, 2995.9, 'CLOSET', 'BEDROOM', 1, 176.5),
+(102, 50.0, 'Beschreibung', 110.0, 'Information', 'Mint', 117, 500.0, 'CLOSET', 'BEDROOM', 1, 120.0),
+(103, 45.0, 'Beschreibung', 200.0, 'Information', 'Schwerlastregal', 1300, 1900.99, 'CLOSET', 'BEDROOM', 1, 210.3),
+(104, 83.5, 'Beschreibung', 213.6, 'Information', 'Justus Business', 5, 9999.99, 'CLOSET', 'BEDROOM', 1, 180.0),
+(105, 50.0, 'Beschreibung', 110.0, 'Information', 'Bestimmt nicht MALM', 11, 110.99, 'CLOSET', 'BEDROOM', 1, 120.0),
+(106, 80.0, 'Beschreibung', 90.0, 'Information', 'Rund', 111, 110.99, 'TABLE', 'LIVINGROOM', 1, 80.0),
+(107, 80.0, 'Beschreibung', 93.0, 'Information', 'Vollholz', 550, 15010.95, 'TABLE', 'LIVINGROOM', 1, 235.5),
+(108, 95.0, 'Beschreibung', 90.0, 'Information', 'Kaeren', 3, 110.99, 'TABLE', 'LIVINGROOM', 1, 180.0),
+(109, 95.0, 'Beschreibung', 90.0, 'Information', 'Lifestail', 25, 110.99, 'TABLE', 'LIVINGROOM', 1, 180.0),
+(110, 89.9, 'Beschreibung', 96.0, 'Information', 'Alfrede', 89, 110.99, 'TABLE', 'LIVINGROOM', 1, 112.8),
+(111, 95.0, 'Beschreibung', 90.0, 'Information', 'Modern chic', 2, 110.99, 'TABLE', 'LIVINGROOM', 1, 180.0),
+(112, 80.0, 'Beschreibung', 90.0, 'Information', 'Classic', 99, 110.99, 'TABLE', 'LIVINGROOM', 1, 80.0);         
      
 -- 131 +/- SELECT COUNT(*) FROM PUBLIC.PICTURE;               
 INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
@@ -81,9 +83,9 @@ INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
 (143, '/plants/PhilodendronPinkPrincess.jpg', 1, 66),
 (144, '/plants/PhilodendronPinkPrincess2.jpg', 1, 66),
 (145, '/plants/PhilodendronPinkPrincess3.jpg', 1, 66),
-(146, 'plants/PileaPeperomioides.jpg', 1, 67),
-(147, 'plants/PileaPeperomioides2.jpg', 1, 67),
-(148, 'plants/PileaPeperomioides3.jpg', 1, 67),
+(146, '/plants/PileaPeperomioides.jpg', 1, 67),
+(147, '/plants/PileaPeperomioides2.jpg', 1, 67),
+(148, '/plants/PileaPeperomioides3.jpg', 1, 67),
 (149, '/plants/SenecioRowleyanus.jpg', 1, 68),
 (150, '/plants/SenecioRowleyanus2.jpg', 1, 68),
 (151, '/plants/SenecioRowleyanus3.jpg', 1, 68),
@@ -284,12 +286,6 @@ INSERT INTO PRODUCT_TAGS(ARTICLENR, TAGID) VALUES
 (111, 27),
 (112, 43);
 
-INSERT INTO STATUS(STATUSID, STATUSCODE, VERSION) VALUES
-(1,'INCOMING',1),
-(2,'IN PROGRESS',1),
-(3,'PARTIAL',1),
-(4,'READY',1),
-(5,'SHIPPED',1);
 
 INSERT INTO USER(USERID,BIRTHDATE, EMAIL,FIRSTNAME,LASTNAME,PASSWORD,VERSION) VALUES
 (7,'1999-09-20','user@pflamoehus.de','User','Pflamoehus','{bcrypt}$2a$10$7fdt/if1v6nJK30MExIHaeTzZ3FvkuTDikFgVxr4YW5XReorwb.HG',1),  -- UserPflamoehus1!
@@ -315,3 +311,12 @@ INSERT INTO USER_ROLES(USER_ID, ROLE_ID) VALUES
 (3,5),
 (4,4),
 (4,5);
+INSERT INTO STATUS(STATUSID, STATUSCODE, VERSION) VALUES
+(1,'INCOMING',1),
+(2,'INPROGRESS',1),
+(3,'PARTIALLYREADY',1),
+(4,'READYFORSHIPPING',1),
+(5,'SHIPPED',1);
+                                        
+INSERT INTO ORDERTABLE(ORDERNR, VERSION, CUSTOMER_EMAIL, PRICE_TOTAL, DELIVERY_DATE) VALUES
+(1,1,'123@hsrm.de',200,'2021-05-20');

@@ -20,6 +20,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
+import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
+import de.hsrm.mi.swtpro.pflamoehus.product.RoomType;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
@@ -36,16 +38,14 @@ class ProductValueTests {
     private final double WIDTH = 10.0;
     private final double HEIGHT = 12.0;
     private final double DEPTH = 0.0;
-    private final String PRODUCTTYPE = "Tisch";
-    private final String ROOMTYPE = "Wohnzimmer";
+    private final ProductType PRODUCTTYPE = ProductType.TABLE;
+    private final RoomType ROOMTYPE = RoomType.LIVINGROOM;
     private final int AVAILABLE = 0;
     private final String DESCRIPTION = "Beschreibung ist da.";
     private final String INFORMATION = "Information ist da.";
     private final double FALSE_PRICE = -1;
     private final double FALSE_WIDTH = 12.123;
     private final double FALSE_HEIGHT = 12345678;
-    private final String FALSE_PRODUCTTYPE = "Ziharmonika";
-    private final String FALSE_ROOMTYPE = "SCHlafzimmer";
     private final int FALSE_AVAILABLE = -17;
     private final double FALSE_PRICE2 = 123.123;
     private final String FALSE_DESCRIPTION = "nein";
@@ -67,7 +67,7 @@ class ProductValueTests {
     void false_validation() {
 
         Product product1 = new Product();
-        int nrWrongValues = 8;
+        int nrWrongValues = 6;
 
         // Product 1
         // fill with wrong values
@@ -75,14 +75,14 @@ class ProductValueTests {
         product1.setWidth(FALSE_WIDTH);
         product1.setAvailable(FALSE_AVAILABLE);
         product1.setPrice(FALSE_PRICE);
-        product1.setRoomType(FALSE_ROOMTYPE);
-        product1.setProductType(FALSE_PRODUCTTYPE);
         product1.setDescription(FALSE_DESCRIPTION);
         product1.setInformation(FALSE_INFORMATION);
 
         // right values
         product1.setName(NAME);
         product1.setDepth(DEPTH);
+        product1.setRoomType(ROOMTYPE);
+        product1.setProductType(PRODUCTTYPE);
 
         // check for as many validation errors as wrong values
         Set<ConstraintViolation<Product>> violations;
@@ -113,7 +113,7 @@ class ProductValueTests {
         product.setDescription(DESCRIPTION);
         product.setInformation(INFORMATION);
 
-        assertThat(product.toString()).contains(NAME).contains(PRODUCTTYPE).contains(ROOMTYPE).contains(DESCRIPTION)
+        assertThat(product.toString()).contains(NAME).contains(PRODUCTTYPE.toString()).contains(ROOMTYPE.toString()).contains(DESCRIPTION)
                 .contains(String.valueOf(DEPTH)).contains(String.valueOf(WIDTH)).contains(String.valueOf(HEIGHT))
                 .contains(String.valueOf(PRICE)).contains(String.valueOf(AVAILABLE)).contains(INFORMATION);
 

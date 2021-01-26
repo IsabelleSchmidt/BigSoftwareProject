@@ -40,6 +40,12 @@ public class OrderRequest {
         public ProductDTO(){
             //Empty constructor
         }
+
+        public ProductDTO(int amount, long articleNR){
+            this();
+            this.amount = amount;
+            this.articleNR = articleNR;
+        }
         /**
          * Get articlenr.
          * 

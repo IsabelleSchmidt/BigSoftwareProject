@@ -32,7 +32,7 @@ public class LoginRequest {
 	 * 
 	 * @param email to be set
 	 */
-	public void setUsername(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 

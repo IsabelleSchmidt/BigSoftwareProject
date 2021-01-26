@@ -89,6 +89,7 @@ public class BankcardServiceImpl implements BankcardService {
      * @param iban to be encoded
      */
     @Override
+    @Transactional
     public String encodeIBAN(String iban) {
 
         iban = pe.encode(iban);

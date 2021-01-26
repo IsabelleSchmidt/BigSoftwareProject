@@ -18,6 +18,6 @@ public interface StatusRepository extends JpaRepository<Status, Long> {
      * @param status wanted status
      * @return status
      */
-    Optional<Status> findByStatuscode(String status);
+    Optional<Status> findByStatuscode(Statuscode status);
     
 }

@@ -2,21 +2,20 @@ package de.hsrm.mi.swtpro.pflamoehus.order.status;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.validation.annotation.Validated;
-
 import de.hsrm.mi.swtpro.pflamoehus.order.Order;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
-import de.hsrm.mi.swtpro.pflamoehus.validation.order_db.ValidStatus;
+
 
 /*
  * Status-Entity for its database.
@@ -36,9 +35,9 @@ public class Status {
     @JsonIgnore
     private long version = 1;
  
-    @ValidStatus
+    @Enumerated(EnumType.STRING)
     @Column(unique = true)
-    private String statuscode;
+    private Statuscode statuscode;
 
     @OneToMany(mappedBy = "statusID", cascade = CascadeType.DETACH)
     private Set<Order> allOrders = new HashSet<>();
@@ -61,7 +60,7 @@ public class Status {
      * 
      * @return String
      */
-    public String getStatuscode() {
+    public Statuscode getStatuscode() {
         return statuscode;
     }
 
@@ -70,7 +69,7 @@ public class Status {
      * 
      * @param statuscode to be set
      */
-    public void setStatuscode(String statuscode) {
+    public void setStatuscode(Statuscode statuscode) {
         this.statuscode = statuscode;
     }
 

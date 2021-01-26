@@ -34,30 +34,11 @@ public class StatusValueTests {
         Status status = new Status();
 
         for(Statuscode aktcode :    Statuscode.values()){
-            status.setStatuscode(aktcode.toString());
+            status.setStatuscode(aktcode);
             assertEquals(0,validator.validate(status).size());
         }   
          
     }
 
-    @Test
-    @DisplayName("fill statuscode with wrong values")
-    public void statuscode_wrong(){
-        Status status = new Status();
-
-        for(Statuscode aktcode :    Statuscode.values()){
-            status.setStatuscode(aktcode.toString()+"s");
-            assertEquals(1,validator.validate(status).size(), "Statuscode mit s hintendran muss als falsch validiert werden");
-        }   
-
-        for(Statuscode aktcode :    Statuscode.values()){
-            status.setStatuscode(aktcode.toString().toLowerCase());
-            assertEquals(1,validator.validate(status).size(), "Statuscode in klein muss als falsch validiert werden");
-        }   
-
-      
-        status.setStatuscode("");
-        assertEquals(1, validator.validate(status).size(), "Statuscode '' muss als falsch validiert werden");
-        
-    }
+  
 }

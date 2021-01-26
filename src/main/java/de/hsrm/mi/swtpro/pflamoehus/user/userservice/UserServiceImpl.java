@@ -98,6 +98,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User registerUser(User user) {
+       
         Optional<User> found = userRepository.findByEmail(user.getEmail());
 
         if (found.isPresent()) {
@@ -105,11 +106,11 @@ public class UserServiceImpl implements UserService {
         }
 
         try{
+          
             user.setPassword(encodePassword(user.getPassword()));
         }catch(OptimisticLockException ole){
             throw new UserServiceException("Password couldn't be changed.");
         }
-
 
         user = userRepository.save(user);
         
