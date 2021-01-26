@@ -1,6 +1,8 @@
 package de.hsrm.mi.swtpro.pflamoehus.db_test_order;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +20,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.roles.rolesservice.RoleService;
 import de.hsrm.mi.swtpro.pflamoehus.user.userapi.UserRestApi;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,10 +38,12 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import de.hsrm.mi.swtpro.pflamoehus.order.Order;
 import de.hsrm.mi.swtpro.pflamoehus.order.OrderRepository;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderapi.OrderRestApi;
+import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetailsRepository;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.orderdetailsservice.OrderDetailsService;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderservice.OrderService;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.StatusRepository;
+import de.hsrm.mi.swtpro.pflamoehus.order.status.Statuscode;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.statusservice.StatusService;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.LoginRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.OrderRequest;
@@ -222,6 +227,32 @@ public class OrderRestApiTests {
             assertThat(orderRepo.count()).isEqualTo(nrOrders-1);
         }
         
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("POST /api/order/status/newstatus muss status der bestellung neusetzen")
+    public void test_change_status() throws Exception{
+
+        final Statuscode code = Statuscode.INPROGRESS;
+
+        assertThat(orderRepo.count()).isGreaterThan(0);
+        Order order = orderService.findOrderByOrderNR(1);
+        order.setStatus(statusService.findStatusWithCode(Statuscode.INCOMING));
+
+        String correctget = mockmvc.perform(get("/api/order/edit/orderstatus/"+order.getOrderNR()+"/"+code.toString())).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        String incorrectget_unkownOrderNr = mockmvc.perform(get("/api/order/edit/orderstatus/"+0+"/"+code.toString())).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        mockmvc.perform(get("/api/order/edit/orderstatus/"+1+"FALSCH")).andExpect(status().isNotFound());
+    
+        assertThat(correctget).contains("true");
+        assertThat(incorrectget_unkownOrderNr).contains("false");
+        assertEquals(code, order.getStatus().getStatuscode());
+
+        for (OrderDetails detail : order.getOrderdetails()){
+            assertEquals(code, detail.getStatusID().getStatuscode());
+        }
+        
+    
     }
 
  

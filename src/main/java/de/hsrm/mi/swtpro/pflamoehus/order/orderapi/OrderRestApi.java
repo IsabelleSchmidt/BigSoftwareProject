@@ -297,22 +297,17 @@ public class OrderRestApi {
      * @param newStatus new Status
      * @return boolean
      */
-    @PostMapping("/edit/orderstatus/{orderNR}/{newStatus}")
+    @GetMapping("/edit/orderstatus/{orderNR}/{newStatus}")
     @Transactional
-    public boolean changeOrderStatus(@PathVariable long orderNR, @PathVariable String newStatus) {
+    public boolean changeOrderStatus(@PathVariable long orderNR, @PathVariable Statuscode newStatus) {
         Order order;
         Status status = null;
-       
+       //TODO: hier vllt getmapping wiel es keinen body gibt?
         
         
         try{
             order = orderService.findOrderByOrderNR(orderNR);
-            status = order.getStatus();
-            for(Statuscode code : Statuscode.values()){
-                if(code.toString().equals(newStatus)){
-                    status = statusService.findStatusWithCode(code);
-                }
-            }
+            status = statusService.findStatusWithCode(newStatus);
             order.setStatus(status);
 
             for(OrderDetails detail : order.getOrderdetails()){
