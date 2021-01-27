@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -75,9 +77,8 @@ public class User {
     @JoinTable(name = "User_Adresses", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "adressID"))
     private Set<Adress> allAdresses = new HashSet<>();
 
-    @NotEmpty(message = "Das Geschlecht muss angegeben werden.")
-    @ValidGender
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender = Gender.DIVERSE;
 
     @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     private Set<Bankcard> bankcard = new HashSet<>();
@@ -182,7 +183,7 @@ public class User {
      * 
      * @return gender
      */
-    public String getGender() {
+    public Gender getGender() {
         return this.gender;
     }
 
@@ -191,7 +192,7 @@ public class User {
      * 
      * @param gender gender that has to be set
      */
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

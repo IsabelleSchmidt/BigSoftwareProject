@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import de.hsrm.mi.swtpro.pflamoehus.order.Order;
 import de.hsrm.mi.swtpro.pflamoehus.order.OrderRepository;
+import de.hsrm.mi.swtpro.pflamoehus.user.Gender;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 
@@ -112,7 +113,7 @@ public class OrderRepoTests{
         user.setLastName("Paulus");
         user.setFirstName("bernd");
         user.setPassword("HAhasdsndfjk92389.");
-        user.setGender("FEMALE");
+        user.setGender(Gender.FEMALE);
         userRepo.save(user);
         order.setUser(user);
         order.setCustomerEmail(MAIL);

@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.dao.DataIntegrityViolationException;
+
+import de.hsrm.mi.swtpro.pflamoehus.user.Gender;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.BankcardRepository;
@@ -31,7 +33,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.adress.AdressRepository;
 class UserRepositoryTests {
 
     private final String FIRSTNAME = "Olaf der Dritte";
-    private final String GENDER = "DIVERSE";
+    private final Gender GENDER = Gender.DIVERSE;
     private final String PASSWORD = "HaaaaaaaHA11!";
     private final String LASTNAME = "Schmidt";
     private final LocalDate BIRTHDAY = LocalDate.of(1999, 1, 1);

@@ -16,20 +16,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
+import de.hsrm.mi.swtpro.pflamoehus.user.Gender;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class UserValueTests {
 
     private final String FIRSTNAME = "Olaf der Dritte";
-    private final String GENDER = "DIVERSE";
+    private final Gender GENDER = Gender.DIVERSE;
     private final String PASSWOrD = "HaaaaaaaHA11!";
     private final String LASTNAME = "Schmidt";
     private final LocalDate BIRTHDAY = LocalDate.of(1999, 1, 1);
     private final LocalDate WRONG_BIRTHDAY = LocalDate.of(2018, 3, 3);
     private final String EMAIL = "hansolaf@hs-rm.de";
     private final String WRONG_EMAIL = "3@2";
-    private final String WRONG_GENDER = "Male";
 
     private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private Validator validator = factory.getValidator();
@@ -51,7 +51,7 @@ public class UserValueTests {
         user1.setPassword(PASSWOrD);
 
         assertThat(user1.toString()).contains(EMAIL).contains(LASTNAME).contains(FIRSTNAME)
-                .contains(BIRTHDAY.toString()).contains(GENDER).contains(PASSWOrD);
+                .contains(BIRTHDAY.toString()).contains(GENDER.toString()).contains(PASSWOrD);
 
         assertTrue(validator.validate(user1).isEmpty());
     }
@@ -77,8 +77,6 @@ public class UserValueTests {
         user2.setEmail(WRONG_EMAIL);
         assertFalse(validator.validate(user2).isEmpty(), "Mail muss als falsch validiert werden.");
         user2.setEmail(EMAIL);
-        user2.setGender(WRONG_GENDER);
-        assertFalse(validator.validate(user2).isEmpty(), "Gender muss als falsch validiert werden.");
 
     }
 }
