@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -202,7 +203,7 @@ public class OrderRestApi {
                     //find incoming status in the database, every new order gets this status   
                     incoming = statusService.findStatusWithCode(Statuscode.INCOMING); 
                     //Extract email out of JwtToken 
-                    email = orderDTO.getJwtToken().getEmail();
+                    email = SecurityContextHolder.getContext().getAuthentication().getName();
                     //find user with that email in the database
                     user = userService.searchUserWithEmail(email); 
                     //Create matching OrderDetails for every productdto within the orderdto
@@ -215,7 +216,7 @@ public class OrderRestApi {
 
                     //Deliverydate is the date of the incoming order + 3 business days
                     order.setDeliveryDate(calcDeliveryDate());
-
+                   
                     //save filled order into the database
                     order = orderService.editOrder(order);
               
@@ -225,6 +226,7 @@ public class OrderRestApi {
                     //add order to the user and status, bidirectional relationships
                     incoming.getAllOrders().add(order);
                     user.getAllOrders().add(order);
+                    LOGGER.info("BESTELLUNG JO: " + order.toString());
 
                     //add orderdetails to order and status
                     order.setOrderdetails(allDetails);

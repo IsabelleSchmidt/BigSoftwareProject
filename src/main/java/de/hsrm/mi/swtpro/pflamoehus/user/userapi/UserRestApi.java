@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,6 @@ import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.BankcardServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.CreditcardServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.api.UserApiException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.UserServiceException;
-import de.hsrm.mi.swtpro.pflamoehus.security.SecurityConfig.UserDetailServiceImpl;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.*;
@@ -84,9 +84,6 @@ public class UserRestApi {
 
 	@Autowired
 	JwtUtils jwtUtils;
-
-	@Autowired
-	UserDetailServiceImpl uds;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserRestApi.class);
 
@@ -238,9 +235,7 @@ public class UserRestApi {
 			}
 
 		}
-
-		JwtResponse jwtToken = userOrderRequest.getToken();
-		String email = jwtToken.getEmail();
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		try {
 			User user = userService.searchUserWithEmail(email);
 
@@ -284,15 +279,14 @@ public class UserRestApi {
 		} catch (UserServiceException use) {
 			throw new AuthenticationException();
 		}
-
+		LOGGER.info("USER WURDE EINGESPEICHERT");
 		return ResponseEntity.ok(mrs);
 	}
 
-	@PostMapping("/getAdress")
+	@GetMapping("/getAdress")
 	@Transactional
-	public User getUserWithMail(@RequestBody JwtResponse jwttoken) {
-		LOGGER.info("GET ADRESS");
-		String email = jwttoken.getEmail();
+	public User getUserWithMail() {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		User user;
 		try {
