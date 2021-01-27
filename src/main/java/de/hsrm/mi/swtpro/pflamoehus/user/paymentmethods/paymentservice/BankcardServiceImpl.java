@@ -41,6 +41,7 @@ public class BankcardServiceImpl implements BankcardService {
      * @return Bankcard
      */
     @Override
+    @Transactional
     public Optional<Bankcard> findById(long id) {
         return bankcardRepo.findById(id);
     }
@@ -89,7 +90,6 @@ public class BankcardServiceImpl implements BankcardService {
      * @param iban to be encoded
      */
     @Override
-    @Transactional
     public String encodeIBAN(String iban) {
 
         iban = pe.encode(iban);

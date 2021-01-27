@@ -70,6 +70,7 @@ public class CreditcardServiceImpl implements CreditcardService {
      * @return Creditcard
      */
     @Override
+    @Transactional
     public Creditcard saveCreditcard(Creditcard card) {
        try{
         card = creditcardRepo.save(card);

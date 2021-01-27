@@ -381,7 +381,7 @@ public class OrderRestApi {
 
             //Set bidirectional relationships and reduce number of available products 
             product.getAllOrderDetails().add(detail);
-            LOGGER.info("Gekauft: "+ productdto.getAmount() + "" +product.getAvailable());
+            LOGGER.info("Gekauft: "+ productdto.getAmount() + " verfuegbar: " +product.getAvailable());
             product.setAvailable(product.getAvailable()-productdto.getAmount());
             }
             LOGGER.info("GESPEICHERTE PRODUKTE: "+product.getAvailable());

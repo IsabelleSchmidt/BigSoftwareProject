@@ -60,5 +60,7 @@ public interface UserService {
      */
     boolean existsByEmail(String email);
 
+    User getFullyInitializedUser(String email);
+
 
 }

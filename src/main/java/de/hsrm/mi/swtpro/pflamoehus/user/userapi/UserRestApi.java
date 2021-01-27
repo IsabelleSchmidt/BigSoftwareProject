@@ -46,7 +46,6 @@ import de.hsrm.mi.swtpro.pflamoehus.user.roles.ERoles;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.paymentservice.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,7 +87,7 @@ public class UserRestApi {
 	@Autowired
 	UserDetailServiceImpl uds;
 
-	private static final Logger LOGGER2 = LoggerFactory.getLogger(UserRestApi.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserRestApi.class);
 
 	/**
 	 * PostMapping for login.
@@ -131,7 +130,7 @@ public class UserRestApi {
 			mr.setMessage("Email ist already taken.");
 			mr.setField("email");
 			mrs.add(mr);
-			LOGGER2.error("EMAIL IS ALREADY TAKEN.");
+			LOGGER.error("EMAIL IS ALREADY TAKEN.");
 			return new ResponseEntity<>(mrs, HttpStatus.OK);
 		}
 		if (result.hasErrors()) {
@@ -195,7 +194,6 @@ public class UserRestApi {
 
 		user.setRoles(roles);
 		userService.registerUser(user);
-
 		return ResponseEntity.ok(mrs);
 
 	}
@@ -213,6 +211,7 @@ public class UserRestApi {
 	public ResponseEntity<List<MessageResponse>> addInfosToUser(@Valid @RequestBody UserOrderRequest userOrderRequest,
 			BindingResult result) throws AuthenticationException {
 		List<MessageResponse> mrs = new ArrayList<>();
+		LOGGER.info("NEW ORDER IN USERAPI");
 
 		if (result.hasErrors()) {
 
@@ -239,17 +238,17 @@ public class UserRestApi {
 
 		}
 
-		JwtResponse jwtToken = userOrderRequest.getToken();
+		JwtResponse jwtToken = userOrderRequest.getToken(); 
 		String email = jwtToken.getEmail();
 		try {
-			User user = userService.searchUserWithEmail(email);
+			User user = userService.searchUserWithEmail(email); 
 
 			if (userOrderRequest.getAdress() != null) {
-
+			
 				Adress newAdress = userOrderRequest.getAdress();
-				newAdress = adressSerivce.saveAdress(newAdress);
-				user.getAllAdresses().add(newAdress);
-				user = userService.editUser(user);
+				newAdress = adressSerivce.saveAdress(newAdress); 
+				user.getAllAdresses().add(newAdress); 
+				user = userService.editUser(user); 
 
 			}
 
@@ -270,15 +269,15 @@ public class UserRestApi {
 			}
 
 		} catch (AdressServiceException ase) {
-			LOGGER2.error("Adress could not be saved.");
+			LOGGER.error("Adress could not be saved.");
 			throw new UserApiException("Adress couldn't be saved.");
 
 		} catch (BankcardServiceException bse) {
-			LOGGER2.error("Bankcard couldn't be saved.");
+			LOGGER.error("Bankcard couldn't be saved.");
 			throw new UserApiException("Bankcard couldn't be saved.");
 
 		} catch (CreditcardServiceException cse) {
-			LOGGER2.error("Creditcard couldn't be saved.");
+			LOGGER.error("Creditcard couldn't be saved.");
 			throw new UserApiException("Creditcard couldn't be saved.");
 
 		} catch (UserServiceException use) {
@@ -291,13 +290,15 @@ public class UserRestApi {
 	@PostMapping("/getAdress")
 	@Transactional
 	public User getUserWithMail(@RequestBody JwtResponse jwttoken) {
+		LOGGER.info("HOLE ADRESSE");
 		String email = jwttoken.getEmail();
 
 		User user;
 		try {
-			user = userService.searchUserWithEmail(email);
+			user = userService.getFullyInitializedUser(email);
+		
 		} catch (UserServiceException use) {
-			LOGGER2.error(use.getMessage());
+			LOGGER.error(use.getMessage());
 			return null;
 		}
 		return user;
