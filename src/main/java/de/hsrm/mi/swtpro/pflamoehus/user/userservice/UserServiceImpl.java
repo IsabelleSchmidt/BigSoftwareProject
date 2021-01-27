@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.persistence.OptimisticLockException;
 import javax.transaction.Transactional;
+
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,6 +153,28 @@ public class UserServiceImpl implements UserService {
         }
         return user;
 
+    }
+
+    @Transactional
+    public User getFullyInitializedUser(String email){
+       
+        User user = searchUserWithEmail(email);
+        if(!Hibernate.isInitialized(user.getAllAdresses())){
+            Hibernate.initialize(user.getAllAdresses());
+        }
+        if(!Hibernate.isInitialized(user.getBankcard())){
+            Hibernate.initialize(user.getBankcard());
+        }
+        if(!Hibernate.isInitialized(user.getCreditcard())){
+            Hibernate.initialize(user.getCreditcard());
+        }
+        if(!Hibernate.isInitialized(user.getAllOrders())){
+            Hibernate.initialize(user.getAllOrders());
+        }
+        
+
+        LOGGER.info("User was initialized");
+        return user;
     }
 
     

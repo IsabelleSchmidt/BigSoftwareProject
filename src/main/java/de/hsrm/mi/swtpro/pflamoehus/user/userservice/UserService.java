@@ -60,5 +60,11 @@ public interface UserService {
      */
     boolean existsByEmail(String email);
 
+    /**
+     * searches for an existing User and initializes all related Lazy Collections 
+     * @param email the email of the user who is to be found and initialized
+     * @return the user with initialized lazy collections
+     */
+    User getFullyInitializedUser(String email);
 
 }

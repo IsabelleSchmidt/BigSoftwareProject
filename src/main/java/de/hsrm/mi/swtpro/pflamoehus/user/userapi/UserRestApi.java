@@ -88,7 +88,7 @@ public class UserRestApi {
 	@Autowired
 	UserDetailServiceImpl uds;
 
-	private static final Logger LOGGER2 = LoggerFactory.getLogger(UserRestApi.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserRestApi.class);
 
 	/**
 	 * PostMapping for login.
@@ -131,7 +131,7 @@ public class UserRestApi {
 			mr.setMessage("Email ist already taken.");
 			mr.setField("email");
 			mrs.add(mr);
-			LOGGER2.error("EMAIL IS ALREADY TAKEN.");
+			LOGGER.error("EMAIL IS ALREADY TAKEN.");
 			return new ResponseEntity<>(mrs, HttpStatus.OK);
 		}
 		if (result.hasErrors()) {
@@ -270,15 +270,15 @@ public class UserRestApi {
 			}
 
 		} catch (AdressServiceException ase) {
-			LOGGER2.error("Adress could not be saved.");
+			LOGGER.error("Adress could not be saved.");
 			throw new UserApiException("Adress couldn't be saved.");
 
 		} catch (BankcardServiceException bse) {
-			LOGGER2.error("Bankcard couldn't be saved.");
+			LOGGER.error("Bankcard couldn't be saved.");
 			throw new UserApiException("Bankcard couldn't be saved.");
 
 		} catch (CreditcardServiceException cse) {
-			LOGGER2.error("Creditcard couldn't be saved.");
+			LOGGER.error("Creditcard couldn't be saved.");
 			throw new UserApiException("Creditcard couldn't be saved.");
 
 		} catch (UserServiceException use) {
@@ -291,13 +291,14 @@ public class UserRestApi {
 	@PostMapping("/getAdress")
 	@Transactional
 	public User getUserWithMail(@RequestBody JwtResponse jwttoken) {
+		LOGGER.info("GET ADRESS");
 		String email = jwttoken.getEmail();
 
 		User user;
 		try {
-			user = userService.searchUserWithEmail(email);
+			user = userService.getFullyInitializedUser(email);
 		} catch (UserServiceException use) {
-			LOGGER2.error(use.getMessage());
+			LOGGER.error(use.getMessage());
 			return null;
 		}
 		return user;
