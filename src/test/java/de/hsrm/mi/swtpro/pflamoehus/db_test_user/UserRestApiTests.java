@@ -222,7 +222,8 @@ public class UserRestApiTests {
      @DisplayName("Login an existing user with POST /api/user/login")
      public void login_user()throws Exception{
 
-        
+        assertThat(userRepo.count()).isGreaterThan(0);
+        //TODO: gradle zum laden der datasql bringen
         //create a login request from an existing User
         LoginRequest loginrequest = new LoginRequest();
         loginrequest.setPassword(PASSWORD_EXISTING); 
