@@ -230,6 +230,16 @@ public class UserRestApi {
 				mrs.removeAll(delete);
 			}
 
+			if (mrs.toString().contains("iban") && mrs.toString().contains("owner") && mrs.toString().contains("bank")
+					&& !(mrs.toString().contains("cowner") && mrs.toString().contains("creditcardnumber"))) {
+				List<MessageResponse> delete = mrs.stream()
+						.filter(s -> "bankCard.owner bankCard.bank bankCard.iban"
+								.contains(s.getField()))
+						.collect(Collectors.toList());
+
+				mrs.removeAll(delete);
+			}
+
 			if (!mrs.isEmpty()) {
 				return new ResponseEntity<>(mrs, HttpStatus.OK);
 			}
@@ -257,11 +267,14 @@ public class UserRestApi {
 			}
 
 			if (!userOrderRequest.getCreditcard().getCreditcardnumber().equals("")) {
-				Creditcard newCreditcard = new Creditcard();
+				Creditcard newCreditcard = userOrderRequest.getCreditcard();
 				newCreditcard.getUser().add(user);
+				LOGGER.info("HIER HIER HIER");
 				newCreditcard = creditcardService.saveCreditcard(newCreditcard);
+				LOGGER.info("ICH NACHM SPEICHERN.");
 				user.getCreditcard().add(newCreditcard);
 				user = userService.editUser(user);
+				LOGGER.info("NACH SPEICHERN IN USER");
 			}
 
 		} catch (AdressServiceException ase) {
@@ -289,6 +302,7 @@ public class UserRestApi {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		User user;
+		
 		try {
 			user = userService.getFullyInitializedUser(email);
 		} catch (UserServiceException use) {

@@ -38,6 +38,8 @@ public class CreditcardServiceImpl implements CreditcardService {
     @Autowired
     PasswordEncoder pe;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreditcardServiceImpl.class);
+
     
     /** 
      * Find all creditcards with a certain date of expiry.
@@ -71,13 +73,15 @@ public class CreditcardServiceImpl implements CreditcardService {
      */
     @Override
     public Creditcard saveCreditcard(Creditcard card) {
+        LOGGER.info("ÜBERGEBENE KARTE: " + card.toString());
        try{
         card = creditcardRepo.save(card);
+
        }catch(OptimisticLockException ole){
         ORDERDETAILSSERVICELOGGER.error("Creditcards can only be edited by one person at a time.");
         throw new CreditcardServiceException();
        }
-
+       LOGGER.info("GESPEICHERTE KARTE: " + card);
        return card;
     }
 

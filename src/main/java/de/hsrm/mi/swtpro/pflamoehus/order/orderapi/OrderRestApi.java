@@ -226,7 +226,6 @@ public class OrderRestApi {
                     //add order to the user and status, bidirectional relationships
                     incoming.getAllOrders().add(order);
                     user.getAllOrders().add(order);
-                    LOGGER.info("BESTELLUNG JO: " + order.toString());
 
                     //add orderdetails to order and status
                     order.setOrderdetails(allDetails);
