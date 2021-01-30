@@ -269,12 +269,9 @@ public class UserRestApi {
 			if (!userOrderRequest.getCreditcard().getCreditcardnumber().equals("")) {
 				Creditcard newCreditcard = userOrderRequest.getCreditcard();
 				newCreditcard.getUser().add(user);
-				LOGGER.info("HIER HIER HIER");
 				newCreditcard = creditcardService.saveCreditcard(newCreditcard);
-				LOGGER.info("ICH NACHM SPEICHERN.");
 				user.getCreditcard().add(newCreditcard);
 				user = userService.editUser(user);
-				LOGGER.info("NACH SPEICHERN IN USER");
 			}
 
 		} catch (AdressServiceException ase) {
