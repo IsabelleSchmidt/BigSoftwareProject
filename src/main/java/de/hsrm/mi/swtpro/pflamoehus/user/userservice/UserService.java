@@ -67,4 +67,11 @@ public interface UserService {
      */
     User getFullyInitializedUser(String email);
 
+    /**
+     * Encodes the Password
+     * @param password password to encode
+     * @return encoded password
+     */
+    String encodePassword(String password);
+
 }

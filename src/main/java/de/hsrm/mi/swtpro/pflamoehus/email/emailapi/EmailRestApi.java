@@ -10,7 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import de.hsrm.mi.swtpro.pflamoehus.email.emailservice.EmailService;
 
-
+/*
+ * EmailRestController for the communcation between front- and backend.
+ * 
+ * @author Sarah Wenzel
+ * @version 1
+ */
 @RestController
 @CrossOrigin
 @RequestMapping("/api/email")
@@ -29,10 +34,8 @@ public class EmailRestApi {
 
         try {
             emailservice.sendEmail(email, text, topic);
-            LOGGER.info("EMAIL GESENDET");
             return true;
         } catch (Exception e) {
-            LOGGER.error("fehler beim senden " + e.toString());
             return false;
         }
     }
