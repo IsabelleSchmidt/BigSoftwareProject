@@ -23,9 +23,13 @@ public class EmailRestApi {
 
     @Autowired
     EmailService emailservice;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmailRestApi.class);
-
+    
+    /**
+     * Try to send Email.
+     * 
+     * @param email Email of the receiver.
+     * @return Returns whether the email was sent successfully.
+     */
     @PostMapping("/send")
     public boolean sendEmail(@RequestBody String email) {
         String topic = "Passwort zurücksetzen im Pflamoehus!";
