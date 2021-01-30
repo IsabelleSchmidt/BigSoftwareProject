@@ -21,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -297,6 +298,21 @@ public class UserRestApi {
 		}
 		return user;
 
+	}
+
+	@GetMapping("checkByEmail/{email}")
+	public ResponseEntity<MessageResponse>checkIfUserExists(@PathVariable("email") String email) {
+		MessageResponse mrp = new MessageResponse();
+		boolean exists = userService.existsByEmail(email);
+
+		if (exists) {
+			LOGGER.info("User gibts");
+			return ResponseEntity.ok(mrp);
+		} else {
+			LOGGER.info("User gibts nicht");
+			mrp.setMessage("UserNotFound");
+			return ResponseEntity.ok(mrp);
+		}
 	}
 
 }

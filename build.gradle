@@ -44,6 +44,10 @@ dependencies {
 	compile 'io.jsonwebtoken:jjwt-api:0.11.2'
     runtime 'io.jsonwebtoken:jjwt-impl:0.11.2',
             'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	compile 'org.springframework:spring-context-support'
+	compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-mail')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 jacocoTestReport{
