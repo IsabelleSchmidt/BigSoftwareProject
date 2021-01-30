@@ -47,7 +47,6 @@ public class Creditcard {
     private String cowner;
 
     @NotEmpty(message="Die Kreditkartennummer muss angegeben werden.")
-    @JsonProperty(access = Access.WRITE_ONLY)
     @ValidCreditCardNumber
     private String creditcardnumber;
 

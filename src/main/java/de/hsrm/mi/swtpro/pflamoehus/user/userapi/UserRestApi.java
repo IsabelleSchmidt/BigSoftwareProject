@@ -302,6 +302,7 @@ public class UserRestApi {
 		
 		try {
 			user = userService.getFullyInitializedUser(email);
+			
 		} catch (UserServiceException use) {
 			LOGGER.error(use.getMessage());
 			return null;
