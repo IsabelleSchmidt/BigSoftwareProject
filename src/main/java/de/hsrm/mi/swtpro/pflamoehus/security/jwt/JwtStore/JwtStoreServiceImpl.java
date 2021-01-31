@@ -5,8 +5,6 @@ import java.util.Optional;
 import javax.persistence.OptimisticLockException;
 import javax.transaction.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +14,6 @@ import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.JwtStoreServiceException;
 
 @Service
 public class JwtStoreServiceImpl implements JwtStoreService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtStoreServiceImpl.class);
 
     @Autowired
     JwtStoreRepository repo;

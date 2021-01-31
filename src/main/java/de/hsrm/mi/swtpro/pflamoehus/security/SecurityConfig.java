@@ -28,6 +28,7 @@ import de.hsrm.mi.swtpro.pflamoehus.security.jwt.AuthTokenFilter;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStoreService;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
+
 /*
  * SecurityConfiq: certain pages can only be accessed by certain types of user. So in this class we define 
  * who can access which part of the website.
@@ -51,9 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     AuthTokenFilter authTokenFilter;
-
-
-    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     /**
      * Executes once per request.
@@ -91,7 +89,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-
 
     /**
      * Implementing an AuthenticationManagerBuilder for easy memory authentication.
