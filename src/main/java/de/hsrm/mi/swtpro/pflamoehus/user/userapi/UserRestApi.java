@@ -297,9 +297,9 @@ public class UserRestApi {
 		return ResponseEntity.ok(mrs);
 	}
 
-	@GetMapping("/getAdress")
+	@GetMapping("/getUser")
 	@Transactional
-	public User getUserWithMail() {
+	public User getUser() {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		User user;
