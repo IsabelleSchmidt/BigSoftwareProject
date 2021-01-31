@@ -70,4 +70,10 @@ public class PictureServiceImpl implements PictureService {
         return findAll().stream().filter(byRelPath).collect(Collectors.toList());
     }
 
+    @Override
+    public void deletePicture(Picture picture) {
+        pictureRepository.delete(picture);
+
+    }
+
 }
