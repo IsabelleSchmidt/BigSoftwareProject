@@ -14,8 +14,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import org.springframework.validation.annotation.Validated;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidCreditCardNumber;
@@ -47,7 +45,6 @@ public class Creditcard {
     private String cowner;
 
     @NotEmpty(message="Die Kreditkartennummer muss angegeben werden.")
-    @JsonProperty(access = Access.WRITE_ONLY)
     @ValidCreditCardNumber
     private String creditcardnumber;
 
