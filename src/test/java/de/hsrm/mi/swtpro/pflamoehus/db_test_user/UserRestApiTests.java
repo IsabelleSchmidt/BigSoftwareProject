@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +16,15 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.orderdetailsservice.OrderDetailsService;
-import de.hsrm.mi.swtpro.pflamoehus.order.status.StatusRepository;
-import de.hsrm.mi.swtpro.pflamoehus.order.status.statusservice.StatusService;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.LoginRequest;
 import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;
-import de.hsrm.mi.swtpro.pflamoehus.security.SecurityConfig.UserDetailServiceImpl;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.AdressRepository;
@@ -72,8 +71,6 @@ public class UserRestApiTests {
     
     @Autowired CreditcardRepository creditrepo;
 
-	@Autowired
-    UserDetailServiceImpl uds;
 
     @Autowired UserRepository userRepo;
 
@@ -87,10 +84,6 @@ public class UserRestApiTests {
 
     @Autowired RolesRepository rolerepo;
 
-
-    @Autowired
-    StatusService statusService;
-
     @Autowired
     JwtUtils jwtUtils;
 
@@ -103,7 +96,7 @@ public class UserRestApiTests {
     @Autowired
     ProductService productService;
 
-    @Autowired StatusRepository statusRepo;
+    
     
     private class SignupDTO{
 
@@ -188,6 +181,15 @@ public class UserRestApiTests {
         
     } 
 
+    @BeforeEach
+    public void clearRepos(){
+        creditrepo.deleteAll();
+        bankrepo.deleteAll();
+        adressRepo.deleteAll();
+        userRepo.deleteAll();
+    
+    }
+
     @Test
     public void basecheck(){
         assertThat(userController).isNotNull();
@@ -198,9 +200,9 @@ public class UserRestApiTests {
     @Transactional
     @DisplayName(" Sign up a new User")
     public void test_register_UserRestApi() throws Exception{
-      userRepo.deleteAll();
+        userRepo.deleteAll();
        //create Signuprequest
-       SignupDTO request = new SignupDTO(FIRSTNAME_NEW, LASTNAME_NEW, EMAIL_NEW, BIRTHDAY_NEW, GENDER_NEW, PASSWORD_NEW);
+        SignupDTO request = new SignupDTO(FIRSTNAME_NEW, LASTNAME_NEW, EMAIL_NEW, BIRTHDAY_NEW, GENDER_NEW, PASSWORD_NEW);
      
        //Use ObjectMapper to create JSON
        ObjectMapper mapper = new ObjectMapper();
@@ -219,6 +221,7 @@ public class UserRestApiTests {
     }
 
      @Test
+     @Sql("/data.sql")
      @DisplayName("Login an existing user with POST /api/user/login")
      public void login_user()throws Exception{
 

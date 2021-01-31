@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -35,7 +36,6 @@ import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.BankcardServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.CreditcardServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.api.UserApiException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.UserServiceException;
-import de.hsrm.mi.swtpro.pflamoehus.security.SecurityConfig.UserDetailServiceImpl;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.*;
@@ -86,7 +86,7 @@ public class UserRestApi {
 	JwtUtils jwtUtils;
 
 	@Autowired
-	UserDetailServiceImpl uds;
+	UserDetailsService uds;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserRestApi.class);
 

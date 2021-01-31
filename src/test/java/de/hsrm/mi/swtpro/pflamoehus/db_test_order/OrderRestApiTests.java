@@ -2,9 +2,9 @@ package de.hsrm.mi.swtpro.pflamoehus.db_test_order;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.ArrayList;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
@@ -50,8 +51,9 @@ import de.hsrm.mi.swtpro.pflamoehus.payload.request.OrderRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.OrderRequest.ProductDTO;
 import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
+import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;
-import de.hsrm.mi.swtpro.pflamoehus.security.SecurityConfig.UserDetailServiceImpl;
+import de.hsrm.mi.swtpro.pflamoehus.product.tags.TagRepository;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 
@@ -78,9 +80,6 @@ public class OrderRestApiTests {
     CreditcardService creditcardService;
     
     @Autowired CreditcardRepository creditrepo;
-
-	@Autowired
-    UserDetailServiceImpl uds;
 
     @Autowired OrderRestApi orderController;
 
@@ -121,11 +120,28 @@ public class OrderRestApiTests {
 
     @Autowired StatusRepository statusRepo;
 
+    @Autowired PictureRepository pictureRepo;
+
+    @Autowired TagRepository tagRepo;
+
    
     private final String PASSWORD_EXISTING = "UserPflamoehus1!";
     private final String EMAIL_EXISTING = "user@pflamoehus.de";
    
+    @BeforeEach
+    public void clearRepos(){
 
+        adressRepo.deleteAll();
+        bankrepo.deleteAll();
+        creditrepo.deleteAll();
+        userRepo.deleteAll();
+        statusRepo.deleteAll();
+        tagRepo.deleteAll();
+        pictureRepo.deleteAll();
+        productRepo.deleteAll();
+        orderDetailsRepo.deleteAll();
+        orderRepo.deleteAll();
+    }
 
     @Test
     public void basecheck(){
@@ -138,7 +154,6 @@ public class OrderRestApiTests {
     } 
     
     
-  
      public JwtResponse login_user()throws Exception{
 
         
@@ -213,24 +228,26 @@ public class OrderRestApiTests {
 
     @Test
     @Transactional
+    @Sql("/data.sql")
     @DisplayName("DELETE api/order/delete/{orderNR} should delete the order out of the repository and return true")
     public void deleteOrder() throws Exception{
         //orderNR 1 comes from datasql 
-        postNewOrder();
         assertThat(orderRepo.count()).isGreaterThan(0);
 
         List<Order> allorders = orderRepo.findAll();
+        long nrOrders = orderRepo.count();
         for(Order order : allorders){ 
 
-            long nrOrders = orderRepo.count();
             assertThat(mockmvc.perform(delete("/api/order/delete/"+order.getOrderNR())).andExpect(status().isOk()).andReturn()).isNotNull();
             assertThat(orderRepo.count()).isEqualTo(nrOrders-1);
+            nrOrders -=1;
         }
         
     }
 
     @Test
     @Transactional
+    @Sql("/data.sql")
     @DisplayName("POST /api/order/status/newstatus muss status der bestellung neusetzen")
     public void test_change_status() throws Exception{
 
