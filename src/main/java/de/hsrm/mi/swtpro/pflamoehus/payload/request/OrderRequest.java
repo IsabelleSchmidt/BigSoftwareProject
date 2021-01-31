@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import org.springframework.validation.annotation.Validated;
-
-import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
 
 
 /*
@@ -91,11 +88,6 @@ public class OrderRequest {
 
     @Size(min = 1, message = "You need to buy at least one product per order.")
     private List<@Valid ProductDTO> allProductsOrdered= new ArrayList<>();
-
-    @NotNull(message = "Please login to order.")
-    @Valid
-    private JwtResponse jwtToken; //used to identify user
-
     
     /** 
      * Get price in total.
@@ -134,26 +126,6 @@ public class OrderRequest {
      */
     public void setAllProductsOrdered(List<ProductDTO> allProductsOrdered) {
         this.allProductsOrdered = allProductsOrdered;
-    }
-
-    
-    /** 
-     * Get token.
-     * 
-     * @return JwtResponse
-     */
-    public JwtResponse getJwtToken() {
-        return jwtToken;
-    }
-
-    
-    /** 
-     * Set token.
-     * 
-     * @param jwtToken to be set
-     */
-    public void setJwtToken(JwtResponse jwtToken) {
-        this.jwtToken = jwtToken;
     }
     
     

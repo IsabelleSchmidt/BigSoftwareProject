@@ -74,11 +74,11 @@ public class CreditcardServiceImpl implements CreditcardService {
     public Creditcard saveCreditcard(Creditcard card) {
        try{
         card = creditcardRepo.save(card);
+
        }catch(OptimisticLockException ole){
         ORDERDETAILSSERVICELOGGER.error("Creditcards can only be edited by one person at a time.");
         throw new CreditcardServiceException();
        }
-
        return card;
     }
 

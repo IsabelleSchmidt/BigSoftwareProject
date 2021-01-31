@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -232,14 +233,22 @@ public class UserRestApi {
 				mrs.removeAll(delete);
 			}
 
+			if (mrs.toString().contains("iban") && mrs.toString().contains("owner") && mrs.toString().contains("bank")
+					&& !(mrs.toString().contains("cowner") && mrs.toString().contains("creditcardnumber"))) {
+				List<MessageResponse> delete = mrs.stream()
+						.filter(s -> "bankCard.owner bankCard.bank bankCard.iban"
+								.contains(s.getField()))
+						.collect(Collectors.toList());
+
+				mrs.removeAll(delete);
+			}
+
 			if (!mrs.isEmpty()) {
 				return new ResponseEntity<>(mrs, HttpStatus.OK);
 			}
 
 		}
-
-		JwtResponse jwtToken = userOrderRequest.getToken(); 
-		String email = jwtToken.getEmail();
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		try {
 			User user = userService.searchUserWithEmail(email); 
 
@@ -261,7 +270,7 @@ public class UserRestApi {
 			}
 
 			if (!userOrderRequest.getCreditcard().getCreditcardnumber().equals("")) {
-				Creditcard newCreditcard = new Creditcard();
+				Creditcard newCreditcard = userOrderRequest.getCreditcard();
 				newCreditcard.getUser().add(user);
 				newCreditcard = creditcardService.saveCreditcard(newCreditcard);
 				user.getCreditcard().add(newCreditcard);
@@ -283,20 +292,20 @@ public class UserRestApi {
 		} catch (UserServiceException use) {
 			throw new AuthenticationException();
 		}
-
+		LOGGER.info("USER WURDE EINGESPEICHERT");
 		return ResponseEntity.ok(mrs);
 	}
 
-	@PostMapping("/getAdress")
+	@GetMapping("/getAdress")
 	@Transactional
-	public User getUserWithMail(@RequestBody JwtResponse jwttoken) {
-		LOGGER.info("HOLE ADRESSE");
-		String email = jwttoken.getEmail();
+	public User getUserWithMail() {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		User user;
+		
 		try {
 			user = userService.getFullyInitializedUser(email);
-		
+			
 		} catch (UserServiceException use) {
 			LOGGER.error(use.getMessage());
 			return null;

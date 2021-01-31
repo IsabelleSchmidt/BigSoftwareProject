@@ -17,13 +17,13 @@ delete from ordertable;
 -- 51 +/- SELECT COUNT(*) FROM PUBLIC.PRODUCT;
 INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AVAILABLE, PRICE, PRODUCTTYPE, ROOM, VERSION, WIDTH) VALUES
 (62, 55.0, 'beschreibung', 75.0, 'information', 'Herbert', 3, 10.5, 'COUCH', 'BATHROOM', 0, 210.5),
-(63, 0.0, 'Beschreibung', 0.0, 'Information', 'Epipremnum Trebie', 3, 10.99, 'PLANT', 'ALL', 1, 0.0),
-(64, 0.0, 'Beschreibung', 0.0, 'Information', 'Marante Leuconeura', 10, 15.99, 'PLANT', 'ALL', 1, 0.0),
-(65, 0.0, 'Beschreibung', 0.0, 'Information', 'Monstera', 6, 29.99, 'PLANT', 'ALL', 1, 0.0),
-(66, 0.0, 'Beschreibung', 0.0, 'Information', 'Philodendron Pink Princess', 2, 64.99, 'PLANT', 'ALL', 1, 0.0),
-(67, 0.0, 'Beschreibung', 0.0, 'Information', 'Pilea Peperomioides', 17, 20.99, 'PLANT', 'ALL', 1, 0.0),
-(68, 0.0, 'Beschreibung', 0.0, 'Information', 'Senecio Rowleyanus', 11, 15.99, 'PLANT', 'ALL', 1, 0.0),
-(69, 0.0, 'Beschreibung', 0.0, 'Information', 'Xerosicyos Danguyi', 10, 5.99, 'PLANT', 'ALL', 1, 0.0),
+(63, 0.0, 'Beschreibung', 0.0, 'Information', 'Epipremnum Trebie', 3, 10.99, 'PLANT', NULL, 1, 0.0),
+(64, 0.0, 'Beschreibung', 0.0, 'Information', 'Marante Leuconeura', 10, 15.99, 'PLANT', NULL, 1, 0.0),
+(65, 0.0, 'Beschreibung', 0.0, 'Information', 'Monstera', 6, 29.99, 'PLANT', NULL, 1, 0.0),
+(66, 0.0, 'Beschreibung', 0.0, 'Information', 'Philodendron Pink Princess', 2, 64.99, 'PLANT', NULL, 1, 0.0),
+(67, 0.0, 'Beschreibung', 0.0, 'Information', 'Pilea Peperomioides', 17, 20.99, 'PLANT', NULL, 1, 0.0),
+(68, 0.0, 'Beschreibung', 0.0, 'Information', 'Senecio Rowleyanus', 11, 15.99, 'PLANT', NULL, 1, 0.0),
+(69, 0.0, 'Beschreibung', 0.0, 'Information', 'Xerosicyos Danguyi', 10, 5.99, 'PLANT', NULL, 1, 0.0),
 (70, 34.0, 'Beschreibung', 55.0, 'Information', 'CHAIR Joerg', 25, 95.99, 'CHAIR', 'DININGROOM', 1, 40.0),
 (71, 16.0, 'Beschreibung', 33.0, 'Information', 'CHAIR Steven', 17, 64.99, 'CHAIR', 'DININGROOM', 1, 14.5),
 (72, 16.0, 'Beschreibung', 33.0, 'Information', 'CHAIR Bob', 16, 110.99, 'CHAIR', 'DININGROOM', 1, 14.5),
@@ -31,13 +31,13 @@ INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AV
 (74, 16.0, 'Beschreibung', 33.0, 'Information', 'CHAIR Bulli', 80, 50.99, 'CHAIR', 'DININGROOM', 1, 14.5),
 (75, 34.0, 'Beschreibung', 55.0, 'Information', 'CHAIR Shelli', 10, 210.99, 'CHAIR', 'DININGROOM', 1, 40.0),
 (76, 16.0, 'Beschreibung', 33.0, 'Information', 'CHAIR Chris', 10, 5.99, 'CHAIR', 'DININGROOM', 1, 14.5),
-(77, 4.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Blacki', 35, 7.99, 'DECORATION', 'ALL', 1, 8.0),
-(78, 3.0, 'Beschreibung', 6.0, 'Information', 'Bilderrahmen Bloom', 25, 9.99, 'DECORATION', 'ALL', 1, 6.0),
-(79, 4.0, 'Beschreibung', 7.0, 'Information', 'Vase Abstrakt', 55, 9.99, 'DECORATION', 'ALL', 1, 3.5),
-(80, 4.0, 'Beschreibung', 8.0, 'Information', 'Vase Freedom', 60, 6.5, 'DECORATION', 'ALL', 1, 4.0),
-(81, 4.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Hands', 25, 11.99, 'DECORATION', 'ALL', 1, 4.0),
-(82, 4.0, 'Beschreibung', 8.0, 'Information', 'Bilderrahmen HandsII', 45, 7.99, 'DECORATION', 'ALL', 1, 4.0),
-(83, 0.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Spring', 67, 15.99, 'DECORATION', 'ALL', 1, 4.0),
+(77, 4.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Blacki', 35, 7.99, 'DECORATION', NULL, 1, 8.0),
+(78, 3.0, 'Beschreibung', 6.0, 'Information', 'Bilderrahmen Bloom', 25, 9.99, 'DECORATION', NULL, 1, 6.0),
+(79, 4.0, 'Beschreibung', 7.0, 'Information', 'Vase Abstrakt', 55, 9.99, 'DECORATION', NULL, 1, 3.5),
+(80, 4.0, 'Beschreibung', 8.0, 'Information', 'Vase Freedom', 60, 6.5, 'DECORATION', NULL, 1, 4.0),
+(81, 4.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Hands', 25, 11.99, 'DECORATION', NULL, 1, 4.0),
+(82, 4.0, 'Beschreibung', 8.0, 'Information', 'Bilderrahmen HandsII', 45, 7.99, 'DECORATION', NULL, 1, 4.0),
+(83, 0.0, 'Beschreibung', 15.0, 'Information', 'Bilderrahmen Spring', 67, 15.99, 'DECORATION', NULL, 1, 4.0),
 (84, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Herbert', 25, 1200.99, 'COUCH', 'LIVINGROOM', 1, 250.0),
 (85, 90.0, 'Beschreibung', 45.0, 'Information', 'Sofa Valentina', 45, 1550.99, 'COUCH', 'LIVINGROOM', 1, 250.0),
 (86, 60.0, 'Beschreibung', 45.0, 'Information', 'Sofa Fluff', 90, 1671.99, 'COUCH', 'LIVINGROOM', 1, 450.0),
@@ -287,12 +287,12 @@ INSERT INTO PRODUCT_TAGS(ARTICLENR, TAGID) VALUES
 (112, 43);
 
 
-INSERT INTO USER(USERID,BIRTHDATE, EMAIL,FIRSTNAME,LASTNAME,PASSWORD,VERSION, GENDER) VALUES
-(7,'1999-09-20','user@pflamoehus.de','User','Pflamoehus','{bcrypt}$2a$10$7fdt/if1v6nJK30MExIHaeTzZ3FvkuTDikFgVxr4YW5XReorwb.HG',1, 'MALE'),  -- UserPflamoehus1!
-(1,'1976-02-28', 'admin@pflamoehus.de','Admin','Pflamoehus','{bcrypt}$2a$10$aqAc7g5hfVwmZHWYE4Dw/uWUcqMuiYseKNnAIEd71PRWeWf1TYgNi',1, 'MALE'), -- AdminPflamoehus1!
-(2,'1988-06-17','staff@pflamoehus.de','Staff','Pflamoehus','{bcrypt}$2a$10$hf4tGs2s3mPodqpOmSnBNehJ3dm9f1GBaq9lLhdBP7nEM5d89q51e',1, 'MALE'), -- StaffPflamoehus1!
-(3,'2000-10-10','warehouse@pflamoehus.de','Warehouse','Pflamoehus', '{bcrypt}$2a$10$tI1brWPJyD0pDgexwwBkKuWmlmn4H6UFgKvhvtsMjnWLIllWgUcjS',1, 'MALE'), -- WarehousePfalmoehus1!
-(4,'1968-11-01','service@pflamoehus.de','Service','Pflamoehus','{bcrypt}$2a$10$C.nSMnLuE8INPF0z8Va92eLHEtu9fRWVwA3LKnXXoC.IQQbND/D3S',1, 'MALE'); -- ServicePflamoehus1!
+INSERT INTO USER(USERID,BIRTHDATE, EMAIL,FIRSTNAME,LASTNAME,PASSWORD,VERSION) VALUES
+(7,'1999-09-20','user@pflamoehus.de','User','Pflamoehus','{bcrypt}$2a$10$7fdt/if1v6nJK30MExIHaeTzZ3FvkuTDikFgVxr4YW5XReorwb.HG',1),  -- UserPflamoehus1!
+(1,'1976-02-28', 'admin@pflamoehus.de','Admin','Pflamoehus','{bcrypt}$2a$10$aqAc7g5hfVwmZHWYE4Dw/uWUcqMuiYseKNnAIEd71PRWeWf1TYgNi',1), -- AdminPflamoehus1!
+(2,'1988-06-17','staff@pflamoehus.de','Staff','Pflamoehus','{bcrypt}$2a$10$hf4tGs2s3mPodqpOmSnBNehJ3dm9f1GBaq9lLhdBP7nEM5d89q51e',1), -- StaffPflamoehus1!
+(3,'2000-10-10','warehouse@pflamoehus.de','Warehouse','Pflamoehus', '{bcrypt}$2a$10$tI1brWPJyD0pDgexwwBkKuWmlmn4H6UFgKvhvtsMjnWLIllWgUcjS',1), -- WarehousePfalmoehus1!
+(4,'1968-11-01','service@pflamoehus.de','Service','Pflamoehus','{bcrypt}$2a$10$C.nSMnLuE8INPF0z8Va92eLHEtu9fRWVwA3LKnXXoC.IQQbND/D3S',1); -- ServicePflamoehus1!
 
 INSERT INTO ROLES (ID, NAME) VALUES
 (5, 'USER'),

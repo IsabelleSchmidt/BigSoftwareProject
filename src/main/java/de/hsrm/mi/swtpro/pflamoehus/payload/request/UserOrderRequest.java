@@ -2,11 +2,9 @@ package de.hsrm.mi.swtpro.pflamoehus.payload.request;
 
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
-import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
@@ -28,9 +26,6 @@ public class UserOrderRequest {
     @Valid
     private Bankcard bankCard;
 
-    @NotNull
-    private JwtResponse token;
-
     
     /** 
      * Get adress.
@@ -50,28 +45,6 @@ public class UserOrderRequest {
     public void setAdress(Adress adress) {
         this.adress = adress;
     }
-
-
-    
-    /** 
-     * Get token.
-     * 
-     * @return JwtResponse
-     */
-    public JwtResponse getToken() {
-        return token;
-    }
-
-    
-    /** 
-     * Set token.
-     * 
-     * @param token to be set
-     */
-    public void setToken(JwtResponse token) {
-        this.token = token;
-    }
-
     
     /** 
      * Get creditcard.
@@ -121,7 +94,7 @@ public class UserOrderRequest {
     @Override
     public String toString() {
         return "UserOrderRequest [adress=" + adress + ", bankCard=" + bankCard + ", creditcard=" + creditcard
-                + ", token=" + token + "]";
+                 + "]";
     }
 
     

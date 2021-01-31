@@ -29,8 +29,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailServiceImpl userDetailsService;
-
-    
     /** 
      * What gets done in this method:
      * 1. Gets jwt from authorization header (by removing Bearer prefix)
@@ -49,15 +47,16 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         try{
+
             String jwt = parseJwt(request);
             if(jwt != null && jwtUtils.validateJwtToken(jwt)){
                 String email = jwtUtils.getUserNameFromJwtToken(jwt);   //Parsing email from jwt
-
                 UserDetails ud = userDetailsService.loadUserByUsername(email);  //from email we get the UserDetails to create an Authentication object
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(ud, null, ud.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));  //set the UserDetails in SecurityContext
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
             }
         }catch(Exception e){
             logger.error("Cannot set user authentication " + e);

@@ -15,8 +15,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import static de.hsrm.mi.swtpro.pflamoehus.security.SecurityContents.SECRET;
-import java.util.Date;
 
+import java.util.Base64;
 
 
 /**
@@ -51,16 +51,13 @@ public class JwtUtils {
 
     
         UserDetails userPrincipal = (UserDetails) email.getPrincipal();
-
+        byte[] secret = Base64.getUrlEncoder().encode(jwtSecret.getBytes());
         return Jwts.builder()
             .setSubject((userPrincipal.getUsername()))
-            .setIssuedAt(new Date())
-            .setExpiration(new Date((new Date()).getTime() + 84600000))
-            .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()), SignatureAlgorithm.HS512)
+            .signWith(Keys.hmacShaKeyFor(secret), SignatureAlgorithm.HS512)
             .compact();
     }
 
-    
     /** 
      * Gets the email of a user out of the Jwt token.
      * 
@@ -68,7 +65,8 @@ public class JwtUtils {
      * @return String
      */
     public String getUserNameFromJwtToken(String token){
-        return Jwts.parserBuilder().setSigningKey(jwtSecret).build().parseClaimsJws(token).getBody().getSubject();
+        byte[] secret = Base64.getUrlEncoder().encode(jwtSecret.getBytes());
+        return Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody().getSubject();
     }
 
     
@@ -79,8 +77,9 @@ public class JwtUtils {
      * @return boolean
      */
     public boolean validateJwtToken(String authToken){
+        byte[] secret = Base64.getUrlEncoder().encode(jwtSecret.getBytes());
         try{
-            Jwts.parserBuilder().setSigningKey(jwtSecret).build().parseClaimsJws(authToken);
+            Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(authToken);
             return true;
         }catch(MalformedJwtException e){
             logger.error("Invalid JWT token: " +  e.getMessage());
@@ -89,7 +88,6 @@ public class JwtUtils {
         }catch(IllegalArgumentException e){
             logger.error("JWT claims string is empty: " + e.getMessage());
         }
-
         return false;
     }
     

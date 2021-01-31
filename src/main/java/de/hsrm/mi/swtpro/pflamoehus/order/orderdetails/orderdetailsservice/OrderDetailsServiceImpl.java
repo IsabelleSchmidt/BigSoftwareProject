@@ -27,7 +27,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     @Autowired
     OrderDetailsRepository orderDetailsRepo;
 
-    private static final Logger ORDERDETAILSSERVICELOGGER = LoggerFactory.getLogger(OrderDetailsServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderDetailsServiceImpl.class);
 
     /**
      * For editing a orderDetail.
@@ -42,11 +42,11 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         try {
             orderDetail = orderDetailsRepo.save(orderDetail);
         } catch (OptimisticLockException oLE) {
-            ORDERDETAILSSERVICELOGGER.error("OrderDetails can only be edited by one person at a time.");
+            LOGGER.error("OrderDetails can only be edited by one person at a time.");
             throw new OrderDetailsServiceException();
 
         }
-
+        LOGGER.info("ORDER GESPEICHERT.");
         return orderDetail;
     }
 

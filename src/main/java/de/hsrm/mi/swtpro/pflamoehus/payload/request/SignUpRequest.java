@@ -7,9 +7,9 @@ import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import de.hsrm.mi.swtpro.pflamoehus.user.Gender;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
 
 /*
@@ -36,9 +36,7 @@ public class SignUpRequest {
     @ValidBirthDay
     private LocalDate birthdate;
 
-    @NotEmpty(message = "Das Geschlecht muss angegeben werden.")
-    @ValidGender
-    private String gender;
+    private Gender gender;
 
     @NotEmpty(message = "Es muss ein Passwort angegeben werden.")
     @ValidPassword
@@ -87,7 +85,7 @@ public class SignUpRequest {
      * 
      * @return String
      */
-    public String getGender() {
+    public Gender getGender() {
         return this.gender;
     }
 
@@ -96,7 +94,7 @@ public class SignUpRequest {
      * 
      * @param gender that has to be set.
      */
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

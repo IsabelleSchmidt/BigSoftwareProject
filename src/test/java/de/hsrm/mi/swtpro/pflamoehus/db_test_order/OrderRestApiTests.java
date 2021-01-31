@@ -179,7 +179,7 @@ public class OrderRestApiTests {
     
         //add all the attributes to the OrderDTO
         orderDTO.setAllProductsOrdered(allProducts);
-        orderDTO.setJwtToken(login_user());
+        // orderDTO.setJwtToken(login_user());
         orderDTO.setPriceTotal(42); //Not the real value of the productlist, but a testvalue
 
         return orderDTO;
@@ -192,7 +192,7 @@ public class OrderRestApiTests {
     public void postNewOrder() throws Exception{
 
         orderRepo.deleteAll();
-
+        String token = login_user().getAccessToken();
         assertThat(orderRepo.count()).isEqualTo(0);
 
          //Use ObjectMapper to create JSON
@@ -202,7 +202,7 @@ public class OrderRestApiTests {
          String requestJson =ow.writeValueAsString(fillDTO());
  
         System.out.println("REQUESTORDER: "+requestJson);
-        System.out.print("ORDER: "+mockmvc.perform(post("/api/order/new").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson))
+        System.out.print("ORDER: "+mockmvc.perform(post("/api/order/new").contentType(MediaType.APPLICATION_JSON_VALUE).header("Authorization", "Bearer " + token).content(requestJson))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString());
 

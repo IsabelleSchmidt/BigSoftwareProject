@@ -40,7 +40,6 @@ public class Bankcard {
     private long version;
 
     @NotEmpty(message="Die IBAN muss angebeben werden.")
-    @JsonProperty(access = Access.WRITE_ONLY)
     @Pattern(regexp = "DE\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{2}|DE\\d{20}$", message="Die IBAN ist nicht gültig.")
     private String iban;
 

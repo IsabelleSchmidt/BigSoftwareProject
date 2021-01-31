@@ -15,7 +15,7 @@ public class SecurityContents {
     /**
      * Secret key for the token
      */
-    public static final String SECRET = "NcRfUjWnZr4u7x!A%D*G-KaPdSgVkYp2s5v8y/B?E(H+MbQeThWmZq4t6w9z$C&F";
+    public static final String SECRET = "NcRfUjWnZr4u7xWAQDQGMKaPdSgVkYp2s5v8ymBFEiHLMbQeThWmZq4t6w9zpCXFNcRfUjWnZr4u7xWAQDQGMKaPdSgVkYp2s5v8ymBFEiHLMbQeThWmZq4t6w9zpCXF";
 
     
     
