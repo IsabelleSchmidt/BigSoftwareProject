@@ -9,15 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
-import de.hsrm.mi.swtpro.pflamoehus.user.adress.AdressRepository;
-import de.hsrm.mi.swtpro.pflamoehus.user.adress.adressservice.AdressService;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.BankcardRepository;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.CreditcardRepository;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.paymentservice.BankcardService;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.paymentservice.CreditcardService;
-import de.hsrm.mi.swtpro.pflamoehus.user.roles.RolesRepository;
-import de.hsrm.mi.swtpro.pflamoehus.user.roles.rolesservice.RoleService;
-import de.hsrm.mi.swtpro.pflamoehus.user.userapi.UserRestApi;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,8 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -46,15 +36,12 @@ import de.hsrm.mi.swtpro.pflamoehus.order.orderservice.OrderService;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.StatusRepository;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.Statuscode;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.statusservice.StatusService;
-import de.hsrm.mi.swtpro.pflamoehus.payload.request.LoginRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.OrderRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.OrderRequest.ProductDTO;
-import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;
 import de.hsrm.mi.swtpro.pflamoehus.product.tags.TagRepository;
-import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 
 
@@ -63,29 +50,11 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 @RunWith(SpringRunner.class)
 public class OrderRestApiTests {
 
-    @Autowired
-	AuthenticationManager authenticationManager;
 
-	@Autowired
-    AdressService adressSerivce;
-    
-    @Autowired AdressRepository adressRepo;
-
-	@Autowired
-    BankcardService bankcardSerivce;
-    
-    @Autowired BankcardRepository bankrepo;
-
-	@Autowired
-    CreditcardService creditcardService;
-    
-    @Autowired CreditcardRepository creditrepo;
 
     @Autowired OrderRestApi orderController;
 
     @Autowired UserRepository userRepo;
-
-    @Autowired PasswordEncoder pe;
 
     @Autowired OrderRepository orderRepo;
 
@@ -96,19 +65,10 @@ public class OrderRestApiTests {
     @Autowired
     ProductService productService;
 
-    @Autowired UserRestApi userController;
-
-    @Autowired RoleService roleService;
-
-    @Autowired RolesRepository rolerepo;
-
     @Autowired OrderService orderService;
 
     @Autowired
     StatusService statusService;
-
-    @Autowired
-    JwtUtils jwtUtils;
 
     @Autowired
     UserService userService;
@@ -127,13 +87,11 @@ public class OrderRestApiTests {
    
     private final String PASSWORD_EXISTING = "UserPflamoehus1!";
     private final String EMAIL_EXISTING = "user@pflamoehus.de";
+    private final String PATH = "/api/order";
    
     @BeforeEach
     public void clearRepos(){
 
-        adressRepo.deleteAll();
-        bankrepo.deleteAll();
-        creditrepo.deleteAll();
         userRepo.deleteAll();
         statusRepo.deleteAll();
         tagRepo.deleteAll();
@@ -154,31 +112,6 @@ public class OrderRestApiTests {
     } 
     
     
-     public JwtResponse login_user()throws Exception{
-
-        
-        //create a login request from an existing User
-        LoginRequest loginrequest = new LoginRequest();
-        loginrequest.setPassword(PASSWORD_EXISTING); 
-        loginrequest.setEmail(EMAIL_EXISTING);
-
-        //Use ObjectMapper to create JSON
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        String requestJson =ow.writeValueAsString(loginrequest);
-
-        //send loginrequest and expect it to be successful - should return JwtResponse
-        String response = this.mockmvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-
-        //Parse the string to a JwtResponse
-        JwtResponse jwt = new ObjectMapper().readValue(response, JwtResponse.class);
-       
-        //check that jwt is actually a JwtResponse
-        assertThat(jwt).isInstanceOf(JwtResponse.class);
-
-        return jwt;
-    }
 
     public OrderRequest fillDTO() throws Exception{
 
@@ -204,10 +137,10 @@ public class OrderRestApiTests {
     @Test
     @Transactional
     @DisplayName("/api/order/new should save the given order and return an orderNR")
+    @WithMockUser(username=EMAIL_EXISTING, password = PASSWORD_EXISTING)
     public void postNewOrder() throws Exception{
 
         orderRepo.deleteAll();
-        String token = login_user().getAccessToken();
         assertThat(orderRepo.count()).isEqualTo(0);
 
          //Use ObjectMapper to create JSON
@@ -217,7 +150,7 @@ public class OrderRestApiTests {
          String requestJson =ow.writeValueAsString(fillDTO());
  
         System.out.println("REQUESTORDER: "+requestJson);
-        System.out.print("ORDER: "+mockmvc.perform(post("/api/order/new").contentType(MediaType.APPLICATION_JSON_VALUE).header("Authorization", "Bearer " + token).content(requestJson))
+        System.out.print("ORDER: "+mockmvc.perform(post(PATH+"/new").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString());
 
@@ -238,7 +171,7 @@ public class OrderRestApiTests {
         long nrOrders = orderRepo.count();
         for(Order order : allorders){ 
 
-            assertThat(mockmvc.perform(delete("/api/order/delete/"+order.getOrderNR())).andExpect(status().isOk()).andReturn()).isNotNull();
+            assertThat(mockmvc.perform(delete(PATH+"/delete/"+order.getOrderNR())).andExpect(status().isOk()).andReturn()).isNotNull();
             assertThat(orderRepo.count()).isEqualTo(nrOrders-1);
             nrOrders -=1;
         }
@@ -257,9 +190,9 @@ public class OrderRestApiTests {
         Order order = orderService.findOrderByOrderNR(1);
         order.setStatus(statusService.findStatusWithCode(Statuscode.INCOMING));
 
-        String correctget = mockmvc.perform(get("/api/order/edit/orderstatus/"+order.getOrderNR()+"/"+code.toString())).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-        String incorrectget_unkownOrderNr = mockmvc.perform(get("/api/order/edit/orderstatus/"+0+"/"+code.toString())).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-        mockmvc.perform(get("/api/order/edit/orderstatus/"+1+"FALSCH")).andExpect(status().isNotFound());
+        String correctget = mockmvc.perform(get(PATH+"/edit/orderstatus/"+order.getOrderNR()+"/"+code.toString())).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        String incorrectget_unkownOrderNr = mockmvc.perform(get(PATH+"/edit/orderstatus/"+0+"/"+code.toString())).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        mockmvc.perform(get(PATH+"/edit/orderstatus/"+1+"FALSCH")).andExpect(status().isNotFound());
     
         assertThat(correctget).contains("true");
         assertThat(incorrectget_unkownOrderNr).contains("false");
@@ -272,7 +205,5 @@ public class OrderRestApiTests {
     
     }
 
- 
-    
 
 }
