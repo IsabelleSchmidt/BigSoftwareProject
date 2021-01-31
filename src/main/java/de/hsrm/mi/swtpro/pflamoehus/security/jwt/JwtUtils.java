@@ -48,7 +48,7 @@ public class JwtUtils {
     /** 
      * Generates a JWT-token with the user and a secret key.
      * 
-     * @param authentication represents the token for an authentication request
+     * @param email represents the token for an authentication request
      * @return String
      */
     public String generateJwtToken(Authentication email){

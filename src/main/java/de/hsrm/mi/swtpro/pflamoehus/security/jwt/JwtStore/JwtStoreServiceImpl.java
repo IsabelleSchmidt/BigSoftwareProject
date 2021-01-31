@@ -11,13 +11,25 @@ import org.springframework.stereotype.Service;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.JwtStoreServiceException;
 
 
-
+/*
+ * JwtStoreServiceImpl for implementing the interface 'JwtStoreSerivce'.
+ * 
+ * @author Ann-Cathrin Fabian
+ * @version 1
+ */
 @Service
 public class JwtStoreServiceImpl implements JwtStoreService {
 
     @Autowired
     JwtStoreRepository repo;
 
+    
+    /** 
+     * Look up if a JwtStore with a given token exists.
+     * 
+     * @param token wanted token
+     * @return boolean
+     */
     @Override
     public boolean existsByAccessToken(String token) {
         if (repo.existsByToken(token)) {
@@ -28,6 +40,13 @@ public class JwtStoreServiceImpl implements JwtStoreService {
 
     }
 
+    
+    /** 
+     * Method for saving a new entry.
+     * 
+     * @param token to be saved
+     * @return saved entry
+     */
     @Override
     public JwtStore saveAccessToken(JwtStore token) {
         try {
@@ -42,6 +61,12 @@ public class JwtStoreServiceImpl implements JwtStoreService {
 
     }
 
+    
+    /** 
+     * Method for deleting a certain entry.
+     * 
+     * @param accessToken to be deleted
+     */
     @Override
     @Transactional
     public void deleteAccessToken(String accessToken) {
@@ -49,6 +74,13 @@ public class JwtStoreServiceImpl implements JwtStoreService {
         repo.delete(jwt);
     }
 
+    
+    /** 
+     * Find a entry with a certain token.
+     * 
+     * @param token to be found
+     * @return entry
+     */
     @Override
     @Transactional
     public JwtStore findByAccessToken(String token) {

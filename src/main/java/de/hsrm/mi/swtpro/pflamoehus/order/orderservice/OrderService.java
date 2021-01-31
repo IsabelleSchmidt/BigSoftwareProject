@@ -25,7 +25,7 @@ public interface OrderService {
     /**
      * Find a order by its id.
      * 
-     * @param OrderNR id
+     * @param orderNR id
      * @return order
      */
     Order findOrderByOrderNR(long orderNR);
