@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.naming.AuthenticationException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.LoginRequest;
+import de.hsrm.mi.swtpro.pflamoehus.payload.request.LogoutRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.SignUpRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.UserOrderRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
@@ -36,6 +40,8 @@ import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.CreditcardServiceExceptio
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.api.UserApiException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.UserServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
+import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStore;
+import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStoreService;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.*;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
@@ -85,6 +91,10 @@ public class UserRestApi {
 	@Autowired
 	JwtUtils jwtUtils;
 
+	@Autowired
+	JwtStoreService jwtStoreService;
+
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserRestApi.class);
 
 	/**
@@ -98,11 +108,15 @@ public class UserRestApi {
 	@Transactional
 	public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
 			BindingResult result) {
+		JwtStore jwtStore = new JwtStore();
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
+
+		jwtStore.setToken(jwt);
+		jwtStore = jwtStoreService.saveAccessToken(jwtStore);
 
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
@@ -296,6 +310,21 @@ public class UserRestApi {
 			return null;
 		}
 		return user;
+
+	}
+
+	@PostMapping("/logout")
+	@Transactional
+	public ResponseEntity<MessageResponse> logoutUser(@RequestBody LogoutRequest logoutRequest, HttpServletRequest request){
+		MessageResponse mr = new MessageResponse();
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+			new SecurityContextLogoutHandler().logout(request, null, auth);
+			SecurityContextHolder.clearContext();
+			jwtStoreService.deleteAccessToken(logoutRequest.getToken());
+		}
+		return ResponseEntity.ok(mr);
 
 	}
 

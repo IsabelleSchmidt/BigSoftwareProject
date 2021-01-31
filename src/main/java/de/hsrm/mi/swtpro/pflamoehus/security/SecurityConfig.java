@@ -25,9 +25,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Service;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.AuthEntryPointJwt;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.AuthTokenFilter;
+import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStoreService;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
-
 /*
  * SecurityConfiq: certain pages can only be accessed by certain types of user. So in this class we define 
  * who can access which part of the website.
@@ -45,6 +45,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
+
+    @Autowired
+    JwtStoreService jwtStoreService;
+
+    @Autowired
+    AuthTokenFilter authTokenFilter;
+
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
@@ -80,16 +87,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers("/profile").hasRole("USER")
-                .anyRequest().permitAll()
+                .antMatchers("/profile").hasRole("USER").anyRequest().permitAll();
 
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/orderform")
-                .permitAll();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
+
+
     /**
      * Implementing an AuthenticationManagerBuilder for easy memory authentication.
      * 
@@ -131,7 +134,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             Optional<User> user = userRepository.findByEmail(email);
 
             if (user.isEmpty()) {
-                logger.info("JA IST LEER.");
                 throw new UsernameNotFoundException(email);
             }
             return org.springframework.security.core.userdetails.User.withUsername(email)
