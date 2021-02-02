@@ -338,10 +338,22 @@ public class User {
                 + ", userID=" + userID + ", version=" + version + "]";
     }
 
+    
+    /** 
+     * Get orders.
+     * 
+     * @return all orders
+     */
     public Set<Order> getAllOrders() {
         return allOrders;
     }
 
+    
+    /** 
+     * Set orders. 
+     * 
+     * @param allOrders to be set
+     */
     public void setAllOrders(Set<Order> allOrders) {
         this.allOrders = allOrders;
     }

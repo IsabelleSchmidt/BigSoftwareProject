@@ -343,10 +343,22 @@ public class Product {
 
    
   
+    
+    /** 
+     * Get all order details.
+     * 
+     * @return all order details
+     */
     public Set<OrderDetails> getAllOrderDetails() {
         return allOrderDetails;
     }
 
+    
+    /** 
+     * Set all order details.
+     * 
+     * @param allOrderDetails all order details
+     */
     public void setAllOrderDetails(Set<OrderDetails> allOrderDetails) {
         this.allOrderDetails = allOrderDetails;
     }

@@ -19,6 +19,12 @@ public interface UserService {
      */
     List<User> allUsers();
 
+    /**
+     * Saves an edited User into the database.
+     * 
+     * @param user to be saved
+     * @return saved user
+     */
     User editUser(User user);
 
     /**

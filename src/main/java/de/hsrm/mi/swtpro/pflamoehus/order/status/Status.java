@@ -85,18 +85,42 @@ public class Status {
                 + ", statuscode=" + statuscode + ", version=" + version + "]";
     }
 
+    
+    /** 
+     * Get all orders.
+     * 
+     * @return all orders
+     */
     public Set<Order> getAllOrders() {
         return allOrders;
     }
 
+    
+    /** 
+     * Set all orders.
+     * 
+     * @param allOrders to be set.
+     */
     public void setAllOrders(Set<Order> allOrders) {
         this.allOrders = allOrders;
     }
 
+    
+    /** 
+     * Get all order details.
+     * 
+     * @return all order details
+     */
     public Set<OrderDetails> getAllOrdersDetails() {
         return allOrdersDetails;
     }
 
+    
+    /** 
+     * Set all order details.
+     * 
+     * @param allOrdersDetails to be set
+     */
     public void setAllOrdersDetails(Set<OrderDetails> allOrdersDetails) {
         this.allOrdersDetails = allOrdersDetails;
     }
