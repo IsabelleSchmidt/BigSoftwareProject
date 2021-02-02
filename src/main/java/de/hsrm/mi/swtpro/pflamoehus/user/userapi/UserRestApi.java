@@ -297,6 +297,12 @@ public class UserRestApi {
 		return ResponseEntity.ok(mrs);
 	}
 
+	
+	/** 
+	 * Searches for a given user in the database.
+	 * 
+	 * @return found user
+	 */
 	@GetMapping("/getUser")
 	@Transactional
 	public User getUser() {
@@ -313,6 +319,14 @@ public class UserRestApi {
 
 	}
 
+	
+	/** 
+	 * Logout a given user.
+	 * 
+	 * @param logoutRequest includes a token
+	 * @param request important for the logout process
+	 * @return a message
+	 */
 	@PostMapping("/logout")
 	@Transactional
 	public ResponseEntity<MessageResponse> logoutUser(@RequestBody LogoutRequest logoutRequest, HttpServletRequest request){
