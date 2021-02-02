@@ -4,8 +4,6 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,11 +28,11 @@ import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 
 /*
- * SecurityConfiq: certain pages can only be accessed by certain types of user. So in this class we define 
+ * SecurityConfig : certain pages can only be accessed by certain types of user. So in this class we define 
  * who can access which part of the website.
  * 
  * @author Svenja Schenk, Ann-Cathrin Fabian
- * @version 5
+ * @version 8
  */
 @Configuration
 @EnableWebSecurity

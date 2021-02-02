@@ -70,8 +70,13 @@ public class JwtStoreServiceImpl implements JwtStoreService {
     @Override
     @Transactional
     public void deleteAccessToken(String accessToken) {
-        JwtStore jwt = findByAccessToken(accessToken);
-        repo.delete(jwt);
+        Optional<JwtStore> jwt = repo.findByToken(accessToken);
+
+        if (jwt.isEmpty()) {
+            throw new JwtStoreServiceException("There is no token with the given access token in the database.");
+        }
+
+        repo.delete(jwt.get());
     }
 
     

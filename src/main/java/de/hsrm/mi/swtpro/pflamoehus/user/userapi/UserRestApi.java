@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,7 @@ import de.hsrm.mi.swtpro.pflamoehus.payload.response.MessageResponse;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.AdressServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.BankcardServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.CreditcardServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.JwtStoreServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.api.UserApiException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.UserServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
@@ -346,9 +346,18 @@ public class UserRestApi {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			new SecurityContextLogoutHandler().logout(request, null, auth);
-			SecurityContextHolder.clearContext();
-			jwtStoreService.deleteAccessToken(logoutRequest.getToken());
+			try{
+				new SecurityContextLogoutHandler().logout(request, null, auth);
+				SecurityContextHolder.clearContext();
+				jwtStoreService.deleteAccessToken(logoutRequest.getToken());
+			}catch(JwtStoreServiceException jsse){
+				LOGGER.error("LOGGOUT NOT SUCCESSFUL.");
+				mr.setMessage("Fehler beim Löschen des Token.");
+			}
+			
+		}
+		else{
+			mr.setMessage("Es wurde kein User gefunden. Vor dem Ausloggen bitte erst einloggen.");
 		}
 		return ResponseEntity.ok(mr);
 
