@@ -67,8 +67,19 @@ INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AV
 (109, 95.0, 'Beschreibung', 90.0, 'Information', 'Lifestail', 25, 110.99, 'TABLE', 'LIVINGROOM', 1, 180.0),
 (110, 89.9, 'Beschreibung', 96.0, 'Information', 'Alfrede', 89, 110.99, 'TABLE', 'LIVINGROOM', 1, 112.8),
 (111, 95.0, 'Beschreibung', 90.0, 'Information', 'Modern chic', 2, 110.99, 'TABLE', 'LIVINGROOM', 1, 180.0),
-(112, 80.0, 'Beschreibung', 90.0, 'Information', 'Classic', 99, 110.99, 'TABLE', 'LIVINGROOM', 1, 80.0);         
-     
+(112, 80.0, 'Beschreibung', 90.0, 'Information', 'Classic', 99, 110.99, 'TABLE', 'LIVINGROOM', 1, 80.0),        
+(115, 35.5, 'Ein kleiner Bambusschrank mit zwei Fächern und Doppeltür.', 86, 'Der Schrank hat eine Abmessung von 86*67.5*35.5 cm und passt perfekt in kleine Lücken im Badezimmer.', 'Bamboo', 999, 25.99, 'CLOSET', 'BATHROOM', 1, 67.5),
+(113,71.5, 'Diese Küche ist aus mintgrün gefärbtem Mandelholz, von schwedischen Deisgnern entwickelt.', 210, 'Diese Küche ist mintgrün und 210cm*180cm*70cm groß. Sie ist perfekt für eine jugendlich/frische Kücheneinrichtung.','Mint Dream',11, 18000,'KITCHEN','KITCHEN', 1, 120),  
+(116,21, 'Wundervoller Ficus, perfekt für feuchte Räume.', 122, 'Ficus Benjamina, Grün, Pflanze, Baum','Ficus Benjamina',250, 79.95,'PLANT','BATHROOM', 1, 50),   
+(117,30, 'Barhocker für moderne Küchen. Mit weißem Kunstlederüberzug.', 123, 'Barhocker/weiß/Kunstleder/minimalistisch','Vintana',11, 55.99,'CHAIR','KITCHEN', 1, 30),
+(118,50, 'Waschbecken aus Vollholz vom lokalen Schreinermeister.', 45, 'Vollholz/Waschbecken','Mufasa',11, 6666,'SINK','BATHROOM', 1, 120),
+(119,50, 'Waschbecken aus Stein vom lokalen Schreinermeister.', 45, 'Stein/Waschbecken','Nala',11, 7690,'SINK','BATHROOM', 1, 120),     
+(114,60, 'Diese Küche kommt ohne Geräte und besteht aus einer oberen und einer unteren Schranksektion.', 141, 'Diese Küche ist grau/braun und 141cm*180cm*60cm groß. Sie ist perfekt für eine morderne, aber stilvolle Wohnung.','classic Kitchen',11, 8500,'KITCHEN','KITCHEN', 1, 180),
+(120, 30, 'Dieser Stuhl besteht aus Vollholz, ist sehr bequem und hält sie fit am Arbeitsplatz.', 80, 'Vollholz / Stuhl / Fitness', 'Boomer Stuhl', 2, 2999, 'CHAIR', 'BUREAU', 1, 80),
+(121, 45, 'Moderner Schreibtisch mit flexiblem Stauraum in dynamischem Design', 95, 'Hellholz/Tisch', 'Snake', 12, 399.95, 'TABLE', 'BUREAU',1,120),
+(122,110,'Rustikaler Tisch mit Vollholzplatte und gusseisernem Fuß aus der lokalen Schreinerei.', 85, 'Vollholz/Tisch/ Preis inkl. MwSt', 'Ferrum', 24, 2500, 'TABLE', 'BUREAU',1,125)
+;   
+
 -- 131 +/- SELECT COUNT(*) FROM PUBLIC.PICTURE;               
 INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
 (134, '/plants/EpipremnumTrebie2.jpg', 1, 63),
@@ -202,7 +213,34 @@ INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
 (261, '/tables/table6.jpg', 1, 111),
 (262, '/tables/table7.jpg', 1, 112),
 (263, '/tables/table7.2.jpg', 1, 112),
-(264, '/tables/table7.3.jpg', 1, 112);     
+(264, '/tables/table7.3.jpg', 1, 112),
+(265, '/kitchens/kitchen1.jpg', 1, 113),  
+(266, '/kitchens/kitchen1.2.jpg', 1, 113),  
+(267, '/kitchens/kitchen1.3.jpg', 1, 113),  
+(268, '/kitchens/kitchen2.jpg', 1, 114),  
+(269, '/kitchens/kitchen2.2.jpg', 1, 114),  
+(270, '/closets/closet8.jpg', 1, 115), 
+(271, '/closets/closet8.2.jpg', 1, 115),
+(272, '/sinks/sink1.jpg', 1, 118),
+(273, '/sinks/sink1.2.jpg', 1, 118),
+(274, '/sinks/sink2.jpg', 1, 119),
+(275, '/sinks/sink2.2.jpg', 1, 119),
+(276, '/sinks/sink2.3.jpg', 1, 119),
+(277, '/plants/FicusBenjamina.jpg', 1, 116),
+(289, '/plants/FicusBenjamina2.jpg', 1, 116),
+(288, '/plants/FicusBenjamina3.jpg', 1, 116),
+(278, '/chairs/chair8.jpg',1,117),
+(279, '/chairs/chair8.2.jpg',1,117),
+(280, '/chairs/chair8.3.jpg',1,117),
+(281, '/chairs/chair9.jpg',1,120),
+(282, '/chairs/chair9.2.jpg',1,120),
+(283, '/tables/table9.jpg',1,121),
+(284, '/tables/table9.2.jpg',1,121),
+(285, '/tables/table9.3.jpg',1,121),
+(286, '/tables/table8.jpg',1,122),
+(287, '/tables/table8.2.jpg',1,122)
+
+;
 -- 17 +/- SELECT COUNT(*) FROM PUBLIC.TAG;    
 INSERT INTO TAG(ID, VALUE, VERSION) VALUES
 (25, 'Keramik', 0),
