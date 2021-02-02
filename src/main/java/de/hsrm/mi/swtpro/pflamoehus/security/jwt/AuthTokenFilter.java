@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,6 +23,7 @@ import de.hsrm.mi.swtpro.pflamoehus.security.SecurityConfig.UserDetailServiceImp
  * @author Ann-Cathrin Fabian
  * @version 1
  */
+@Component
 public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -57,6 +59,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
+            }else{
+                
             }
         }catch(Exception e){
             logger.error("Cannot set user authentication " + e);
@@ -75,7 +79,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
      * @return String
      */
     //Removing Bearer prefix to get JWT from the Authorization header
-    private String parseJwt(HttpServletRequest request) {
+    public String parseJwt(HttpServletRequest request) {
 		String headerAuth = request.getHeader("Authorization");
 
 		if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {

@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import de.hsrm.mi.swtpro.pflamoehus.security.SecurityConfig.UserDetailServiceImpl;
+import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStoreService;
 import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -41,10 +42,13 @@ public class JwtUtils {
     @Autowired
     UserDetailServiceImpl uds;
 
+    @Autowired
+    JwtStoreService jwtStoreService;
+
     /** 
      * Generates a JWT-token with the user and a secret key.
      * 
-     * @param authentication represents the token for an authentication request
+     * @param email represents the token for an authentication request
      * @return String
      */
     public String generateJwtToken(Authentication email){
@@ -79,8 +83,12 @@ public class JwtUtils {
     public boolean validateJwtToken(String authToken){
         byte[] secret = Base64.getUrlEncoder().encode(jwtSecret.getBytes());
         try{
+
             Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(authToken);
-            return true;
+            if(jwtStoreService.existsByAccessToken(authToken)){
+                logger.info("IST IN DER DATENBANK");
+                return true;
+            }
         }catch(MalformedJwtException e){
             logger.error("Invalid JWT token: " +  e.getMessage());
         }catch(UnsupportedJwtException e){

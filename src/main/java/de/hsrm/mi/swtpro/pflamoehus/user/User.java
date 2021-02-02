@@ -30,7 +30,6 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
 
 /*
  * User-Entity for its database.

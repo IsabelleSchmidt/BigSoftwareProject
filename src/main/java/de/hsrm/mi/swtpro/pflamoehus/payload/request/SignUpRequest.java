@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 import de.hsrm.mi.swtpro.pflamoehus.user.Gender;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
 
 /*
