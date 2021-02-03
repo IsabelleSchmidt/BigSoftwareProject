@@ -25,14 +25,7 @@ public class PasswordRequest {
 
     String code;
 
-    /*
-    * Constructor to create a PasswordRequest.
-    *
-    */
-    public PasswordRequest(String email, String code) {
-        this.email = email;
-        this.code = code;
-    }
+    Long timestamp;
 
     /** 
 	 * Get email.
@@ -70,11 +63,6 @@ public class PasswordRequest {
         this.code = code;
     }
 
-    
-    @Override
-    public String toString() {
-        return "PasswordRequest [code=" + code + ", email=" + email + "]";
-    }
 
     @Override
     public int hashCode() {
@@ -101,20 +89,64 @@ public class PasswordRequest {
         return true;
     }
 
+    /** 
+	 * Get Id.
+	 * 
+	 * @return long
+	 */
     public long getId() {
         return id;
     }
 
+    /** 
+	 * Set id. 
+	 * 
+	 * @param id to be set
+	 */
     public void setId(long id) {
         this.id = id;
     }
 
+    /** 
+	 * Get version.
+	 * 
+	 * @return long
+	 */
     public long getVersion() {
         return version;
     }
 
+    /** 
+	 * Set verson. 
+	 * 
+	 * @param version to be set
+	 */
     public void setVersion(long version) {
         this.version = version;
+    }
+
+    /** 
+	 * Get timestamp.
+	 * 
+	 * @return long
+	 */
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    /** 
+	 * Set timestamp. 
+	 * 
+	 * @param timestamp to be set
+	 */
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "PasswordRequest [code=" + code + ", email=" + email + ", id=" + id + ", timestamp=" + timestamp
+                + ", version=" + version + "]";
     }
     
 }

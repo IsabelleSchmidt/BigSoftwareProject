@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.hsrm.mi.swtpro.pflamoehus.email.RequestedPasswordResets;
 import de.hsrm.mi.swtpro.pflamoehus.email.emailservice.EmailService;
 import de.hsrm.mi.swtpro.pflamoehus.email.passwordrequestservice.PasswordRequestService;
 
@@ -30,7 +29,7 @@ public class EmailRestApi {
     @Autowired
     EmailService emailservice;
 
-    RequestedPasswordResets rpr = new RequestedPasswordResets();
+    
     @Autowired PasswordRequestService passwordRequestService;
 
     Logger logger = LoggerFactory.getLogger(EmailRestApi.class);
@@ -45,12 +44,21 @@ public class EmailRestApi {
     public boolean sendEmail(@RequestBody String email) {
 
         String adr = email.replace("\"", "");
-        rpr.addPasswordRequest(adr);
-        //String code = rpr.getCode(adr);
-        String code = passwordRequestService.searchRequestWithEmail(email).getCode();
+
+        //delete old requests
+        passwordRequestService.deleteOldItems();
         
+        //save new request
+        passwordRequestService.saveNewRequest(adr);
+
+        // rpr.addPasswordRequest(adr);
+        //String code = rpr.getCode(adr);
+        String code = passwordRequestService.searchRequestWithEmail(adr).getCode();
+        Long ts = passwordRequestService.searchRequestWithEmail(adr).getTimestamp();
+
+
         String topic = "Passwort zurücksetzen im Pflamoehus!";
-        String link = "http://localhost:8080/resetPassword/" + adr + "/" + code;
+        String link = "http://localhost:8080/resetPassword/" + adr + "/" + code + "$" + ts;
         String text = "Guten Tag! über folgenden Link kannst du dein Passwort zurücksetzen: " + link;
 
         try {
@@ -61,10 +69,16 @@ public class EmailRestApi {
         }
     }
 
+    /**
+     * Get code of a request to change the password.
+     * 
+     * @param email Email of the request.
+     * @return Returns the code that includes the timestamp.
+     */
     @GetMapping("/getCode/{email}")
     public String getCode(@PathVariable String email) {
-       // String code = rpr.getCode(email);
-       String code = passwordRequestService.searchRequestWithEmail(email).getCode();
+       
+        String code = passwordRequestService.searchRequestWithEmail(email).getCode() + "$" + passwordRequestService.searchRequestWithEmail(email).getTimestamp();
         return code;
     }
 }
