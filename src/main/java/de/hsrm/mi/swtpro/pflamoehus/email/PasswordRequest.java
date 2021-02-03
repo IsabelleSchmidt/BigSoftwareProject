@@ -1,14 +1,28 @@
 package de.hsrm.mi.swtpro.pflamoehus.email;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Version;
+
+import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
+
 /*
  * Shows, how a PasswordRequest has to look like.
  * 
  * @author Sarah Wenzel
  * @version 1
  */
+@Entity
 public class PasswordRequest {
+
+    @Id
+    private long id;
+    @Version
+    private long version;
     
+    @ValidEmail
     String email;
+
     String code;
 
     /*
@@ -85,6 +99,22 @@ public class PasswordRequest {
         } else if (!email.equals(other.email))
             return false;
         return true;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
     
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.hsrm.mi.swtpro.pflamoehus.email.RequestedPasswordResets;
 import de.hsrm.mi.swtpro.pflamoehus.email.emailservice.EmailService;
+import de.hsrm.mi.swtpro.pflamoehus.email.passwordrequestservice.PasswordRequestService;
 
 /*
  * EmailRestController for the communcation between front- and backend.
@@ -30,6 +31,7 @@ public class EmailRestApi {
     EmailService emailservice;
 
     RequestedPasswordResets rpr = new RequestedPasswordResets();
+    @Autowired PasswordRequestService passwordRequestService;
 
     Logger logger = LoggerFactory.getLogger(EmailRestApi.class);
     
@@ -44,7 +46,8 @@ public class EmailRestApi {
 
         String adr = email.replace("\"", "");
         rpr.addPasswordRequest(adr);
-        String code = rpr.getCode(adr);
+        //String code = rpr.getCode(adr);
+        String code = passwordRequestService.searchRequestWithEmail(email).getCode();
         
         String topic = "Passwort zurücksetzen im Pflamoehus!";
         String link = "http://localhost:8080/resetPassword/" + adr + "/" + code;
@@ -60,7 +63,8 @@ public class EmailRestApi {
 
     @GetMapping("/getCode/{email}")
     public String getCode(@PathVariable String email) {
-        String code = rpr.getCode(email);
+       // String code = rpr.getCode(email);
+       String code = passwordRequestService.searchRequestWithEmail(email).getCode();
         return code;
     }
 }

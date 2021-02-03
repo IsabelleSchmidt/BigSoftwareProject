@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 * @version 1
 */
 public class RequestedPasswordResets {
+    //TODO:loeschen
     
     ArrayList<PasswordRequest> requests = new ArrayList<>();
 
