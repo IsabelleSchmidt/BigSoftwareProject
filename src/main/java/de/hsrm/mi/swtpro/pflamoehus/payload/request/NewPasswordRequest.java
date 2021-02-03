@@ -19,7 +19,7 @@ public class NewPasswordRequest {
     @ValidPassword
     private String password;
     
-    	/** 
+    /** 
 	 * Get email.
 	 * 
 	 * @return String
