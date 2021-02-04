@@ -82,32 +82,32 @@ public class PasswordRequestServiceImpl implements PasswordRequestService {
      */
     @Override
     public String getRandomString() {
-            String result = "";
-            String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            int charactersLength = characters.length();
-            int resultLength = (int) (Math.random() * (20 - 10) + 10);
-    
-            for (int i = 0; i < resultLength; i++) {
-                result += characters.charAt((int)(Math.random() * charactersLength));
-            }
-    
-            return result;
+        String result = "";
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        int charactersLength = characters.length();
+        int resultLength = (int) (Math.random() * (20 - 10) + 10);
+
+        for (int i = 0; i < resultLength; i++) {
+            result += characters.charAt((int)(Math.random() * charactersLength));
         }
 
-        /**
-         * Removes passwordrequests which are longer then 10min ago from the database.
-         * 
-         */
-        @Override
-        public void deleteOldItems() {
-
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            Long milliseconds = timestamp.getTime();
-            Long alloweddelay = (long) 600000; // 10min delay
-            Long maxTime = milliseconds + alloweddelay;
-            passwordRequestRepo.removeOlderThan(maxTime);
-        }
+        return result;
     }
+
+    /**
+     * Removes passwordrequests which are longer then 10min ago from the database.
+     * 
+     */
+    @Override
+    public void deleteOldItems() {
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Long milliseconds = timestamp.getTime();
+        Long alloweddelay = (long) 600000; // 10min delay
+        Long maxTime = milliseconds + alloweddelay;
+        passwordRequestRepo.removeOlderThan(maxTime);
+    }
+}
 
     
 
