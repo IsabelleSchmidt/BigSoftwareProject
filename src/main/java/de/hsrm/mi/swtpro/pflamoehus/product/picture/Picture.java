@@ -48,7 +48,6 @@ public class Picture {
     private Product product;
 
     @NotEmpty
-    // @ValidPicture
     @Column(unique = true)
     private String path;
 

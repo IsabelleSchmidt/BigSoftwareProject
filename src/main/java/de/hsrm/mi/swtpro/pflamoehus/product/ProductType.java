@@ -1,6 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.product;
 
-/*
+/**
  * Enum for the different available producttypes.
  * 
  * @author Svenja Schenk, Marie Scharhag

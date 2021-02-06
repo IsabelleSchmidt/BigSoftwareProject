@@ -1,14 +1,9 @@
 package de.hsrm.mi.swtpro.pflamoehus.productapi;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
@@ -16,14 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,8 +27,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.awt.image.BufferedImage;
@@ -54,11 +45,11 @@ import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.pictureservice.PictureService;
 import de.hsrm.mi.swtpro.pflamoehus.productservice.ProductService;
 
-/*
+/**
  * ProductRestApi for communication between front- and backend.
  * 
  * @author Svenja Schenk, Ann-Cathrin Fabian, Marie Scharhag
- * @version 3
+ * @version 4
  */
 @RestController
 @RequestMapping("/api")
@@ -123,7 +114,7 @@ public class ProductRestApi {
      * Create new product.
      * 
      * @param newProduct the new product that has du get saved
-     * @return new product
+     * @return ProductResponse with Errormessages and Product
      */
     @PostMapping(value = "/product/new", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductResponse> postNewProduct(@Valid @RequestBody Product newProduct,
@@ -166,28 +157,12 @@ public class ProductRestApi {
 
     }
 
-    // /**
-    //  * Get all pictures of a product.
-    //  * 
-    //  * @param articleNr articlenr of the wanted product
-    //  * @return all pictures
-    //  */
-    // @GetMapping("/{articleNr}/pictures")
-    // public Set<Picture> getAllPicturesOfAProduct(@PathVariable long articleNr) {
-    //     Set<Picture> allPictures = null;
-    //     productRestApiLogger.info("Bilderzzzzzz");
-    //     try {
-    //         allPictures = productService.searchProductwithArticleNr(articleNr).getAllPictures();
-    //         for (var pic : allPictures) {
-    //             productRestApiLogger.info("Pfaddddddd:" + pic.getPath());
-    //         }
- 
-    //     } catch (ProductServiceException pse) {
-    //         productRestApiLogger.error(pse.getMessage());
-    //     }
-    //     return allPictures;
-    // }
-
+    /**
+     * Returns Picture with given Id as byte Array
+     * 
+     * @param picId the Id of the Picture that should be returned
+     * @return Picture as byte Array
+     */
     @GetMapping(value = "/picture/{picId}", produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody byte[] getImage(@PathVariable Long picId) throws IOException {
         byte[] bytes;
@@ -208,7 +183,13 @@ public class ProductRestApi {
 
 
 
-
+    /**
+     * Save Pictures for new Product
+     * 
+     * @param articleNr Article Nummber of Product for Pictures
+     * @param pictures Array of Pictures that should be saved
+     * @return Picture Response with Errormessages
+     */
     @PostMapping(value = "/product/{articleNr}/newpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PictureResponse> postPicturedata(@PathVariable Long articleNr,
             @RequestPart(name = "picture", required = true) MultipartFile[] pictures){
@@ -236,6 +217,13 @@ public class ProductRestApi {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Save single Image
+     * 
+     * @param articleNr Article Nummber of Product for Pictures
+     * @param pictures Picture that should be saved
+     * @return true or false for sucsessful save
+     */
     private boolean saveImage(long articleNr, MultipartFile picture) {
         try {
             // Bild speichern
@@ -265,7 +253,6 @@ public class ProductRestApi {
             Picture newPicture = new Picture();
             newPicture.setPath(pathPicture.toString());
             newPicture.setProduct(getProductWithID(articleNr));
-            // newPicture.setSize(picture.getSize());
             pictureService.editPicture(newPicture);
 
        }catch(FileNotFoundException fnoe){
@@ -277,38 +264,5 @@ public class ProductRestApi {
        }
         return true;
     }
-
-    // @ExceptionHandler(MaxUploadSizeExceededException.class)
-    // public ResponseEntity<PictureResponse> handleMaxSizeException(MaxUploadSizeExceededException ex) {
-    //     long maxSizeInMB = ex.getMaxUploadSize() / 1024 / 1024;
-    //     PictureResponse err = new PictureResponse();
-    //     err.addErrormessage(new Errormessage("picture","Bild zu gross zum Upload"));
-    //     return new ResponseEntity<>(err, HttpStatus.PAYLOAD_TOO_LARGE);
-    // }
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public String handleMaxSizeExeption(long maxSize){
-        productRestApiLogger.info("EXEPTIONHANDLER");
-        return null;
-    }
-
-
-    // @ExceptionHandler(MaxUploadSizeExceededException.class)
-    // public Map handleFileUploadError(RedirectAttributes ra){
-    //     productRestApiLogger.info("EXEPTIONHANDLER");
-    //     PictureResponse response = new PictureResponse();
-    //     response.addErrormessage(new Errormessage("picture","Bild zu gross zum Upload"));
-    //     return Map.of("code", 500, "msg", "The file size exceeds the 1MB limit, please compress or reduce the file quality!");
-
-    
-    // }
-
-    // @ExceptionHandler(value = MaxUploadSizeExceededException.class)
-	// public ModelAndView handleFileUploadException(MaxUploadSizeExceededException mpex, HttpServletRequest request) {
- 
-	// 	ModelAndView modelAndVew = new ModelAndView("error");
-	// 	modelAndVew.addObject("errorMsg", mpex.getMessage());
-	// 	return modelAndVew;
-	// }
-
 
 }

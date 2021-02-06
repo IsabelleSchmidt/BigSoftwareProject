@@ -3,45 +3,55 @@ package de.hsrm.mi.swtpro.pflamoehus.productapi;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
-
+/**
+ * Picture Response Entity for coummunication between backend and frontend
+ * 
+ * @author Marie Scharhag
+ * @version 1
+ */
 public class PictureResponse {
     private List<Errormessage> allErrors;
-    private List<Picture> pictures;
 
+    /**
+     *  Constructor for Picture Response
+     */
     public PictureResponse(){
-        // this.pictures = new ArrayList<>();
         allErrors = new ArrayList<>();
     }
 
+    /**
+     * Constructor for Picture Response
+     * 
+     * @param allErrors Arrays that occured while saving Picture
+     */
     public PictureResponse(List<Errormessage> allErrors){
-        // this.pictures = pictures;
         this.allErrors = allErrors;
     }
 
+    /**
+     * dds new Error Message to PictureResponse
+     * 
+     * @param error Error that should add to the Picture Response
+     */
     public void addErrormessage(Errormessage error){
         allErrors.add(error);
     }
 
+    /**
+     * 
+     * @return returns List of all Errormessages
+     */
     public List<Errormessage> getAllErrors(){
         return allErrors;
     }
 
+    /**
+     * Adds a List of Errormessages
+     * 
+     * @param allErrors List of Errormessages that should be added
+     */
     public void setAllErrors(List<Errormessage> allErrors){
         this.allErrors = allErrors;
     }
-
-    // public List<Picture> getPicture(){
-    //     return pictures;
-    // }
-
-    // public void addPicture(Picture picture){
-    //     this.pictures.add(picture);
-    // }
-
-    // public void setAllPictures(List<Picture> allPictures){
-    //     this.pictures = allPictures;
-    // }
-
     
 }
