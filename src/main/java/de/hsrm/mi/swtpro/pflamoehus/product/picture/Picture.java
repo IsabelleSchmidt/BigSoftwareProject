@@ -1,5 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.product.picture;
 
+import java.beans.Transient;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +32,6 @@ public class Picture {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @JsonIgnore
     private long id;
 
     @Version
@@ -51,26 +52,6 @@ public class Picture {
     @Column(unique = true)
     private String path;
 
-    
-    // private long size;
-
-    // /**
-    //  * Get size.
-    //  * 
-    //  * @return size
-    //  */
-    // public long getSize(){
-    //     return size;
-    // }
-
-    // /**
-    //  * Set size.
-    //  * 
-    //  * @param size -> size that has to be set
-    //  */
-    // public void setSize(long size){
-    //     this.size = size;
-    // }
 
     /**
      * Get product.
@@ -95,8 +76,10 @@ public class Picture {
      * 
      * @return path
      */
+    // @Transient
     public String getPath() {
-        return path;
+        // if(product == null) return null;
+        return this.path;
     }
 
     /**

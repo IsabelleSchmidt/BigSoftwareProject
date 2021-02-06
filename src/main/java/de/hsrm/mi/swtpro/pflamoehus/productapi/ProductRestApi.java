@@ -1,17 +1,24 @@
 package de.hsrm.mi.swtpro.pflamoehus.productapi;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,27 +30,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
-
-import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.thymeleaf.model.IModel;
 
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.ProductServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
@@ -54,7 +57,7 @@ import de.hsrm.mi.swtpro.pflamoehus.productservice.ProductService;
 /*
  * ProductRestApi for communication between front- and backend.
  * 
- * @author Svenja Schenk, Ann-Cathrin Fabian
+ * @author Svenja Schenk, Ann-Cathrin Fabian, Marie Scharhag
  * @version 3
  */
 @RestController
@@ -122,20 +125,20 @@ public class ProductRestApi {
      * @param newProduct the new product that has du get saved
      * @return new product
      */
-    @PostMapping(value="/product/new", produces=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductResponse> postNewProduct(@Valid @RequestBody Product newProduct, BindingResult result) {
-        
-        
+    @PostMapping(value = "/product/new", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductResponse> postNewProduct(@Valid @RequestBody Product newProduct,
+            BindingResult result) {
+
         productRestApiLogger.info("Neues Produkt erhalten!");
         Product product = null;
         ProductResponse response = new ProductResponse(product);
-        
-        if(productService.findProductWithName(newProduct.getName())!= null){
+
+        if (productService.findProductWithName(newProduct.getName()) != null) {
             response.addErrormessage(new Errormessage("name", "Produktname bereits vergeben."));
             return ResponseEntity.ok().body(response);
         }
-        
-        if(result.hasErrors()){
+
+        if (result.hasErrors()) {
             List<Errormessage> allErrors = new ArrayList<>();
             productRestApiLogger.info("Validationsfehler");
 
@@ -148,44 +151,71 @@ public class ProductRestApi {
 
         } else {
             try {
-            product = productService.editProduct(newProduct);
-            response.setProduct(product);
+                product = productService.editProduct(newProduct);
+                response.setProduct(product);
 
-        } catch (ProductServiceException pse) {
-            productRestApiLogger.error("Failed to save the product.");
-            response.addErrormessage(new Errormessage(null,"SAVING_ERROR"));
-            response.addErrormessage(new Errormessage("name", "schon vergeben"));
-            return ResponseEntity.badRequest().body(response);
-        }
+            } catch (ProductServiceException pse) {
+                productRestApiLogger.error("Failed to save the product.");
+                response.addErrormessage(new Errormessage(null, "SAVING_ERROR"));
+                response.addErrormessage(new Errormessage("name", "schon vergeben"));
+                return ResponseEntity.badRequest().body(response);
+            }
             productRestApiLogger.info(product.toString());
             return ResponseEntity.ok().body(response);
         }
 
     }
 
-    /**
-     * Get all pictures of a product.
-     * 
-     * @param articleNr articlenr of the wanted product
-     * @return all pictures
-     */
-    @GetMapping("/{articleNr}/pictures")
-    public Set<Picture> getAllPicturesOfAProduct(@PathVariable long articleNr) {
-        Set<Picture> allPictures = null;
-        try {
-            allPictures = productService.searchProductwithArticleNr(articleNr).getAllPictures();
+    // /**
+    //  * Get all pictures of a product.
+    //  * 
+    //  * @param articleNr articlenr of the wanted product
+    //  * @return all pictures
+    //  */
+    // @GetMapping("/{articleNr}/pictures")
+    // public Set<Picture> getAllPicturesOfAProduct(@PathVariable long articleNr) {
+    //     Set<Picture> allPictures = null;
+    //     productRestApiLogger.info("Bilderzzzzzz");
+    //     try {
+    //         allPictures = productService.searchProductwithArticleNr(articleNr).getAllPictures();
+    //         for (var pic : allPictures) {
+    //             productRestApiLogger.info("Pfaddddddd:" + pic.getPath());
+    //         }
+ 
+    //     } catch (ProductServiceException pse) {
+    //         productRestApiLogger.error(pse.getMessage());
+    //     }
+    //     return allPictures;
+    // }
 
-        } catch (ProductServiceException pse) {
-            productRestApiLogger.error(pse.getMessage());
+    @GetMapping(value = "/picture/{picId}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] getImage(@PathVariable Long picId) throws IOException {
+        byte[] bytes;
+        String home = System.getProperty("user.home");
+        String dir = "/upload";
+        productRestApiLogger.info("picturePath" + pictureService.findPictureWithID(picId).getPath());
+        if(pictureService.findPictureWithID(picId).getPath().startsWith(home+dir)){
+            BufferedImage bImage = ImageIO.read(new File(pictureService.findPictureWithID(picId).getPath()));
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(bImage, "jpg", bos );
+            bytes = bos.toByteArray();
+        }else{
+            InputStream in = new ClassPathResource("/static"+pictureService.findPictureWithID(picId).getPath()).getInputStream();
+            bytes = IOUtils.toByteArray(in);
         }
-        return allPictures;
+        return bytes;
     }
 
-    @PostMapping(value = "/product/{articleNr}/newpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean postPicturedata(@PathVariable Long articleNr,
-            @RequestPart(name = "picture", required = true) MultipartFile[] pictures) {
 
+
+
+    @PostMapping(value = "/product/{articleNr}/newpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PictureResponse> postPicturedata(@PathVariable Long articleNr,
+            @RequestPart(name = "picture", required = true) MultipartFile[] pictures){
+
+                
         Product newProduct;
+        PictureResponse response = new PictureResponse();
 
         try {
             // Produkt suchen
@@ -196,13 +226,14 @@ public class ProductRestApi {
                 productRestApiLogger.info("bekommen wir" + picture.toString());
                 saveImage(articleNr,picture);
             }
-
-        } catch (ProductServiceException pse) {
-            productRestApiLogger.error(pse.getMessage());
-            return false;
+            
+        }catch (MaxUploadSizeExceededException max){
+            productRestApiLogger.info("ERRRORMAXUPLOOOOD");
+            response.addErrormessage(new Errormessage("picture","Bild zu gross zum Upload"));
+            return ResponseEntity.badRequest().body(response);
         }
 
-        return true;
+        return ResponseEntity.ok().body(response);
     }
 
     private boolean saveImage(long articleNr, MultipartFile picture) {
@@ -219,7 +250,6 @@ public class ProductRestApi {
             
             Path path = Paths.get(home,dir,productType);
             Path pathPicture = Paths.get(home,dir,productType,filename);
-
             
             if(Files.exists(path)){
                 if(!Files.exists(pathPicture)){
@@ -233,7 +263,7 @@ public class ProductRestApi {
             }
 
             Picture newPicture = new Picture();
-            newPicture.setPath(home+"/"+dir+"/"+filename);
+            newPicture.setPath(pathPicture.toString());
             newPicture.setProduct(getProductWithID(articleNr));
             // newPicture.setSize(picture.getSize());
             pictureService.editPicture(newPicture);
@@ -248,12 +278,37 @@ public class ProductRestApi {
         return true;
     }
 
-
+    // @ExceptionHandler(MaxUploadSizeExceededException.class)
+    // public ResponseEntity<PictureResponse> handleMaxSizeException(MaxUploadSizeExceededException ex) {
+    //     long maxSizeInMB = ex.getMaxUploadSize() / 1024 / 1024;
+    //     PictureResponse err = new PictureResponse();
+    //     err.addErrormessage(new Errormessage("picture","Bild zu gross zum Upload"));
+    //     return new ResponseEntity<>(err, HttpStatus.PAYLOAD_TOO_LARGE);
+    // }
     @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public String handleFileUploadError(RedirectAttributes ra){
+    public String handleMaxSizeExeption(long maxSize){
+        productRestApiLogger.info("EXEPTIONHANDLER");
         return null;
-        
     }
+
+
+    // @ExceptionHandler(MaxUploadSizeExceededException.class)
+    // public Map handleFileUploadError(RedirectAttributes ra){
+    //     productRestApiLogger.info("EXEPTIONHANDLER");
+    //     PictureResponse response = new PictureResponse();
+    //     response.addErrormessage(new Errormessage("picture","Bild zu gross zum Upload"));
+    //     return Map.of("code", 500, "msg", "The file size exceeds the 1MB limit, please compress or reduce the file quality!");
+
+    
+    // }
+
+    // @ExceptionHandler(value = MaxUploadSizeExceededException.class)
+	// public ModelAndView handleFileUploadException(MaxUploadSizeExceededException mpex, HttpServletRequest request) {
+ 
+	// 	ModelAndView modelAndVew = new ModelAndView("error");
+	// 	modelAndVew.addObject("errorMsg", mpex.getMessage());
+	// 	return modelAndVew;
+	// }
 
 
 }

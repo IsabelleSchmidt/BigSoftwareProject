@@ -60,7 +60,8 @@ INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AV
 (109, 95.0, 'Beschreibung', 90.0, 'Information', 'Lifestail', 25, 110.99, 'Tisch', 'Wohnzimmer', 1, 180.0),
 (110, 89.9, 'Beschreibung', 96.0, 'Information', 'Alfrede', 89, 110.99, 'Tisch', 'Wohnzimmer', 1, 112.8),
 (111, 95.0, 'Beschreibung', 90.0, 'Information', 'Modern chic', 2, 110.99, 'Tisch', 'Wohnzimmer', 1, 180.0),
-(112, 80.0, 'Beschreibung', 90.0, 'Information', 'Classic', 99, 110.99, 'Tisch', 'Wohnzimmer', 1, 80.0);         
+(112, 80.0, 'Beschreibung', 90.0, 'Information', 'Classic', 99, 110.99, 'Tisch', 'Wohnzimmer', 1, 80.0),
+(113, 70.0, 'Das beste rote Sofa der Welt', 90.0, 'Ein Unikat in der MI', 'Das rote Sofa', 1, 1717.17, 'Sofa/Couch', 'Wohnzimmer',1,200.0);         
      
 -- 131 +/- SELECT COUNT(*) FROM PUBLIC.PICTURE;               
 INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
@@ -76,9 +77,9 @@ INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
 (143, '/plants/PhilodendronPinkPrincess.jpg', 1, 66),
 (144, '/plants/PhilodendronPinkPrincess2.jpg', 1, 66),
 (145, '/plants/PhilodendronPinkPrincess3.jpg', 1, 66),
-(146, 'plants/PileaPeperomioides.jpg', 1, 67),
-(147, 'plants/PileaPeperomioides2.jpg', 1, 67),
-(148, 'plants/PileaPeperomioides3.jpg', 1, 67),
+(146, '/plants/PileaPeperomioides.jpg', 1, 67),
+(147, '/plants/PileaPeperomioides2.jpg', 1, 67),
+(148, '/plants/PileaPeperomioides3.jpg', 1, 67),
 (149, '/plants/SenecioRowleyanus.jpg', 1, 68),
 (150, '/plants/SenecioRowleyanus2.jpg', 1, 68),
 (151, '/plants/SenecioRowleyanus3.jpg', 1, 68),
@@ -195,7 +196,8 @@ INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
 (261, '/tables/table6.jpg', 1, 111),
 (262, '/tables/table7.jpg', 1, 112),
 (263, '/tables/table7.2.jpg', 1, 112),
-(264, '/tables/table7.3.jpg', 1, 112);     
+(264, '/tables/table7.3.jpg', 1, 112),
+(265, '/sofas/rotesSofa.jpg',1,113);     
 -- 17 +/- SELECT COUNT(*) FROM PUBLIC.TAG;    
 INSERT INTO TAG(ID, VALUE, VERSION) VALUES
 (25, 'Keramik', 0),
