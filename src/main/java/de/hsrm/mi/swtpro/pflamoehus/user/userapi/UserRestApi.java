@@ -23,12 +23,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.LoginRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.LogoutRequest;
+import de.hsrm.mi.swtpro.pflamoehus.payload.request.NewPasswordRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.SignUpRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.UserOrderRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
@@ -360,7 +362,57 @@ public class UserRestApi {
 			mr.setMessage("Es wurde kein User gefunden. Vor dem Ausloggen bitte erst einloggen.");
 		}
 		return ResponseEntity.ok(mr);
+	}
 
+	@GetMapping("checkByEmail/{email}")
+	public ResponseEntity<MessageResponse> checkIfUserExists (@PathVariable("email") String email) {
+		MessageResponse mrp = new MessageResponse();
+		boolean exists = userService.existsByEmail(email);
+
+		if (exists) {
+			LOGGER.info("User gibts");
+			return ResponseEntity.ok(mrp);
+		} else {
+			LOGGER.info("User gibts nicht");
+			mrp.setMessage("UserNotFound");
+			return ResponseEntity.ok(mrp);
+		}
+	}
+
+	@PostMapping("/changePassword")
+	@Transactional
+	public ResponseEntity<MessageResponse> changePw(@Valid @RequestBody NewPasswordRequest newPasswordRequest, BindingResult result) {
+
+		MessageResponse mrp = new MessageResponse();
+
+		if (result.hasErrors()) {
+			LOGGER.error("Error in change PW");
+			for (FieldError error : result.getFieldErrors()) {
+				LOGGER.error("Error in change PW: " + error.getDefaultMessage());
+				mrp.setMessage("Das Passwort muss mindestens 8 Zeichen, mindestens 1 Sonderzeichen und mindestens 1 Zahl besitzen");
+				return ResponseEntity.ok(mrp);
+			}
+		} else {
+			try {
+				User user = userService.searchUserWithEmail(newPasswordRequest.getEmail());
+	
+				LOGGER.info("Altes Passwort: " + user.getPassword());
+				String encodedPw = userService.encodePassword(newPasswordRequest.getPassword());
+	
+				user.setPassword(encodedPw);
+				LOGGER.info("neues Passwort: " + user.getPassword());
+				
+				user = userService.editUser(user);
+				LOGGER.info("neues Passwort nach edit user: " + user.getPassword());
+				
+				ResponseEntity.ok(mrp);
+			} catch (UserServiceException use) {
+				LOGGER.error(use.getMessage());
+				return null;
+			}
+		}
+
+		return ResponseEntity.ok(mrp);
 	}
 
 }
