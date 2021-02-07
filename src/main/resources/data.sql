@@ -206,14 +206,14 @@ INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
 -- 17 +/- SELECT COUNT(*) FROM PUBLIC.TAG;    
 INSERT INTO TAG(ID, VALUE, VERSION) VALUES
 (25, 'Keramik', 0),
-(27, 'brown', 1),
+(27, 'braun', 1),
 (28, 'Abendessen', 1),
 (29, 'Holz', 1),
 (30, 'Schlafen', 1),
 (31, 'Rustikal', 1),
 (32, 'Eiche', 1),
 (33, 'Mahagoni', 1),
-(34, 'yellow', 1),
+(34, 'gelb', 1),
 (35, 'Prinzessin', 1),
 (36, 'Business', 1),
 (37, 'guenstig', 1),
@@ -221,16 +221,16 @@ INSERT INTO TAG(ID, VALUE, VERSION) VALUES
 (39, 'rosa', 1),
 (40, 'bunt', 1),
 (41, 'blüte', 1),
-(42, 'bequem', 1),
-(43, 'black', 1),
-(44, 'grey', 1),
+(42, 'equem', 1),
+(43, 'schwarz', 1),
+(44, 'grau', 1),
 (45, 'beige', 1),
-(46, 'green', 1),
+(46, 'grün', 1),
 (47, 'orange', 1),
-(48, 'purple', 1),
-(49, 'red', 1),
-(50, 'blue', 1),
-(51, 'white', 1);
+(48, 'lila', 1),
+(49, 'rot', 1),
+(50, 'blau', 1),
+(51, 'weiss', 1);
 
 INSERT INTO PRODUCT_TAGS(ARTICLENR, TAGID) VALUES
 (62, 44),
