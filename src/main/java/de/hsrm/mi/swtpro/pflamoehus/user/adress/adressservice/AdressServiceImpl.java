@@ -29,6 +29,7 @@ public class AdressServiceImpl implements AdressService {
      * @return Adress
      */
     @Override
+    @Transactional
     public Optional<Adress> findById(long id) {
 
         Optional<Adress> adress = adressRepo.findById(id);
@@ -72,6 +73,7 @@ public class AdressServiceImpl implements AdressService {
      * @return Adress
      */
     @Override
+    @Transactional
     public Adress saveAdress(Adress adress) {
         try{
             adress = adressRepo.save(adress);

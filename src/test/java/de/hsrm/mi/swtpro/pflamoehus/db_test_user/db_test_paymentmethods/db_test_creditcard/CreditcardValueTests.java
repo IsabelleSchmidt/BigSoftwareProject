@@ -19,11 +19,10 @@ public class CreditcardValueTests {
     ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     Validator validator = factory.getValidator();
 
-    final private String OWNER = "Christopf";
-    final private String CREDITCARDNUMBER = "4111111111111";
-    final private LocalDate EXPIRY = LocalDate.of(2023,10,04);
-
-    final private String WRONG_OWNER ="";
+    final private String CORRECT_OWNER = "Christopf";
+    final private String CORRECT_CREDITCARDNUMBER = "4111111111111";
+    final private LocalDate CORRECT_DATEOFEXPIRY = LocalDate.of(2023,10,04);
+    final private String INCORRECT_OWNER ="";
     final private LocalDate WRONG_EXPIRY = LocalDate.of(2020,01,01);
 
 
@@ -38,9 +37,9 @@ public class CreditcardValueTests {
 
         Creditcard correct = new Creditcard();
 
-        correct.setCowner(OWNER);
-        correct.setCreditcardnumber(CREDITCARDNUMBER);
-        correct.setDateOfExpiry(EXPIRY);
+        correct.setCowner(CORRECT_OWNER);
+        correct.setCreditcardnumber(CORRECT_CREDITCARDNUMBER);
+        correct.setDateOfExpiry(CORRECT_DATEOFEXPIRY);
 
         assertThat(validator.validate(correct)).isEmpty();
 
@@ -51,12 +50,12 @@ public class CreditcardValueTests {
     public void create_incorrect_card(){
 
         Creditcard incorrect = new Creditcard();
-        incorrect.setCowner(OWNER);
-        incorrect.setCreditcardnumber(CREDITCARDNUMBER);
-        incorrect.setDateOfExpiry(EXPIRY);
+        incorrect.setCowner(CORRECT_OWNER);
+        incorrect.setCreditcardnumber(CORRECT_CREDITCARDNUMBER);
+        incorrect.setDateOfExpiry(CORRECT_DATEOFEXPIRY);
         incorrect.setDateOfExpiry(WRONG_EXPIRY);
         assertThat(validator.validate(incorrect).size()).isEqualTo(1);
-        incorrect.setCowner(WRONG_OWNER);
+        incorrect.setCowner(INCORRECT_OWNER);
         assertThat(validator.validate(incorrect).size()).isEqualTo(3);
 
 

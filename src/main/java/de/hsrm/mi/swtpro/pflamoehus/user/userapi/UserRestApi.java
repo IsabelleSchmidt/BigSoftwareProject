@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.validation.BindingResult;
@@ -52,7 +53,6 @@ import de.hsrm.mi.swtpro.pflamoehus.user.roles.ERoles;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.paymentservice.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -206,7 +206,6 @@ public class UserRestApi {
 
 		user.setRoles(roles);
 		userService.registerUser(user);
-
 		return ResponseEntity.ok(mrs);
 
 	}
@@ -224,6 +223,7 @@ public class UserRestApi {
 	public ResponseEntity<List<MessageResponse>> addInfosToUser(@Valid @RequestBody UserOrderRequest userOrderRequest,
 			BindingResult result) throws AuthenticationException {
 		List<MessageResponse> mrs = new ArrayList<>();
+		LOGGER.info("NEW ORDER IN USERAPI");
 
 		if (result.hasErrors()) {
 
@@ -261,14 +261,14 @@ public class UserRestApi {
 		}
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		try {
-			User user = userService.searchUserWithEmail(email);
+			User user = userService.searchUserWithEmail(email); 
 
 			if (userOrderRequest.getAdress() != null) {
-
+			
 				Adress newAdress = userOrderRequest.getAdress();
-				newAdress = adressSerivce.saveAdress(newAdress);
-				user.getAllAdresses().add(newAdress);
-				user = userService.editUser(user);
+				newAdress = adressSerivce.saveAdress(newAdress); 
+				user.getAllAdresses().add(newAdress); 
+				user = userService.editUser(user); 
 
 			}
 

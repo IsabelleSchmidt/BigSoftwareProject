@@ -15,15 +15,15 @@ public enum Statuscode {
      /**
      * type 'In Progress' 
      * */
-    INPROGRESS("IN PROGRESS"), 
+    INPROGRESS("INPROGRESS"), 
      /**
      * type 'Partial' 
      * */
-    PARTIALLYREADY("PARTIAL"), 
+    PARTIALLYREADY("PARTIALLYREADY"), 
      /**
      * type 'Ready' 
      * */
-    READYFORSHIPPING("READY"), 
+    READYFORSHIPPING("READYFORSHIPPING"), 
      /**
      * type 'Shipped' 
      * */
