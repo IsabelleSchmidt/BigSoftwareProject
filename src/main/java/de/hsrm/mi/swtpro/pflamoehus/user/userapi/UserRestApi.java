@@ -370,10 +370,8 @@ public class UserRestApi {
 		boolean exists = userService.existsByEmail(email);
 
 		if (exists) {
-			LOGGER.info("User gibts");
 			return ResponseEntity.ok(mrp);
 		} else {
-			LOGGER.info("User gibts nicht");
 			mrp.setMessage("UserNotFound");
 			return ResponseEntity.ok(mrp);
 		}
@@ -396,14 +394,11 @@ public class UserRestApi {
 			try {
 				User user = userService.searchUserWithEmail(newPasswordRequest.getEmail());
 	
-				LOGGER.info("Altes Passwort: " + user.getPassword());
 				String encodedPw = userService.encodePassword(newPasswordRequest.getPassword());
 	
 				user.setPassword(encodedPw);
-				LOGGER.info("neues Passwort: " + user.getPassword());
 				
 				user = userService.editUser(user);
-				LOGGER.info("neues Passwort nach edit user: " + user.getPassword());
 				
 				ResponseEntity.ok(mrp);
 			} catch (UserServiceException use) {
