@@ -16,8 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
@@ -288,7 +286,7 @@ public class UserRestApiTests {
 
         //get user (returned null),ontext haelt anonymous user -> nicht in DB zu finden, result ist leer
        
-        MvcResult result =  mockmvc.perform(get(PATH+"/getAdress")).andExpect(status().isOk()).andReturn();
+        MvcResult result =  mockmvc.perform(get(PATH+"/getUser")).andExpect(status().isOk()).andReturn();
       
         assertThat(result.getResponse().getContentAsString()).contains("email").contains("creditcard").contains("bankcard").contains("password")
         .contains("allAdresses").contains("firstName").contains("lastName").contains("birthdate").contains("gender").contains("roles");
@@ -300,7 +298,7 @@ public class UserRestApiTests {
     @Transactional
     public void getAdress_returns_null_if_no_User_is_logged_in()throws Exception{
 
-        MvcResult result =  mockmvc.perform(get(PATH+"/getAdress")).andExpect(status().isOk()).andReturn();
+        MvcResult result =  mockmvc.perform(get(PATH+"/getUser")).andExpect(status().isOk()).andReturn();
         assertEquals("",result.getResponse().getContentAsString());
     }
 
