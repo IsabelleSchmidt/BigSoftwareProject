@@ -27,7 +27,7 @@ public @interface ValidPicture {
      * 
      * @return default message
      */
-    String message() default "Make sure your File is a .jpg/.jpeg/.png File or its not bigger than 5MB";
+    String message() default "Make sure your File is a .jpg/.jpeg/.png File";
 
     /**
      * 
