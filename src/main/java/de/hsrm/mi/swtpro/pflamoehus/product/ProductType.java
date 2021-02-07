@@ -32,6 +32,9 @@ public enum ProductType {
      * type 'Schrank/Kommode' 
      * */ 
     CLOSET("Schrank/Kommode"),
+
+    SINK("waschbecken"),
+
     /**
      * type 'Sofa/Couch' 
      * */
