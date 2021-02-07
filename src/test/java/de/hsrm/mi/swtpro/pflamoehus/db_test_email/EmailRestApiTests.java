@@ -62,7 +62,7 @@ public class EmailRestApiTests {
     @DisplayName("/api/email/send should save the email with a random string and the current timestamp")
     public void postNewOrder_newemail() throws Exception {
 
-        pwreqrepo.deleteAll();
+        pwreqrepo.deleteAllInBatch();
         assertThat(pwreqrepo.count()).isEqualTo(0);
 
         // //Use ObjectMapper to create JSON
@@ -87,7 +87,7 @@ public class EmailRestApiTests {
         //13 numbers for the actual time plus minimal 10 numbers for the random string
         final int MINIMALCODELENGTH = 23; 
 
-        pwreqrepo.deleteAll();
+        pwreqrepo.deleteAllInBatch();
         assertThat(pwreqrepo.count()).isEqualTo(0);
 
         System.out.print("EMAIL /api/email/send: "+mockmvc.perform(post("/api/email/send").contentType(MediaType.APPLICATION_JSON_VALUE).content(EMAIL_EXISTING))
