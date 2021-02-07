@@ -15,7 +15,7 @@ import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
  * @author Svenja Schenk
  * @version 2
  */
- public class ValidPictureValidator implements ConstraintValidator<ValidPicture, Picture> {
+ public class ValidPictureValidator implements ConstraintValidator<ValidPicture, String> {
 
     /**
      * @param value given picture
@@ -23,12 +23,11 @@ import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
      * @return valid or not
      */
     @Override
-    //TODO: muss eigentlich set sein
-    public boolean isValid(Picture value, ConstraintValidatorContext context) {
+    public boolean isValid(String value, ConstraintValidatorContext context) {
 
         Pattern picturePattern = Pattern
                 .compile("^(\\\\(\\w|\\\\|\\d|\\.)+\\.((jpe?g)|(png)))|(\\/(\\w|\\/|\\d|\\.)+\\.((jpe?g)|(png)))");
-        Matcher matcher = picturePattern.matcher(value.getPath());
+        Matcher matcher = picturePattern.matcher(value);
 
 
         return matcher.matches();

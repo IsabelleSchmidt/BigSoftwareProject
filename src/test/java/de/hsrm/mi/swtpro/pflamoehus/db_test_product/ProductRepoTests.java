@@ -21,8 +21,8 @@ import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 class ProductRepoTests {
 
     final String TESTNAME = "Herbert";
-    final String PRODUCTTYPE = "Sofa/Couch";
-    final String ROOMTYPE = "Bad";
+    final String PRODUCTTYPE = "Couch";
+    final String ROOMTYPE = "Bathroom";
     final double PRICE = 10.5;
     final double HEIGHT = 75.0;
     final double WIDHT = 210.5;
@@ -202,7 +202,7 @@ class ProductRepoTests {
         product2.setHeight(HEIGHT);
         product2.setWidth(WIDHT);
         product2.setNrAvailableItems(AVIABLEPRODUCTS);
-        product2.setProductType("Pflanze");
+        product2.setProductType("Plant");
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(123.4);
         product2.setDescription(DESCRIPTION);
@@ -211,7 +211,7 @@ class ProductRepoTests {
         final Product managed2 = productRepository.save(product2);
         assertThat(managed2).isEqualTo(product2);
 
-        List<Product> fund = productRepository.findByProductType("Sofa/Couch");
+        List<Product> fund = productRepository.findByProductType("Couch");
         assertThat(fund.size()).isEqualTo(1);
 
         List<Product> fund2 = productRepository.findByHeight(HEIGHT);

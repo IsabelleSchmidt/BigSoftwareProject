@@ -36,8 +36,8 @@ class ProductValueTests {
     private final double WIDTH = 10.0;
     private final double HEIGHT = 12.0;
     private final double DEPTH = 0.0;
-    private final String PRODUCTTYPE = "Tisch";
-    private final String ROOMTYPE = "Wohnzimmer";
+    private final String PRODUCTTYPE = "Table";
+    private final String ROOMTYPE = "Livingroom";
     private final int AVAILABLE = 0;
     private final String DESCRIPTION = "Beschreibung ist da.";
     private final String INFORMATION = "Information ist da.";

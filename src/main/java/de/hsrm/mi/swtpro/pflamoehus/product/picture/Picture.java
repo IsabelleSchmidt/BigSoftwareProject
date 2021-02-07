@@ -49,6 +49,7 @@ public class Picture {
 
     @NotEmpty
     @Column(unique = true)
+    @ValidPicture
     private String path;
 
 
