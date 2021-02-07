@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
      * @param password new password
      * @param user     user from database or a new user
      */
-    private String encodePassword(String password) {
+    public String encodePassword(String password) {
         LOGGER.info("ENCODETES PASSWORT: " + pe.encode(password));
         return pe.encode(password);
     }
