@@ -86,7 +86,6 @@ public class JwtUtils {
 
             Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(authToken);
             if(jwtStoreService.existsByAccessToken(authToken)){
-                logger.info("IST IN DER DATENBANK");
                 return true;
             }
         }catch(MalformedJwtException e){
