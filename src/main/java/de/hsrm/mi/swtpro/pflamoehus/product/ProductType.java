@@ -4,7 +4,7 @@ package de.hsrm.mi.swtpro.pflamoehus.product;
  * Enum for the different available producttypes.
  * 
  * @author Svenja Schenk, Marie Scharhag
- * @version 1
+ * @version 2
  */
 public enum ProductType {
 
@@ -31,11 +31,15 @@ public enum ProductType {
     /**
      * type 'Schrank/Kommode' 
      * */ 
-    CLOSET("Schrank/Kommode"),
+    CLOSET("Schrank"),
     /**
      * type 'Sofa/Couch' 
      * */
-    COUCH("Sofa/Couch");
+    COUCH("Sofa"),
+    /**
+     *  type null
+     */
+    NULL("null");
 
     private String type;
 

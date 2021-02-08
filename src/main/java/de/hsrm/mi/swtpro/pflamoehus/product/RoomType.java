@@ -4,7 +4,7 @@ package de.hsrm.mi.swtpro.pflamoehus.product;
  * Enum for the different available roomtypes.
  * 
  * @author Svenja Schenk, Marie Scharhag
- * @version 1
+ * @version 2
  */
 public enum RoomType {
 
@@ -37,7 +37,11 @@ public enum RoomType {
     /**
      * type 'all' 
      * */
-    ALL("all");
+    ALL("all"),
+    /**
+     * type null
+     */
+    NULL("null");
 
     private String type;
 

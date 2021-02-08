@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -49,7 +50,7 @@ import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;
  * ProductRestApi for communication between front- and backend.
  * 
  * @author Svenja Schenk, Ann-Cathrin Fabian, Marie Scharhag
- * @version 4
+ * @version 5
  */
 @RestController
 @RequestMapping("/api")
@@ -129,15 +130,23 @@ public class ProductRestApi {
             return ResponseEntity.ok().body(response);
         }
 
-        if (result.hasErrors()) {
-            List<Errormessage> allErrors = new ArrayList<>();
+        
+
+        if (result.hasErrors()||newProduct.getRoomType().toString() == "null"||newProduct.getProductType().toString() == "null") {
+
             productRestApiLogger.info("Validationsfehler");
 
             for (FieldError error : result.getFieldErrors()) {
-                allErrors.add(new Errormessage(error.getField(), error.getDefaultMessage()));
+                response.addErrormessage(new Errormessage(error.getField(), error.getDefaultMessage()));
             }
-            response.setAllErrors(allErrors);
-            productRestApiLogger.info("Errorrrs: " + allErrors);
+            if(newProduct.getRoomType().toString() == "null"){
+                productRestApiLogger.info("RAUM EROOROR");
+                response.addErrormessage(new Errormessage("roomType", "Keine Raumart ausgewählt"));
+            }
+            if(newProduct.getProductType().toString() == "null"){
+                productRestApiLogger.info("RAUM EROOROR");
+                response.addErrormessage(new Errormessage("productType", "Keine Produktart ausgewählt"));
+            }
 
             return ResponseEntity.ok().body(response);
 
@@ -147,7 +156,7 @@ public class ProductRestApi {
                 response.setProduct(product);
 
             } catch (ProductServiceException pse) {
-                productRestApiLogger.error("Failed to save the product.");
+                productRestApiLogger.info("Failed to save the product.");
                 response.addErrormessage(new Errormessage(null, "SAVING_ERROR"));
                 response.addErrormessage(new Errormessage("name", "schon vergeben"));
                 return ResponseEntity.badRequest().body(response);

@@ -58,12 +58,10 @@ public class Product {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "producttype")
-    // @ValidProductType
     private ProductType productType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "room")
-    // @ValidRoomType
     private RoomType roomType;
 
     @NotNull(message = "Der Preis darf nicht leer bleiben.")
