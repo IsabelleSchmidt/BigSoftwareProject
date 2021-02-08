@@ -26,6 +26,8 @@ import javax.validation.ConstraintValidatorContext;
         Pattern picturePattern = Pattern
                 .compile("^(\\\\(\\w|\\\\|\\d|\\.)+\\.((jpe?g)|(png)))|(\\/(\\w|\\/|\\d|\\.)+\\.((jpe?g)|(png)))");
         Matcher matcher = picturePattern.matcher(value);
+
+
         return matcher.matches();
     }
 

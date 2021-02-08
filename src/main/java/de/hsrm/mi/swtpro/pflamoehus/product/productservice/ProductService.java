@@ -47,4 +47,10 @@ public interface ProductService {
      */
     List<Product> findAllProductsWithProductType(ProductType type);
 
+    /**
+     * @param name productname
+     * @return product with given name
+     */
+    Product findProductWithName(String name);
+
 }
