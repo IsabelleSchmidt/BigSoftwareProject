@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.LoginRequest;
-import de.hsrm.mi.swtpro.pflamoehus.payload.request.LogoutRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.NewPasswordRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.SignUpRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.UserOrderRequest;
