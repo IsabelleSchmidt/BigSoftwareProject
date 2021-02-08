@@ -45,6 +45,8 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.pictureservice.PictureService;
 import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;
+import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
+import de.hsrm.mi.swtpro.pflamoehus.product.tags.TagService;
 
 /**
  * ProductRestApi for communication between front- and backend.
@@ -63,6 +65,9 @@ public class ProductRestApi {
     @Autowired
     PictureService pictureService;
 
+    @Autowired
+    TagService tagServise;
+
     Logger productRestApiLogger = LoggerFactory.getLogger(ProductRestApi.class);
 
     /**
@@ -73,6 +78,16 @@ public class ProductRestApi {
     @GetMapping("/products")
     public List<Product> allProducts() {
         return productService.allProducts();
+    }
+
+    /**
+     * Return a List of all tags in the Database
+     * 
+     * @return list of Tags
+     */
+    @GetMapping("/tags")
+    public List<Tag> allTags(){
+        return tagServise.allTags();
     }
 
     /**
@@ -130,9 +145,7 @@ public class ProductRestApi {
             return ResponseEntity.ok().body(response);
         }
 
-        
-
-        if (result.hasErrors()||newProduct.getRoomType().toString() == "null"||newProduct.getProductType().toString() == "null") {
+        if (result.hasErrors()||newProduct.getRoomType().toString() == "null"||newProduct.getProductType().toString() == "null"||newProduct.getAllTags().isEmpty()) {
 
             productRestApiLogger.info("Validationsfehler");
 
@@ -147,11 +160,16 @@ public class ProductRestApi {
                 productRestApiLogger.info("RAUM EROOROR");
                 response.addErrormessage(new Errormessage("productType", "Keine Produktart ausgewählt"));
             }
+            if(newProduct.getAllTags().isEmpty()){
+                response.addErrormessage(new Errormessage("tag", "Produkt braucht Tag"));
+            }
+    
 
             return ResponseEntity.ok().body(response);
 
         } else {
             try {
+                // Tag tag = tagServise.searchTagWithValue(newProduct.getAllTags())
                 product = productService.editProduct(newProduct);
                 response.setProduct(product);
 
@@ -219,7 +237,7 @@ public class ProductRestApi {
             }
             
         }catch (MaxUploadSizeExceededException max){
-            productRestApiLogger.info("ERRRORMAXUPLOOOOD");
+            productRestApiLogger.info("ERRRORMAxUPLOOOOD");
             response.addErrormessage(new Errormessage("picture","Bild zu gross zum Upload"));
             return ResponseEntity.badRequest().body(response);
         }

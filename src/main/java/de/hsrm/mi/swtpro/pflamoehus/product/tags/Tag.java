@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 
-/*
+/** 
  * Tag-entity for its database.
  * 
  * @author Svenja Schenk, Ann-Cathrin Fabian
@@ -29,7 +29,6 @@ public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private long id;
 
     @Version

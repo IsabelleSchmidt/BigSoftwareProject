@@ -1,12 +1,14 @@
 package de.hsrm.mi.swtpro.pflamoehus.product.tags;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-/*
+/**
  * TagRepository for different operations to apply on the database.
  * 
- * @author Svenja Schenk
- * @version 1
+ * @author Svenja Schenk, Marie Scharhag
+ * @version 2
  */
  public interface TagRepository extends JpaRepository<Tag,Long> {
     
@@ -16,7 +18,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
      * @param value wanted value
      * @return tag
      */
-    Tag findByValue(String value);
+    Optional<Tag> findByValue(String value);
 
     /**
      * Find tag with given id.
@@ -24,5 +26,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
      * @param id wanted id
      * @return tag
      */
-    Tag findById(long id);
+    Optional<Tag> findById(long id);
 }

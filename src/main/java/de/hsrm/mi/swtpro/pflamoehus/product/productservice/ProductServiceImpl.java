@@ -11,7 +11,7 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
 
-/*
+/**
  * ProductServiceImpl for implementing the interface 'ProductService'.
  * 
  * @author Svenja Schenk, Ann-Cathrin Fabian

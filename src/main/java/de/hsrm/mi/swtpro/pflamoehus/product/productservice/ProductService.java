@@ -3,7 +3,7 @@ package de.hsrm.mi.swtpro.pflamoehus.product.productservice;
 import java.util.List;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
-/*
+/**
  * ProductService for different operations to apply on the products.
  * 
  * @author Svenja Schenk, Ann-Cathrin Fabian
