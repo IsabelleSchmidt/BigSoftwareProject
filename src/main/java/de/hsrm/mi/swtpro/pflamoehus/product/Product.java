@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
+import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.ValidProductType;
+import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.ValidRoomType;
 
 
 /*
@@ -56,30 +58,32 @@ public class Product {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "producttype")
+    // @ValidProductType
     private ProductType productType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "room")
+    // @ValidRoomType
     private RoomType roomType;
 
-    @NotNull
-    @Positive
-    @Digits(integer = 5, fraction = 2)
+    @NotNull(message = "Der Preis darf nicht leer bleiben.")
+    @Positive(message = "Der Preis muss positiv sein.")
+    @Digits(integer = 5, fraction = 2, message="Der Preis darf max. 5 Stellen vor und 2 Stellen nach dem Komma besitzen.")
     private double price = 0.0;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Picture> allPictures = new HashSet<>();
 
-    @PositiveOrZero
-    @Digits(integer = 3, fraction = 2)
+    @PositiveOrZero(message = "Zahl muss positiv oder Null sein.")
+    @Digits(integer = 3, fraction = 2, message = "Zahl darf max. 3 Stellen vor und 2 Stellen nach dem Komma gross sein.")
     private double height = 0.0;
 
-    @PositiveOrZero
-    @Digits(integer = 3, fraction = 2)
+    @PositiveOrZero(message = "Zahl muss positiv oder Null sein.")
+    @Digits(integer = 3, fraction = 2, message = "Zahl darf max. 3 Stellen vor und 2 Stellen nach dem Komma gross sein.")
     private double width = 0.0;
 
-    @PositiveOrZero
-    @Digits(integer = 3, fraction = 2)
+    @PositiveOrZero(message = "Zahl muss positiv oder Null sein.")
+    @Digits(integer = 3, fraction = 2, message = "Zahl darf max. 3 Stellen vor und 2 Stellen nach dem Komma gross sein.")
     private double depth = 0.0;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
@@ -379,5 +383,6 @@ public class Product {
 
 
   
+
 
 }

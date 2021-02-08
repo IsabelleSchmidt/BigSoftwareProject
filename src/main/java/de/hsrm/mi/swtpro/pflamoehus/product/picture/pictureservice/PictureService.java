@@ -14,6 +14,14 @@ import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 public interface PictureService {
     
     /**
+     * To edit and save a given (new) picture.
+     * 
+     * @param editedPicture given picture
+     * @return picture
+     */
+    Picture editPicture(Picture editedPicture);
+
+    /**
      * @return all pictures found in the database
      */
     public List<Picture> findAll();
