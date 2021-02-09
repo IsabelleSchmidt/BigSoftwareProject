@@ -37,11 +37,10 @@ public enum RoomType {
     /**
      * type 'all' 
      * */
-    ALL("all"),
+    ALL("alle");
     /**
      * type null
      */
-    NULL("null");
 
     private String type;
 

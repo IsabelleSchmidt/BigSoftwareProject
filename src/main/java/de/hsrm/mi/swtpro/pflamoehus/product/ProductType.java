@@ -41,11 +41,10 @@ public enum ProductType {
     /**
      * type 'Sofa/Couch' 
      * */
-    COUCH("Sofa"),
+    COUCH("Sofa");
     /**
      *  type null
      */
-    NULL("null");
 
     private String type;
 
