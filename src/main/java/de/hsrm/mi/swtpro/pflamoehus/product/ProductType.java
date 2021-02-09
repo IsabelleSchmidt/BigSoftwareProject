@@ -29,9 +29,15 @@ public enum ProductType {
      * */
     DECORATION("Dekoration"),
     /**
-     * type 'Schrank/Kommode' 
+     * type 'Schrank' 
      * */ 
     CLOSET("Schrank"),
+  
+    /**
+     * type 'waschbecken'
+     */
+    SINK("Waschbecken"),
+
     /**
      * type 'Sofa/Couch' 
      * */

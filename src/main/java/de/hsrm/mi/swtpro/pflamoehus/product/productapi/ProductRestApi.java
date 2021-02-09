@@ -4,6 +4,10 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.validation.Valid;
 import org.apache.commons.io.IOUtils;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +39,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.ProductServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
+import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
+import de.hsrm.mi.swtpro.pflamoehus.product.RoomType;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.pictureservice.PictureService;
 import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;
@@ -51,7 +57,9 @@ import de.hsrm.mi.swtpro.pflamoehus.product.tags.TagService;
 @RequestMapping("/api/product")
 @CrossOrigin
 public class ProductRestApi {
+  
 
+        
     @Autowired
     ProductService productService;
 
@@ -61,7 +69,8 @@ public class ProductRestApi {
     @Autowired
     TagService tagServise;
 
-    Logger productRestApiLogger = LoggerFactory.getLogger(ProductRestApi.class);
+
+    Logger LOGGER = LoggerFactory.getLogger(ProductRestApi.class);
 
     /**
      * Return a list of all products in the database.
@@ -95,7 +104,7 @@ public class ProductRestApi {
         try {
             found = productService.searchProductwithArticleNr(articleNr);
         } catch (ProductServiceException pse) {
-            productRestApiLogger.error(pse.getMessage());
+            LOGGER.error(pse.getMessage());
         }
 
         return found;
@@ -107,12 +116,12 @@ public class ProductRestApi {
      * 
      * @param articleNr product that should get deleted
      */
-    @DeleteMapping(value = "/product/{articleNr}")
+    @DeleteMapping("/product/{articleNr}")
     public boolean deleteProductWithArticleNr(@PathVariable long articleNr) {
         try {
             productService.deleteProduct(articleNr);
         } catch (ProductServiceException pse) {
-            productRestApiLogger.error(pse.getMessage());
+            LOGGER.error(pse.getMessage());
             return false;
         }
 
@@ -129,7 +138,7 @@ public class ProductRestApi {
     public ResponseEntity<ProductResponse> postNewProduct(@Valid @RequestBody Product newProduct,
             BindingResult result) {
 
-        productRestApiLogger.info("Neues Produkt erhalten!");
+        LOGGER.info("Neues Produkt erhalten!");
         Product product = null;
         ProductResponse response = new ProductResponse(product);
 
@@ -140,17 +149,17 @@ public class ProductRestApi {
 
         if (result.hasErrors()||newProduct.getRoomType().toString() == "null"||newProduct.getProductType().toString() == "null"||newProduct.getAllTags().isEmpty()) {
 
-            productRestApiLogger.info("Validationsfehler");
+            LOGGER.info("Validationsfehler");
 
             for (FieldError error : result.getFieldErrors()) {
                 response.addErrormessage(new Errormessage(error.getField(), error.getDefaultMessage()));
             }
             if(newProduct.getRoomType().toString() == "null"){
-                productRestApiLogger.info("RAUM EROOROR");
+                LOGGER.info("RAUM EROOROR");
                 response.addErrormessage(new Errormessage("roomType", "Keine Raumart ausgewählt"));
             }
             if(newProduct.getProductType().toString() == "null"){
-                productRestApiLogger.info("RAUM EROOROR");
+                LOGGER.info("RAUM EROOROR");
                 response.addErrormessage(new Errormessage("productType", "Keine Produktart ausgewählt"));
             }
             if(newProduct.getAllTags().isEmpty()){
@@ -167,12 +176,12 @@ public class ProductRestApi {
                 response.setProduct(product);
 
             } catch (ProductServiceException pse) {
-                productRestApiLogger.info("Failed to save the product.");
+                LOGGER.info("Failed to save the product.");
                 response.addErrormessage(new Errormessage(null, "SAVING_ERROR"));
                 response.addErrormessage(new Errormessage("name", "schon vergeben"));
                 return ResponseEntity.badRequest().body(response);
             }
-            productRestApiLogger.info(product.toString());
+            LOGGER.info(product.toString());
             return ResponseEntity.ok().body(response);
         }
 
@@ -189,7 +198,7 @@ public class ProductRestApi {
         byte[] bytes;
         String home = System.getProperty("user.home");
         String dir = "/upload";
-        productRestApiLogger.info("picturePath" + pictureService.findPictureWithID(picId).getPath());
+        LOGGER.info("picturePath" + pictureService.findPictureWithID(picId).getPath());
         if(pictureService.findPictureWithID(picId).getPath().startsWith(home+dir)){
             BufferedImage bImage = ImageIO.read(new File(pictureService.findPictureWithID(picId).getPath()));
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -221,19 +230,19 @@ public class ProductRestApi {
 
         try {
             // Produkt suchen
-            productRestApiLogger.info("Suche Artikel mit Nummer" + articleNr);
+            LOGGER.info("Suche Artikel mit Nummer" + articleNr);
             newProduct = productService.searchProductwithArticleNr(articleNr);
             
             for(var picture:pictures){
-                productRestApiLogger.info("bekommen wir" + picture.toString());
+                LOGGER.info("bekommen wir" + picture.toString());
                 saveImage(articleNr,picture);
             }
             
         }catch (MaxUploadSizeExceededException max){
-            productRestApiLogger.info("ERRRORMAxUPLOOOOD");
+            LOGGER.info("ERRRORMAxUPLOOOOD");
             response.addErrormessage(new Errormessage("picture","Bild zu gross zum Upload"));
             return ResponseEntity.badRequest().body(response);
-        }
+        } 
 
         return ResponseEntity.ok().body(response);
     }
@@ -248,36 +257,28 @@ public class ProductRestApi {
     private boolean saveImage(long articleNr, MultipartFile picture) {
         try {
             // Bild speichern
-            productRestApiLogger.info("Bild: " + picture.getOriginalFilename());
+            LOGGER.info("Bild: " + picture.getOriginalFilename());
             
             String home = System.getProperty("user.home");
             String dir = "upload";
-            String productType = productService.searchProductwithArticleNr(articleNr).getProductType().name().toLowerCase()+"s";
+            String productType = productService.searchProductwithArticleNr(articleNr).getProductType().toString().toLowerCase()+"s";
             String filename = picture.getOriginalFilename();
 
             InputStream inputStream = picture.getInputStream();
             
-            Path upload = Paths.get(home,dir);
             Path path = Paths.get(home,dir,productType);
             Path pathPicture = Paths.get(home,dir,productType,filename);
             
-            if(Files.exists(upload)){
-                if(Files.exists(path)){
-                    if(!Files.exists(pathPicture)){
-                        productRestApiLogger.info("Ordner existiert Bild nicht");
-                        Files.copy(inputStream, pathPicture);
-                    }
-                }else{
-                    productRestApiLogger.info("Ordner existiert nicht. Neues Verzeinis");
-                    new File(path.toString()).mkdir();
+            if(Files.exists(path)){
+                if(!Files.exists(pathPicture)){
+                    LOGGER.info("Ordner existiert Bild nicht");
                     Files.copy(inputStream, pathPicture);
                 }
             }else{
-                new File(upload.toString()).mkdir();
+                LOGGER.info("Ordner existiert nicht. Neues Verzeinis");
                 new File(path.toString()).mkdir();
                 Files.copy(inputStream, pathPicture);
             }
-            
 
             Picture newPicture = new Picture();
             newPicture.setPath(pathPicture.toString());
@@ -285,13 +286,43 @@ public class ProductRestApi {
             pictureService.editPicture(newPicture);
 
        }catch(FileNotFoundException fnoe){
-          productRestApiLogger.error("File not Found "+fnoe.getMessage());
+          LOGGER.error("File not Found "+fnoe.getMessage());
           return false;
        }catch(IOException ioe){
-          productRestApiLogger.error("IO "+ioe.getMessage());
+          LOGGER.error("IO "+ioe.getMessage());
           return false;
        }
         return true;
     }
+    
+            
+
+    @GetMapping("/all/roomtypes") 
+    public HashMap<RoomType,String> getAllRoomTypes(){
+        LOGGER.info("GET ALL ROOMTYPES");
+        HashMap<RoomType,String> allRoomTypes = new HashMap<>();
+        for(RoomType type: RoomType.values()){
+           allRoomTypes.put(type, type.toString());
+        }
+        
+        return allRoomTypes;
+    
+    }
+
+    @GetMapping("/all/producttypes")
+    public Map<ProductType,String> getAllProductTypes(){
+        
+        LOGGER.info("GET ALL PRODUCTTYPES");
+        HashMap<ProductType,String> allProducttypes = new HashMap<>();
+        for(ProductType type: ProductType.values()){
+            allProducttypes.put(type, type.toString());
+        }
+        return allProducttypes;
+    }
+
+    
+  
+
+           
 
 }

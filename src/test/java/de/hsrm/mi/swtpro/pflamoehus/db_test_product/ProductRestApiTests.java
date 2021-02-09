@@ -21,6 +21,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
+import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
+import de.hsrm.mi.swtpro.pflamoehus.product.RoomType;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.productapi.ProductRestApi;
@@ -59,7 +61,7 @@ public class ProductRestApiTests {
     @Transactional
     @DisplayName("GET /api/products returns a list containing all products in the database.")
     public void api_product_return_list() throws Exception{
-       MvcResult result =  mockmvc.perform(get(PATH+"products")).andExpect(status().isOk()).andReturn();
+       MvcResult result =  mockmvc.perform(get(PATH+"/products/")).andExpect(status().isOk()).andReturn();
           //Use ObjectMapper to create object from JSON
         ObjectMapper mapper = new ObjectMapper();
         List<Product> response = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Product>>() {});
@@ -70,7 +72,7 @@ public class ProductRestApiTests {
 
     @Test
     @Transactional
-    @DisplayName("GET /api/product/{articlenr} returns a  product.")
+    @DisplayName("GET /api/product/product/{articlenr} returns a  product.")
     public void api_product_return_product() throws Exception{
 
         for(Product product : productRepo.findAll()){
@@ -86,7 +88,7 @@ public class ProductRestApiTests {
     
     //delete /product/{articlenr}
     @Test
-    @DisplayName("DELETE /api/product/{articlenr} deletes a  product.")
+    @DisplayName("DELETE /api/product/product/{articlenr} deletes a  product.")
     @Transactional
     public void api_product_delete_product() throws Exception{
         
@@ -104,5 +106,25 @@ public class ProductRestApiTests {
         }
     }
 
-  
+   
+
+    @Test
+    @Transactional
+    @DisplayName(" GET api/product/all/roomtypes and all/producttypes return a Map<string,string>")
+    public void get_roomtypes_producttypes_returns_map() throws Exception{
+        String response = mockmvc.perform(get(PATH+"all/roomtypes")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        for(RoomType type : RoomType.values()){
+            if(type == RoomType.KITCHEN){
+                //due to the 'Ü' in 'Küche' the string is weird
+                continue;
+            }
+            assertThat(response).contains(type.toString());
+        }
+        
+        response = mockmvc.perform(get(PATH+"all/producttypes")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        for(ProductType product : ProductType.values()){
+            assertThat(response).contains(product.toString());
+        }
+   
+    }
 }

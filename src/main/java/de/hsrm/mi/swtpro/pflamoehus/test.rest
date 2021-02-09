@@ -1,7 +1,7 @@
-GET http://localhost:9090/api/products
+GET http://localhost:9090/api/product/products
 ###
 
-GET http://localhost:9090/api/62/pictures
+GET http://localhost:9090/api/product/62/pictures
 ###
 
 GET http://localhost:9090/api/product/62
@@ -39,3 +39,11 @@ DELETE http://localhost:9090/api/product/114
 ###
 
 DELETE http://localhost:9090/api/order/delete/1
+
+
+###
+GET http://localhost:9090/api/product/all/roomtypes
+
+
+###
+GET http://localhost:9090/api/product/all/producttypes
