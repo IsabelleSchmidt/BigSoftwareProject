@@ -39,6 +39,10 @@ public enum ProductType {
     SINK("Waschbecken"),
 
     /**
+     * type 'Küche' 
+     */
+    KITCHEN("Kueche"),
+    /**
      * type 'Sofa/Couch' 
      * */
     COUCH("Sofa");

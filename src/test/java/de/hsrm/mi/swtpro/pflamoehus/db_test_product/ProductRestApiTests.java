@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import javax.transaction.Transactional;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -23,11 +24,11 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
 import de.hsrm.mi.swtpro.pflamoehus.product.RoomType;
-import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.productapi.ProductRestApi;
 import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;
 import de.hsrm.mi.swtpro.pflamoehus.product.tags.TagRepository;
+
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -113,11 +114,9 @@ public class ProductRestApiTests {
     @DisplayName(" GET api/product/all/roomtypes and all/producttypes return a Map<string,string>")
     public void get_roomtypes_producttypes_returns_map() throws Exception{
         String response = mockmvc.perform(get(PATH+"all/roomtypes")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+    
+
         for(RoomType type : RoomType.values()){
-            if(type == RoomType.KITCHEN){
-                //due to the 'Ü' in 'Küche' the string is weird
-                continue;
-            }
             assertThat(response).contains(type.toString());
         }
         
