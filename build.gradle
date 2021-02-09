@@ -38,6 +38,7 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-test'
 	runtimeOnly 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	}
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'

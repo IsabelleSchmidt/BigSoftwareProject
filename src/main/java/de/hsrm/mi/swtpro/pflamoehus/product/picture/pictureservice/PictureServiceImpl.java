@@ -4,14 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import javax.persistence.OptimisticLockException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.PictureServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
@@ -94,6 +91,12 @@ public class PictureServiceImpl implements PictureService {
             throw new PictureServiceException();
         }
         return editedPicture;
+    }
+
+    @Override
+    public void deletePicture(Picture picture) {
+        pictureRepository.delete(picture);
+
     }
 
 }

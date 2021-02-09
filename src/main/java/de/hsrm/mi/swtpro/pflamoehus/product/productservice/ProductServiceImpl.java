@@ -1,15 +1,27 @@
 package de.hsrm.mi.swtpro.pflamoehus.product.productservice;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 import javax.persistence.OptimisticLockException;
+import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.ProductServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
+import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetailsRepository;
+import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.orderdetailsservice.OrderDetailsService;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
+import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
+import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
+import de.hsrm.mi.swtpro.pflamoehus.product.picture.pictureservice.PictureService;
+import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
+
 
 /**
  * ProductServiceImpl for implementing the interface 'ProductService'.
@@ -20,8 +32,9 @@ import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    ProductRepository productRepo;
+    @Autowired ProductRepository productRepo;
+    @Autowired PictureService pictureService;
+    @Autowired OrderDetailsService orderDetailsService;
     Logger productServiceLogger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     /**
@@ -71,8 +84,25 @@ public class ProductServiceImpl implements ProductService {
      * @param id product-id that has to be deleted
      */
     @Override
+    @Transactional
     public void deleteProduct(long id) {
-            productRepo.delete(searchProductwithArticleNr(id));
+        Product product = searchProductwithArticleNr(id);
+        Set<Picture> allPictures = product.getAllPictures();
+        Set<OrderDetails> allDetails = product.getAllOrderDetails();
+        Set<Tag> allTags = product.getAllTags();
+
+            for(Tag tag: allTags){
+                tag.getAllProductsWithTag().remove(product);
+            }
+            for(OrderDetails detail: allDetails){
+                orderDetailsService.deleteOrderDetail(detail.getOrderDetailsID());
+            }
+
+            for(Picture picture : allPictures){
+               picture.setProduct(null); //TODO: das hier hinbekommen ohne error
+            }
+            
+            productRepo.delete(product);
     }
 
     

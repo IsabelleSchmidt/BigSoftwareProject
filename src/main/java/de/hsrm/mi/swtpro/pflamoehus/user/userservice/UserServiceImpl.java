@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.persistence.OptimisticLockException;
 import javax.transaction.Transactional;
-
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +49,9 @@ public class UserServiceImpl implements UserService {
      * @return user
      */
     @Override
+    @Transactional
     public User searchUserWithEmail(String email) {
-
+        LOGGER.info("SEARCH WITH MAIL");
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isEmpty()) {
             throw new UserServiceException("User with this mail wasn't found in the database");
@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
      * @return user
      */
     @Override
+    @Transactional
     public User searchUserWithId(long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
@@ -128,7 +129,7 @@ public class UserServiceImpl implements UserService {
      * @param user     user from database or a new user
      */
     public String encodePassword(String password) {
-        LOGGER.info("ENCODETES PASSWORT: " + pe.encode(password));
+       
         return pe.encode(password);
     }
 
@@ -154,7 +155,6 @@ public class UserServiceImpl implements UserService {
         return user;
 
     }
-
     @Transactional
     public User getFullyInitializedUser(String email){
        
@@ -176,7 +176,5 @@ public class UserServiceImpl implements UserService {
         LOGGER.info("User was initialized");
         return user;
     }
-
-    
 
 }

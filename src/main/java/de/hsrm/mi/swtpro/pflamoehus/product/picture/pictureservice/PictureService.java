@@ -43,8 +43,14 @@ public interface PictureService {
      * Filters the list for images that contain the relative path
      * 
      * @param path wanted path
-     * @return list of picutres
+     * @return list of pictures
      */
     public List<Picture> findAllWithPath(String path);
+
+    /**
+     * Deletes a given picture from the database
+     * @param picture picture to be deleted
+     */
+    public void deletePicture(Picture picture);
 
 }
