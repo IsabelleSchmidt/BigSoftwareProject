@@ -48,8 +48,6 @@ public class PictureValueTests {
 
         pic.setPath("");
         assertThat(validator.validate(pic)).isNotEmpty();
-        pic.setPath(WRONG_PATH);
-        assertThat(validator.validate(pic)).isNotEmpty();
     }
 
 }

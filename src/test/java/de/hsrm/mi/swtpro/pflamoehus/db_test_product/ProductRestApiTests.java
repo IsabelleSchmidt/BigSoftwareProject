@@ -39,6 +39,8 @@ public class ProductRestApiTests {
     @Autowired PictureRepository pictureRepo;
     @Autowired TagRepository tagRepo;
     @Autowired MockMvc mockmvc;
+
+    private final String PATH = "/api/product/";
     
     @Test
     public void basecheck(){
@@ -57,7 +59,7 @@ public class ProductRestApiTests {
     @Transactional
     @DisplayName("GET /api/products returns a list containing all products in the database.")
     public void api_product_return_list() throws Exception{
-       MvcResult result =  mockmvc.perform(get("/api/products")).andExpect(status().isOk()).andReturn();
+       MvcResult result =  mockmvc.perform(get(PATH+"products")).andExpect(status().isOk()).andReturn();
           //Use ObjectMapper to create object from JSON
         ObjectMapper mapper = new ObjectMapper();
         List<Product> response = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Product>>() {});
@@ -74,7 +76,7 @@ public class ProductRestApiTests {
         for(Product product : productRepo.findAll()){
 
     
-            MvcResult result =  mockmvc.perform(get("/api/product/"+product.getArticlenr())).andExpect(status().isOk()).andReturn();
+            MvcResult result =  mockmvc.perform(get(PATH+"product/"+product.getArticlenr())).andExpect(status().isOk()).andReturn();
             //Use ObjectMapper to create object from JSON
             ObjectMapper mapper = new ObjectMapper();
             Product response = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<Product>() {});
@@ -93,7 +95,7 @@ public class ProductRestApiTests {
 
         for(Product product : allProducts){
 
-            mockmvc.perform(delete("/api/product/"+product.getArticlenr())).andExpect(status().isOk()).andReturn();
+            mockmvc.perform(delete(PATH+"product/"+product.getArticlenr())).andExpect(status().isOk()).andReturn();
             //Use ObjectMapper to create object from JSON
            allproductNRs-=1;
            assertEquals(allproductNRs, productRepo.count());
@@ -102,20 +104,5 @@ public class ProductRestApiTests {
         }
     }
 
-    //get /{articlenr}/allpictures
-    @Test
-    @Transactional
-    @DisplayName("GET /api/{articlenr}/pictures returns a list containing all products pictures from the database.")
-    public void api_product_returns_pictures() throws Exception{
-
-        for(Product product : productRepo.findAll()){
-            MvcResult result =  mockmvc.perform(get("/api/"+product.getArticlenr()+"/pictures")).andExpect(status().isOk()).andReturn(); 
-            //Use ObjectMapper to create object from JSON
-            ObjectMapper mapper = new ObjectMapper();
-            List<Picture> response = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Picture>>() {});
-            assertEquals(response.size(),product.getAllPictures().size());
-        }
-      
-       
-    }
+  
 }

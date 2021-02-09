@@ -48,7 +48,7 @@ import de.hsrm.mi.swtpro.pflamoehus.product.tags.TagService;
  * @version 5
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/product")
 @CrossOrigin
 public class ProductRestApi {
 
