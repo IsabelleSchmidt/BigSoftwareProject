@@ -332,7 +332,7 @@ INSERT INTO USER(USERID,BIRTHDATE, EMAIL,FIRSTNAME,LASTNAME,PASSWORD,VERSION, GE
 (7,'1999-09-20','user@pflamoehus.de','User','Pflamoehus','{bcrypt}$2a$10$7fdt/if1v6nJK30MExIHaeTzZ3FvkuTDikFgVxr4YW5XReorwb.HG',1, 'MALE'),  -- UserPflamoehus1!
 (1,'1976-02-28', 'admin@pflamoehus.de','Admin','Pflamoehus','{bcrypt}$2a$10$aqAc7g5hfVwmZHWYE4Dw/uWUcqMuiYseKNnAIEd71PRWeWf1TYgNi',1, 'MALE'), -- AdminPflamoehus1!
 (2,'1988-06-17','staff@pflamoehus.de','Staff','Pflamoehus','{bcrypt}$2a$10$hf4tGs2s3mPodqpOmSnBNehJ3dm9f1GBaq9lLhdBP7nEM5d89q51e',1, 'MALE'), -- StaffPflamoehus1!
-(3,'2000-10-10','warehouse@pflamoehus.de','Warehouse','Pflamoehus', '{bcrypt}$2a$10$tI1brWPJyD0pDgexwwBkKuWmlmn4H6UFgKvhvtsMjnWLIllWgUcjS',1, 'MALE'), -- WarehousePfalmoehus1!
+(3,'2000-10-10','warehouse@pflamoehus.de','Warehouse','Pflamoehus', '{bcrypt}$2a$10$tI1brWPJyD0pDgexwwBkKuWmlmn4H6UFgKvhvtsMjnWLIllWgUcjS',1, 'MALE'), -- WarehousePflamoehus1!
 (4,'1968-11-01','service@pflamoehus.de','Service','Pflamoehus','{bcrypt}$2a$10$C.nSMnLuE8INPF0z8Va92eLHEtu9fRWVwA3LKnXXoC.IQQbND/D3S',1, 'MALE'); -- ServicePflamoehus1!
 
 INSERT INTO ROLES (ID, NAME) VALUES
