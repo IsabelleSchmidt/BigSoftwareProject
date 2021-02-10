@@ -7,7 +7,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +21,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 @SpringBootTest
+@TestInstance(Lifecycle.PER_CLASS)
 public class AdressValueTests {
 
     private final String CORRECT_STREETNAME = "Erlenstraße";

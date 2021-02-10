@@ -55,7 +55,7 @@ INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AV
 (98, 120.0, 'Bettgestell, Massivholz, 120x180x40 cm, Preis inkl. MwSt*', 40.0, 'Unser Bett Allrounder erzeugt durch sein attraktives Design ein unvergleichliches Raumflair.', 'Allround', 3, 99.99, 'BED', 'BEDROOM', 1, 180.0);      
 INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AVAILABLE, PRICE, PRODUCTTYPE, ROOM, VERSION, WIDTH) VALUES
 
-(123, 70.0, 'Das beste rote Sofa der Welt. Preis inkl. MwSt* (unbezahlbar)', 90.0, 'Ein Unikat in der MI', 'Das rote Sofa', 1, 171717171717.17, 'COUCH', 'LIVINGROOM',1,200.0),         
+(123, 70.0, 'Das beste rote Sofa der Welt. Preis inkl. MwSt* (unbezahlbar)', 90.0, 'Ein Unikat in der MI', 'Das rote Sofa', 1, 17171.17, 'COUCH', 'LIVINGROOM',1,200.0),         
 (99, 70.0, 'Kleiderschrank, Glastüren, dunkelbraun, 176.50x196.50x70 cm, Preis inkl. MwSt*', 196.5, 'Millenial ist ein extravaganter Design Kleiderschrank mit transparenten Glastüren. Der Kleiderschrank ist das Highlight im Schlafzimmer.', 'Millenial', 13, 999.99, 'CLOSET', 'BEDROOM', 1, 176.5),
 (100, 60.3, 'Kommode, 9 Schubladen, mittelbraun, 120.50x96.50x60.30 cm, Preis inkl. MwSt*', 96.5, 'Die flexible Kommode Bjoern ist ein echtes Schätzchen: Mit ihrem schlichten und zugleich stilvollen Design kommt Sie überall gut zu Geltung.', 'Bjoern', 1312, 245.95, 'CLOSET', 'BEDROOM', 1, 120.5),
 (101, 70.0, 'Kleiderschrank, offen, hellbraun/schwarz, 176.50x196.50x70 cm, Preis inkl. MwSt*', 196.5, 'Für guten Überblick und schnellen Zugriff auf die gesamte Garderobe. Versetzbare Böden und Kleiderstangen für bedarfsangepasste Aufbewahrung.', 'Minimal', 33, 2995.9, 'CLOSET', 'BEDROOM', 1, 176.5),

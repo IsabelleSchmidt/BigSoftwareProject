@@ -3,10 +3,11 @@ package de.hsrm.mi.swtpro.pflamoehus.db_test_order;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,7 +20,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -47,7 +49,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class OrderRestApiTests {
 
 
@@ -89,16 +91,16 @@ public class OrderRestApiTests {
     private final String EMAIL_EXISTING = "user@pflamoehus.de";
     private final String PATH = "/api/order";
    
-    @BeforeEach
+    @AfterEach
     public void clearRepos(){
 
-        userRepo.deleteAll();
-        statusRepo.deleteAll();
         tagRepo.deleteAll();
         pictureRepo.deleteAll();
-        productRepo.deleteAll();
         orderDetailsRepo.deleteAll();
         orderRepo.deleteAll();
+        productRepo.deleteAll();
+        userRepo.deleteAll();
+        statusRepo.deleteAll();
     }
 
     @Test
@@ -138,6 +140,7 @@ public class OrderRestApiTests {
     @Transactional
     @DisplayName("/api/order/new should save the given order and return an orderNR")
     @WithMockUser(username=EMAIL_EXISTING, password = PASSWORD_EXISTING)
+    @Sql(scripts={"classpath:data.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
     public void postNewOrder() throws Exception{
 
         orderRepo.deleteAll();
@@ -161,7 +164,7 @@ public class OrderRestApiTests {
 
     @Test
     @Transactional
-    @Sql("/data.sql")
+    @Sql(scripts={"classpath:data.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
     @DisplayName("DELETE api/order/delete/{orderNR} should delete the order out of the repository and return true")
     public void deleteOrder() throws Exception{
         //orderNR 1 comes from datasql 
@@ -180,7 +183,7 @@ public class OrderRestApiTests {
 
     @Test
     @Transactional
-    @Sql("/data.sql")
+    @Sql(scripts={"classpath:data.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
     @DisplayName("POST /api/order/status/newstatus muss status der bestellung neusetzen")
     public void test_change_status() throws Exception{
 

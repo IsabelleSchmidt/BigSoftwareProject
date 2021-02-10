@@ -12,13 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.ProductServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
-import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetailsRepository;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.orderdetailsservice.OrderDetailsService;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
-import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.pictureservice.PictureService;
 import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
 

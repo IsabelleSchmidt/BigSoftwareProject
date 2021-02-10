@@ -1,7 +1,9 @@
-package de.hsrm.mi.swtpro.pflamoehus.product.productapi;
+package de.hsrm.mi.swtpro.pflamoehus.payload.response;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hsrm.mi.swtpro.pflamoehus.product.productapi.Errormessage;
 
 /**
  * Picture Response Entity for coummunication between backend and frontend

@@ -7,7 +7,9 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +19,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-
+@TestInstance(Lifecycle.PER_CLASS)
 public class TagValueTests {
 
     @LocalServerPort

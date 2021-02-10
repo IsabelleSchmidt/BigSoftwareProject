@@ -5,21 +5,22 @@ import javax.validation.ValidatorFactory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import de.hsrm.mi.swtpro.pflamoehus.order.status.Status;
 import de.hsrm.mi.swtpro.pflamoehus.order.status.Statuscode;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
+@TestInstance(Lifecycle.PER_CLASS)
 public class StatusValueTests {
-    //Testen dass der richtige Status reingeschrieben wird in value
-    //Testen ob man falsche orderid etc mitgeben kann
     private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private Validator validator = factory.getValidator();
 

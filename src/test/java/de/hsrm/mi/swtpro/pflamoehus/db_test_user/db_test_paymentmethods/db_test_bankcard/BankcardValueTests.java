@@ -5,13 +5,16 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 @SpringBootTest
+@TestInstance(Lifecycle.PER_CLASS)
 public class BankcardValueTests {
     
     public final String CORRECT_IBAN = "DE89 3704 0044 0532 0130 00";

@@ -6,10 +6,10 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +19,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,7 +49,7 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
 
 @SpringBootTest(webEnvironment =WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class UserRestApiTests {
 
     private final String FIRSTNAME_NEW = "Olaf der Dritte";
@@ -193,7 +194,7 @@ public class UserRestApiTests {
         
     } 
 
-    @BeforeEach
+    @AfterEach
     public void clearRepos(){
         creditrepo.deleteAll();
         bankrepo.deleteAll();
@@ -212,7 +213,6 @@ public class UserRestApiTests {
     @Transactional
     @DisplayName(" Sign up a new User")
     public void successful_register_adds_user_to_database() throws Exception{
-        userRepo.deleteAll();
        //create Signuprequest
         SignupDTO request = new SignupDTO(FIRSTNAME_NEW, LASTNAME_NEW, EMAIL_NEW, BIRTHDAY_NEW, GENDER_NEW, PASSWORD_NEW);
      
@@ -242,7 +242,7 @@ public class UserRestApiTests {
     }
 
      @Test
-     @Sql("/data.sql")
+     @Sql(scripts={"classpath:data.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
      @Transactional
      @DisplayName("Login an existing user with POST /api/user/login")
      public void login_returns_JwtResult_when_successful()throws Exception{
@@ -277,7 +277,7 @@ public class UserRestApiTests {
 
     @Test
     @DisplayName("GET /api/user/getAdress should return a User")
-    @Sql("/data.sql")
+    @Sql(scripts={"classpath:data.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
     @Transactional
     @WithMockUser(username = EMAIL_EXISTING, password = PASSWORD_EXISTING)
     public void getAdress_returns_user_from_context_if_user_is_logged_in() throws Exception{

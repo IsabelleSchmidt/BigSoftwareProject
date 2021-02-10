@@ -5,9 +5,7 @@ import javax.imageio.ImageIO;
 import javax.validation.Valid;
 import org.apache.commons.io.IOUtils;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +36,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.ProductServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.payload.response.PictureResponse;
+import de.hsrm.mi.swtpro.pflamoehus.payload.response.ProductResponse;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
 import de.hsrm.mi.swtpro.pflamoehus.product.RoomType;
@@ -58,8 +58,6 @@ import de.hsrm.mi.swtpro.pflamoehus.product.tags.TagService;
 @CrossOrigin
 public class ProductRestApi {
   
-
-        
     @Autowired
     ProductService productService;
 
@@ -67,7 +65,7 @@ public class ProductRestApi {
     PictureService pictureService;
 
     @Autowired
-    TagService tagServise;
+    TagService tagService;
 
 
     Logger LOGGER = LoggerFactory.getLogger(ProductRestApi.class);
@@ -89,7 +87,7 @@ public class ProductRestApi {
      */
     @GetMapping("/tags")
     public List<Tag> allTags(){
-        return tagServise.allTags();
+        return tagService.allTags();
     }
 
     /**
@@ -171,12 +169,11 @@ public class ProductRestApi {
 
         } else {
             try {
-                // Tag tag = tagServise.searchTagWithValue(newProduct.getAllTags())
                 product = productService.editProduct(newProduct);
                 response.setProduct(product);
 
             } catch (ProductServiceException pse) {
-                LOGGER.info("Failed to save the product.");
+                LOGGER.error("Failed to save the product.");
                 response.addErrormessage(new Errormessage(null, "SAVING_ERROR"));
                 response.addErrormessage(new Errormessage("name", "schon vergeben"));
                 return ResponseEntity.badRequest().body(response);
@@ -198,7 +195,6 @@ public class ProductRestApi {
         byte[] bytes;
         String home = System.getProperty("user.home");
         String dir = "/upload";
-        LOGGER.info("picturePath" + pictureService.findPictureWithID(picId).getPath());
         if(pictureService.findPictureWithID(picId).getPath().startsWith(home+dir)){
             BufferedImage bImage = ImageIO.read(new File(pictureService.findPictureWithID(picId).getPath()));
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -224,22 +220,17 @@ public class ProductRestApi {
     public ResponseEntity<PictureResponse> postPicturedata(@PathVariable Long articleNr,
             @RequestPart(name = "picture", required = true) MultipartFile[] pictures){
 
-                
-        Product newProduct;
+        Product newProduct;      
         PictureResponse response = new PictureResponse();
 
         try {
-            // Produkt suchen
-            LOGGER.info("Suche Artikel mit Nummer" + articleNr);
             newProduct = productService.searchProductwithArticleNr(articleNr);
             
             for(var picture:pictures){
-                LOGGER.info("bekommen wir" + picture.toString());
                 saveImage(articleNr,picture);
             }
             
         }catch (MaxUploadSizeExceededException max){
-            LOGGER.info("ERRRORMAxUPLOOOOD");
             response.addErrormessage(new Errormessage("picture","Bild zu gross zum Upload"));
             return ResponseEntity.badRequest().body(response);
         } 
@@ -256,8 +247,6 @@ public class ProductRestApi {
      */
     private boolean saveImage(long articleNr, MultipartFile picture) {
         try {
-            // Bild speichern
-            LOGGER.info("Bild: " + picture.getOriginalFilename());
             
             String home = System.getProperty("user.home");
             String dir = "upload";
@@ -271,11 +260,9 @@ public class ProductRestApi {
             
             if(Files.exists(path)){
                 if(!Files.exists(pathPicture)){
-                    LOGGER.info("Ordner existiert Bild nicht");
                     Files.copy(inputStream, pathPicture);
                 }
             }else{
-                LOGGER.info("Ordner existiert nicht. Neues Verzeinis");
                 new File(path.toString()).mkdir();
                 Files.copy(inputStream, pathPicture);
             }
@@ -299,7 +286,6 @@ public class ProductRestApi {
 
     @GetMapping("/all/roomtypes") 
     public HashMap<RoomType,String> getAllRoomTypes(){
-        LOGGER.info("GET ALL ROOMTYPES");
         HashMap<RoomType,String> allRoomTypes = new HashMap<>();
         for(RoomType type: RoomType.values()){
            allRoomTypes.put(type, type.toString());
@@ -312,7 +298,6 @@ public class ProductRestApi {
     @GetMapping("/all/producttypes")
     public Map<ProductType,String> getAllProductTypes(){
         
-        LOGGER.info("GET ALL PRODUCTTYPES");
         HashMap<ProductType,String> allProducttypes = new HashMap<>();
         for(ProductType type: ProductType.values()){
             allProducttypes.put(type, type.toString());

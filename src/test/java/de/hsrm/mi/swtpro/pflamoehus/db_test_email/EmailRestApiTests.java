@@ -4,9 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.UnsupportedEncodingException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -15,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import javax.transaction.Transactional;
 import de.hsrm.mi.swtpro.pflamoehus.email.PasswordRequestRepository;
@@ -25,9 +26,9 @@ import de.hsrm.mi.swtpro.pflamoehus.email.passwordrequestservice.PasswordRequest
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.EmailServiceException;
 
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment =WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class EmailRestApiTests {
 
     @Autowired
@@ -51,6 +52,11 @@ public class EmailRestApiTests {
     private final String EMAIL_EXISTING = "user@pflamoehus.de";
     private final String EMAIL_NOTEXISTING = "userxxx@pflamooooehus.de";
 
+    @AfterEach
+    public void clearRepos(){
+        pwreqrepo.deleteAll();
+    }
+
     @Test
     public void basecheck() {
         assertThat(pwreqrepo).isNotNull();
@@ -65,12 +71,6 @@ public class EmailRestApiTests {
         pwreqrepo.deleteAllInBatch();
         assertThat(pwreqrepo.count()).isEqualTo(0);
 
-        // //Use ObjectMapper to create JSON
-        // ObjectMapper mapper = new ObjectMapper();
-        // mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-        // ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        // String requestJson = ow.writeValueAsString(fillDTO());
-
         System.out.print("EMAIL /api/email/send: " + mockmvc
                 .perform(post("/api/email/send").contentType(MediaType.APPLICATION_JSON_VALUE).content(EMAIL_EXISTING))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString());
@@ -84,7 +84,6 @@ public class EmailRestApiTests {
     @DisplayName("/api/email/getcode/{email} should get the code to an existing email")
     public void getCodeFromPRP_existingemail() throws UnsupportedEncodingException, Exception {
 
-        //13 numbers for the actual time plus minimal 10 numbers for the random string
         final int MINIMALCODELENGTH = 23; 
 
         pwreqrepo.deleteAllInBatch();
