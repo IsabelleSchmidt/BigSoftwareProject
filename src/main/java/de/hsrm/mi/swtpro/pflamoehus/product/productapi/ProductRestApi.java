@@ -145,25 +145,13 @@ public class ProductRestApi {
             return ResponseEntity.ok().body(response);
         }
 
-        if (result.hasErrors()||newProduct.getRoomType().toString() == "null"||newProduct.getProductType().toString() == "null"||newProduct.getAllTags().isEmpty()) {
+        if (result.hasErrors()) {
 
             LOGGER.info("Validationsfehler");
 
             for (FieldError error : result.getFieldErrors()) {
                 response.addErrormessage(new Errormessage(error.getField(), error.getDefaultMessage()));
-            }
-            if(newProduct.getRoomType().toString() == "null"){
-                LOGGER.info("RAUM EROOROR");
-                response.addErrormessage(new Errormessage("roomType", "Keine Raumart ausgewählt"));
-            }
-            if(newProduct.getProductType().toString() == "null"){
-                LOGGER.info("RAUM EROOROR");
-                response.addErrormessage(new Errormessage("productType", "Keine Produktart ausgewählt"));
-            }
-            if(newProduct.getAllTags().isEmpty()){
-                response.addErrormessage(new Errormessage("tag", "Produkt braucht Tag"));
-            }
-    
+            }    
 
             return ResponseEntity.ok().body(response);
 
