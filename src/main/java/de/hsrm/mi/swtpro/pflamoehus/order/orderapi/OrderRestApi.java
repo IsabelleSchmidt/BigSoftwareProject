@@ -303,7 +303,6 @@ public class OrderRestApi {
     public boolean changeOrderStatus(@PathVariable long orderNR, @PathVariable Statuscode newStatus) {
         Order order;
         Status status = null;
-       //TODO: hier vllt getmapping wiel es keinen body gibt?
         
         
         try{

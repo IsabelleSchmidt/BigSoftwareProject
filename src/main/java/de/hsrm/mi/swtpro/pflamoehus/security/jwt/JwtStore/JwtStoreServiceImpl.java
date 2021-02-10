@@ -96,7 +96,7 @@ public class JwtStoreServiceImpl implements JwtStoreService {
 
     @Override
     public List<JwtStore> findAll() {
-        // TODO Auto-generated method stub
+        
         return repo.findAll();
     }
 

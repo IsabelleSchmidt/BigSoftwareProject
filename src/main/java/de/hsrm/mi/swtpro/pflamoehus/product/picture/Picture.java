@@ -1,7 +1,5 @@
 package de.hsrm.mi.swtpro.pflamoehus.product.picture;
 
-import java.beans.Transient;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +13,7 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
-import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.ValidPicture;
+
 
 /**
  * Picture entitiy for its database.

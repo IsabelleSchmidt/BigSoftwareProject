@@ -1,8 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.payload.request;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
 
 /*

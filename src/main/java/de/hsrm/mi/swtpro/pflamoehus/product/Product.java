@@ -26,8 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
-import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.ValidProductType;
-import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.ValidRoomType;
 
 
 /*
