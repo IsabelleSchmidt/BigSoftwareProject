@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.TagServiceException;
+
 /**
  * 
  */
@@ -21,15 +23,21 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Optional<Tag> searchTagWithId(long id) {
+    public Tag searchTagWithId(long id) {
         Optional<Tag> tag = tagRepo.findById(id);
-        return null;
+        if(tag.isEmpty()){
+            throw new TagServiceException();
+        }
+        return tag.get();
     }
 
     @Override
-    public Optional<Tag> searchTagWithValue(String value) {
+    public Tag searchTagWithValue(String value) {
         Optional<Tag> tag = tagRepo.findByValue(value);
-        return null;
+        if(tag.isEmpty()){
+            throw new TagServiceException();
+        }
+        return tag.get();
     }
     
 }

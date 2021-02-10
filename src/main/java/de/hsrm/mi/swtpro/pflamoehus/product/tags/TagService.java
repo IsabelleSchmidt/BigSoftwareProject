@@ -1,7 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.product.tags;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * TagService for different operations to apply on the Tags.
@@ -22,7 +21,7 @@ public interface TagService {
      * @param id given articel Number
      * @return Optional of Type Tag 
      */
-    Optional<Tag> searchTagWithId(long id);
+    Tag searchTagWithId(long id);
 
     /**
      * Finds Tag by its value
@@ -30,6 +29,6 @@ public interface TagService {
      * @param value given value of Tag
      * @return Optional of Type Tag
      */
-    Optional<Tag> searchTagWithValue(String value);
+    Tag searchTagWithValue(String value);
     
 }
