@@ -346,7 +346,8 @@ public class UserRestApi {
 	 */
 	@PostMapping("/logout")
 	@Transactional
-	public ResponseEntity<MessageResponse> logoutUser(HttpServletRequest request){
+	public ResponseEntity<List<MessageResponse>> logoutUser(HttpServletRequest request){
+		List<MessageResponse> mrs = new ArrayList<>();
 		MessageResponse mr = new MessageResponse();
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -358,15 +359,16 @@ public class UserRestApi {
 				jwtStoreService.deleteAccessToken(token);
 			}catch(JwtStoreServiceException jsse){
 				LOGGER.error("LOGOUT NOT SUCCESSFUL.");
-				mr.setMessage("Fehler beim Löschen des Token.");
+				mr.setMessage("Fehler beim Ausloggen. Bitte loggen Sie sich zuerst ein.");
+				mrs.add(mr);
 			}
-			
 		}
 		else{
-			mr.setMessage("Es wurde kein User gefunden. Vor dem Ausloggen bitte erst einloggen.");
+			mr.setMessage("Fehler beim Ausloggen. Bitte loggen Sie sich zuerst ein.");
+			mrs.add(mr);
 		}
 		LOGGER.info("LOGOUT SUCCESSFUL.");
-		return ResponseEntity.ok(mr);
+		return ResponseEntity.ok(mrs);
 	}
 
 	@GetMapping("checkByEmail/{email}")
