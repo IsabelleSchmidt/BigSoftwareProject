@@ -1,5 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.OptimisticLockException;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.JwtStoreServiceException;
-
 
 /*
  * JwtStoreServiceImpl for implementing the interface 'JwtStoreSerivce'.
@@ -23,8 +23,7 @@ public class JwtStoreServiceImpl implements JwtStoreService {
     @Autowired
     JwtStoreRepository repo;
 
-    
-    /** 
+    /**
      * Look up if a JwtStore with a given token exists.
      * 
      * @param token wanted token
@@ -40,8 +39,7 @@ public class JwtStoreServiceImpl implements JwtStoreService {
 
     }
 
-    
-    /** 
+    /**
      * Method for saving a new entry.
      * 
      * @param token to be saved
@@ -61,8 +59,7 @@ public class JwtStoreServiceImpl implements JwtStoreService {
 
     }
 
-    
-    /** 
+    /**
      * Method for deleting a certain entry.
      * 
      * @param accessToken to be deleted
@@ -79,8 +76,7 @@ public class JwtStoreServiceImpl implements JwtStoreService {
         repo.delete(jwt.get());
     }
 
-    
-    /** 
+    /**
      * Find a entry with a certain token.
      * 
      * @param token to be found
@@ -96,6 +92,12 @@ public class JwtStoreServiceImpl implements JwtStoreService {
         }
 
         return jwt.get();
+    }
+
+    @Override
+    public List<JwtStore> findAll() {
+        // TODO Auto-generated method stub
+        return repo.findAll();
     }
 
 }

@@ -1,5 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore;
 
+import java.util.List;
 
 /*
  * JwtStoreService for different operations to apply on the jwt store.
@@ -39,5 +40,7 @@ public interface JwtStoreService {
      * @return entry
      */
     JwtStore findByAccessToken(String token);
+
+    List<JwtStore> findAll();
     
 }
