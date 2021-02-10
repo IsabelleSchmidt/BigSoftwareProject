@@ -34,12 +34,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.orderdetailsservice.OrderDetailsService;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.LoginRequest;
+import de.hsrm.mi.swtpro.pflamoehus.payload.request.NewPasswordRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
 import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStore;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStoreRepository;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStoreService;
+import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.AdressRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.adressservice.AdressService;
@@ -362,24 +364,90 @@ public class UserRestApiTests {
         assertEquals(null, SecurityContextHolder.getContext().getAuthentication());
     }
 
-   @Test
-   @DisplayName("GET checkByEmail/{email} should return a empty MessageResponse")
-   @WithMockUser(username = EMAIL_EXISTING, password = PASSWORD_EXISTING)
-   @Sql(scripts = { "classpath:data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-   public void check_if_user_exists() throws Exception{
+    @Test
+    @DisplayName("GET checkByEmail/{email} should return a empty MessageResponse")
+    @WithMockUser(username = EMAIL_EXISTING, password = PASSWORD_EXISTING)
+    @Sql(scripts = { "classpath:data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+    public void check_if_user_exists() throws Exception {
 
         assertThat(userRepo.count()).isGreaterThan(0);
 
-        MvcResult result = mockmvc.perform(get(PATH + "/checkByEmail/{email}", EMAIL_EXISTING)).andExpect(status().isOk()).andReturn();
+        MvcResult result = mockmvc.perform(get(PATH + "/checkByEmail/{email}", EMAIL_EXISTING))
+                .andExpect(status().isOk()).andReturn();
 
         assertThat(result.getResponse().getContentAsString().equals(""));
 
-        //Wrong User
-        MvcResult result1 = mockmvc.perform(get(PATH + "/checkByEmail/{email}", EMAIL_EXISTING+"a")).andExpect(status().isOk()).andReturn();
+        // Wrong User
+        MvcResult result1 = mockmvc.perform(get(PATH + "/checkByEmail/{email}", EMAIL_EXISTING + "a"))
+                .andExpect(status().isOk()).andReturn();
         assertThat(!(result1.getResponse().getContentAsString().equals("")));
-   }
+    }
 
-   
+    @Test
+    @DisplayName("POST /changePassword should deliver a changed password with the User")
+    @WithMockUser(username = EMAIL_EXISTING, password = PASSWORD_EXISTING)
+    @Sql(scripts = { "classpath:data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+    public void change_password() throws Exception {
+
+        assertThat(userRepo.count()).isGreaterThan(0);
+
+        User user = userService.searchUserWithEmail(EMAIL_EXISTING);
+        // encoded password
+        String oldPasssword = user.getPassword();
+
+        // correct password
+        // NewPasswordRequest
+        NewPasswordRequest newPasswordRequest = new NewPasswordRequest();
+        newPasswordRequest.setEmail(EMAIL_EXISTING);
+        newPasswordRequest.setPassword("GutesPasswort123!");
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(newPasswordRequest);
+
+        mockmvc.perform(
+                post(PATH + "/changePassword").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson))
+                .andExpect(status().isOk()).andReturn();
+
+        String newPassword = user.getPassword();
+
+        assertThat((!oldPasssword.equals(newPassword)));
+
+    }
+
+    @Test
+    @DisplayName("POST /changePassword should deliver the same password ")
+    @WithMockUser(username = EMAIL_EXISTING, password = PASSWORD_EXISTING)
+    @Sql(scripts = { "classpath:data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+    public void change_password_wrong() throws Exception {
+
+        assertThat(userRepo.count()).isGreaterThan(0);
+
+        User user = userService.searchUserWithEmail(EMAIL_EXISTING);
+        // encoded password
+        String oldPasssword = user.getPassword();
+
+        // correct password
+        // NewPasswordRequest
+        NewPasswordRequest newPasswordRequest = new NewPasswordRequest();
+        newPasswordRequest.setEmail(EMAIL_EXISTING);
+        newPasswordRequest.setPassword("nein");
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(newPasswordRequest);
+
+        mockmvc.perform(
+                post(PATH + "/changePassword").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson))
+                .andExpect(status().isOk()).andReturn();
+
+        String newPassword = user.getPassword();
+
+        assertThat(oldPasssword.equals(newPassword));
+
+    }
 
     // TODO: Testnamenkonventionen
 }
