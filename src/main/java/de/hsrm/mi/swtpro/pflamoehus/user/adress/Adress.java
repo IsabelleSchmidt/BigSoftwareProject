@@ -33,7 +33,7 @@ public class Adress {
     private long version;
 
     @NotNull(message="Der Straßenname muss angegeben werden.")
-    @Pattern(regexp = "\\p{L}{2,}", message="Der Straßenname ist ungültig.")
+    @Pattern(regexp = "((\\p{L})+\\s?[-]?(\\p{L})+)+", message="Der Straßenname ist ungültig.")
     private String streetName;
 
     
@@ -46,7 +46,7 @@ public class Adress {
     private String postCode;
 
     @NotNull(message="Der Wohnort muss angegeben werden")
-    @Pattern(regexp = "\\p{L}{2,}", message="Der Wohnort ist ungültig.")
+    @Pattern(regexp = "((\\p{L})+\\s?[-]?(\\p{L})+)+", message="Der Wohnort ist ungültig.")
     private String city;
 
     @ManyToMany(mappedBy = "allAdresses", fetch = FetchType.EAGER)
