@@ -11,13 +11,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.endpoint.SecurityContext;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithSecurityContext;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -30,8 +34,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.orderdetailsservice.OrderDetailsService;
 import de.hsrm.mi.swtpro.pflamoehus.payload.request.LoginRequest;
+import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
 import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
+import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStore;
+import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStoreRepository;
+import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStoreService;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.AdressRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.adressservice.AdressService;
@@ -47,7 +55,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.userservice.UserService;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidPassword;
 
-@SpringBootTest(webEnvironment =WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 public class UserRestApiTests {
@@ -63,35 +71,49 @@ public class UserRestApiTests {
     private final String PATH = "/api/user";
 
     @Autowired
-	AuthenticationManager authenticationManager;
+    AuthenticationManager authenticationManager;
 
-	@Autowired
+    @Autowired
     AdressService adressSerivce;
-    
-    @Autowired AdressRepository adressRepo;
 
-	@Autowired
+    @Autowired
+    AdressRepository adressRepo;
+
+    @Autowired
     BankcardService bankcardSerivce;
-    
-    @Autowired BankcardRepository bankrepo;
 
-	@Autowired
+    @Autowired
+    BankcardRepository bankrepo;
+
+    @Autowired
     CreditcardService creditcardService;
-    
-    @Autowired CreditcardRepository creditrepo;
 
+    @Autowired
+    CreditcardRepository creditrepo;
 
-    @Autowired UserRepository userRepo;
+    @Autowired
+    UserRepository userRepo;
 
-    @Autowired PasswordEncoder pe;
+    @Autowired
+    PasswordEncoder pe;
 
-    @Autowired MockMvc mockmvc;
+    @Autowired
+    MockMvc mockmvc;
 
-    @Autowired UserRestApi userController;
+    @Autowired
+    UserRestApi userController;
 
-    @Autowired RoleService roleService;
+    @Autowired
+    RoleService roleService;
 
-    @Autowired RolesRepository rolerepo;
+    @Autowired
+    RolesRepository rolerepo;
+
+    @Autowired
+    JwtStoreRepository jwtStoreRepo;
+
+    @Autowired
+    JwtStoreService jwtStoreService;
 
     @Autowired
     JwtUtils jwtUtils;
@@ -105,29 +127,28 @@ public class UserRestApiTests {
     @Autowired
     ProductService productService;
 
-    
-    
-    private class SignupDTO{
+    private class SignupDTO {
 
-        @Size(min=3)
+        @Size(min = 3)
         private String firstName;
 
-        @Size(min =3)
+        @Size(min = 3)
         private String lastName;
-        
+
         @ValidEmail
         private String email;
-        
+
         private String birthdate;
 
         private String gender;
-        
+
         @ValidPassword
         private String password;
-    
+
         private List<Roles> roles;
-    
-        public SignupDTO(String firstName, String lastName, String email, String birthdate, String gender, String password){
+
+        public SignupDTO(String firstName, String lastName, String email, String birthdate, String gender,
+                String password) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.gender = gender;
@@ -191,118 +212,157 @@ public class UserRestApiTests {
         public void setRoles(List<Roles> roles) {
             this.roles = roles;
         }
-        
-    } 
+
+    }
 
     @AfterEach
-    public void clearRepos(){
+    public void clearRepos() {
         creditrepo.deleteAll();
         bankrepo.deleteAll();
         adressRepo.deleteAll();
         userRepo.deleteAll();
-    
+        jwtStoreRepo.deleteAll();
+
     }
 
     @Test
-    public void basecheck(){
+    public void basecheck() {
         assertThat(userController).isNotNull();
     }
-
 
     @Test
     @Transactional
     @DisplayName(" Sign up a new User")
-    public void successful_register_adds_user_to_database() throws Exception{
-       //create Signuprequest
-        SignupDTO request = new SignupDTO(FIRSTNAME_NEW, LASTNAME_NEW, EMAIL_NEW, BIRTHDAY_NEW, GENDER_NEW, PASSWORD_NEW);
-     
-       //Use ObjectMapper to create JSON
-       ObjectMapper mapper = new ObjectMapper();
-       mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-       ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-       String requestJson=ow.writeValueAsString(request);
-   
-     
-       //send signuprequest
-       mockmvc.perform(post(PATH+"/register").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson))
-                       .andExpect(status().isOk()).andReturn();
+    public void successful_register_adds_user_to_database() throws Exception {
+        // create Signuprequest
+        SignupDTO request = new SignupDTO(FIRSTNAME_NEW, LASTNAME_NEW, EMAIL_NEW, BIRTHDAY_NEW, GENDER_NEW,
+                PASSWORD_NEW);
 
-       //check whether the user was successfully signed up
-       assertEquals(1, userRepo.count());
-
-       //Wrong attributes should return where the validation failed and not add user to database
-       request.setEmail("email");
-       requestJson = ow.writeValueAsString(request);
-       MvcResult result = mockmvc.perform(post(PATH+"/register").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson))
-       .andExpect(status().isOk()).andReturn();
-       assertThat(result.getResponse().getContentAsString()).contains("field").contains("email");
-       assertEquals(1, userRepo.count());
-
-      
-    }
-
-     @Test
-     @Sql(scripts={"classpath:data.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-     @Transactional
-     @DisplayName("Login an existing user with POST /api/user/login")
-     public void login_returns_JwtResult_when_successful()throws Exception{
-
-        assertThat(userRepo.count()).isGreaterThan(0);
-        
-        //create a login request from an existing User
-        LoginRequest loginrequest = new LoginRequest();
-        loginrequest.setPassword(PASSWORD_EXISTING); 
-        loginrequest.setEmail("a"+EMAIL_EXISTING);
-
-        //Use ObjectMapper to create JSON
+        // Use ObjectMapper to create JSON
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        String requestJson =ow.writeValueAsString(loginrequest);
+        String requestJson = ow.writeValueAsString(request);
 
-        //send wrong loginreuest and expect it to have 406 status
-        System.out.print("UNSUCCESFUL: "+mockmvc.perform(post(PATH+"/login").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson)).andExpect(status().is(406)).andReturn().getResponse().getContentAsString());
-        
+        // send signuprequest
+        mockmvc.perform(post(PATH + "/register").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson))
+                .andExpect(status().isOk()).andReturn();
 
-        //send correct loginrequest and expect it to be successful 
-        loginrequest.setEmail(EMAIL_EXISTING);
-        requestJson = ow.writeValueAsString(loginrequest);
-        MvcResult result = mockmvc.perform(post(PATH+"/login").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson)).andExpect(status().isOk()).andReturn();
-    
-        //check that response is a jwtresult
-        assertThat(result.getResponse().getContentAsString()).contains("accessToken").contains("email").contains("roles");
+        // check whether the user was successfully signed up
+        assertEquals(1, userRepo.count());
 
+        // Wrong attributes should return where the validation failed and not add user
+        // to database
+        request.setEmail("email");
+        requestJson = ow.writeValueAsString(request);
+        MvcResult result = mockmvc
+                .perform(post(PATH + "/register").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson))
+                .andExpect(status().isOk()).andReturn();
+        assertThat(result.getResponse().getContentAsString()).contains("field").contains("email");
+        assertEquals(1, userRepo.count());
 
     }
 
     @Test
-    @DisplayName("GET /api/user/getAdress should return a User")
-    @Sql(scripts={"classpath:data.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = { "classpath:data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
     @Transactional
-    @WithMockUser(username = EMAIL_EXISTING, password = PASSWORD_EXISTING)
-    public void getAdress_returns_user_from_context_if_user_is_logged_in() throws Exception{
-        
+    @DisplayName("Login an existing user with POST /api/user/login")
+    public void login_returns_JwtResult_when_successful() throws Exception {
+
         assertThat(userRepo.count()).isGreaterThan(0);
 
-        //get user (returned null),ontext haelt anonymous user -> nicht in DB zu finden, result ist leer
-       
-        MvcResult result =  mockmvc.perform(get(PATH+"/getUser")).andExpect(status().isOk()).andReturn();
-      
-        assertThat(result.getResponse().getContentAsString()).contains("email").contains("creditcard").contains("bankcard").contains("password")
-        .contains("allAdresses").contains("firstName").contains("lastName").contains("birthdate").contains("gender").contains("roles");
-        
+        // create a login request from an existing User
+        LoginRequest loginrequest = new LoginRequest();
+        loginrequest.setPassword(PASSWORD_EXISTING);
+        loginrequest.setEmail("a" + EMAIL_EXISTING);
+
+        // Use ObjectMapper to create JSON
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(loginrequest);
+
+        // send wrong loginreuest and expect it to have 406 status
+        mockmvc.perform(post(PATH + "/login").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson))
+                .andExpect(status().is(406)).andReturn().getResponse();
+
+        // send correct loginrequest and expect it to be successful
+        loginrequest.setEmail(EMAIL_EXISTING);
+        requestJson = ow.writeValueAsString(loginrequest);
+        MvcResult result = mockmvc
+                .perform(post(PATH + "/login").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson))
+                .andExpect(status().isOk()).andReturn();
+
+        // check that response is a jwtresult
+        assertThat(result.getResponse().getContentAsString()).contains("accessToken").contains("email")
+                .contains("roles");
+
     }
 
     @Test
-    @DisplayName("GET api/user/getAdress should return null")
+    @DisplayName("GET /api/user/getUser should return a User")
+    @Sql(scripts = { "classpath:data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
     @Transactional
-    public void getAdress_returns_null_if_no_User_is_logged_in()throws Exception{
+    @WithMockUser(username = EMAIL_EXISTING, password = PASSWORD_EXISTING)
+    public void getAdress_returns_user_from_context_if_user_is_logged_in() throws Exception {
 
-        MvcResult result =  mockmvc.perform(get(PATH+"/getUser")).andExpect(status().isOk()).andReturn();
-        assertEquals("",result.getResponse().getContentAsString());
+        assertThat(userRepo.count()).isGreaterThan(0);
+
+        // get user (returned null),ontext haelt anonymous user -> nicht in DB zu
+        // finden, result ist leer
+
+        MvcResult result = mockmvc.perform(get(PATH + "/getUser")).andExpect(status().isOk()).andReturn();
+
+        assertThat(result.getResponse().getContentAsString()).contains("email").contains("creditcard")
+                .contains("bankcard").contains("password").contains("allAdresses").contains("firstName")
+                .contains("lastName").contains("birthdate").contains("gender").contains("roles");
+
     }
 
-    //TODO: Testnamenkonventionen
-    //TODO: Beforeeach muss ausgefuehrt werden
-    //TODO: gradle zum laden der datasql bringen
+    @Test
+    @DisplayName("GET api/user/getUser should return null")
+    @Transactional
+    public void getAdress_returns_null_if_no_User_is_logged_in() throws Exception {
+
+        MvcResult result = mockmvc.perform(get(PATH + "/getUser")).andExpect(status().isOk()).andReturn();
+        assertEquals("", result.getResponse().getContentAsString());
+    }
+
+    @Test
+    @DisplayName("Logout /api/user/logout should clear security context and delete token from store")
+    @Transactional
+    @Sql(scripts = { "classpath:data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(username = EMAIL_EXISTING, password = PASSWORD_EXISTING)
+    public void context_cleared_after_logout() throws Exception {
+
+        LoginRequest loginrequest = new LoginRequest();
+        loginrequest.setPassword(PASSWORD_EXISTING);
+        loginrequest.setEmail(EMAIL_EXISTING);
+
+        // Use ObjectMapper to create JSON
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(loginrequest);
+
+        assertEquals(0, jwtStoreRepo.count());
+
+        MvcResult result = mockmvc
+                .perform(post(PATH + "/login").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson))
+                .andExpect(status().isOk()).andReturn();
+        String token = result.getResponse().getContentAsString();
+
+        JwtResponse response = mapper.readValue(token, JwtResponse.class);
+
+        assertEquals(1, jwtStoreRepo.count());
+
+        mockmvc.perform(post(PATH + "/logout").header("Authorization", "Bearer " + response.getAccessToken()))
+                .andExpect(status().isOk()).andReturn();
+        assertEquals(0, jwtStoreRepo.count());
+        assertEquals(null, SecurityContextHolder.getContext().getAuthentication());
+    }
+
+    
+
+    // TODO: Testnamenkonventionen
 }
