@@ -329,7 +329,7 @@ public class UserRestApiTests {
     }
 
     @Test
-    @DisplayName("Logout /api/user/logout should clear security context and delete token from store")
+    @DisplayName("POST /api/user/logout should clear security context and delete token from store")
     @Transactional
     @Sql(scripts = { "classpath:data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(username = EMAIL_EXISTING, password = PASSWORD_EXISTING)
@@ -362,7 +362,24 @@ public class UserRestApiTests {
         assertEquals(null, SecurityContextHolder.getContext().getAuthentication());
     }
 
-    
+   @Test
+   @DisplayName("GET checkByEmail/{email} should return a empty MessageResponse")
+   @WithMockUser(username = EMAIL_EXISTING, password = PASSWORD_EXISTING)
+   @Sql(scripts = { "classpath:data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+   public void check_if_user_exists() throws Exception{
+
+        assertThat(userRepo.count()).isGreaterThan(0);
+
+        MvcResult result = mockmvc.perform(get(PATH + "/checkByEmail/{email}", EMAIL_EXISTING)).andExpect(status().isOk()).andReturn();
+
+        assertThat(result.getResponse().getContentAsString().equals(""));
+
+        //Wrong User
+        MvcResult result1 = mockmvc.perform(get(PATH + "/checkByEmail/{email}", EMAIL_EXISTING+"a")).andExpect(status().isOk()).andReturn();
+        assertThat(!(result1.getResponse().getContentAsString().equals("")));
+   }
+
+   
 
     // TODO: Testnamenkonventionen
 }
