@@ -14,6 +14,8 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -146,17 +148,18 @@ public class ProductRestApiTests {
     @Transactional
     @DisplayName(" GET api/product/all/roomtypes and all/producttypes return a Map<string,string>")
     public void get_roomtypes_producttypes_returns_map() throws Exception {
-        String response = mockmvc.perform(get(PATH + "all/roomtypes")).andExpect(status().isOk()).andReturn()
-                .getResponse().getContentAsString();
+
+        ResultActions response = mockmvc.perform(get(PATH + "all/roomtypes").contentType("application/json"))
+                .andExpect(status().isOk());
 
         for (RoomType type : RoomType.values()) {
-            assertThat(response).contains(type.toString());
+            response.andExpect(jsonPath(type.name(),type).value(type.toString()));
         }
 
-        response = mockmvc.perform(get(PATH + "all/producttypes")).andExpect(status().isOk()).andReturn().getResponse()
-                .getContentAsString();
+        response = mockmvc.perform(get(PATH + "all/producttypes").contentType("application/json")).andExpect(status().isOk());
+
         for (ProductType product : ProductType.values()) {
-            assertThat(response).contains(product.toString());
+            response.andExpect(jsonPath(product.name(),product).value(product.toString()));
         }
 
     }
