@@ -132,13 +132,15 @@ public class ProductRestApi {
      * @param newProduct the new product that has du get saved
      * @return ProductResponse with Errormessages and Product
      */
-    @PostMapping(value = "/product/new", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/product/new")
     public ResponseEntity<ProductResponse> postNewProduct(@Valid @RequestBody Product newProduct,
             BindingResult result) {
 
+        System.out.print("NeuesProduct "+newProduct);
         LOGGER.info("Neues Produkt erhalten!");
         Product product = null;
         ProductResponse response = new ProductResponse(product);
+
 
         if (productService.findProductWithName(newProduct.getName()) != null) {
             response.addErrormessage(new Errormessage("name", "Produktname bereits vergeben."));
@@ -204,10 +206,11 @@ public class ProductRestApi {
      * @param pictures Array of Pictures that should be saved
      * @return Picture Response with Errormessages
      */
-    @PostMapping(value = "/product/{articleNr}/newpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/product/{articleNr}/newpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PictureResponse> postPicturedata(@PathVariable Long articleNr,
             @RequestPart(name = "picture", required = true) MultipartFile[] pictures){
 
+                System.out.println("BILDEEEEEEEEEEEER");
         Product newProduct;      
         PictureResponse response = new PictureResponse();
 

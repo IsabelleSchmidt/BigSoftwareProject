@@ -370,10 +370,10 @@ public class Product {
      */
     @Override
     public String toString() {
-        return "Product [allPictures=" + allPictures + ", allTags=" + allTags + ", articlenr=" + articlenr
+        return "{allPictures=" + allPictures + ", allTags=" + allTags + ", articlenr=" + articlenr
                 + ", available=" + available + ", depth=" + depth + ", description=" + description + ", height="
                 + height + ", information=" + information + ", name=" + name + ", price=" + price + ", productType="
-                + productType + ", roomType=" + roomType + ", version=" + version + ", width=" + width + "]";
+                + productType + ", roomType=" + roomType + ", version=" + version + ", width=" + width + "}";
     }
    
 

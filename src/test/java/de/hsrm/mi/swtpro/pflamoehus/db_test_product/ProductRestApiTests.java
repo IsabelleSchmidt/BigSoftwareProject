@@ -1,6 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.db_test_product;
 
 import org.junit.jupiter.api.Test;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,22 +10,41 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.multipart.MultipartFile;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetailsRepository;
 import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.orderdetailsservice.OrderDetailsService;
@@ -32,11 +52,13 @@ import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
 import de.hsrm.mi.swtpro.pflamoehus.product.RoomType;
+import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.pictureservice.PictureService;
 import de.hsrm.mi.swtpro.pflamoehus.product.productapi.ProductRestApi;
 import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;
 import de.hsrm.mi.swtpro.pflamoehus.product.tags.TagService;
+import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
 import de.hsrm.mi.swtpro.pflamoehus.product.tags.TagRepository;
 
 @SpringBootTest(webEnvironment =WebEnvironment.RANDOM_PORT)
@@ -66,6 +88,21 @@ public class ProductRestApiTests {
     MockMvc mockmvc;
 
     private final String PATH = "/api/product/";
+
+    private final String PRODUCTNAME = "Olloko";
+    private final ProductType PRODUCTTYPE = ProductType.SINK;
+    private final RoomType ROOMTYPE = RoomType.BATHROOM;
+    private final String DESCRIPTION = "Verruecktes Waschbecken";
+    private final String INFORMATION = "Der Wasserhahn laesst Harn herab";
+    private final double PRICE = 120.0;
+    private final double HIGHT = 20.0;
+    private final double WIDTH = 80.0;
+    private final double DEPTH = 60.0;
+    private final int AVAILABLE = 90;
+    private final String FILE = "testPic.jpg";
+   
+
+
 
     @AfterEach
     public void clearRepos() {
@@ -163,4 +200,95 @@ public class ProductRestApiTests {
         }
 
     }
+
+
+    
+    @Test
+    @Transactional
+    @Sql(scripts = { "classpath:data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+    @DisplayName(" GET api/product/tags returns a list with all tags in the database")
+    public void get_tags_returns_list() throws Exception {
+        MvcResult result = mockmvc.perform(get(PATH + "/tags/")).andExpect(status().isOk()).andReturn();
+        // Use ObjectMapper to create object from JSON
+        ObjectMapper mapper = new ObjectMapper();
+        List<Tag> response = mapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<Tag>>() {
+                });
+        assertEquals(response.size(), tagRepo.count());
+    }
+
+    @Test
+    @Transactional
+    @Sql(scripts = { "classpath:data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+    @DisplayName(" GET api/product/picture/{piId} returns byte Array of Picture")
+    public void get_picture_returns_bytearray() throws Exception {
+
+        List<Picture> allPics = pictureRepo.findAll();
+        for (Picture picture : allPics) {
+            MvcResult result = mockmvc.perform(get(PATH + "/picture/" + picture.getId())).andExpect(status().isOk())
+                    .andReturn();
+            byte[] response = result.getResponse().getContentAsByteArray();
+
+            InputStream in = new ClassPathResource(
+                    "/static" + pictureService.findPictureWithID(picture.getId()).getPath()).getInputStream();
+            byte[] bytes = IOUtils.toByteArray(in);
+            assertArrayEquals(response, bytes);
+        }
+    }
+
+    @Test
+    @Transactional
+    @DisplayName(" POST api/product/new ")
+    public void post_product() throws Exception {
+
+        Product request = new Product();
+        request.setName(PRODUCTNAME);
+        request.setProductType(PRODUCTTYPE);
+        request.setRoomType(ROOMTYPE);
+        request.setPrice(PRICE);
+        request.setInformation(INFORMATION);
+        request.setDescription(DESCRIPTION);
+        request.setHeight(HIGHT);
+        request.setWidth(WIDTH);
+        request.setDepth(DEPTH);
+        request.setAvailable(AVAILABLE);
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(request);
+
+        mockmvc.perform(post(PATH+"/product/new").contentType(MediaType.APPLICATION_JSON_VALUE).content(requestJson)).andExpect(status().isOk()).andReturn();
+
+        assertEquals(1, productRepo.count());
+
+    }
+
+    // @Test
+    // @Transactional
+    // @Sql(scripts = { "classpath:data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+    // @DisplayName("POST api/product/{articleNr}/newpicture")
+    // public void post_picture() throws Exception{
+
+    //     List<Product> allProducts = productRepo.findAll();
+
+    //     InputStream in = new ClassPathResource(FILE).getInputStream();
+    //     MultipartFile multiFile = new MockMultipartFile(FILE, in);
+    //     // MultipartFile[] request = null;
+
+    //     for(Product product : allProducts){
+
+    //         mockmvc.perform(post(PATH+"/"+product.getArticlenr()+"/newpicture").contentType(MediaType.MULTIPART_FORM_DATA_VALUE).content(multiFile.getBytes())).andExpect(status().isOk()).andReturn();
+
+    //     }
+
+        
+
+
+
+        
+    // }
+
+
+
+
 }
