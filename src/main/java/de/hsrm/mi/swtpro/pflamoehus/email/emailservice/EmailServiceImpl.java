@@ -46,7 +46,7 @@ public class EmailServiceImpl implements EmailService {
 
     
     /**
-     * Sends an email from pflamoehus@gmail.com.
+     * Sends an email from pflamoehus@mi.de
      * 
      * @param to The receiver of the email.
      * @param body The message of the email.
@@ -56,7 +56,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendEmail(String to, String body, String topic) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom("pflamoehus@gmail.com");
+        simpleMailMessage.setFrom("pflamoehus@mi.de");
         simpleMailMessage.setTo(to);
         simpleMailMessage.setSubject(topic);
         simpleMailMessage.setText(body);
@@ -65,20 +65,23 @@ public class EmailServiceImpl implements EmailService {
     }
 
     /**
-     * 
+     * Sends an order confirmation email from pflamoehus@mi.de
+     * The email contains a dynamically rendered html invoice
+     * @param order the order that this confirmation email is for
+     * @param user  the user that placed the order and receives this email
      */
     @Override
     @Transactional
     public void sendHTMLmail( Order order,User user) throws MessagingException, IOException {
-        HashMap<String, Object> contextdata = new HashMap<>();
-        Encoder encoder = Base64.getEncoder();
+    
+        HashMap<String, Object> contextdata = new HashMap<>(); //data to fill thymeleaf form
+        Encoder encoder = Base64.getEncoder(); //encoder to encode images to base64 strings
 
-        //Saves a Base64 String of an image to an articlenumber of a product
-        Map<Long,String> picturePerOrderedProduct = new HashMap<>(); 
-        //Stores a product to the amount bought
-        Map<Product, Integer> allProducts = new HashMap<>();
+        
+        Map<Long,String> picturePerOrderedProduct = new HashMap<>(); //Saves a Base64 String of an image to an articlenumber of a product
+        Map<Product, Integer> allProducts = new HashMap<>();  //Stores a product to the amount bought
        
-         //Get all products of an Order and encode image to Base64 string
+         //Get all products of an Order and encode their first image to a Base64 string
         for(OrderDetails detail: order.getOrderdetails()){
 
             allProducts.put(detail.getProduct(),detail.getProductAmount());
@@ -101,7 +104,7 @@ public class EmailServiceImpl implements EmailService {
           
           
         }
-
+        //fill the form with information
         contextdata.put("greeting", "Hallo "+user.getFirstName()+" "+user.getLastName());
         contextdata.put("price","Preis: "+order.getPriceTotal());
         contextdata.put("deliverydate", "Lieferdatum: "+order.getDeliveryDate());
@@ -110,13 +113,13 @@ public class EmailServiceImpl implements EmailService {
         contextdata.put("ordernr", "Deine Bestellung mit Nummer: "+order.getOrderNR()+" enthält folgende Produkte");
         contextdata.put("images", picturePerOrderedProduct);
 
-        MimeMessage message = javamailsender.createMimeMessage();
+        MimeMessage message = javamailsender.createMimeMessage(); //allows to use attachment to emails
         MimeMessageHelper helper = new MimeMessageHelper(message,true, "UTF-8");
       
-        Context context = new Context();
-        context.setVariables(contextdata);
+        Context context = new Context(); //thymeleaf template context
+        context.setVariables(contextdata);//add previous defined data to the context
         
-        String html = templateEngine.process("orderconfirmation", context);
+        String html = templateEngine.process("orderconfirmation", context); //process the html file
         helper.setTo(user.getEmail());
         helper.setText(html, true);
         helper.setSubject("Ihre Bestellung im pflamoehus");

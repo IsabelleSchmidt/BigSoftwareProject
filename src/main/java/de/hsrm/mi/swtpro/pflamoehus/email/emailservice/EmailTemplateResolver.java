@@ -12,6 +12,10 @@ import org.thymeleaf.templatemode.TemplateMode;
 public class EmailTemplateResolver {
     
     @Bean
+    /**
+     * used to fill out & process different templates
+     * @return a templateEngine to process html templates
+     */
     public SpringTemplateEngine springTemplateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.addTemplateResolver(htmlTemplateResolver());
@@ -19,6 +23,9 @@ public class EmailTemplateResolver {
     }
 
     @Bean
+    /**
+     * defines information needed to process html files for emails
+     */
     public SpringResourceTemplateResolver htmlTemplateResolver(){
         SpringResourceTemplateResolver emailTemplateResolver = new SpringResourceTemplateResolver();
         emailTemplateResolver.setPrefix("classpath:/templates/");

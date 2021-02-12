@@ -274,7 +274,11 @@ public class ProductRestApi {
     }
     
             
-
+    /**
+     * Returns a map of the RoomType names to RoomType String values in JSON format
+     *  @see de.hsrm.mi.swtpro.pflamoehus.product.RoomType
+     * @return a map in JSON containing all RoomType names and their string values
+     */
     @GetMapping("/all/roomtypes") 
     public HashMap<RoomType,String> getAllRoomTypes(){
         HashMap<RoomType,String> allRoomTypes = new HashMap<>();
@@ -286,6 +290,11 @@ public class ProductRestApi {
     
     }
 
+     /**
+     * Returns a map of the ProductType names to ProductType String values in JSON format
+     *  @see de.hsrm.mi.swtpro.pflamoehus.product.ProductType
+     * @return a map in JSON containing all ProductType names and their string values
+     */
     @GetMapping("/all/producttypes")
     public Map<ProductType,String> getAllProductTypes(){
         
