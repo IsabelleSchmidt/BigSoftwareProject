@@ -1,12 +1,13 @@
 package de.hsrm.mi.swtpro.pflamoehus.order.orderapi;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import de.hsrm.mi.swtpro.pflamoehus.email.emailservice.EmailService;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.ItemNotAvailableException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.OrderDetailsServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.OrderServiceException;
@@ -77,6 +80,8 @@ public class OrderRestApi {
     @Autowired
     OrderRepository orderRepo;
 
+    @Autowired EmailService emailService;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderRestApi.class);
 
     /*
@@ -87,6 +92,7 @@ public class OrderRestApi {
      * @version 1
      */
     private class OrderMessage {
+        //TODO: wechseln zu Map<field:message> und orderid einzeln
         private String field;
         private String message;
         private long orderid = -1;
@@ -193,6 +199,7 @@ public class OrderRestApi {
             for(FieldError error : result.getFieldErrors()){
                 allmessages.add(new OrderMessage(error.getField(), error.getDefaultMessage()));
             }
+            return ResponseEntity.ok().body(allmessages);
 
         }
         else{
@@ -266,7 +273,17 @@ public class OrderRestApi {
 
                 }
             }
-          
+
+            try{
+                  emailService.sendHTMLmail(order, user);
+            }catch(IOException ioe){
+                LOGGER.error("Fehler beim Senden der Mail: IOException "+ioe.getMessage());
+                emailService.sendEmail(user.getEmail(), "Vielen Dank fuer Ihre Bestellung im Pflamoehus! \n Ihre Bestellnummer: "+order.getOrderNR(), "Bestellbestaetigung");
+            }catch(MessagingException me){
+                LOGGER.error("Fehler beim Senden der Mail: MessagingException "+me.getMessage());
+                emailService.sendEmail(user.getEmail(), "Vielen Dank fuer Ihre Bestellung im Pflamoehus! \n Ihre Bestellnummer: "+order.getOrderNR(), "Bestellbestaetigung");
+            }
+      
         return ResponseEntity.ok().body(allmessages);
     }
 
@@ -384,7 +401,6 @@ public class OrderRestApi {
             LOGGER.info("Gekauft: "+ productdto.getAmount() + " verfuegbar: " +product.getAvailable());
             product.setAvailable(product.getAvailable()-productdto.getAmount());
             }
-            LOGGER.info("GESPEICHERTE PRODUKTE: "+product.getAvailable());
 
         }
         if (!order_ok) {
