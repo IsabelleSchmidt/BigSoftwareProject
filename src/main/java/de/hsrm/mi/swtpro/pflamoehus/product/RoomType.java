@@ -19,7 +19,7 @@ public enum RoomType {
     /**
      * type 'Küche/Wohnküche' 
      * */
-    KITCHEN("Kueche"), 
+    KITCHEN("Küche"), 
     /**
      * type 'Kinderzimmer' 
      * */

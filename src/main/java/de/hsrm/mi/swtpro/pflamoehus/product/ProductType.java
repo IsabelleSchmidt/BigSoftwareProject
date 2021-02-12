@@ -41,7 +41,7 @@ public enum ProductType {
     /**
      * type 'Küche' 
      */
-    KITCHEN("Kueche"),
+    KITCHEN("Küche"),
     /**
      * type 'Sofa/Couch' 
      * */
