@@ -47,3 +47,26 @@ GET http://localhost:9090/api/product/all/roomtypes
 
 ###
 GET http://localhost:9090/api/product/all/producttypes
+
+###
+POST http://localhost:9090/api/product/product/new
+Content-Type: application/json
+
+{
+
+    "articlenr" : 0,
+    "name" : "Olloko",
+    "productType" : "SINK",
+    "roomType" : "BATHROOM",
+    "price" : 120.0,
+    "allPictures" : [ ],
+    "height" : 20.0,
+    "width" : 80.0,
+    "depth" : 60.0,
+    "allTags" : [ ],
+    "available" : 90,
+    "description" : "Verruecktes Waschbecken",
+    "information" : "Der Wasserhahn laesst Harn herab"
+  
+}
+
