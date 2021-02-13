@@ -88,13 +88,23 @@ public class EmailServiceImpl implements EmailService {
            Product product =  detail.getProduct();
            String path = product.getAllPictures().iterator().next().getPath();
            URL url = getClass().getResource("/static"+path);
-           path = url.getPath().replaceFirst("/", "").replaceAll("%20", " ");
+           path = url.getPath();
+           if(path.substring(0, 1) == "/") {
+               path = path.replaceFirst("/", "");
+           }
+           if(path.contains("%20")) {
+                path = path.replace("%20", " ");
+           }
+           if(path.contains("\\")) {
+                path = path.replace("\\", "\\\\");
+           }
 
            try{
                 Path filepath = Paths.get(path); 
                 byte[] bytes = Files.readAllBytes(filepath); 
                 String base64String = encoder.encodeToString(bytes);
                 String base64Image = "data:image/png;base64," + base64String;
+                // String mac = base64Image.replace("/", "\\");
                 picturePerOrderedProduct.put(product.getArticlenr(), base64Image);
 
            }catch(InvalidPathException ipe){
