@@ -250,8 +250,6 @@ public class ProductRestApi {
 
             Path upload = Paths.get(home, dir);
 
-            LOGGER.info("PFAAAAD: " + upload);
-
             if(!Files.exists(upload)){
                 new File(upload.toString()).mkdir();
             }
