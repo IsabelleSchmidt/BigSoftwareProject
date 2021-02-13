@@ -210,7 +210,6 @@ public class ProductRestApi {
     public ResponseEntity<PictureResponse> postPicturedata(@PathVariable Long articleNr,
             @RequestPart(name = "picture", required = true) MultipartFile[] pictures){
 
-                System.out.println("BILDEEEEEEEEEEEER");
         Product newProduct;      
         PictureResponse response = new PictureResponse();
 
@@ -248,6 +247,14 @@ public class ProductRestApi {
             
             Path path = Paths.get(home,dir,productType);
             Path pathPicture = Paths.get(home,dir,productType,filename);
+
+            Path upload = Paths.get(home, dir);
+
+            LOGGER.info("PFAAAAD: " + upload);
+
+            if(!Files.exists(upload)){
+                new File(upload.toString()).mkdir();
+            }
             
             if(Files.exists(path)){
                 if(!Files.exists(pathPicture)){
