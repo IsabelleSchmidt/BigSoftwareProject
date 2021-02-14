@@ -1,12 +1,20 @@
 package de.hsrm.mi.swtpro.pflamoehus.order.orderapi;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Base64.Encoder;
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -92,7 +100,6 @@ public class OrderRestApi {
      * @version 1
      */
     private class OrderMessage {
-        //TODO: wechseln zu Map<field:message> und orderid einzeln
         private String field;
         private String message;
         private long orderid = -1;
@@ -275,7 +282,7 @@ public class OrderRestApi {
             }
 
             try{
-                  emailService.sendHTMLmail(order, user);
+                  sendOrderConfirmationMail(user, order);
             }catch(IOException ioe){
                 LOGGER.error("Fehler beim Senden der Mail: IOException "+ioe.getMessage());
                 emailService.sendEmail(user.getEmail(), "Vielen Dank fuer Ihre Bestellung im Pflamoehus! \n Ihre Bestellnummer: "+order.getOrderNR(), "Bestellbestaetigung");
@@ -373,8 +380,6 @@ public class OrderRestApi {
       
         Set<OrderDetails> allDetails = new HashSet<>();
         Product product;
-        String exceptionmessage = "";
-        boolean order_ok = true;
 
         for (OrderRequest.ProductDTO productdto : orderDTO.getAllProductsOrdered()) {
             OrderDetails detail = new OrderDetails();
@@ -383,11 +388,10 @@ public class OrderRestApi {
             // find corresponding product in database using productDTO articleNR
             product = productService.searchProductwithArticleNr(productdto.getArticleNR());
             if(productdto.getAmount() > product.getAvailable()){
-                order_ok = false;
-                exceptionmessage += "Bei Produktnummer--" + product.getArticlenr()+"--sind leider nur noch :--" +product.getAvailable()+"--Artikel verfügbar (Bitte anpassen).//";
+               throw new ItemNotAvailableException("Bei Produktnummer--" + product.getArticlenr()+"--sind leider nur noch :--" +product.getAvailable()+"--Artikel verfügbar (Bitte anpassen).//");
             }
             
-            if (order_ok) {
+           else{
             //Set mandatory attributes of an OrderDetail
             detail.setProduct(product);
             detail.setProductAmount(productdto.getAmount());
@@ -403,12 +407,52 @@ public class OrderRestApi {
             }
 
         }
-        if (!order_ok) {
-            throw new ItemNotAvailableException(exceptionmessage);
-        }
-
         return allDetails;
     }
-}
 
-//TODO: datasql nur einmal initialisieren und dann in mem modus
+    private void sendOrderConfirmationMail(User user, Order order) throws IOException,MessagingException{
+        Encoder encoder = Base64.getEncoder(); //encoder to encode images to base64 strings
+
+        HashMap<String,Object> contextdata = new HashMap<>(); //context needed to process template
+        Map<Long,String> picturePerOrderedProduct = new HashMap<>(); //Saves a Base64 String of an image to an articlenumber of a product
+        Map<Product, Integer> allProducts = new HashMap<>();  //Stores a product to the amount bought
+       
+         //Get all products of an Order and encode their first image to a Base64 string
+        
+         order.getOrderdetails().parallelStream().forEach(detail -> {
+            allProducts.put(detail.getProduct(),detail.getProductAmount());
+            Product product = detail.getProduct();
+            String path = product.getAllPictures().iterator().next().getPath();
+            path = getClass().getResource("/static"+path).getPath();
+            if( path.substring(0,1).contains("/") ){
+                path = path.replaceFirst("/","");
+            }
+            path = path.replace("%20"," ").replace("\\", "\\\\");
+            try{
+                Path filepath = Paths.get(path); 
+                byte[] bytes = Files.readAllBytes(filepath); 
+                String base64String = encoder.encodeToString(bytes);
+                String base64Image = "data:image/png;base64," + base64String;
+                picturePerOrderedProduct.put(product.getArticlenr(), base64Image);
+
+                }catch(InvalidPathException ipe){
+                    LOGGER.error("Pfad: "+path+" konnte nicht gelesen werden.");
+                    emailService.sendEmail(user.getEmail(),"Vielen Dank fuer Ihre Bestellung im Pflamoehus! \n Ihre Bestellnummer: "+order.getOrderNR() , "Bestellbestaetigung");
+                }catch(IOException io){
+                    LOGGER.error("Bytes konnten nicht gelesen werden. "+io.getMessage());
+                }
+         });  
+          
+        
+        //fill the form with information
+        contextdata.put("greeting", "Hallo "+user.getFirstName()+" "+user.getLastName());
+        contextdata.put("price","Preis: "+order.getPriceTotal());
+        contextdata.put("deliverydate", "Lieferdatum: "+order.getDeliveryDate());
+        contextdata.put("allproducts", allProducts);
+        contextdata.put("totalprice","Gesamtsumme: "+ order.getPriceTotal()+"€");
+        contextdata.put("ordernr", "Deine Bestellung mit Nummer: "+order.getOrderNR()+" enthält folgende Produkte");
+        contextdata.put("images", picturePerOrderedProduct);
+
+        emailService.sendHTMLmail(contextdata, user.getEmail(), "yourorder@pflamoehus.mi", "Ihre Bestellung im Pflamoehus", "orderconfirmation");
+    }
+}
