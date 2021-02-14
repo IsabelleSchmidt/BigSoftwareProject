@@ -423,7 +423,10 @@ public class OrderRestApi {
             allProducts.put(detail.getProduct(),detail.getProductAmount());
             Product product = detail.getProduct();
             String path = product.getAllPictures().iterator().next().getPath();
-            path = getClass().getResource("/static"+path).getPath();
+
+            if(!path.startsWith(System.getProperty("user.home"))){
+                 path = getClass().getResource("/static"+path).getPath();
+            }
             if( path.substring(0,1).contains("/") ){
                 path = path.replaceFirst("/","");
             }

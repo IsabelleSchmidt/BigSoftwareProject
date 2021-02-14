@@ -185,18 +185,25 @@ public class ProductRestApi {
      */
     @GetMapping(value = "/picture/{picId}", produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_PNG_VALUE})
     public @ResponseBody byte[] getImage(@PathVariable Long picId) throws IOException {
-        byte[] bytes;
+        byte[] bytes = null;
         String home = System.getProperty("user.home");
-        String dir = "/upload";
-        if(pictureService.findPictureWithID(picId).getPath().startsWith(home+dir)){
-            File file = new File(pictureService.findPictureWithID(picId).getPath());
+        String dir = "/upload"; 
+        String picturepath = pictureService.findPictureWithID(picId).getPath();
+
+        if(picturepath.startsWith(home+dir)|| picturepath.startsWith(home+"\\upload")){
+            File file = new File(picturepath);
             BufferedImage bImage = ImageIO.read(file);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             ImageIO.write(bImage, getType(file) , bos );
             bytes = bos.toByteArray();
         }else{
-            InputStream in = new ClassPathResource("/static"+pictureService.findPictureWithID(picId).getPath()).getInputStream();
-            bytes = IOUtils.toByteArray(in);
+            try{
+                 InputStream in = new ClassPathResource("/static"+picturepath).getInputStream();
+                bytes = IOUtils.toByteArray(in);
+            }catch(FileNotFoundException fne){
+                LOGGER.error("Bild nicht im static Ordner gefunden. ", fne.getMessage());
+            }
+           
         }
         return bytes;
     }
@@ -228,12 +235,10 @@ public class ProductRestApi {
     @PostMapping(value = "/product/{articleNr}/newpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PictureResponse> postPicturedata(@PathVariable Long articleNr,
             @RequestPart(name = "picture", required = true) MultipartFile[] pictures){
-
-        Product newProduct;      
+ 
         PictureResponse response = new PictureResponse();
 
         try {
-            newProduct = productService.searchProductwithArticleNr(articleNr);
             
             for(var picture:pictures){
                 saveImage(articleNr,picture);
