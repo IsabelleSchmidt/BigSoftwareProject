@@ -42,7 +42,6 @@ public class PasswordRequestRepoTests {
     EmailRestApi emailcontroller;
 
     private final String EMAIL_EXISTING = "user@pflamoehus.de";
-    private final String EMAIL_NOTEXISTING = "userxxx@pflamooooehus.de";
 
     @Test
     @DisplayName("findBy email")

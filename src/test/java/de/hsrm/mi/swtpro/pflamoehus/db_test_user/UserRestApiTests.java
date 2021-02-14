@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.SecurityContext;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -20,8 +19,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithSecurityContext;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -38,7 +35,6 @@ import de.hsrm.mi.swtpro.pflamoehus.payload.request.NewPasswordRequest;
 import de.hsrm.mi.swtpro.pflamoehus.payload.response.JwtResponse;
 import de.hsrm.mi.swtpro.pflamoehus.product.productservice.ProductService;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtUtils;
-import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStore;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStoreRepository;
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStoreService;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
@@ -448,6 +444,4 @@ public class UserRestApiTests {
         assertThat(oldPasssword.equals(newPassword));
 
     }
-
-    // TODO: Testnamenkonventionen
 }

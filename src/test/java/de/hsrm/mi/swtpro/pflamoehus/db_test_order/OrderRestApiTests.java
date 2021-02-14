@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
@@ -207,7 +206,4 @@ public class OrderRestApiTests {
         
     
     }
-
-    //TODO: Test fuer wenn man zu viele produkte bestellt
-    //TODO: Tests fuer andere errorfaelle
 }
