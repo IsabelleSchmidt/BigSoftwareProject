@@ -187,10 +187,11 @@ public class ProductRestApi {
     public @ResponseBody byte[] getImage(@PathVariable Long picId) throws IOException {
         byte[] bytes = null;
         String home = System.getProperty("user.home");
-        String dir = "/upload"; 
+        String dir = "upload"; 
+        Path startPath = Paths.get(home,dir);
         String picturepath = pictureService.findPictureWithID(picId).getPath();
 
-        if(picturepath.startsWith(home+dir)|| picturepath.startsWith(home+"\\upload")){
+        if(picturepath.startsWith(startPath.toString())){
             File file = new File(picturepath);
             BufferedImage bImage = ImageIO.read(file);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -222,8 +223,6 @@ public class ProductRestApi {
         String formatName = reader.getFormatName();
         return formatName;
     }
-
-
 
     /**
      * Save Pictures for new Product
