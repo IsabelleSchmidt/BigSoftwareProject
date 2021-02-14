@@ -2,9 +2,12 @@ package de.hsrm.mi.swtpro.pflamoehus.product.productapi;
 
 import java.util.List;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import javax.validation.Valid;
 import org.apache.commons.io.IOUtils;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -180,21 +183,37 @@ public class ProductRestApi {
      * @param picId the Id of the Picture that should be returned
      * @return Picture as byte Array
      */
-    @GetMapping(value = "/picture/{picId}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(value = "/picture/{picId}", produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_PNG_VALUE})
     public @ResponseBody byte[] getImage(@PathVariable Long picId) throws IOException {
         byte[] bytes;
         String home = System.getProperty("user.home");
         String dir = "/upload";
         if(pictureService.findPictureWithID(picId).getPath().startsWith(home+dir)){
-            BufferedImage bImage = ImageIO.read(new File(pictureService.findPictureWithID(picId).getPath()));
+            File file = new File(pictureService.findPictureWithID(picId).getPath());
+            BufferedImage bImage = ImageIO.read(file);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ImageIO.write(bImage, "jpg", bos );
+            ImageIO.write(bImage, getType(file) , bos );
             bytes = bos.toByteArray();
         }else{
             InputStream in = new ClassPathResource("/static"+pictureService.findPictureWithID(picId).getPath()).getInputStream();
             bytes = IOUtils.toByteArray(in);
         }
         return bytes;
+    }
+
+    /**
+     * Returns File Type of an File
+     * 
+     * @param file from which we want to know the fileType
+     * @return File Type of the file
+     */
+    public String getType(File file) throws IOException {
+        ImageInputStream iis = ImageIO.createImageInputStream(file);
+        Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
+
+        ImageReader reader = iter.next();
+        String formatName = reader.getFormatName();
+        return formatName;
     }
 
 
@@ -245,15 +264,13 @@ public class ProductRestApi {
 
             InputStream inputStream = picture.getInputStream();
             
+            Path upload = Paths.get(home,dir);
             Path path = Paths.get(home,dir,productType);
             Path pathPicture = Paths.get(home,dir,productType,filename);
-
-            Path upload = Paths.get(home, dir);
 
             if(!Files.exists(upload)){
                 new File(upload.toString()).mkdir();
             }
-            
             if(Files.exists(path)){
                 if(!Files.exists(pathPicture)){
                     Files.copy(inputStream, pathPicture);
