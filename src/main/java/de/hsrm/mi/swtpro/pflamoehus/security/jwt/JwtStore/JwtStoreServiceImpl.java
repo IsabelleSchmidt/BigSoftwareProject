@@ -1,7 +1,6 @@
 package de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.OptimisticLockException;
 import javax.transaction.Transactional;
