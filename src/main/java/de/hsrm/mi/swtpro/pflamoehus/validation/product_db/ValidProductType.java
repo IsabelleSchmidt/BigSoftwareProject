@@ -26,7 +26,7 @@ public @interface ValidProductType {
      * 
      * @return default message
      */
-    String message() default "This is not an existing type of product. The following types are available: Pflanze, Tisch, Bett, Stuhl, Dekoration, Schrank/Kommode, Sofa/Couch";
+    String message() default "This is not an existing type of product. The following types are available: PLANT, TABLE, BED, CHAIR, DECORATION, CLOSET, COUCH";
 
     /**
      * 

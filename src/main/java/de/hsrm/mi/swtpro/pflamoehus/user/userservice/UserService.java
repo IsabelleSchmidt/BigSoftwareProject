@@ -20,6 +20,14 @@ public interface UserService {
     List<User> allUsers();
 
     /**
+     * Saves an edited User into the database.
+     * 
+     * @param user to be saved
+     * @return saved user
+     */
+    User editUser(User user);
+
+    /**
      * Searches the user with the given email adress.
      * 
      * @param email wanted email
@@ -36,14 +44,6 @@ public interface UserService {
     User searchUserWithId(long id);
 
     /**
-     * Edits and saves the given (new) user.
-     * 
-     * @param editedUser editet user that has to be saved
-     * @return user
-     */
-    User editUser(User editedUser);
-
-    /**
      * Deletes the user with the given id.
      * 
      * @param id user id that has to be deleted
@@ -57,5 +57,27 @@ public interface UserService {
      * @return user
      */
     User registerUser(User email);
+
+    /**
+     * Shows if the user with this email exits in the database
+     * 
+     * @param email searched email
+     * @return boolean
+     */
+    boolean existsByEmail(String email);
+
+    /**
+     * searches for an existing User and initializes all related Lazy Collections 
+     * @param email the email of the user who is to be found and initialized
+     * @return the user with initialized lazy collections
+     */
+    User getFullyInitializedUser(String email);
+
+    /**
+     * Encodes the Password
+     * @param password password to encode
+     * @return encoded password
+     */
+    String encodePassword(String password);
 
 }

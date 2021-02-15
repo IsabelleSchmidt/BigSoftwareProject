@@ -25,6 +25,7 @@ repositories {
 }
 
 dependencies {
+	implementation group: 'commons-io', name: 'commons-io', version: '2.7'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
@@ -37,10 +38,18 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-test'
 	runtimeOnly 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	}
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
+	compile 'io.jsonwebtoken:jjwt-api:0.11.2'
+    runtime 'io.jsonwebtoken:jjwt-impl:0.11.2',
+            'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	compile 'org.springframework:spring-context-support'
+	compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-mail')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 jacocoTestReport{

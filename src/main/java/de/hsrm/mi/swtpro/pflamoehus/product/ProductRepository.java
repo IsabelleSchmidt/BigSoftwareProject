@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
+import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
 
 /*
  * ProductRepository for different operations to apply on the database.
@@ -30,7 +30,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @param name wanted name
      * @return product
      */
-    Product findByName(String name);
+    Optional<Product> findByName(String name);
 
     /**
      * Find products by their producttype.
@@ -38,7 +38,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @param type wanted producttype
      * @return list of products
      */
-    List<Product> findByProductType(String type);
+    List<Product> findByProductType(ProductType type);
 
     /**
      * Find products by their roomtype.
@@ -46,7 +46,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @param roomtype wanted roomtype
      * @return list of products
      */
-    List<Product> findByRoomType(String roomtype);
+    List<Product> findByRoomType(RoomType roomtype);
 
     /**
      * Find products by their price.

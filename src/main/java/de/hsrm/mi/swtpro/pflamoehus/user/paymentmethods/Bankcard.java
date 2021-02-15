@@ -1,7 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods;
 
-import java.util.List;
-
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,11 +14,8 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
+import org.springframework.validation.annotation.Validated;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
 /*
@@ -28,6 +25,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.User;
  * @version 1
  */
 @Entity
+@Validated
 public class Bankcard {
 
     @Id
@@ -39,23 +37,22 @@ public class Bankcard {
     @JsonIgnore
     private long version;
 
-    @NotEmpty
-    @Pattern(regexp = "DE\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{2}|DE\\d{20}")
-    @JsonProperty(access = Access.WRITE_ONLY)
+    @NotEmpty(message="Die IBAN muss angebeben werden.")
+    @Pattern(regexp = "DE\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{2}|DE\\d{20}$", message="Die IBAN ist nicht gültig.")
     private String iban;
 
-    @NotEmpty
-    @Size(min = 6)
+    @NotEmpty(message="Der Besitzer der Karte muss angebeben werden.")
+    @Size(min = 3, message="Der angegebene Besitzer ist ungültig.")
     private String owner;
 
-    @NotEmpty
-    @Size(min = 3)
+    @NotEmpty(message="Die Bank muss angegeben werden")
+    @Size(min = 3, message="Die angegebene Bank ist ungültig.")
     private String bank;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     @JoinTable(name = "User_Bankcards", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "userID"))
-    private List<User> user;
+    private Set<User> user = new HashSet<>();
 
     /**
      * Get id.
@@ -134,7 +131,7 @@ public class Bankcard {
      * 
      * @return list of users
      */
-    public List<User> getUser() {
+    public Set<User> getUser() {
         return user;
     }
 
@@ -143,7 +140,7 @@ public class Bankcard {
      * 
      * @param user users that have to be set
      */
-    public void setUser(List<User> user) {
+    public void setUser(Set<User> user) {
         this.user = user;
     }
 
@@ -175,7 +172,7 @@ public class Bankcard {
      */
     @Override
     public String toString() {
-        return "Bankcard [bank=" + bank + ", iban=" + iban + ", id=" + id + ", owner=" + owner + ", user=" + user
+        return "Bankcard [bank=" + bank + ", iban=" + iban + ", id=" + id + ", owner=" + owner
                 + ", version=" + version + "]";
     }
 

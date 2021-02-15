@@ -1,10 +1,10 @@
 package de.hsrm.mi.swtpro.pflamoehus.product;
 
-/*
+/**
  * Enum for the different available producttypes.
  * 
- * @author Svenja Schenk
- * @version 1
+ * @author Svenja Schenk, Marie Scharhag
+ * @version 2
  */
 public enum ProductType {
 
@@ -29,13 +29,26 @@ public enum ProductType {
      * */
     DECORATION("Dekoration"),
     /**
-     * type 'Schrank/Kommode' 
+     * type 'Schrank' 
      * */ 
-    CLOSET("Schrank/Kommode"),
+    CLOSET("Schrank"),
+  
+    /**
+     * type 'waschbecken'
+     */
+    SINK("Waschbecken"),
+
+    /**
+     * type 'Küche' 
+     */
+    KITCHEN("Küche"),
     /**
      * type 'Sofa/Couch' 
      * */
-    COUCH("Sofa/Couch");
+    COUCH("Sofa");
+    /**
+     *  type null
+     */
 
     private String type;
 

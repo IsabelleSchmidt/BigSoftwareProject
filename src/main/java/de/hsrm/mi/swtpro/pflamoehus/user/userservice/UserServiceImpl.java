@@ -1,23 +1,19 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.userservice;
 
-
 import java.util.List;
 import java.util.Optional;
-
 import javax.persistence.OptimisticLockException;
-
+import javax.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import de.hsrm.mi.swtpro.pflamoehus.exceptions.EmailAlreadyInUseException;
-import de.hsrm.mi.swtpro.pflamoehus.exceptions.UserServiceException;
+import de.hsrm.mi.swtpro.pflamoehus.exceptions.service.UserServiceException;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
-import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 
 /*
  * UserServiceImpl for implementing the interface 'UserService'.
@@ -26,7 +22,7 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
  * @version 4
  */
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
@@ -34,7 +30,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     PasswordEncoder pe;
 
-    Logger userServiceLogger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     /**
      * Returns a list of all users written in the database.
@@ -53,8 +49,9 @@ public class UserServiceImpl implements UserService{
      * @return user
      */
     @Override
-    public User searchUserWithEmail(String email) { // gut so
-
+    @Transactional
+    public User searchUserWithEmail(String email) {
+        LOGGER.info("SEARCH WITH MAIL");
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isEmpty()) {
             throw new UserServiceException("User with this mail wasn't found in the database");
@@ -69,7 +66,8 @@ public class UserServiceImpl implements UserService{
      * @return user
      */
     @Override
-    public User searchUserWithId(long id) { // gut so
+    @Transactional
+    public User searchUserWithId(long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new UserServiceException("User with this ID wasn't found in the database");
@@ -78,36 +76,12 @@ public class UserServiceImpl implements UserService{
     }
 
     /**
-     * Edits and saves the given (new) user.
-     * 
-     * @param editedUser new or edited user
-     * @return user
-     */
-    @Override
-    public User editUser(User editedUser) {
-        try {
-            User foundUser = searchUserWithEmail(editedUser.getEmail());
-            if (!pe.encode(editedUser.getPassword()).equals(foundUser.getPassword())) {
-                encodePassword(editedUser.getPassword(), editedUser);
-            }
-            editBankcard(editedUser, foundUser);
-            editCreditcard(editedUser, foundUser);
-
-        } catch (OptimisticLockException oLE) {
-            oLE.printStackTrace();
-            throw new UserServiceException("User could not be saved into the database.");
-        }
-
-        return editedUser;
-
-    }
-
-    /**
      * Delets the user with the given id.
      * 
      * @param id user id that should get deleted
      */
     @Override
+    @Transactional
     public void deleteUser(long id) { // gut so
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
@@ -125,87 +99,27 @@ public class UserServiceImpl implements UserService{
      * @return user
      */
     @Override
+    @Transactional
     public User registerUser(User user) {
+       
         Optional<User> found = userRepository.findByEmail(user.getEmail());
 
         if (found.isPresent()) {
             throw new EmailAlreadyInUseException();
         }
 
-        user = userRepository.save(user);
-
-        try {
-
-            encodePassword(user.getPassword(), user);
-
-            if (user.getBankcard() != null) {
-                encodeIBAN(user.getBankcard() , user);
-            }
-            if (user.getCreditcard() != null) {
-                encodeCardNumber(user.getCreditcard(), user);
-            }
-
-        } catch (OptimisticLockException ole) {
-
-            ole.printStackTrace();
-            throw new UserServiceException("User could not be saved into the database.");
-
+        try{
+          
+            user.setPassword(encodePassword(user.getPassword()));
+        }catch(OptimisticLockException ole){
+            throw new UserServiceException("Password couldn't be changed.");
         }
 
-        userServiceLogger.info("User was saved into the repository.");
+        user = userRepository.save(user);
+        
+        LOGGER.info("User was saved into the repository.");
         return user;
 
-    }
-
-    /**
-     * When creating a new user or editing the iban, the new iban has to get
-     * encoded.
-     * 
-     * @param cards new or edited bankcards
-     * @param user  user from database
-     */
-
-    private void encodeIBAN(List<Bankcard> cards, User user) {
-        
-        Optional<User> found = userRepository.findByEmail(user.getEmail());
-        
-        if(cards.isEmpty()){
-            throw new UserServiceException();
-        }
-        else{
-            for (Bankcard card : cards) {
-                pe.encode(card.getIban());
-            }
-            if (found.isPresent()){
-                user.setBankcard(cards);
-                userRepository.save(user);
-            }
-        }
-    }
-
-    /**
-     * When creating a new user or editing the creditcard number, the new number has
-     * to get encoded.
-     * 
-     * @param cards edited or new creditcards
-     * @param user  user from database
-     */
-
-    private void encodeCardNumber(List<Creditcard> cards, User user) {
-        Optional<User> found = userRepository.findByEmail(user.getEmail());
-        
-        if(cards.isEmpty()){
-            throw new UserServiceException();
-        }
-        else{
-            for (Creditcard card : cards) {
-                pe.encode(card.getCreditcardnumber());
-            }
-            if (found.isPresent()){
-                user.setCreditcard(cards);
-                userRepository.save(user);
-            }
-        }
     }
 
     /**
@@ -214,64 +128,53 @@ public class UserServiceImpl implements UserService{
      * @param password new password
      * @param user     user from database or a new user
      */
-
-    private void encodePassword(String password, User user) {
-
-        Optional<User> found = userRepository.findByEmail(user.getEmail());
-
-        if (found.isPresent()) {
-            password = pe.encode(password);
-            user.setPassword(password);
-            userRepository.save(user);
-        }
-
+    public String encodePassword(String password) {
+       
+        return pe.encode(password);
     }
 
     /**
-     * When a user changes his bankcards, for example the iban or he adds another
-     * one, we have to encode the new iban.
+     * Shows if the user with this email exits in the database
      * 
-     * @param editedUser new user
-     * @param foundUser  user from database
+     * @param email searched email
+     * @return boolean
      */
-    private void editBankcard(User editedUser, User foundUser) {
-
-        if (editedUser.getBankcard().size() == foundUser.getBankcard().size()) {
-            for (Bankcard card1 : editedUser.getBankcard()) {
-                for (Bankcard card2 : foundUser.getBankcard()) {
-                    if (!pe.encode(card1.getIban()).equals(card2.getIban())) {
-                        card1.setIban(pe.encode(card1.getIban()));
-                    }
-                }
-            }
-        } else if (editedUser.getBankcard().size() != foundUser.getBankcard().size()) {
-            editedUser.getBankcard().get(editedUser.getBankcard().size() - 1)
-                    .setIban(pe.encode(editedUser.getBankcard().get(editedUser.getBankcard().size() - 1).getIban()));
-        }
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 
-    /**
-     * When a user changes his creditcards, for example the creditcard number or he
-     * adds antoher one, we habe to encode the new creditcard number.
-     * 
-     * @param editedUser new user
-     * @param foundUser  user from database
-     */
-    private void editCreditcard(User editedUser, User foundUser) {
-
-        if (editedUser.getCreditcard().size() == foundUser.getCreditcard().size()) {
-            for (Creditcard card1 : editedUser.getCreditcard()) {
-                for (Creditcard card2 : foundUser.getCreditcard()) {
-                    if (!pe.encode(card1.getCreditcardnumber()).equals(card2.getCreditcardnumber())) {
-                        card1.setCreditcardnumber(pe.encode(card1.getCreditcardnumber()));
-                    }
-                }
-            }
-        } else if (editedUser.getCreditcard().size() != foundUser.getCreditcard().size()) {
-            editedUser.getCreditcard().get(editedUser.getBankcard().size() - 1).setCreditcardnumber(
-                    pe.encode(editedUser.getBankcard().get(editedUser.getBankcard().size() - 1).getIban()));
+    @Override
+    @Transactional
+    public User editUser(User user) {
+        try {
+            user = userRepository.save(user);
+        } catch (OptimisticLockException oLE) {
+            throw new UserServiceException();
         }
+        return user;
 
+    }
+    @Transactional
+    public User getFullyInitializedUser(String email){
+       
+        User user = searchUserWithEmail(email);
+        if(!Hibernate.isInitialized(user.getAllAdresses())){
+            Hibernate.initialize(user.getAllAdresses());
+        }
+        if(!Hibernate.isInitialized(user.getBankcard())){
+            Hibernate.initialize(user.getBankcard());
+        }
+        if(!Hibernate.isInitialized(user.getCreditcard())){
+            Hibernate.initialize(user.getCreditcard());
+        }
+        if(!Hibernate.isInitialized(user.getAllOrders())){
+            Hibernate.initialize(user.getAllOrders());
+        }
+        
+
+        LOGGER.info("User was initialized");
+        return user;
     }
 
 }

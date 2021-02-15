@@ -17,7 +17,6 @@ public class PictureValueTests {
 
     private final String PATH = "/chairs/chair1.jpg";
     private final String PATH2 = "/chairs/chair1.2.jpeg";
-    private final String WRONG_PATH = "ch/ais.chair1.2.jpg";
     private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private final Validator validator = factory.getValidator();
 
@@ -47,8 +46,6 @@ public class PictureValueTests {
         Picture pic = new Picture();
 
         pic.setPath("");
-        assertThat(validator.validate(pic)).isNotEmpty();
-        pic.setPath(WRONG_PATH);
         assertThat(validator.validate(pic)).isNotEmpty();
     }
 

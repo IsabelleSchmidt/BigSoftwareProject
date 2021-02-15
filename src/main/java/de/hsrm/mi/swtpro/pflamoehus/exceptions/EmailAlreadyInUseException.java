@@ -2,6 +2,8 @@ package de.hsrm.mi.swtpro.pflamoehus.exceptions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.HttpStatus;
 
 /**
  * Error message if an email is already in use.
@@ -9,6 +11,7 @@ import org.slf4j.LoggerFactory;
  * @author Ann-Cathrin Fabian
  * @version 1
  */
+@ResponseStatus(HttpStatus.BAD_REQUEST)
 public class EmailAlreadyInUseException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
@@ -18,7 +21,7 @@ public class EmailAlreadyInUseException extends RuntimeException {
      * Default massage.
      */
     public EmailAlreadyInUseException() {
-        emailAlreadyInUseExceptionLogger.error("Email is already in use.");
+        emailAlreadyInUseExceptionLogger.error("Diese Email ist schon vergeben");
     }
 
     /**

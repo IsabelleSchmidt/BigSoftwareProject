@@ -6,6 +6,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,12 +22,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetails;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.Picture;
-import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
-import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.*;
+import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
+
 
 /*
  * Product-Entitiy for its database.
@@ -38,9 +39,9 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.*;
 @Table(name = "Product")
 public class Product {
 
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private long articlenr;
 
     @Version
@@ -53,42 +54,41 @@ public class Product {
     private String name;
 
     @NotNull
-    @ValidProductType
+    @Enumerated(EnumType.STRING)
     @Column(name = "producttype")
-    private String productType;
+    private ProductType productType;
 
-    @ValidRoomType
+    @Enumerated(EnumType.STRING)
     @Column(name = "room")
-    private String roomType;
+    private RoomType roomType;
 
-    @NotNull
-    @Positive
-    @Digits(integer = 5, fraction = 2)
+    @NotNull(message = "Der Preis darf nicht leer bleiben.")
+    @Positive(message = "Der Preis muss positiv sein.")
+    @Digits(integer = 5, fraction = 2, message="Der Preis darf max. 5 Stellen vor und 2 Stellen nach dem Komma besitzen.")
     private double price = 0.0;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Picture> allPictures = new HashSet<>();
 
-    @PositiveOrZero
-    @Digits(integer = 3, fraction = 2)
+    @PositiveOrZero(message = "Zahl muss positiv oder Null sein.")
+    @Digits(integer = 3, fraction = 2, message = "Zahl darf max. 3 Stellen vor und 2 Stellen nach dem Komma gross sein.")
     private double height = 0.0;
 
-    @PositiveOrZero
-    @Digits(integer = 3, fraction = 2)
+    @PositiveOrZero(message = "Zahl muss positiv oder Null sein.")
+    @Digits(integer = 3, fraction = 2, message = "Zahl darf max. 3 Stellen vor und 2 Stellen nach dem Komma gross sein.")
     private double width = 0.0;
 
-    @PositiveOrZero
-    @Digits(integer = 3, fraction = 2)
+    @PositiveOrZero(message = "Zahl muss positiv oder Null sein.")
+    @Digits(integer = 3, fraction = 2, message = "Zahl darf max. 3 Stellen vor und 2 Stellen nach dem Komma gross sein.")
     private double depth = 0.0;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-    @JsonIgnore
     @JoinTable(name = "Product_Tags", joinColumns = @JoinColumn(name = "articlenr"), inverseJoinColumns = @JoinColumn(name = "tagID"))
     private Set<Tag> allTags = new HashSet<>();
 
     @Column(name = "available")
     @PositiveOrZero
-    private int nrAvailableItems = 0;
+    private int available = 0;
 
     @NotNull
     @Size(min = 10, max = 180)
@@ -98,6 +98,11 @@ public class Product {
     @Size(min = 10, max = 180)
     private String information;
 
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.DETACH)
+    @JsonIgnore
+    private Set<OrderDetails> allOrderDetails = new HashSet<>();
+    
     /**
      * Get information.
      * 
@@ -110,7 +115,7 @@ public class Product {
     /**
      * Set information.
      * 
-     * @param information -> information that has to be set
+     * @param information information that has to be set
      */
     public void setInformation(String information) {
         this.information = information;
@@ -128,7 +133,7 @@ public class Product {
     /**
      * Set description.
      * 
-     * @param description -> description that has to be set
+     * @param description description that has to be set
      */
     public void setDescription(String description) {
         this.description = description;
@@ -146,7 +151,7 @@ public class Product {
     /**
      * Set name.
      * 
-     * @param name -> name that has to be set
+     * @param name name that has to be set
      */
     public void setName(String name) {
         this.name = name;
@@ -157,16 +162,16 @@ public class Product {
      * 
      * @return producttype
      */
-    public String getProductType() {
+    public ProductType getProductType() {
         return productType;
     }
 
     /**
      * Set producttype.
      * 
-     * @param productType -> producttype that has to be set
+     * @param productType producttype that has to be set
      */
-    public void setProductType(String productType) {
+    public void setProductType(ProductType productType) {
         this.productType = productType;
     }
 
@@ -175,16 +180,16 @@ public class Product {
      * 
      * @return roomtype
      */
-    public String getRoomType() {
+    public RoomType getRoomType() {
         return roomType;
     }
 
     /**
      * Set roomtype.
      * 
-     * @param roomType -> roomtype that has to be set
+     * @param roomType roomtype that has to be set
      */
-    public void setRoomType(String roomType) {
+    public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }
 
@@ -200,7 +205,7 @@ public class Product {
     /**
      * Set price.
      * 
-     * @param price -> price that has to be set
+     * @param price price that has to be set
      */
     public void setPrice(Double price) {
         this.price = price;
@@ -215,33 +220,12 @@ public class Product {
         return allPictures;
     }
 
-    /**
-     * Add a picture to the list allPictures.
-     * 
-     * @param picture -> picture that has to be added
-     */
-    public void addPicture(Picture picture) {
-        if(!allPictures.contains(picture)){
-            allPictures.add(picture);
-        }
-        
-    }
-
-    /**
-     * Remove a picture from the list of all pictures.
-     * 
-     * @param picture picture that should be deleted
-     */
-    public void removePicture(Picture picture){
-        if (allPictures != null){
-            allPictures.remove(picture);
-        }
-    }
+   
 
     /**
      * Set allPicutres.
      * 
-     * @param allPictures -> pictures that have to be set
+     * @param allPictures pictures that have to be set
      */
     public void setAllPictures(Set<Picture> allPictures) {
         this.allPictures = allPictures;
@@ -268,7 +252,7 @@ public class Product {
     /**
      * Set height.
      * 
-     * @param height -> height that has to be set
+     * @param height height that has to be set
      */
     public void setHeight(double height) {
         this.height = height;
@@ -286,7 +270,7 @@ public class Product {
     /**
      * Set width.
      * 
-     * @param width -> width that has to be set
+     * @param width width that has to be set
      */
     public void setWidth(double width) {
         this.width = width;
@@ -305,7 +289,7 @@ public class Product {
     /**
      * Set depth.
      * 
-     * @param depth -> depth that has to be set
+     * @param depth depth that has to be set
      */
     public void setDepth(double depth) {
         this.depth = depth;
@@ -323,65 +307,29 @@ public class Product {
     /**
      * Set all tags.
      * 
-     * @param allTags -> tags that have to be set
+     * @param allTags tags that have to be set
      */
     public void setAllTags(Set<Tag> allTags) {
         this.allTags = allTags;
     }
 
-    /**
-     * Add tags to allTags.
-     * 
-     * @param tag -> tag that has to be added
-     */
-    public void addTag(Tag tag) {
-        if (!allTags.contains(tag)) {
-            allTags.add(tag);
-        }
-    }
-
-    /**
-     * Remove tag from allTags.
-     * 
-     * @param tag tag that has to be removed
-     */
-    public void removeTag(Tag tag){
-        if (!allTags.contains(tag)) {
-            allTags.remove(tag);
-        }
-    }
-
+  
     /**
      * Get number of available items.
      * 
      * @return available items
      */
-    public int getNrAvailableItems() {
-        return nrAvailableItems;
+    public int getAvailable() {
+        return available;
     }
 
     /**
      * Set number of available items.
      * 
-     * @param nrAvailableItems -> number of available items that has to be set
+     * @param available number of available items that has to be set
      */
-    public void setNrAvailableItems(int nrAvailableItems) {
-        this.nrAvailableItems = nrAvailableItems;
-    }
-
-    
-
-    /**
-     * To generate a product as a string.
-     * 
-     * @return string
-     */
-    @Override
-    public String toString() {
-        return "Product [allTags=" + allTags + ", articlenr=" + articlenr + ", depth=" + depth + ", height=" + height
-                + ", name=" + name + ", nrAvailableItems=" + nrAvailableItems + ", pictures =" + allPictures.toString()
-                + ", price=" + price + ", productType=" + productType + ", roomType=" + roomType + ", version="
-                + version + ", width=" + width + ", description=" + description + ", information=" + information + "]";
+    public void setAvailable(int available) {
+        this.available = available;
     }
 
     /**
@@ -392,5 +340,45 @@ public class Product {
     public long getVersion() {
         return version;
     }
+
+   
+  
+    
+    /** 
+     * Get all order details.
+     * 
+     * @return all order details
+     */
+    public Set<OrderDetails> getAllOrderDetails() {
+        return allOrderDetails;
+    }
+
+    
+    /** 
+     * Set all order details.
+     * 
+     * @param allOrderDetails all order details
+     */
+    public void setAllOrderDetails(Set<OrderDetails> allOrderDetails) {
+        this.allOrderDetails = allOrderDetails;
+    }
+
+    /**
+     * To generate a product as a string.
+     * 
+     * @return string
+     */
+    @Override
+    public String toString() {
+        return "{allPictures=" + allPictures + ", allTags=" + allTags + ", articlenr=" + articlenr
+                + ", available=" + available + ", depth=" + depth + ", description=" + description + ", height="
+                + height + ", information=" + information + ", name=" + name + ", price=" + price + ", productType="
+                + productType + ", roomType=" + roomType + ", version=" + version + ", width=" + width + "}";
+    }
+   
+
+
+  
+
 
 }

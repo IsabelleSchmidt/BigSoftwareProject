@@ -1,7 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.user.adress;
 
-import java.util.List;
-
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,9 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 
 /*
@@ -34,24 +32,26 @@ public class Adress {
     @JsonIgnore
     private long version;
 
-    @NotNull
-    @Pattern(regexp = "\\p{L}{2,}")
+    @NotNull(message="Der Straßenname muss angegeben werden.")
+    @Pattern(regexp = "((\\p{L})+\\s?[-]?(\\p{L})+)+", message="Der Straßenname ist ungültig.")
     private String streetName;
 
-    @Pattern(regexp = "\\d+?[a-zA-Z]?$")
-    @NotNull
+    
+    @NotNull(message="Die Hausnummer muss angegeben werden.")
+    @Pattern(regexp = "\\d+?[a-zA-Z]?$", message="Die Hausnummer ist ungültig.")
     private String houseNumber;
 
-    @NotNull
-    @Pattern(regexp = "^[1-9]{1}[0-9]{4}$")
+    @NotNull(message="Die Postleitzahl muss angegeben werden,")
+    @Pattern(regexp = "^[1-9]{1}[0-9]{4}$", message="Die Postleitzahl ist unültig.")
     private String postCode;
 
-    @NotNull
-    @Pattern(regexp = "\\p{L}{2,}")
+    @NotNull(message="Der Wohnort muss angegeben werden")
+    @Pattern(regexp = "((\\p{L})+\\s?[-]?(\\p{L})+)+", message="Der Wohnort ist ungültig.")
     private String city;
 
-    @ManyToMany(mappedBy = "allAdresses", fetch = FetchType.LAZY)
-    private List<User> user;
+    @ManyToMany(mappedBy = "allAdresses", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<User> user = new HashSet<>();
 
     /**
      * Get id.
@@ -148,7 +148,7 @@ public class Adress {
      * 
      * @return list of users
      */
-    public List<User> getUser() {
+    public Set<User> getUser() {
         return user;
     }
 
@@ -157,7 +157,7 @@ public class Adress {
      * 
      * @param user users that have to be set
      */
-    public void setUser(List<User> user) {
+    public void setUser(Set<User> user) {
         this.user = user;
     }
 
@@ -191,7 +191,50 @@ public class Adress {
     @Override
     public String toString() {
         return "Adress [adressID=" + adressID + ", city=" + city + ", houseNumber=" + houseNumber + ", postCode="
-                + postCode + ", streetName=" + streetName + ", user=" + user + ", version=" + version + "]";
+                + postCode + ", streetName=" + streetName  + ", version=" + version + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + ((houseNumber == null) ? 0 : houseNumber.hashCode());
+        result = prime * result + ((postCode == null) ? 0 : postCode.hashCode());
+        result = prime * result + ((streetName == null) ? 0 : streetName.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Adress other = (Adress) obj;
+        if (city == null) {
+            if (other.city != null)
+                return false;
+        } else if (!city.equals(other.city))
+            return false;
+        if (houseNumber == null) {
+            if (other.houseNumber != null)
+                return false;
+        } else if (!houseNumber.equals(other.houseNumber))
+            return false;
+        if (postCode == null) {
+            if (other.postCode != null)
+                return false;
+        } else if (!postCode.equals(other.postCode))
+            return false;
+        if (streetName == null) {
+            if (other.streetName != null)
+                return false;
+        } else if (!streetName.equals(other.streetName))
+            return false;
+        return true;
     }
 
 }

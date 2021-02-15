@@ -7,16 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
-import de.hsrm.mi.swtpro.pflamoehus.validation.product_db.ValidPicture;
+
 
 /**
  * Picture entitiy for its database.
@@ -30,7 +27,6 @@ public class Picture {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @JsonIgnore
     private long id;
 
     @Version
@@ -47,9 +43,10 @@ public class Picture {
     private Product product;
 
     @NotEmpty
-    @ValidPicture
     @Column(unique = true)
+    // @ValidPicture
     private String path;
+
 
     /**
      * Get product.
@@ -63,7 +60,7 @@ public class Picture {
     /**
      * Set product.
      * 
-     * @param product -> product that has to be set
+     * @param product product that has to be set
      */
     public void setProduct(Product product) {
         this.product = product;
@@ -74,14 +71,16 @@ public class Picture {
      * 
      * @return path
      */
+    // @Transient
     public String getPath() {
-        return path;
+        // if(product == null) return null;
+        return this.path;
     }
 
     /**
      * Set path.
      * 
-     * @param path -> path that has to get set
+     * @param path path that has to get set
      */
     public void setPath(String path) {
         this.path = path;
@@ -112,7 +111,7 @@ public class Picture {
     @PreRemove
     public void delete() {
         if (product != null) {
-            product.removePicture(this);
+            product.getAllPictures().remove(this);
         }
 
     }

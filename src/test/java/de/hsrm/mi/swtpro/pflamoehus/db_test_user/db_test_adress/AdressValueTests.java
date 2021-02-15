@@ -7,7 +7,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,16 +21,17 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 @SpringBootTest
+@TestInstance(Lifecycle.PER_CLASS)
 public class AdressValueTests {
 
-    private final String STREETNAME = "Erlenstraße";
-    private final String WRONG_STREETNAME = "e123";
-    private final String HOUSENUMBER = "15a";
-    private final String WORNG_HOUSENUMBER = "a15";
-    private final String POSTCODE = "55433";
-    private final String WRONG_POSTCODE = "546666";
-    private final String CITY = "Wiesbaden";
-    private final String WRONG_CITY = "W";
+    private final String CORRECT_STREETNAME = "Erlenstraße";
+    private final String INCORRECT_STREETNAME = "e123";
+    private final String CORRECT_HOUSENUMBER = "15a";
+    private final String INCORRECT_HOUSENUMBER = "a15";
+    private final String CORRECT_POSTCODE = "55433";
+    private final String INCORRECT_POSTCODE = "546666";
+    private final String CORRECT_CITY = "Wiesbaden";
+    private final String INCORRECT_CITY = "W";
 
     private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private final Validator validator = factory.getValidator();
@@ -43,13 +46,13 @@ public class AdressValueTests {
     public void create_adress() {
         Adress adr = new Adress();
 
-        adr.setStreetName(STREETNAME);
-        adr.setHouseNumber(HOUSENUMBER);
-        adr.setCity(CITY);
-        adr.setPostCode(POSTCODE);
+        adr.setStreetName(CORRECT_STREETNAME);
+        adr.setHouseNumber(CORRECT_HOUSENUMBER);
+        adr.setCity(CORRECT_CITY);
+        adr.setPostCode(CORRECT_POSTCODE);
 
-        assertThat(adr.toString()).contains(STREETNAME).contains(HOUSENUMBER).contains(CITY)
-                .contains(String.valueOf(POSTCODE));
+        assertThat(adr.toString()).contains(CORRECT_STREETNAME).contains(CORRECT_HOUSENUMBER).contains(CORRECT_CITY)
+                .contains(String.valueOf(CORRECT_POSTCODE));
         assertThat(validator.validate(adr)).isEmpty();
     }
 
@@ -60,10 +63,10 @@ public class AdressValueTests {
         Adress adr = new Adress();
         int nrWrongValues = 4;
 
-        adr.setStreetName(WRONG_STREETNAME);
-        adr.setHouseNumber(WORNG_HOUSENUMBER);
-        adr.setCity(WRONG_CITY);
-        adr.setPostCode(WRONG_POSTCODE);
+        adr.setStreetName(INCORRECT_STREETNAME);
+        adr.setHouseNumber(INCORRECT_HOUSENUMBER);
+        adr.setCity(INCORRECT_CITY);
+        adr.setPostCode(INCORRECT_POSTCODE);
 
         Set<ConstraintViolation<Adress>> violations;
         violations = validator.validate(adr);

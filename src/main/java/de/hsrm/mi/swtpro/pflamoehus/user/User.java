@@ -1,93 +1,137 @@
 package de.hsrm.mi.swtpro.pflamoehus.user;
 
 import java.time.LocalDate;
-import java.util.List;
-
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.validation.annotation.Validated;
+import de.hsrm.mi.swtpro.pflamoehus.user.roles.Roles;
 import de.hsrm.mi.swtpro.pflamoehus.user.adress.Adress;
+import de.hsrm.mi.swtpro.pflamoehus.order.Order;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidBirthDay;
 import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
-import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidGender;
-
 
 /*
  * User-Entity for its database.
  * 
- * @author Ann-Cathrin Fabian
- * @version 3
+ * @author Ann-Cathrin Fabian, Svenja Schenk
+ * @version 4
  */
 @Entity
+@Validated
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private long userID;
 
     @Version
     @JsonIgnore
     private long version;
 
-    @NotEmpty
+    @NotEmpty(message = "Der Vorname muss angegeben werden.")
+    @Size(min = 3, message = "Der Vorname muss mindestens 3 Buchstaben lang sein.")
+    @Column(name = "firstname")
+    private String firstName;
+
+    @NotEmpty(message = "Der Nachname muss angegeben werden.")
+    @Size(min = 2, message = "Der Nachname muss mindestens 2 Buchstaben lang sein.")
+    @Column(name = "lastname")
+    private String lastName;
+
+    @NotEmpty(message = "Die Email-Adresse muss angegeben werden.")
     @Column(name = "EMAIL", unique = true)
     @ValidEmail
     private String email;
 
-  
-    @NotEmpty
-    @JsonProperty(access = Access.WRITE_ONLY)
-    private String password;
-
-    @NotEmpty
-    @Size(min = 3)
-    @Column(name = "firstname")
-    private String firstName;
-
-    @NotEmpty
-    @Size(min = 2)
-    @Column(name = "lastname")
-    private String lastName;
-
     @ValidBirthDay
     private LocalDate birthdate;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @NotEmpty(message = "Es muss ein Passwort angegeben werden.")
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @JsonIgnore
+    private String password;
+
+    @ManyToMany(cascade = CascadeType.DETACH)
     @JoinTable(name = "User_Adresses", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "adressID"))
-    private List<Adress> allAdresses;
+    private Set<Adress> allAdresses = new HashSet<>();
 
-    @NotEmpty
-    @ValidGender
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender = Gender.DIVERSE;
 
-    @Valid
     @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Bankcard> bankcard;
+    private Set<Bankcard> bankcard = new HashSet<>();
 
-    @Valid
     @ManyToMany(mappedBy = "user", cascade = CascadeType.DETACH)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Creditcard> creditcard;
+    private Set<Creditcard> creditcard = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Roles> roles = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "user")
+    @JsonIgnore
+    private Set<Order> allOrders = new HashSet<>();
+
+    /**
+     * Get roles.
+     * 
+     * @return roles
+     */
+    public Set<Roles> getRoles() {
+        return this.roles;
+    }
+
+    /**
+     * Set roles.
+     * 
+     * @param roles roles that should be set.
+     */
+    public void setRoles(Set<Roles> roles) {
+        this.roles = roles;
+    }
+
+    /**
+     * Add role.
+     * 
+     * @param role role that should be added
+     */
+    public void addRole(Roles role) {
+        if (!roles.contains(role)) {
+            roles.add(role);
+        }
+    }
+
+    /**
+     * Remove role.
+     * 
+     * @param role that should get removed
+     */
+    public void removeRole(Roles role) {
+        if (role != null) {
+            roles.remove(role);
+        }
+    }
 
     /**
      * Get creditcards.
@@ -95,7 +139,7 @@ public class User {
      * @return list of creditscards
      */
 
-    public List<Creditcard> getCreditcard() {
+    public Set<Creditcard> getCreditcard() {
         return this.creditcard;
     }
 
@@ -104,33 +148,12 @@ public class User {
      * 
      * @param creditcard creditcards that have to be set
      */
-    public void setCreditcard(List<Creditcard> creditcard) {
+    public void setCreditcard(Set<Creditcard> creditcard) {
         this.creditcard = creditcard;
     }
 
-    /**
-     * Adds a new creditcard to the list of a user.
-     * 
-     * @param newCreditcard creditcard that should be added
-     */
-    public void addCreditcard(Creditcard newCreditcard) {
-        if (!creditcard.contains(newCreditcard)) {
-            creditcard.add(newCreditcard);
-        }
 
-    }
 
-    /**
-     * Removes a given creditcard from the list of a user.
-     * 
-     * @param deleteCard card that should get removed
-     */
-    public void removeCreditCard(Creditcard deleteCard) {
-        if (deleteCard != null) {
-            creditcard.remove(deleteCard);
-        }
-
-    }
 
     /**
      * Get bankcards.
@@ -138,7 +161,7 @@ public class User {
      * @return list of bankcards
      */
 
-    public List<Bankcard> getBankcard() {
+    public Set<Bankcard> getBankcard() {
         return this.bankcard;
     }
 
@@ -146,40 +169,20 @@ public class User {
      * Set bankcards.
      * 
      * @param bankcard bankcards that have to be set
+     * 
      */
-    public void setBankcard(List<Bankcard> bankcard) {
+    public void setBankcard(Set<Bankcard> bankcard) {
         this.bankcard = bankcard;
     }
 
-    /**
-     * Adds a new bankcard to the list of a user.
-     * 
-     * @param newBankcard bankcard that sould be added
-     */
-    public void addBankcard(Bankcard newBankcard) {
-        if (!bankcard.contains(newBankcard)) {
-            bankcard.add(newBankcard);
-        }
-    }
 
-    /**
-     * Removes a given bankcard from the list of a user.
-     * 
-     * @param deleteBankcard bankcard that should get deleted
-     */
-    public void removeBankcard(Bankcard deleteBankcard) {
-        if (deleteBankcard != null) {
-            bankcard.remove(deleteBankcard);
-        }
-
-    }
 
     /**
      * Get gender.
      * 
      * @return gender
      */
-    public String getGender() {
+    public Gender getGender() {
         return this.gender;
     }
 
@@ -188,7 +191,7 @@ public class User {
      * 
      * @param gender gender that has to be set
      */
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -197,7 +200,7 @@ public class User {
      * 
      * @return list of adresses
      */
-    public List<Adress> getAdress() {
+    public Set<Adress> getAllAdresses() {
         return this.allAdresses;
     }
 
@@ -206,32 +209,11 @@ public class User {
      * 
      * @param allAdresses list of adresses that has to be set
      */
-    public void setAdress(List<Adress> allAdresses) {
+    public void setAllAdresses(Set<Adress> allAdresses) {
         this.allAdresses = allAdresses;
     }
 
-     /**
-     * Add a new adress to the list of all adresses owned by one user.
-     * 
-     * @param adress adress that has to be added to the adress list
-     */
-    public void addAdress(Adress adress) {
-        if (!allAdresses.contains(adress)) {
-            allAdresses.add(adress);
-        }
-    }
 
-    /**
-     * Removes a adress from the list of all adresses owned by one user.
-     * 
-     * @param adress adress that has to be removed from the adress list
-     */
-    public void removeAdress(Adress adress) {
-        if (adress != null) {
-            allAdresses.remove(adress);
-        }
-
-    }
 
     /**
      * Get birthdate.
@@ -341,16 +323,40 @@ public class User {
         this.email = email;
     }
 
+    
+
     /**
-     * To create a user as a string.
+     * User to string.
      * 
-     * @return string
+     * @return String
      */
     @Override
     public String toString() {
-        return "User [bankcard=" + bankcard + ", birthdate=" + birthdate + ", creditcard=" + creditcard + ", email="
-                + email + ", firstName=" + firstName + ", gender=" + gender + ", id=" + userID + ", lastName="
-                + lastName + ", passwort=" + password + ", version=" + version + "]";
+        return "User [allAdresses=" + allAdresses + ", bankcard=" + bankcard + ", birthdate=" + birthdate
+                + ", creditcard=" + creditcard + ", email=" + email + ", firstName=" + firstName + ", gender=" + gender
+                + ", lastName=" + lastName + ", orders=" + ", password=" + password + ", roles=" + roles
+                + ", userID=" + userID + ", version=" + version + "]";
     }
+
+    
+    /** 
+     * Get orders.
+     * 
+     * @return all orders
+     */
+    public Set<Order> getAllOrders() {
+        return allOrders;
+    }
+
+    
+    /** 
+     * Set orders. 
+     * 
+     * @param allOrders to be set
+     */
+    public void setAllOrders(Set<Order> allOrders) {
+        this.allOrders = allOrders;
+    }
+
 
 }

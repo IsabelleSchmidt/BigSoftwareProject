@@ -13,16 +13,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import de.hsrm.mi.swtpro.pflamoehus.order.orderdetails.OrderDetailsRepository;
 import de.hsrm.mi.swtpro.pflamoehus.product.Product;
 import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
+import de.hsrm.mi.swtpro.pflamoehus.product.ProductType;
+import de.hsrm.mi.swtpro.pflamoehus.product.RoomType;
 import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class ProductRepoTests {
 
     final String TESTNAME = "Herbert";
-    final String PRODUCTTYPE = "Sofa/Couch";
-    final String ROOMTYPE = "Bad";
+    final ProductType PRODUCTTYPE = ProductType.COUCH;
+    final RoomType ROOMTYPE = RoomType.BATHROOM;
     final double PRICE = 10.5;
     final double HEIGHT = 75.0;
     final double WIDHT = 210.5;
@@ -37,9 +40,13 @@ class ProductRepoTests {
     @Autowired
     private PictureRepository picutreRepository;
 
+    @Autowired
+    private OrderDetailsRepository orderRepository;
+
     @BeforeEach
     void clear_repos() {
         picutreRepository.deleteAll();
+        orderRepository.deleteAll();
         productRepository.deleteAll();
     }
 
@@ -57,7 +64,7 @@ class ProductRepoTests {
         unmanaged.setDepth(DEPTH);
         unmanaged.setHeight(HEIGHT);
         unmanaged.setWidth(WIDHT);
-        unmanaged.setNrAvailableItems(AVIABLEPRODUCTS);
+        unmanaged.setAvailable(AVIABLEPRODUCTS);
         unmanaged.setProductType(PRODUCTTYPE);
         unmanaged.setRoomType(ROOMTYPE);
         unmanaged.setPrice(PRICE);
@@ -79,7 +86,7 @@ class ProductRepoTests {
         product1.setDepth(DEPTH);
         product1.setHeight(HEIGHT);
         product1.setWidth(WIDHT);
-        product1.setNrAvailableItems(AVIABLEPRODUCTS);
+        product1.setAvailable(AVIABLEPRODUCTS);
         product1.setProductType(PRODUCTTYPE);
         product1.setRoomType(ROOMTYPE);
         product1.setPrice(PRICE);
@@ -94,7 +101,7 @@ class ProductRepoTests {
         product2.setDepth(DEPTH);
         product2.setHeight(HEIGHT);
         product2.setWidth(WIDHT);
-        product2.setNrAvailableItems(AVIABLEPRODUCTS);
+        product2.setAvailable(AVIABLEPRODUCTS);
         product2.setProductType(PRODUCTTYPE);
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(PRICE);
@@ -120,7 +127,7 @@ class ProductRepoTests {
             product1.setDepth(DEPTH + i);
             product1.setHeight(HEIGHT + i);
             product1.setWidth(WIDHT + i);
-            product1.setNrAvailableItems(AVIABLEPRODUCTS + i);
+            product1.setAvailable(AVIABLEPRODUCTS + i);
             product1.setProductType(PRODUCTTYPE);
             product1.setRoomType(ROOMTYPE);
             product1.setPrice(PRICE + i);
@@ -132,7 +139,7 @@ class ProductRepoTests {
         assertThat(productRepository.count()).isEqualTo(COUNT);
 
         for (int i = 0; i < COUNT; i++) {
-            Product fund = productRepository.findByName(TESTNAME + i);
+            Product fund = productRepository.findByName(TESTNAME + i).get();
             assertThat(fund.getDepth()).isEqualTo(DEPTH + i);
             assertThat(fund.getPrice()).isEqualTo(PRICE + i);
         }
@@ -147,7 +154,7 @@ class ProductRepoTests {
         product1.setDepth(DEPTH);
         product1.setHeight(HEIGHT);
         product1.setWidth(WIDHT);
-        product1.setNrAvailableItems(AVIABLEPRODUCTS);
+        product1.setAvailable(AVIABLEPRODUCTS);
         product1.setProductType(PRODUCTTYPE);
         product1.setRoomType(ROOMTYPE);
         product1.setPrice(PRICE);
@@ -162,7 +169,7 @@ class ProductRepoTests {
         product2.setDepth(DEPTH);
         product2.setHeight(HEIGHT);
         product2.setWidth(WIDHT);
-        product2.setNrAvailableItems(AVIABLEPRODUCTS);
+        product2.setAvailable(AVIABLEPRODUCTS);
         product2.setProductType(PRODUCTTYPE);
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(PRICE);
@@ -186,7 +193,7 @@ class ProductRepoTests {
         product1.setDepth(DEPTH);
         product1.setHeight(HEIGHT);
         product1.setWidth(WIDHT);
-        product1.setNrAvailableItems(AVIABLEPRODUCTS);
+        product1.setAvailable(AVIABLEPRODUCTS);
         product1.setProductType(PRODUCTTYPE);
         product1.setRoomType(ROOMTYPE);
         product1.setPrice(PRICE);
@@ -201,8 +208,8 @@ class ProductRepoTests {
         product2.setDepth(DEPTH);
         product2.setHeight(HEIGHT);
         product2.setWidth(WIDHT);
-        product2.setNrAvailableItems(AVIABLEPRODUCTS);
-        product2.setProductType("Pflanze");
+        product2.setAvailable(AVIABLEPRODUCTS);
+        product2.setProductType(ProductType.PLANT);
         product2.setRoomType(ROOMTYPE);
         product2.setPrice(123.4);
         product2.setDescription(DESCRIPTION);
@@ -211,7 +218,7 @@ class ProductRepoTests {
         final Product managed2 = productRepository.save(product2);
         assertThat(managed2).isEqualTo(product2);
 
-        List<Product> fund = productRepository.findByProductType("Sofa/Couch");
+        List<Product> fund = productRepository.findByProductType(ProductType.COUCH);
         assertThat(fund.size()).isEqualTo(1);
 
         List<Product> fund2 = productRepository.findByHeight(HEIGHT);

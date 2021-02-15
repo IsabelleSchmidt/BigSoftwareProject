@@ -1,30 +1,39 @@
 package de.hsrm.mi.swtpro.pflamoehus.db_test_user;
 
+
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import de.hsrm.mi.swtpro.pflamoehus.user.Gender;
 import de.hsrm.mi.swtpro.pflamoehus.user.User;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
-import de.hsrm.mi.swtpro.pflamoehus.user.adress.AdressRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.BankcardRepository;
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.CreditcardRepository;
+import de.hsrm.mi.swtpro.pflamoehus.user.roles.RolesRepository;
+import de.hsrm.mi.swtpro.pflamoehus.user.adress.AdressRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class UserRepositoryTests {
 
     private final String FIRSTNAME = "Olaf der Dritte";
-    private final String GENDER = "DIVERSE";
+    private final Gender GENDER = Gender.DIVERSE;
     private final String PASSWORD = "HaaaaaaaHA11!";
     private final String LASTNAME = "Schmidt";
     private final LocalDate BIRTHDAY = LocalDate.of(1999, 1, 1);
@@ -38,13 +47,23 @@ class UserRepositoryTests {
     private BankcardRepository bankRepo;
     @Autowired
     private AdressRepository adressRepo;
+    @Autowired
+    private RolesRepository rolesRepo;
+   
+  
+
+    private static final Logger logger = LoggerFactory.getLogger(UserRepositoryTests.class);
 
     @BeforeEach
     public void clear_repos() {
+        
+        
         creditRepo.deleteAll();
         bankRepo.deleteAll();
         adressRepo.deleteAll();
         userRepo.deleteAll();
+        rolesRepo.deleteAll();
+        
     }
 
     @Test
@@ -56,7 +75,7 @@ class UserRepositoryTests {
     @Test
     @DisplayName("Persist product entity (empty table)")
     void persist_user() {
-
+        userRepo.deleteAll();
         final User unmanaged = new User();
 
         unmanaged.setFirstName(FIRSTNAME);
@@ -66,10 +85,13 @@ class UserRepositoryTests {
         unmanaged.setGender(GENDER);
         unmanaged.setPassword(PASSWORD);
 
+        logger.info("REPO: " + userRepo.findAll());
+        //System.out.println("REPO" + userRepo.findAll());
+        List<User> repo = userRepo.findAll();
         final User managed = userRepo.save(unmanaged);
         assertThat(managed).isEqualTo(unmanaged);
 
-        assertThat(userRepo.count()).isEqualTo(1);
+        assertEquals(1, userRepo.count(), "REPO: " + repo);
 
     }
 
@@ -105,6 +127,7 @@ class UserRepositoryTests {
     }
 
     @Test
+    @Transactional
     @DisplayName("UserRepo findByEmail und findById")
     void userRepo_findBy() {
         final int COUNT = 5;

@@ -5,21 +5,24 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Bankcard;
 @SpringBootTest
+@TestInstance(Lifecycle.PER_CLASS)
 public class BankcardValueTests {
     
-    public final String IBAN = "DE89 3704 0044 0532 0130 00";
-    public final String WRONG_IBAN = "DE89 3 0044 0532 0130 00";
-    public final String OWNER = "Steven Bob";
-    public final String WRONG_OWNER = "Bob";
-    public final String BANK = "Sparkasse";
-    public final String WRONG_BANK = "bob";
+    public final String CORRECT_IBAN = "DE89 3704 0044 0532 0130 00";
+    public final String INCORRECT_IBAN = "DE89 3 0044 0532 0130 00";
+    public final String CORRECT_OWNER = "Steven Bob";
+    public final String INCORRECT_OWNER = "Bob";
+    public final String CORRECT_BANK = "Sparkasse";
+    public final String INCORRECT_BANK = "bob";
 
     private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private final Validator validator = factory.getValidator();
@@ -34,13 +37,13 @@ public class BankcardValueTests {
     public void create_bankcard() {
         Bankcard bc = new Bankcard();
 
-        bc.setBank(BANK);
-        bc.setIban(IBAN);
-        bc.setOwner(OWNER);
+        bc.setBank(CORRECT_BANK);
+        bc.setIban(CORRECT_IBAN);
+        bc.setOwner(CORRECT_OWNER);
         assertThat(bc.toString())
-        .contains(BANK)
-        .contains(IBAN)
-        .contains(OWNER);
+        .contains(CORRECT_BANK)
+        .contains(CORRECT_IBAN)
+        .contains(CORRECT_OWNER);
 
         assertThat(validator.validate(bc)).isEmpty();
     }
@@ -51,7 +54,7 @@ public class BankcardValueTests {
         
         Bankcard bc = new Bankcard();
 
-        bc.setIban(WRONG_IBAN);
+        bc.setIban(INCORRECT_IBAN);
 
         assertThat(validator.validate(bc)).isNotEmpty();
                 

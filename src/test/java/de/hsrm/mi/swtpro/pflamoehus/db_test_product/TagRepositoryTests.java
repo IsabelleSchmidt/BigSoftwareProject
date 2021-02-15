@@ -2,10 +2,9 @@ package de.hsrm.mi.swtpro.pflamoehus.db_test_product;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,8 +15,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.dao.DataIntegrityViolationException;
-import de.hsrm.mi.swtpro.pflamoehus.tags.Tag;
-import de.hsrm.mi.swtpro.pflamoehus.tags.TagRepository;
+import de.hsrm.mi.swtpro.pflamoehus.product.ProductRepository;
+import de.hsrm.mi.swtpro.pflamoehus.product.picture.PictureRepository;
+import de.hsrm.mi.swtpro.pflamoehus.product.tags.Tag;
+import de.hsrm.mi.swtpro.pflamoehus.product.tags.TagRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
@@ -28,6 +29,12 @@ class TagRepositoryTests {
 
     @Autowired
     private TagRepository tagRepo;
+
+    @Autowired
+    private ProductRepository productRepo;
+
+    @Autowired
+    private PictureRepository pictureRepo;
 
 
     private final String VALUE = "Keramik";
@@ -42,6 +49,8 @@ class TagRepositoryTests {
     @DisplayName("persist Tag")
     void persist_tag() {
 
+        pictureRepo.deleteAll();
+        productRepo.deleteAll();
         tagRepo.deleteAll();
 
         Tag unmanaged = new Tag();
@@ -57,6 +66,8 @@ class TagRepositoryTests {
     @DisplayName("Save and delete tags from repository")
     void save_and_delete_tag() {
 
+        pictureRepo.deleteAll();
+        productRepo.deleteAll();
         tagRepo.deleteAll();
 
         List<Tag> allTags = new ArrayList<Tag>();
@@ -80,6 +91,8 @@ class TagRepositoryTests {
     @DisplayName("TagRepository findBy.. ")
     void repo_findBy() {
 
+        pictureRepo.deleteAll();
+        productRepo.deleteAll();
         tagRepo.deleteAll();
 
         Tag tag1 = new Tag();
@@ -92,12 +105,12 @@ class TagRepositoryTests {
         tagRepo.save(tag1);
         tagRepo.save(tag2);
 
-        Tag tag3;
+        Optional<Tag> tag3;
         tag3 = tagRepo.findByValue(VALUE);
-        assertThat(tag3.getValue()).isEqualTo(tag1.getValue());
+        assertThat(tag3.get().getValue()).isEqualTo(tag1.getValue());
 
         tag3 = tagRepo.findById(tag2.getId());
-        assertThat(tag3.getId()).isEqualTo(tag2.getId());
+        assertThat(tag3.get().getId()).isEqualTo(tag2.getId());
 
     }
 
@@ -105,6 +118,8 @@ class TagRepositoryTests {
     @DisplayName("create two tags with the same value")
     void check_unique_values() {
 
+        pictureRepo.deleteAll();
+        productRepo.deleteAll();
         tagRepo.deleteAll();
 
         Tag tag1 = new Tag();
@@ -117,7 +132,6 @@ class TagRepositoryTests {
 
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
             tagRepo.save(tag2);
-            //assertThat(managed2).isEqualTo(tag2);
         });
 
         assertThat(tagRepo.count()).isEqualTo(1);

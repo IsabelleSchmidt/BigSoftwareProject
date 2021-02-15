@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,18 +16,17 @@ import de.hsrm.mi.swtpro.pflamoehus.user.paymentmethods.Creditcard;
 
 
 @SpringBootTest
+@TestInstance(Lifecycle.PER_CLASS)
 public class CreditcardValueTests {
     
     ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     Validator validator = factory.getValidator();
 
-    final private String OWNER = "Christopf";
-    final private String CREDITCARDNUMBER = "4111111111111";
-    final private LocalDate EXPIRY = LocalDate.of(2023,10,04);
-
-    final private String WRONG_OWNER ="";
+    final private String CORRECT_OWNER = "Christopf";
+    final private String CORRECT_CREDITCARDNUMBER = "4111111111111";
+    final private LocalDate CORRECT_DATEOFEXPIRY = LocalDate.of(2023,10,04);
+    final private String INCORRECT_OWNER ="";
     final private LocalDate WRONG_EXPIRY = LocalDate.of(2020,01,01);
-    final private String WRONG_NUMBER = "4 1111 1111 1111";
 
 
     @AfterAll
@@ -39,9 +40,9 @@ public class CreditcardValueTests {
 
         Creditcard correct = new Creditcard();
 
-        correct.setOwner(OWNER);
-        correct.setCreditcardnumber(CREDITCARDNUMBER);
-        correct.setDateOfExpiry(EXPIRY);
+        correct.setCowner(CORRECT_OWNER);
+        correct.setCreditcardnumber(CORRECT_CREDITCARDNUMBER);
+        correct.setDateOfExpiry(CORRECT_DATEOFEXPIRY);
 
         assertThat(validator.validate(correct)).isEmpty();
 
@@ -52,14 +53,12 @@ public class CreditcardValueTests {
     public void create_incorrect_card(){
 
         Creditcard incorrect = new Creditcard();
-        incorrect.setOwner(OWNER);
-        incorrect.setDateOfExpiry(EXPIRY);
-        incorrect.setCreditcardnumber(WRONG_NUMBER);
-        
-        assertThat(validator.validate(incorrect).size()).isEqualTo(1);
+        incorrect.setCowner(CORRECT_OWNER);
+        incorrect.setCreditcardnumber(CORRECT_CREDITCARDNUMBER);
+        incorrect.setDateOfExpiry(CORRECT_DATEOFEXPIRY);
         incorrect.setDateOfExpiry(WRONG_EXPIRY);
-        assertThat(validator.validate(incorrect).size()).isEqualTo(2);
-        incorrect.setOwner(WRONG_OWNER);
+        assertThat(validator.validate(incorrect).size()).isEqualTo(1);
+        incorrect.setCowner(INCORRECT_OWNER);
         assertThat(validator.validate(incorrect).size()).isEqualTo(3);
 
 

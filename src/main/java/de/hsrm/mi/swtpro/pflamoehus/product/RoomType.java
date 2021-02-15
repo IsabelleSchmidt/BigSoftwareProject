@@ -1,10 +1,10 @@
 package de.hsrm.mi.swtpro.pflamoehus.product;
 
-/*
+/** 
  * Enum for the different available roomtypes.
  * 
- * @author Svenja Schenk
- * @version 1
+ * @author Svenja Schenk, Marie Scharhag
+ * @version 2
  */
 public enum RoomType {
 
@@ -19,7 +19,7 @@ public enum RoomType {
     /**
      * type 'Küche/Wohnküche' 
      * */
-    KITCHEN("Küche/Wohnküche"), 
+    KITCHEN("Küche"), 
     /**
      * type 'Kinderzimmer' 
      * */
@@ -28,6 +28,8 @@ public enum RoomType {
      * type 'Arbeitszimmer' 
      * */
     BUREAU("Arbeitszimmer"), 
+
+    DININGROOM("Esszimmer"),
     /**
      * type 'Wohnzimmer' 
      * */
@@ -35,9 +37,11 @@ public enum RoomType {
     /**
      * type 'all' 
      * */
-    ALL("all");
+    ALL("Sonstiges");
+    /**
+     * type null
+     */
 
-    
     private String type;
 
     /**
