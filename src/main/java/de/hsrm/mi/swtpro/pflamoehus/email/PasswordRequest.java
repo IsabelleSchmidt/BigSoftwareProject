@@ -1,6 +1,8 @@
 package de.hsrm.mi.swtpro.pflamoehus.email;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
@@ -16,11 +18,14 @@ import de.hsrm.mi.swtpro.pflamoehus.validation.user_db.ValidEmail;
 public class PasswordRequest {
 
     @Id
+    @GeneratedValue
     private long id;
+
     @Version
     private long version;
     
     @ValidEmail
+    @Column(unique=true)
     String email;
 
     String code;
