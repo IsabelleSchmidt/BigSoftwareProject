@@ -67,13 +67,15 @@ public class JwtStoreServiceImpl implements JwtStoreService {
     @Override
     @Transactional
     public void deleteAccessToken(String accessToken) {
-        Optional<JwtStore> jwt = repo.findByToken(accessToken);
+        List<JwtStore> jwt = repo.findByToken(accessToken);
 
         if (jwt.isEmpty()) {
             throw new JwtStoreServiceException("There is no token with the given access token in the database.");
         }
-
-        repo.delete(jwt.get());
+        
+        for(JwtStore token : jwt){
+            repo.delete(token);
+        }
     }
 
     /**
@@ -85,13 +87,13 @@ public class JwtStoreServiceImpl implements JwtStoreService {
     @Override
     @Transactional
     public JwtStore findByAccessToken(String token) {
-        Optional<JwtStore> jwt = repo.findByToken(token);
+        List<JwtStore> jwt = repo.findByToken(token);
 
         if (jwt.isEmpty()) {
             throw new JwtStoreServiceException("There is no token with the given access token in the database.");
         }
 
-        return jwt.get();
+        return jwt.get(0);
     }
 
     @Override

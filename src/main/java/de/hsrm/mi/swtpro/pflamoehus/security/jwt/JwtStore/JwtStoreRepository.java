@@ -42,6 +42,6 @@ public interface JwtStoreRepository extends JpaRepository<JwtStore, Long>{
      * @param token to be found
      * @return entry
      */
-    Optional<JwtStore> findByToken(String token);
+    List<JwtStore> findByToken(String token);
     
 }

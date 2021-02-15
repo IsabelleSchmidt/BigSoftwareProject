@@ -10,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
 import java.util.Optional;
 
 import de.hsrm.mi.swtpro.pflamoehus.security.jwt.JwtStore.JwtStore;
@@ -112,8 +113,8 @@ public class JwtStoreRepositoryTests {
         assertThat(jwtStoreRepo.count()).isEqualTo(COUNT);
 
         for (int i = 0; i < COUNT; i++) {
-            Optional<JwtStore> fund = jwtStoreRepo.findByToken(ACCESSTOKEN + i);
-            assertTrue(fund.isPresent());
+            List<JwtStore> fund = jwtStoreRepo.findByToken(ACCESSTOKEN + i);
+            assertTrue(!fund.isEmpty());
 
         }
 
