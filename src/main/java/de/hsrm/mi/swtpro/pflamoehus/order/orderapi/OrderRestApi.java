@@ -422,18 +422,14 @@ public class OrderRestApi {
          order.getOrderdetails().parallelStream().forEach(detail -> {
             allProducts.put(detail.getProduct(),detail.getProductAmount());
             Product product = detail.getProduct();
-            String path = product.getAllPictures().iterator().next().getPath();
+            String getPath = product.getAllPictures().iterator().next().getPath();
+            Path path = Paths.get(getPath);
 
             if(!path.startsWith(System.getProperty("user.home"))){
-                 path = getClass().getResource("/static"+path).getPath();
+                 path = Paths.get(getClass().getResource("/static"+path).getPath());
             }
-            if( path.substring(0,1).contains("/") ){
-                path = path.replaceFirst("/","");
-            }
-            path = path.replace("%20"," ").replace("\\", "\\\\");
             try{
-                Path filepath = Paths.get(path); 
-                byte[] bytes = Files.readAllBytes(filepath); 
+                byte[] bytes = Files.readAllBytes(path); 
                 String base64String = encoder.encodeToString(bytes);
                 String base64Image = "data:image/png;base64," + base64String;
                 picturePerOrderedProduct.put(product.getArticlenr(), base64Image);
