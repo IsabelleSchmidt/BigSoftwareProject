@@ -1,21 +1,9 @@
 ;   
 
-delete from product_tags;   
-delete from user_roles;
-Delete from picture;
-delete from product;
-delete from tag;
-delete from status;
-delete from roles;
-delete from user;
-delete from orderdetails;
-delete from ordertable;
-     
-
 
     
 -- 51 +/- SELECT COUNT(*) FROM PUBLIC.PRODUCT;
-INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AVAILABLE, PRICE, PRODUCTTYPE, ROOM, VERSION, WIDTH) VALUES
+MERGE INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AVAILABLE, PRICE, PRODUCTTYPE, ROOM, VERSION, WIDTH) VALUES
 (62, 55.0, 'Ecksofa, 3er-Sofa, dunkelgraues Polster, Preis inkl. MwSt*', 75.0, 'Ein behaglich-weiches Polstermöbel, an dem man lange Freude hat. Leicht sauber zu halten - der abnehmbare Bezug kann in der Maschine gewaschen werden.', 'Herbert', 3, 10.5, 'COUCH', 'BATHROOM', 0, 210.5),
 (63, 0.0, 'Pflanze, Epipremum Trebie, 15cm, Preis inkl. MwSt*', 0.0, 'Schnell wachsend, ist die ideal Büropflanze und immergrün. Die Erde sollte immer feucht sein und nicht austrocknen.', 'Epipremnum Trebie', 3, 10.99, 'PLANT', 'ALL', 1, 0.0),
 (64, 0.0, 'Pflanze, Marante Leuconeura, 19cm, Preis inkl. MwSt*', 0.0, 'Wächst langsam, ist zugempfindlich und reagiert empfindlich auf Temparaturschwankungen. Die Erde sollte immer leicht feucht, aber nie nass sein.', 'Marante Leuconeura', 10, 15.99, 'PLANT', 'ALL', 1, 0.0),
@@ -53,7 +41,7 @@ INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AV
 (96, 140.5, 'Bettgestell, helles Massivholz, 140x215x60 cm, Preis inkl. MwSt*', 60.0, 'Stilvolle Eleganz kombiniert mit Komfort und Stabilität, das erwartet Sie bei unserem Bett Wild Life.', 'Wild Life', 17, 117.17, 'BED', 'BEDROOM', 1, 215.0),
 (97, 170.0, 'Bettgestell, dunkles Massivholz, 170x220.10x55.89 cm, Preis inkl. MwSt*', 55.89, 'Dieses elegante Bett lädt zu einem erholsamen Schlaf ein und verspricht dabei wunderschöne Träume! Die schlichten Linien machen es zu einem schicken und klassischen Hingucker.', 'Rustikal', 10, 700.0, 'BED', 'BEDROOM', 1, 220.1),
 (98, 120.0, 'Bettgestell, Massivholz, 120x180x40 cm, Preis inkl. MwSt*', 40.0, 'Unser Bett Allrounder erzeugt durch sein attraktives Design ein unvergleichliches Raumflair.', 'Allround', 3, 99.99, 'BED', 'BEDROOM', 1, 180.0);      
-INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AVAILABLE, PRICE, PRODUCTTYPE, ROOM, VERSION, WIDTH) VALUES
+MERGE INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AVAILABLE, PRICE, PRODUCTTYPE, ROOM, VERSION, WIDTH) VALUES
 
 (123, 70.0, 'Das beste rote Sofa der Welt. Preis inkl. MwSt* (unbezahlbar)', 90.0, 'Ein Unikat in der MI', 'Das rote Sofa', 1, 17171.17, 'COUCH', 'LIVINGROOM',1,200.0),         
 (99, 70.0, 'Kleiderschrank, Glastüren, dunkelbraun, 176.50x196.50x70 cm, Preis inkl. MwSt*', 196.5, 'Millenial ist ein extravaganter Design Kleiderschrank mit transparenten Glastüren. Der Kleiderschrank ist das Highlight im Schlafzimmer.', 'Millenial', 13, 999.99, 'CLOSET', 'BEDROOM', 1, 176.5),
@@ -83,7 +71,7 @@ INSERT INTO PRODUCT(ARTICLENR, DEPTH, DESCRIPTION, HEIGHT, INFORMATION, NAME, AV
 ;   
 
 -- 131 +/- SELECT COUNT(*) FROM PUBLIC.PICTURE;               
-INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
+MERGE INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
 (134, '/plants/EpipremnumTrebie2.jpg', 1, 63),
 (135, '/plants/EpipremnumTrebie3.jpg', 1, 63),
 (136, '/plants/MarantaLeuconeura.jpg', 1, 64),
@@ -187,7 +175,7 @@ INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
 (234, '/closets/closet2.2.jpg', 1, 100),
 (235, '/closets/closet3.jpg', 1, 101),
 (236, '/closets/closet3.2.jpg', 1, 101);               
-INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
+MERGE INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
 (237, '/closets/closet3.3.jpg', 1, 101),
 (238, '/closets/closet4.2.jpg', 1, 102),
 (239, '/closets/closet4.3.jpg', 1, 102),
@@ -244,7 +232,7 @@ INSERT INTO PICTURE(ID, PATH, VERSION, PRODUCT) VALUES
 (290, '/sofas/rotesSofa.jpg',1,123)  
 ;
 -- 17 +/- SELECT COUNT(*) FROM PUBLIC.TAG;    
-INSERT INTO TAG(ID, VALUE, VERSION) VALUES
+MERGE INTO TAG(ID, VALUE, VERSION) VALUES
 (25, 'Keramik', 0),
 (27, 'braun', 1),
 (28, 'Abendessen', 1),
@@ -272,7 +260,7 @@ INSERT INTO TAG(ID, VALUE, VERSION) VALUES
 (50, 'blau', 1),
 (51, 'weiss', 1);
 
-INSERT INTO PRODUCT_TAGS(ARTICLENR, TAGID) VALUES
+MERGE INTO PRODUCT_TAGS(ARTICLENR, TAGID) VALUES
 (62, 44),
 (63, 46),
 (64, 46),
@@ -310,7 +298,7 @@ INSERT INTO PRODUCT_TAGS(ARTICLENR, TAGID) VALUES
 (96, 27),
 (97, 27),
 (98, 27);
-INSERT INTO PRODUCT_TAGS(ARTICLENR, TAGID) VALUES
+MERGE INTO PRODUCT_TAGS(ARTICLENR, TAGID) VALUES
 (99, 27),
 (100, 27),
 (101, 43),
@@ -328,21 +316,21 @@ INSERT INTO PRODUCT_TAGS(ARTICLENR, TAGID) VALUES
 (123, 49);
 
 
-INSERT INTO USER(USERID,BIRTHDATE, EMAIL,FIRSTNAME,LASTNAME,PASSWORD,VERSION, GENDER) VALUES
+MERGE INTO USER(USERID,BIRTHDATE, EMAIL,FIRSTNAME,LASTNAME,PASSWORD,VERSION, GENDER) VALUES
 (7,'1999-09-20','user@pflamoehus.de','User','Pflamoehus','{bcrypt}$2a$10$7fdt/if1v6nJK30MExIHaeTzZ3FvkuTDikFgVxr4YW5XReorwb.HG',1, 'MALE'),  -- UserPflamoehus1!
 (1,'1976-02-28', 'admin@pflamoehus.de','Admin','Pflamoehus','{bcrypt}$2a$10$aqAc7g5hfVwmZHWYE4Dw/uWUcqMuiYseKNnAIEd71PRWeWf1TYgNi',1, 'MALE'), -- AdminPflamoehus1!
 (2,'1988-06-17','staff@pflamoehus.de','Staff','Pflamoehus','{bcrypt}$2a$10$hf4tGs2s3mPodqpOmSnBNehJ3dm9f1GBaq9lLhdBP7nEM5d89q51e',1, 'MALE'), -- StaffPflamoehus1!
 (3,'2000-10-10','warehouse@pflamoehus.de','Warehouse','Pflamoehus', '{bcrypt}$2a$10$tI1brWPJyD0pDgexwwBkKuWmlmn4H6UFgKvhvtsMjnWLIllWgUcjS',1, 'MALE'), -- WarehousePflamoehus1!
 (4,'1968-11-01','service@pflamoehus.de','Service','Pflamoehus','{bcrypt}$2a$10$C.nSMnLuE8INPF0z8Va92eLHEtu9fRWVwA3LKnXXoC.IQQbND/D3S',1, 'MALE'); -- ServicePflamoehus1!
 
-INSERT INTO ROLES (ID, NAME) VALUES
+MERGE INTO ROLES (ID, NAME) VALUES
 (5, 'USER'),
 (1, 'ADMIN'),
 (2, 'STAFF'),
 (3, 'WAREHOUSE'),
 (4, 'SERVICE');
 
-INSERT INTO USER_ROLES(USER_ID, ROLE_ID) VALUES
+MERGE INTO USER_ROLES(USER_ID, ROLE_ID) VALUES
 (7,5),
 (1,1),
 (1,5),
@@ -352,12 +340,12 @@ INSERT INTO USER_ROLES(USER_ID, ROLE_ID) VALUES
 (3,5),
 (4,4),
 (4,5);
-INSERT INTO STATUS(STATUSID, STATUSCODE, VERSION) VALUES
+MERGE INTO STATUS(STATUSID, STATUSCODE, VERSION) VALUES
 (1,'INCOMING',1),
 (2,'INPROGRESS',1),
 (3,'PARTIALLYREADY',1),
 (4,'READYFORSHIPPING',1),
 (5,'SHIPPED',1);
                                         
-INSERT INTO ORDERTABLE(ORDERNR, VERSION, CUSTOMER_EMAIL, PRICE_TOTAL, DELIVERY_DATE) VALUES
+MERGE INTO ORDERTABLE(ORDERNR, VERSION, CUSTOMER_EMAIL, PRICE_TOTAL, DELIVERY_DATE) VALUES
 (1,1,'123@hsrm.de',200,'2021-05-20');
