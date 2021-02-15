@@ -184,19 +184,22 @@ public class ProductRestApi {
      * @return Picture as byte Array
      */
     @GetMapping(value = "/picture/{picId}", produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_PNG_VALUE})
-    public @ResponseBody byte[] getImage(@PathVariable Long picId) throws IOException {
+    public @ResponseBody byte[] getImage(@PathVariable Long picId){
         byte[] bytes = null;
         String home = System.getProperty("user.home");
         String dir = "upload"; 
         Path startPath = Paths.get(home,dir);
         String picturepath = pictureService.findPictureWithID(picId).getPath();
-
+        try {
         if(picturepath.startsWith(startPath.toString())){
+            
             File file = new File(picturepath);
             BufferedImage bImage = ImageIO.read(file);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ImageIO.write(bImage, getType(file) , bos );
+            
+                ImageIO.write(bImage, getType(file), bos);
             bytes = bos.toByteArray();
+        
         }else{
             try{
                  InputStream in = new ClassPathResource("/static"+picturepath).getInputStream();
@@ -206,6 +209,9 @@ public class ProductRestApi {
             }
            
         }
+    } catch (IOException e) {
+        LOGGER.error(""+e);
+    }
         return bytes;
     }
 
