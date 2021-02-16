@@ -1,8 +1,11 @@
 package de.hsrm.mi.swtpro.pflamoehus.db_test_product;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +53,7 @@ import de.hsrm.mi.swtpro.pflamoehus.product.tags.TagRepository;
 @SpringBootTest(webEnvironment =WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
+@TestInstance(Lifecycle.PER_CLASS)
 public class ProductRestApiTests {
 
     @Autowired
@@ -86,7 +90,10 @@ public class ProductRestApiTests {
     private final double DEPTH = 60.0;
     private final int AVAILABLE = 90;
 
-
+    @BeforeAll
+    public void clear(){
+        clearRepos();
+    }
 
     @AfterEach
     public void clearRepos() {
@@ -103,9 +110,6 @@ public class ProductRestApiTests {
         assertThat(tagRepo).isNotNull();
         assertThat(pictureRepo).isNotNull();
         assertThat(productService).isNotNull();
-
-        assertThat(productRepo.count()).isGreaterThan(0);
-        assertThat(pictureRepo.count()).isGreaterThan(0);
 
     }
 

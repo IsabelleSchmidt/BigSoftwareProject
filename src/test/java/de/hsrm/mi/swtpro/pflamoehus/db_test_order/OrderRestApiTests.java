@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.hsrm.mi.swtpro.pflamoehus.user.UserRepository;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -192,9 +191,9 @@ public class OrderRestApiTests {
         Order order = orderService.findOrderByOrderNR(1);
         order.setStatus(statusService.findStatusWithCode(Statuscode.INCOMING));
 
-        String correctget = mockmvc.perform(get(PATH+"/edit/orderstatus/"+order.getOrderNR()+"/"+code.toString())).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-        String incorrectget_unkownOrderNr = mockmvc.perform(get(PATH+"/edit/orderstatus/"+0+"/"+code.toString())).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-        mockmvc.perform(get(PATH+"/edit/orderstatus/"+1+"FALSCH")).andExpect(status().isNotFound());
+        String correctget = mockmvc.perform(post(PATH+"/edit/orderstatus/"+order.getOrderNR()+"/"+code.toString())).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        String incorrectget_unkownOrderNr = mockmvc.perform(post(PATH+"/edit/orderstatus/"+0+"/"+code.toString())).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        mockmvc.perform(post(PATH+"/edit/orderstatus/"+1+"FALSCH")).andExpect(status().isNotFound());
     
         assertThat(correctget).contains("true");
         assertThat(incorrectget_unkownOrderNr).contains("false");

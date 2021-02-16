@@ -1,6 +1,7 @@
 package de.hsrm.mi.swtpro.pflamoehus.order.orderapi;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -18,9 +19,11 @@ import java.util.Base64.Encoder;
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -321,7 +324,7 @@ public class OrderRestApi {
      * @param newStatus new Status
      * @return boolean
      */
-    @GetMapping("/edit/orderstatus/{orderNR}/{newStatus}")
+    @PostMapping("/edit/orderstatus/{orderNR}/{newStatus}")
     @Transactional
     public boolean changeOrderStatus(@PathVariable long orderNR, @PathVariable Statuscode newStatus) {
         Order order;
@@ -423,12 +426,15 @@ public class OrderRestApi {
             Product product = detail.getProduct();
             String getPath = product.getAllPictures().iterator().next().getPath();
             Path path = Paths.get(getPath);
-
-            if(!path.startsWith(System.getProperty("user.home"))){
-                 path = Paths.get(getClass().getResource("/static"+path).getPath());
-            }
+            byte[] bytes = null;
             try{
-                byte[] bytes = Files.readAllBytes(path); 
+                if(!path.isAbsolute() || !path.startsWith(System.getProperty("user.home"))){
+                    InputStream in = new ClassPathResource("/static"+getPath).getInputStream();
+                    bytes = IOUtils.toByteArray(in);
+                }else{
+                    bytes = Files.readAllBytes(path); 
+                }
+            
                 String base64String = encoder.encodeToString(bytes);
                 String base64Image = "data:image/png;base64," + base64String;
                 picturePerOrderedProduct.put(product.getArticlenr(), base64Image);
@@ -439,7 +445,7 @@ public class OrderRestApi {
                 }catch(IOException io){
                     LOGGER.error("Bytes konnten nicht gelesen werden. "+io.getMessage());
                 }
-         });  
+         });
           
         
         //fill the form with information

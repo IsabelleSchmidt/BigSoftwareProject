@@ -202,6 +202,7 @@ public class Adress {
         result = prime * result + ((houseNumber == null) ? 0 : houseNumber.hashCode());
         result = prime * result + ((postCode == null) ? 0 : postCode.hashCode());
         result = prime * result + ((streetName == null) ? 0 : streetName.hashCode());
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
         return result;
     }
 
@@ -234,7 +235,14 @@ public class Adress {
                 return false;
         } else if (!streetName.equals(other.streetName))
             return false;
+        if (user == null) {
+            if (other.user != null)
+                return false;
+        } else if (!user.equals(other.user))
+            return false;
         return true;
     }
+
+
 
 }

@@ -97,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
             }
 
             for(Picture picture : allPictures){
-               picture.setProduct(null); //TODO: das hier hinbekommen ohne error
+               picture.setProduct(null); 
             }
             
             productRepo.delete(product);
